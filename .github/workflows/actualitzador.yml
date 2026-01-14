@@ -1,0 +1,39 @@
+name: Actualitzador feed
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  actualitza:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Genera feed
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: node scripts/update_feed.js
+
+      - name: Commit i push si hi ha canvis
+        run: |
+          if git status --porcelain | grep -q "feed.json"; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add feed.json
+            git commit -m "Actualitza feed"
+            git push
+          else
+            echo "No hi ha canvis a feed.json"
+          fi
