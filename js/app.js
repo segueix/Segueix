@@ -1413,9 +1413,17 @@ async function loadVideosByCategoryWithUser(categoryId) {
         }
     });
 
-    // Afegir vídeos de canals que tenen aquesta categoria assignada
+    // Afegir vídeos de canals que tenen aquesta categoria assignada (manualment o via CSV)
     cachedAPIVideos.forEach(video => {
-        const channelCategories = channelTags[video.channelId] || [];
+        // Comprovar categories assignades manualment
+        let channelCategories = channelTags[video.channelId] || [];
+
+        // Comprovar categories del CSV (YouTubeAPI.catalanChannels)
+        const csvChannel = YouTubeAPI.catalanChannels.find(c => c.id === video.channelId);
+        if (csvChannel && csvChannel.categories) {
+            channelCategories = [...new Set([...channelCategories, ...csvChannel.categories])];
+        }
+
         if (channelCategories.includes(categoryId)) {
             // Evitar duplicats
             if (!categoryVideos.find(v => v.id === video.id)) {
