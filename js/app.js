@@ -15,6 +15,7 @@ let sidebar, menuBtn, videosGrid, homePage, watchPage, loading;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow;
 let pageTitle;
 let apiModal, apiKeyInput, apiStatus, settingsBtn;
+let apiModalReady = false;
 let currentVideoId = null;
 let useYouTubeAPI = false;
 
@@ -174,16 +175,25 @@ function initApiModal() {
     const saveApiKey = document.getElementById('saveApiKey');
     
     // Protecció: Elements mínims necessaris
-    if (!closeModal || !saveApiKey || !apiModal || !apiKeyInput) {
+    if (!apiModal || !closeModal) {
         console.warn('⚠️  Modal API incomplet - algunes funcionalitats no disponibles');
         return;
     }
 
-    // Tancar modal
+    // Tancar modal (sempre disponible)
     closeModal.addEventListener('click', hideApiModal);
     apiModal.addEventListener('click', (e) => {
         if (e.target === apiModal) hideApiModal();
     });
+
+    if (!saveApiKey || !apiKeyInput) {
+        console.warn('⚠️  Modal API sense formulari - configuració desactivada');
+        apiModalReady = false;
+        apiModal.classList.remove('active');
+        return;
+    }
+
+    apiModalReady = true;
 
     // Tabs (amb protecció)
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -583,6 +593,9 @@ function loadChannelsList() {
 
 // Mostrar/amagar modal
 function showApiModal() {
+    if (!apiModal || !apiModalReady) {
+        return;
+    }
     apiModal.classList.add('active');
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
@@ -590,6 +603,9 @@ function showApiModal() {
 }
 
 function hideApiModal() {
+    if (!apiModal) {
+        return;
+    }
     apiModal.classList.remove('active');
 }
 
