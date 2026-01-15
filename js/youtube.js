@@ -11,7 +11,13 @@ const YouTubeAPI = {
     CACHE_DURATION: 2 * 60 * 60 * 1000, // 2 hores en mil·lisegons
 
     // Canals catalans (ara buit - l'usuari afegeix manualment)
-    catalanChannels: [],
+    catalanChannels: [
+    { id: "@EnricAdventures", name: "Enric Adventures", category: "vida" },
+    { id: "@unquartdegalves", name: "Un Quart de Galves", category: "societat" },
+    { id: "@lescaquimat4658", name: "L'ESCACIMAT", category: "cultura" },
+    { id: "@EnricBastardas1", name: "Enric Bastardas", category: "humor" },
+    { id: "@AyaZholvaX", name: "Aya_ZholvaX: Boardgames", category: "gaming" },
+],
 
     // Paraules clau per detectar contingut català
     catalanKeywords: [
