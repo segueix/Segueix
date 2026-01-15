@@ -1,3 +1,13 @@
+// Protecció contra errors
+function safeAddEventListener(elementId, event, handler) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.addEventListener(event, handler);
+        return true;
+    }
+    return false;
+}
+
 // App Principal
 
 // Elements del DOM
@@ -21,6 +31,15 @@ let cachedChannels = {};
 
 // Cache de vídeos carregats de l'API
 let cachedAPIVideos = [];
+
+function safeAddEventListener(elementId, event, handler) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.addEventListener(event, handler);
+        return true;
+    }
+    return false;
+}
 
 // Inicialitzar l'aplicació
 document.addEventListener('DOMContentLoaded', async () => {
@@ -153,10 +172,12 @@ function initEventListeners() {
 function initApiModal() {
     const closeModal = document.getElementById('closeModal');
     const saveApiKey = document.getElementById('saveApiKey');
-    const clearApiKey = document.getElementById('clearApiKey');
-    const toggleApiKey = document.getElementById('toggleApiKey');
-    const addChannelBtn = document.getElementById('addChannelBtn');
-    const channelInput = document.getElementById('channelInput');
+    
+    // Protecció: Elements mínims necessaris
+    if (!closeModal || !saveApiKey || !apiModal || !apiKeyInput) {
+        console.warn('⚠️  Modal API incomplet - algunes funcionalitats no disponibles');
+        return;
+    }
 
     // Tancar modal
     closeModal.addEventListener('click', hideApiModal);
@@ -164,42 +185,44 @@ function initApiModal() {
         if (e.target === apiModal) hideApiModal();
     });
 
-    // Tabs
+    // Tabs (amb protecció)
     const tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const tabId = btn.dataset.tab;
-            // Actualitzar botons
             tabBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            // Actualitzar contingut
+            
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            document.getElementById(`tab-${tabId}`).classList.add('active');
-            // Carregar canals i etiquetes si és la pestanya de canals
-            if (tabId === 'channels') {
+            
+            const tabContent = document.getElementById(`tab-${tabId}`);
+            if (tabContent) tabContent.classList.add('active');
+            
+            // Carregar dades segons pestanya
+            if (tabId === 'channels' && typeof loadChannelsList === 'function') {
                 loadChannelsList();
-                loadTaggableChannelsList();
+                if (typeof loadTaggableChannelsList === 'function') {
+                    loadTaggableChannelsList();
+                }
             }
-            // Carregar vídeos si és la pestanya de vídeos
-            if (tabId === 'videos') {
+            if (tabId === 'videos' && typeof loadUserVideosList === 'function') {
                 loadUserVideosList();
             }
-            // Reinicialitzar icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
+            
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         });
     });
 
     // Toggle visibilitat clau
-    toggleApiKey.addEventListener('click', () => {
+    safeAddEventListener('toggleApiKey', 'click', () => {
         const type = apiKeyInput.type === 'password' ? 'text' : 'password';
         apiKeyInput.type = type;
-        toggleApiKey.innerHTML = `<i data-lucide="${type === 'password' ? 'eye' : 'eye-off'}"></i>`;
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
+        const toggle = document.getElementById('toggleApiKey');
+        if (toggle) {
+            toggle.innerHTML = `<i data-lucide="${type === 'password' ? 'eye' : 'eye-off'}"></i>`;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
     });
 
@@ -212,15 +235,17 @@ function initApiModal() {
         }
 
         showApiStatus('Verificant clau...', 'loading');
-
         const result = await YouTubeAPI.verifyApiKey(key);
+        
         if (result.valid) {
             YouTubeAPI.setApiKey(key);
             useYouTubeAPI = true;
             showApiStatus('Clau vàlida! Carregant vídeos...', 'success');
             setTimeout(() => {
                 hideApiModal();
-                loadVideosFromAPI();
+                if (typeof loadVideosFromAPI === 'function') {
+                    loadVideosFromAPI();
+                }
             }, 1000);
         } else {
             showApiStatus(result.error || 'Clau API invàlida', 'error');
@@ -228,43 +253,42 @@ function initApiModal() {
     });
 
     // Esborrar clau API
-    clearApiKey.addEventListener('click', () => {
+    safeAddEventListener('clearApiKey', 'click', () => {
         YouTubeAPI.clearApiKey();
         apiKeyInput.value = '';
         useYouTubeAPI = false;
         showApiStatus('Clau esborrada', 'success');
-        loadVideos(); // Tornar a dades estàtiques
+        if (typeof loadVideos === 'function') loadVideos();
     });
 
-    // Afegir canal
-    addChannelBtn.addEventListener('click', async () => {
-        await addChannel();
-    });
+    // Afegir canal (amb protecció)
+    const addChannelBtn = document.getElementById('addChannelBtn');
+    const channelInput = document.getElementById('channelInput');
+    
+    if (addChannelBtn && channelInput && typeof addChannel === 'function') {
+        addChannelBtn.addEventListener('click', async () => await addChannel());
+        channelInput.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter') await addChannel();
+        });
+    }
 
-    channelInput.addEventListener('keypress', async (e) => {
-        if (e.key === 'Enter') {
-            await addChannel();
-        }
-    });
-
-    // Exportar canals
-    const exportChannelsBtn = document.getElementById('exportChannelsBtn');
-    exportChannelsBtn.addEventListener('click', exportChannels);
-
-    // Importar canals
-    const importChannelsBtn = document.getElementById('importChannelsBtn');
-    const importFileInput = document.getElementById('importFileInput');
-
-    importChannelsBtn.addEventListener('click', () => {
-        importFileInput.click();
-    });
-
-    importFileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            importChannels(e.target.files[0]);
-            e.target.value = ''; // Reset input
-        }
-    });
+    // Exportar/Importar (amb protecció)
+    if (typeof exportChannels === 'function') {
+        safeAddEventListener('exportChannelsBtn', 'click', exportChannels);
+    }
+    
+    const importBtn = document.getElementById('importChannelsBtn');
+    const importInput = document.getElementById('importFileInput');
+    
+    if (importBtn && importInput && typeof importChannels === 'function') {
+        importBtn.addEventListener('click', () => importInput.click());
+        importInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                importChannels(e.target.files[0]);
+                e.target.value = '';
+            }
+        });
+    }
 
     // Carregar clau existent
     if (YouTubeAPI.hasApiKey()) {
@@ -1365,20 +1389,23 @@ function initVideoTab() {
     const addVideoBtn = document.getElementById('addVideoBtn');
     const videoUrlInput = document.getElementById('videoUrlInput');
 
-    if (addVideoBtn) {
-        addVideoBtn.addEventListener('click', addUserVideo);
+    // Protecció: Si no existeixen els elements, sortir
+    if (!addVideoBtn || !videoUrlInput) {
+        console.info('ℹ️  Funcionalitat "Afegir vídeos" no disponible (elements HTML no trobats)');
+        return;
     }
 
-    if (videoUrlInput) {
+    if (typeof addUserVideo === 'function') {
+        addVideoBtn.addEventListener('click', addUserVideo);
         videoUrlInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                addUserVideo();
-            }
+            if (e.key === 'Enter') addUserVideo();
         });
     }
 
     // Carregar vídeos guardats
-    loadUserVideos();
+    if (typeof loadUserVideos === 'function') {
+        loadUserVideos();
+    }
 }
 
 // Afegir vídeo de l'usuari
@@ -1630,7 +1657,11 @@ function saveChannelTags() {
 
 // Inicialitzar el tab d'etiquetes
 function initTagsTab() {
-    loadChannelTags();
+    if (typeof loadChannelTags === 'function') {
+        loadChannelTags();
+    } else {
+        console.info('ℹ️  Funcionalitat "Etiquetar canals" no completament disponible');
+    }
 }
 
 // Carregar llista de canals etiquetables
