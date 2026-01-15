@@ -63,12 +63,17 @@ function parseCSV(csvText) {
         return [];
     }
 
+    const parseCategories = (value) => {
+        if (!value) return [];
+        return value.split(/[;,]/).map(c => c.trim()).filter(Boolean);
+    };
+
     return lines.slice(1).map(line => {
         const values = line.split(separator);
         return {
             id: values[idIdx]?.trim(),
             name: values[nameIdx]?.trim(),
-            categories: values[catIdx] ? values[catIdx].split(';').map(c => c.trim()) : []
+            categories: parseCategories(values[catIdx])
         };
     }).filter(c => c.id && c.id !== ''); 
 }
@@ -130,6 +135,7 @@ async function main() {
                         id: item.snippet.resourceId.videoId,
                         title: item.snippet.title,
                         thumbnail: item.snippet.thumbnails.medium?.url || item.snippet.thumbnails.high?.url,
+                        channelId: item.snippet.channelId,
                         channelTitle: item.snippet.channelTitle,
                         publishedAt: item.snippet.publishedAt,
                         categories: res.channelInfo.categories 
