@@ -10,6 +10,9 @@ const YouTubeAPI = {
     // Configuració de cache
     CACHE_DURATION: 2 * 60 * 60 * 1000, // 2 hores en mil·lisegons
 
+    // Cache de channel IDs resolts (per evitar crides repetides)
+    resolvedChannelIds: {},
+
     // Canals catalans (ara buit - l'usuari afegeix manualment)
     catalanChannels: [
     { id: "@EnricAdventures", name: "Enric Adventures", category: "vida" },
@@ -34,6 +37,7 @@ const YouTubeAPI = {
     // Inicialitzar dades de canals catalans
     async init() {
         this.loadUserChannels();
+        this.loadResolvedChannelIds();
         console.log(`iuTube: ${this.catalanChannels.length} canals catalans verificats`);
         console.log(`iuTube: Cache configurat per ${this.CACHE_DURATION / 1000 / 60} minuts`);
     },
@@ -87,6 +91,54 @@ const YouTubeAPI = {
                 localStorage.removeItem(key);
             }
         });
+    },
+
+    // Carregar channel IDs resolts des de localStorage
+    loadResolvedChannelIds() {
+        const stored = localStorage.getItem('iutube_resolved_channel_ids');
+        if (stored) {
+            try {
+                this.resolvedChannelIds = JSON.parse(stored);
+            } catch (e) {
+                this.resolvedChannelIds = {};
+            }
+        }
+    },
+
+    // Guardar channel IDs resolts a localStorage
+    saveResolvedChannelIds() {
+        localStorage.setItem('iutube_resolved_channel_ids', JSON.stringify(this.resolvedChannelIds));
+    },
+
+    // ==================== RESOLUCIÓ DE HANDLES ====================
+
+    // Resoldre un handle (@username) o channel ID a un channel ID UC...
+    async resolveChannelId(channelIdOrHandle) {
+        // Si ja és un channel ID (comença amb UC), retornar-lo
+        if (channelIdOrHandle.startsWith('UC')) {
+            return channelIdOrHandle;
+        }
+
+        // Comprovar si ja l'hem resolt abans (cache local)
+        if (this.resolvedChannelIds[channelIdOrHandle]) {
+            console.log(`iuTube: Channel ID resolt des de cache: ${channelIdOrHandle} -> ${this.resolvedChannelIds[channelIdOrHandle]}`);
+            return this.resolvedChannelIds[channelIdOrHandle];
+        }
+
+        // Si és un handle, buscar el channel ID via API
+        if (channelIdOrHandle.startsWith('@')) {
+            const result = await this.getChannelByHandle(channelIdOrHandle);
+            if (result.channel) {
+                // Guardar al cache local
+                this.resolvedChannelIds[channelIdOrHandle] = result.channel.id;
+                this.saveResolvedChannelIds();
+                console.log(`iuTube: Resolt ${channelIdOrHandle} -> ${result.channel.id}`);
+                return result.channel.id;
+            }
+        }
+
+        console.warn(`iuTube: No s'ha pogut resoldre: ${channelIdOrHandle}`);
+        return null;
     },
 
     // ==================== PLAYLIST (BAIX COST) ====================
@@ -160,7 +212,17 @@ const YouTubeAPI = {
 
             // Obtenir vídeos de cada canal en paral·lel
             const promises = allChannels.map(async (channel) => {
-                const playlistId = this.getUploadsPlaylistId(channel.id);
+                // Resoldre handle a channel ID si cal
+                let channelId = channel.id;
+                if (channelId.startsWith('@')) {
+                    channelId = await this.resolveChannelId(channelId);
+                    if (!channelId) {
+                        console.warn(`iuTube: No s'ha pogut resoldre el canal ${channel.name} (${channel.id})`);
+                        return [];
+                    }
+                }
+
+                const playlistId = this.getUploadsPlaylistId(channelId);
                 const videos = await this.getPlaylistVideos(playlistId, this.VIDEOS_PER_CHANNEL);
 
                 if (videos.length > 0) {
@@ -518,8 +580,15 @@ const YouTubeAPI = {
             // Obtenir vídeos de cada canal (en paral·lel per ser més ràpid)
             const promises = selectedChannels.map(async (channel) => {
                 try {
+                    // Resoldre handle si cal
+                    let channelId = channel.id;
+                    if (channelId.startsWith('@')) {
+                        channelId = await this.resolveChannelId(channelId);
+                        if (!channelId) return [];
+                    }
+
                     const response = await fetch(
-                        `${this.BASE_URL}/search?part=snippet&type=video&channelId=${channel.id}&maxResults=3&order=date&key=${apiKey}`
+                        `${this.BASE_URL}/search?part=snippet&type=video&channelId=${channelId}&maxResults=3&order=date&key=${apiKey}`
                     );
 
                     if (response.ok) {
@@ -690,8 +759,17 @@ const YouTubeAPI = {
         if (!apiKey) return { channel: null, error: 'No API key' };
 
         try {
+            // Si és un handle, resoldre primer
+            let resolvedId = channelId;
+            if (channelId.startsWith('@')) {
+                resolvedId = await this.resolveChannelId(channelId);
+                if (!resolvedId) {
+                    return { channel: null, error: 'No s\'ha pogut resoldre el handle' };
+                }
+            }
+
             const response = await fetch(
-                `${this.BASE_URL}/channels?part=snippet,statistics&id=${channelId}&key=${apiKey}`
+                `${this.BASE_URL}/channels?part=snippet,statistics&id=${resolvedId}&key=${apiKey}`
             );
 
             if (!response.ok) {
