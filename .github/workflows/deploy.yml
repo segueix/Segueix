@@ -4,11 +4,10 @@ on:
   push:
     branches: [ main, claude-improvements-v2 ]
   workflow_dispatch:
-  # Executar automàticament cada 12 hores (opcional)
+  # Executar automàticament cada 12 hores
   schedule:
     - cron: '0 */12 * * *'
 
-# Permisos ampliats per poder guardar el JSON actualitzat
 permissions:
   contents: write
   pages: write
@@ -34,22 +33,19 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
-          # Executem el script per buscar nous vídeos i canals
           node scripts/resolve-channels.js "${{ secrets.YOUTUBE_API_KEY }}"
           
       - name: Guardar canvis al repositori
-        # Guardem el fitxer channels.json si ha canviat
         run: |
           git config --global user.name 'Actualitzador Automàtic'
           git config --global user.email 'actions@github.com'
           git add data/channels.json
-          # Només fem commit si hi ha canvis reals
           git diff --quiet && git diff --staged --quiet || (git commit -m "Actualització automàtica de canals" && git push)
-      # ---------------------------------
 
       # --- PAS 2: PUBLICAR WEB ---
       - name: Injectar API Key
         run: |
+          # Si el secret està buit, això fallarà silenciosament. Assegura't del secret!
           sed -i "s|__YOUTUBE_API_KEY__|${{ secrets.YOUTUBE_API_KEY }}|g" js/youtube.js
 
       - name: Setup Pages
