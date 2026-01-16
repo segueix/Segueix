@@ -1,0 +1,1 @@
+Força començament.
