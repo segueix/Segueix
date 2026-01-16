@@ -64,6 +64,18 @@ window.FEED_UPDATES = [
     "isShort": false
   },
   {
+    "id": "YI2UdbdMTZo",
+    "title": "La Sotana 395",
+    "thumbnail": "https://i.ytimg.com/vi/YI2UdbdMTZo/mqdefault.jpg",
+    "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+    "channelTitle": "La Sotana",
+    "publishedAt": "2026-01-14T07:12:32Z",
+    "categories": [
+      "humor"
+    ],
+    "isShort": false
+  },
+  {
     "id": "C44VS3k00E4",
     "title": "Amb publicitat i subvencions Catalunya té els mitjans de comunicació d'una dictadura /2026 01 13",
     "thumbnail": "https://i.ytimg.com/vi/C44VS3k00E4/mqdefault.jpg",
@@ -72,6 +84,18 @@ window.FEED_UPDATES = [
     "publishedAt": "2026-01-13T22:14:52Z",
     "categories": [
       "societat"
+    ],
+    "isShort": false
+  },
+  {
+    "id": "CN_qGC41T8Y",
+    "title": "Tots van a Aràbia per diners però l'Estanislau és un romàntic. #català #podcast",
+    "thumbnail": "https://i.ytimg.com/vi/CN_qGC41T8Y/mqdefault.jpg",
+    "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+    "channelTitle": "La Sotana",
+    "publishedAt": "2026-01-13T17:08:28Z",
+    "categories": [
+      "humor"
     ],
     "isShort": false
   },
@@ -97,6 +121,18 @@ window.FEED_UPDATES = [
     "categories": [
       "gaming",
       "cultura"
+    ],
+    "isShort": false
+  },
+  {
+    "id": "cyt-u3rr-Ss",
+    "title": "Els jugadors del Rei4l M4drid segons arquetips de dolent de cinema. #català #podcast #lasotana",
+    "thumbnail": "https://i.ytimg.com/vi/cyt-u3rr-Ss/mqdefault.jpg",
+    "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+    "channelTitle": "La Sotana",
+    "publishedAt": "2026-01-13T10:08:35Z",
+    "categories": [
+      "humor"
     ],
     "isShort": false
   },
@@ -260,6 +296,30 @@ window.FEED_UPDATES = [
     "categories": [
       "cultura",
       "societat"
+    ],
+    "isShort": false
+  },
+  {
+    "id": "t1wCHYdz3rU",
+    "title": "El Celta de Vigo del 99 sempre apuja l'ànims. #català #podcast",
+    "thumbnail": "https://i.ytimg.com/vi/t1wCHYdz3rU/mqdefault.jpg",
+    "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+    "channelTitle": "La Sotana",
+    "publishedAt": "2025-12-24T17:01:40Z",
+    "categories": [
+      "humor"
+    ],
+    "isShort": false
+  },
+  {
+    "id": "74CvvmVUgFo",
+    "title": "Caballero! #català #podcast",
+    "thumbnail": "https://i.ytimg.com/vi/74CvvmVUgFo/mqdefault.jpg",
+    "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+    "channelTitle": "La Sotana",
+    "publishedAt": "2025-12-24T10:12:52Z",
+    "categories": [
+      "humor"
     ],
     "isShort": false
   },
