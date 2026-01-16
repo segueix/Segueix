@@ -44,10 +44,10 @@ const YouTubeAPI = {
     async loadChannelsFromJSON() {
         try {
             console.log('iuTube: Carregant canals des del JSON...');
-            const response = await fetch(this.CHANNELS_JSON_URL);
+            // AFEGIM aixó: + '?t=' + Date.now() per evitar que agafi la versió vella
+            const response = await fetch(this.CHANNELS_JSON_URL + '?t=' + Date.now());
+            
             if (!response.ok) {
-                throw new Error(`Error carregant JSON: ${response.status}`);
-            }
 
             const data = await response.json();
 
