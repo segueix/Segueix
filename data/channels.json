@@ -1,0 +1,73 @@
+{
+  "lastUpdated": "2026-01-16T18:31:16.571573",
+  "source": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlB5oWUFyPtQu6U21l2sWRlnWPndhsVA-YvcB_3c9Eby80XKVgmnPdWNpwzcxSqMutkqV6RyJLjsMe/pub?gid=0&single=true&output=csv",
+  "totalChannels": 7,
+  "channels": [
+    {
+      "id": "UCDawX1bxeC4-hZiGnkqevbw",
+      "handle": "@EnricAdventures",
+      "name": "Enric Adventures",
+      "categories": [
+        "vida"
+      ],
+      "thumbnail": "https://yt3.ggpht.com/ECuCXTvGzVbIoiUIJGUS3AjNSFbkFHhR1oKwwK3g44xXvNRIIBgYbbcU-Jht8EXWOnpzknIE=s88-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "id": "UCaCWG8cBOwER_Vf3qAsr8Zg",
+      "handle": "@unquartdegalves",
+      "name": "Un Quart de Galves",
+      "categories": [
+        "societat"
+      ],
+      "thumbnail": "https://yt3.ggpht.com/Hw-5OfXTofpK0KUBT5G8txv5DVPbv16sd4sdnpOT5VILlx7Hs-wlFKvVXVJ-ZEjgtfyw44J0Yw=s88-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "id": "UC995eaX8sye3WGZB3XUl9lg",
+      "handle": "@lescaquimat4658",
+      "name": "L'ESCACIMAT",
+      "categories": [
+        "cultura",
+        "societat"
+      ],
+      "thumbnail": "https://yt3.ggpht.com/3HUwOrjELA_Ef0xAacNO0df-YHiFP2o6FL41qhhv9pjL3LEDjFgxFc6iERK6-SozdJi8PnIJ7yk=s88-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "id": "UCT8sBQf4grkfLMjOXdIkV2w",
+      "handle": "@EnricBastardas1",
+      "name": "Enric Bastardas",
+      "categories": [
+        "humor",
+        "societat"
+      ],
+      "thumbnail": "https://yt3.ggpht.com/ytc/AIdro_kFNW13EohJbYD9EtNjWPpKGIgSmMaCGt7YfftkU5iKwA=s88-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "id": "UChOzqUp9V9AQPB4WzOhu-Xw",
+      "handle": "@AyaZholvaX",
+      "name": "Aya_ZholvaX: Boardgames",
+      "categories": [
+        "gaming",
+        "cultura"
+      ],
+      "thumbnail": "https://yt3.ggpht.com/AmupdKY3JuLY0OPRRwbHPFML5nsR2_5urZmxz9A7qZpWiO0YWT3sGP8wi63Rk14TzJmtZOmOVA=s88-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "id": "UC5ytRP5VNigPHovAY7kyicQ",
+      "handle": "@esquetxes",
+      "name": "Esquetxes comèdia en català",
+      "categories": [
+        "humor"
+      ],
+      "thumbnail": "https://yt3.ggpht.com/XDDUdG7DVvwndp1iicbIbUWausu4yGgjPjXURTou76lhF5Ec3ZksBM8MQhyXonlyoaQYu7yehyE=s88-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "id": "UCNSmn5NLUDrV_paFZl--7qw",
+      "handle": "@LaSotana",
+      "name": "La Sotana",
+      "categories": [
+        "humor"
+      ],
+      "thumbnail": "https://yt3.ggpht.com/ytc/AIdro_mO0v5nKplUkfqSab7DdXQSvTWrnqIgF1CafWsUG4IvAec=s88-c-k-c0x00ffffff-no-rj"
+    }
+  ]
+}

@@ -3,7 +3,10 @@
 const YouTubeAPI = {
     BASE_URL: 'https://www.googleapis.com/youtube/v3',
 
-    // URL del CSV amb els canals catalans
+    // URL del JSON amb els canals catalans pre-resolts
+    CHANNELS_JSON_URL: 'data/channels.json',
+
+    // URL del CSV amb els canals catalans (per referència)
     CHANNELS_CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSlB5oWUFyPtQu6U21l2sWRlnWPndhsVA-YvcB_3c9Eby80XKVgmnPdWNpwzcxSqMutkqV6RyJLjsMe/pub?gid=0&single=true&output=csv',
 
     // Configuració de llengua
@@ -32,129 +35,37 @@ const YouTubeAPI = {
     // Inicialitzar dades de canals catalans
     async init() {
         this.loadUserChannels();
-        await this.loadChannelsFromCSV();
+        await this.loadChannelsFromJSON();
         console.log(`iuTube: ${this.catalanChannels.length} canals catalans carregats`);
         console.log(`iuTube: Cache configurat per ${this.CACHE_DURATION / 1000 / 60} minuts`);
     },
 
-    // Carregar canals des del CSV de Google Sheets
-    async loadChannelsFromCSV() {
-        // Comprovar cache primer
-        const cached = this.getFromCache('csv_channels');
-        if (cached) {
-            this.catalanChannels = cached;
-            console.log('iuTube: Canals carregats des del cache');
-            return;
-        }
-
+    // Carregar canals des del fitxer JSON local (pre-resolts)
+    async loadChannelsFromJSON() {
         try {
-            console.log('iuTube: Carregant canals des del CSV...');
-            const response = await fetch(this.CHANNELS_CSV_URL);
+            console.log('iuTube: Carregant canals des del JSON...');
+            const response = await fetch(this.CHANNELS_JSON_URL);
             if (!response.ok) {
-                throw new Error(`Error carregant CSV: ${response.status}`);
+                throw new Error(`Error carregant JSON: ${response.status}`);
             }
 
-            const csvText = await response.text();
-            const channels = this.parseCSV(csvText);
+            const data = await response.json();
 
-            if (channels.length > 0) {
-                // Convertir handles a IDs de canal
-                const resolvedChannels = await this.resolveChannelHandles(channels);
-                this.catalanChannels = resolvedChannels;
-
-                // Guardar al cache (24 hores)
-                localStorage.setItem('iutube_cache_csv_channels', JSON.stringify({
-                    data: resolvedChannels,
-                    timestamp: Date.now()
+            if (data.channels && data.channels.length > 0) {
+                this.catalanChannels = data.channels.map(channel => ({
+                    id: channel.id,
+                    name: channel.name,
+                    categories: channel.categories,
+                    handle: channel.handle,
+                    thumbnail: channel.thumbnail
                 }));
-
-                console.log(`iuTube: ${resolvedChannels.length} canals carregats del CSV`);
+                console.log(`iuTube: ${this.catalanChannels.length} canals carregats del JSON`);
+                console.log(`iuTube: Última actualització: ${data.lastUpdated}`);
             }
         } catch (error) {
-            console.error('iuTube: Error carregant canals del CSV:', error);
+            console.error('iuTube: Error carregant canals del JSON:', error);
+            console.log('iuTube: Executa "node scripts/resolve-channels.js <API_KEY>" per generar el fitxer');
         }
-    },
-
-    // Parsejar CSV a array d'objectes
-    parseCSV(csvText) {
-        const lines = csvText.trim().split('\n');
-        if (lines.length < 2) return [];
-
-        const channels = [];
-        // Saltar la capçalera (primera línia)
-        for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line) continue;
-
-            // Parsejar línia CSV (suporta comes dins de cometes)
-            const values = this.parseCSVLine(line);
-            if (values.length >= 3) {
-                const [handle, name, categories] = values;
-                channels.push({
-                    handle: handle.trim(),
-                    name: name.trim(),
-                    categories: categories.split(';').map(c => c.trim().toLowerCase())
-                });
-            }
-        }
-        return channels;
-    },
-
-    // Parsejar una línia de CSV
-    parseCSVLine(line) {
-        const values = [];
-        let current = '';
-        let inQuotes = false;
-
-        for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-            if (char === '"') {
-                inQuotes = !inQuotes;
-            } else if (char === ',' && !inQuotes) {
-                values.push(current);
-                current = '';
-            } else {
-                current += char;
-            }
-        }
-        values.push(current);
-        return values;
-    },
-
-    // Convertir handles (@username) a IDs de canal
-    async resolveChannelHandles(channels) {
-        const apiKey = this.getApiKey();
-        if (!apiKey) {
-            console.warn('iuTube: No hi ha API key per resoldre handles');
-            return [];
-        }
-
-        const resolvedChannels = [];
-
-        for (const channel of channels) {
-            try {
-                const handle = channel.handle.startsWith('@') ? channel.handle.substring(1) : channel.handle;
-                const response = await fetch(
-                    `${this.BASE_URL}/channels?part=snippet&forHandle=${handle}&key=${apiKey}`
-                );
-
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.items && data.items.length > 0) {
-                        resolvedChannels.push({
-                            id: data.items[0].id,
-                            name: channel.name,
-                            categories: channel.categories
-                        });
-                        console.log(`iuTube: Resolt ${channel.handle} -> ${data.items[0].id}`);
-                    }
-                }
-            } catch (error) {
-                console.error(`iuTube: Error resolent ${channel.handle}:`, error);
-            }
-        }
-
-        return resolvedChannels;
     },
 
     // ==================== CACHE ====================
