@@ -8,6 +8,9 @@ let useYouTubeAPI = false;
 // Cache de vídeos carregats de l'API
 let cachedAPIVideos = [];
 
+// Cache de canals carregats de l'API
+let cachedChannels = {};
+
 // Inicialitzar l'aplicació
 document.addEventListener('DOMContentLoaded', async () => {
     initElements();
