@@ -431,8 +431,17 @@ const YouTubeAPI = {
         return date.toISOString();
     },
 
-    // Obtenir la clau API des de localStorage
+    // API Key injectada durant el build (GitHub Actions)
+    // Aquest placeholder es reemplaça automàticament durant el desplegament
+    INJECTED_API_KEY: '__YOUTUBE_API_KEY__',
+
+    // Obtenir la clau API (injectada o localStorage)
     getApiKey() {
+        // Prioritat 1: API key injectada durant el build
+        if (this.INJECTED_API_KEY && this.INJECTED_API_KEY !== '__YOUTUBE_API_KEY__') {
+            return this.INJECTED_API_KEY;
+        }
+        // Prioritat 2: localStorage (per desenvolupament local)
         return localStorage.getItem('youtube_api_key') || '';
     },
 

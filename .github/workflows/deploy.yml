@@ -1,0 +1,51 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Executar quan es fa push a la branca principal
+  push:
+    branches: [ main, claude-improvements-v2 ]
+
+  # Permet executar manualment des de la pestanya Actions
+  workflow_dispatch:
+
+# Permisos per desplegar a GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Només un desplegament a la vegada
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Injectar API Key
+        run: |
+          # Reemplaçar el placeholder amb l'API key real
+          sed -i "s|__YOUTUBE_API_KEY__|${{ secrets.YOUTUBE_API_KEY }}|g" js/youtube.js
+          echo "API Key injectada correctament"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Pujar tot el repositori
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
