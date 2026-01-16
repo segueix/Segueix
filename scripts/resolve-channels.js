@@ -1,36 +1,25 @@
-#!/usr/bin/env node
-
-/**
- * Script per resoldre handles de YouTube (@NomCanal) a IDs de canal
- *
- * Ús: node scripts/resolve-channels.js <API_KEY>
- *
- * Aquest script:
- * 1. Descarrega el CSV de Google Sheets
- * 2. Resol cada handle a un ID de canal usant l'API de YouTube
- * 3. Guarda els resultats a data/channels.json
- */
-
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 // URL del CSV de Google Sheets
-const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSlB5oWUFyPtQu6U21l2sWRlnWPndhsVA-YvcB_3c9Eby80XKVgmnPdWNpwzcxSqMutkqV6RyJLjsMe/pub?gid=0&single=true&output=csv';
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSlB5oWUFyPtQu6U21l2sWRlnWPndhsVA-YvcB_3c9Eby80XKVgmnPdWNpwzcxSqMutkqV6RyJLjsMe/pub?gid=0&single=true&output=csv';
 
-// Obtenir API key dels arguments
+// On volem guardar el fitxer final?
+const OUTPUT_FILE = path.join(__dirname, '../data/channels.json');
+
+// Clau API (passada com a argument des de GitHub Actions)
 const API_KEY = process.argv[2];
 
-if (!API_KEY) {
-    console.error('Error: Necessites proporcionar una API key de YouTube');
-    console.error('Ús: node scripts/resolve-channels.js <API_KEY>');
-    process.exit(1);
-}
-
-// Funció per fer peticions HTTPS
-function fetchUrl(url) {
+// Funció per descarregar gestionant REDIRECCIONS (Vital per Google Sheets)
+async function fetchCSV(url) {
     return new Promise((resolve, reject) => {
         https.get(url, (res) => {
+            // Si Google ens redirigeix (301, 302, 307), seguim la nova URL
+            if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+                fetchCSV(res.headers.location).then(resolve).catch(reject);
+                return;
+            }
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => resolve(data));
@@ -38,136 +27,92 @@ function fetchUrl(url) {
     });
 }
 
-// Parsejar CSV
-function parseCSV(csvText) {
-    const lines = csvText.trim().split('\n');
-    if (lines.length < 2) return [];
-
-    const channels = [];
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (!line) continue;
-
-        const values = parseCSVLine(line);
-        if (values.length >= 3) {
-            const [handle, name, categories] = values;
-            channels.push({
-                handle: handle.trim(),
-                name: name.trim(),
-                categories: categories.split(';').map(c => c.trim().toLowerCase())
+// Obtenir detalls del canal via API de YouTube
+async function getChannelDetails(channelId) {
+    if (!API_KEY) return null;
+    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${API_KEY}`;
+    
+    return new Promise((resolve) => {
+        https.get(url, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+                try {
+                    const json = JSON.parse(data);
+                    resolve(json.items ? json.items[0] : null);
+                } catch (e) {
+                    resolve(null);
+                }
             });
-        }
-    }
-    return channels;
+        }).on('error', () => resolve(null));
+    });
 }
 
-// Parsejar una línia CSV
-function parseCSVLine(line) {
-    const values = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-            values.push(current);
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    values.push(current);
-    return values;
-}
-
-// Resoldre handle a ID de canal
-async function resolveHandle(handle, apiKey) {
-    const cleanHandle = handle.startsWith('@') ? handle.substring(1) : handle;
-    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${cleanHandle}&key=${apiKey}`;
-
-    try {
-        const response = await fetchUrl(url);
-        const data = JSON.parse(response);
-
-        if (data.items && data.items.length > 0) {
-            return {
-                id: data.items[0].id,
-                snippet: data.items[0].snippet
-            };
-        }
-        return null;
-    } catch (error) {
-        console.error(`Error resolent ${handle}:`, error.message);
-        return null;
-    }
-}
-
-// Funció principal
 async function main() {
-    console.log('Descarregant CSV de Google Sheets...');
-
+    console.log('--- INICIANT ACTUALITZACIÓ DE CANALS ---');
+    console.log(`Script: resolve-channels.js`);
+    console.log(`Destí: ${OUTPUT_FILE}`);
+    
     try {
-        const csvText = await fetchUrl(CSV_URL);
-        const channels = parseCSV(csvText);
-
-        console.log(`Trobats ${channels.length} canals al CSV`);
-        console.log('Resolent handles a IDs...\n');
-
-        const resolvedChannels = [];
-        const errors = [];
-
-        for (const channel of channels) {
-            process.stdout.write(`Resolent ${channel.handle}... `);
-
-            const result = await resolveHandle(channel.handle, API_KEY);
-
-            if (result) {
-                resolvedChannels.push({
-                    id: result.id,
-                    handle: channel.handle,
-                    name: channel.name,
-                    categories: channel.categories,
-                    thumbnail: result.snippet?.thumbnails?.default?.url || null
-                });
-                console.log(`OK (${result.id})`);
-            } else {
-                errors.push(channel.handle);
-                console.log('ERROR');
+        // 1. Descarregar CSV
+        console.log('Descarregant CSV de Google Sheets...');
+        const csvData = await fetchCSV(SHEET_CSV_URL);
+        
+        // Separem per línies i ignorem la primera (capçalera)
+        const lines = csvData.split('\n').slice(1);
+        
+        const channels = [];
+        
+        // 2. Processar línies
+        for (const line of lines) {
+            // Busquem qualsevol cosa que sembli un ID de YouTube (comença per UC i té 24 caràcters)
+            // Això és més robust que separar per comes si el CSV està brut
+            const match = line.match(/UC[\w-]{21,22}/);
+            
+            if (match) {
+                const channelId = match[0];
+                console.log(`Processant ID: ${channelId}`);
+                
+                if (API_KEY) {
+                    const details = await getChannelDetails(channelId);
+                    if (details) {
+                        channels.push({
+                            id: channelId,
+                            name: details.snippet.title,
+                            thumbnail: details.snippet.thumbnails.high?.url || details.snippet.thumbnails.default?.url,
+                            description: details.snippet.description,
+                            stats: details.statistics,
+                            customUrl: details.snippet.customUrl
+                        });
+                        console.log(`   > OK: ${details.snippet.title}`);
+                    } else {
+                        console.log(`   > Error API: No s'han trobat dades`);
+                    }
+                } else {
+                    // Si no hi ha API key (test local), guardem l'ID pelat
+                    channels.push({ id: channelId, name: 'Canal (Sense API)' });
+                }
             }
-
-            // Petit delay per no superar la quota
-            await new Promise(resolve => setTimeout(resolve, 100));
         }
 
-        // Crear directori data si no existeix
-        const dataDir = path.join(__dirname, '..', 'data');
-        if (!fs.existsSync(dataDir)) {
+        // 3. Guardar JSON
+        const output = {
+            lastUpdated: new Date().toISOString(),
+            totalChannels: channels.length,
+            channels: channels
+        };
+
+        // Assegurar que el directori data existeix
+        const dataDir = path.dirname(OUTPUT_FILE);
+        if (!fs.existsSync(dataDir)){
             fs.mkdirSync(dataDir, { recursive: true });
         }
 
-        // Guardar JSON
-        const outputPath = path.join(dataDir, 'channels.json');
-        const output = {
-            lastUpdated: new Date().toISOString(),
-            source: CSV_URL,
-            totalChannels: resolvedChannels.length,
-            channels: resolvedChannels
-        };
-
-        fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
-
-        console.log('\n========================================');
-        console.log(`Canals resolts: ${resolvedChannels.length}/${channels.length}`);
-        if (errors.length > 0) {
-            console.log(`Errors: ${errors.join(', ')}`);
-        }
-        console.log(`Guardat a: ${outputPath}`);
-        console.log('========================================');
+        fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2));
+        console.log(`✅ EXIT: S'ha guardat data/channels.json amb ${channels.length} canals.`);
 
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('❌ Error fatal:', error);
         process.exit(1);
     }
 }
