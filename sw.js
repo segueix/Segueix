@@ -1,7 +1,7 @@
 // Service Worker per PWA
 
 // !!! IMPORTANT: CANVIA AQUEST NÚMERO CADA VEGADA QUE PUBLIQUIS !!!
-const CACHE_NAME = 'mytube-v3'; 
+const CACHE_NAME = 'mytube-v4'; 
 
 const urlsToCache = [
     './',                // Recorda posar el punt davant!
