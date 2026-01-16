@@ -1,19 +1,24 @@
 // Service Worker per PWA
 
-const CACHE_NAME = 'mytube-v2';
+// !!! IMPORTANT: CANVIA AQUEST NÚMERO CADA VEGADA QUE PUBLIQUIS !!!
+const CACHE_NAME = 'mytube-v2'; 
+
 const urlsToCache = [
-    './',                // <--- Canviat '/' per './'
-    './index.html',      // <--- Canviat '/index.html' per './index.html'
-    './css/styles.css',  // <--- Etc...
+    './',                // Recorda posar el punt davant!
+    './index.html',
+    './css/styles.css',
     './js/app.js',
     './js/config.js',
     './js/data.js',
-    './js/youtube.js',   // <--- Afegeix també aquest que faltava a la llista original!
+    './js/youtube.js',   // Afegeix youtube.js si no hi era
     './manifest.json'
 ];
 
 // Instal·lació
 self.addEventListener('install', (event) => {
+    // Forçar que el nou Service Worker s'activi immediatament, sense esperar
+    self.skipWaiting(); 
+    
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
@@ -35,13 +40,16 @@ self.addEventListener('activate', (event) => {
                     }
                 })
             );
+        }).then(() => {
+            // Dir als navegadors oberts: "Fes servir la nova versió JA!"
+            return self.clients.claim(); 
         })
     );
 });
 
-// Fetch
+// Fetch (gestió de xarxa)
 self.addEventListener('fetch', (event) => {
-    // IGNORAR peticions que no siguin http o https (com extensions de Chrome)
+    // Ignorar extensions de Chrome o esquemes no suportats
     if (!event.request.url.startsWith('http')) {
         return;
     }
@@ -49,20 +57,18 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
-                // Retornar cache si existeix, sinó fer petició
+                // Retornar cache si existeix
                 if (response) {
                     return response;
                 }
                 
+                // Si no, buscar a internet
                 return fetch(event.request).then((response) => {
-                    // No cachear si no és una resposta vàlida
                     if (!response || response.status !== 200 || response.type !== 'basic') {
                         return response;
                     }
                     
-                    // Clonar la resposta
                     const responseToCache = response.clone();
-                    
                     caches.open(CACHE_NAME)
                         .then((cache) => {
                             cache.put(event.request, responseToCache);
