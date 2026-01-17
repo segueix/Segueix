@@ -60,26 +60,23 @@ async function main() {
         const channels = [];
         
         for (const line of lines) {
-            // CSV Format esperat: Handle/ID, Nom, Categories
-            // Utilitzem una expressió regular per separar per comes respectant cometes, o un split simple si no n'hi ha
+            // Separem per comes
             const parts = line.split(',');
-            
-            // Busquem l'ID o Handle (sol ser a la columna 0 o 1)
+            // 1. Busquem ID/Handle
             const handleOrId = parts.find(p => p && (p.trim().startsWith('@') || p.trim().startsWith('UC')));
             
-            // Intentem trobar la categoria (assumim que és la 3a columna, índex 2)
-            // Si no hi ha 3a columna, posem 'altres'
+            // 2. Busquem Categories (assumim que és la 3a columna, index 2)
+            // Si no hi és, posem 'altres'
             let rawCategories = parts[2] ? parts[2].trim() : 'altres';
-            // Neteja extra per si hi ha cometes o espais
+            // Netegem cometes i separem per punt i coma
             rawCategories = rawCategories.replace(/['"]+/g, '');
-            // Convertim a array (separat per punts i coma si n'hi ha més d'una)
             const categories = rawCategories.split(';').map(c => c.trim().toLowerCase()).filter(c => c);
 
             if (handleOrId) {
                 const term = handleOrId.trim();
                 let details = null;
 
-                console.log(`Processant: ${term} [Cats: ${categories.join(', ')}]`);
+                console.log(`Processant: ${term} -> Categories: [${categories.join(', ')}]`);
 
                 if (API_KEY) {
                     if (term.startsWith('@')) {
@@ -96,15 +93,13 @@ async function main() {
                         thumbnail: details.snippet.thumbnails.high?.url || details.snippet.thumbnails.default?.url,
                         description: details.snippet.description,
                         stats: details.statistics,
-                        // AFEGIM LES CATEGORIES AQUÍ:
-                        categories: categories
+                        categories: categories // AFEGIT!
                     });
-                    console.log(`   ✅ Trobat: ${details.snippet.title}`);
+                    console.log(`   ✅ Guardat: ${details.snippet.title}`);
                 } else {
-                    console.log(`   ❌ No s'han trobat dades per ${term}`);
+                    console.log(`   ❌ Error API per: ${term}`);
                 }
                 
-                // Petita pausa per no saturar l'API
                 await new Promise(r => setTimeout(r, 100));
             }
         }
