@@ -98,13 +98,13 @@ function parseCSV(csvText) {
 /**
  * Converteix durada ISO 8601 a segons
  */
-function parseDuration(duration) {
-    if (!duration) return 0;
-    const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+function isoDurationToSeconds(iso) {
+    if (!iso) return 0;
+    const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
     if (!match) return 0;
-    const hours = (parseInt(match[1]) || 0);
-    const minutes = (parseInt(match[2]) || 0);
-    const seconds = (parseInt(match[3]) || 0);
+    const hours = Number(match[1] || 0);
+    const minutes = Number(match[2] || 0);
+    const seconds = Number(match[3] || 0);
     return (hours * 3600) + (minutes * 60) + seconds;
 }
 
@@ -141,7 +141,7 @@ async function main() {
         });
 
         const results = await Promise.all(playlistRequests);
-        let allVideos = [];
+        let baseVideos = [];
         let videoIdsForDetails = [];
 
         results.forEach(res => {
@@ -155,32 +155,66 @@ async function main() {
                         channelTitle: item.snippet.channelTitle,
                         publishedAt: item.snippet.publishedAt,
                         categories: res.channelInfo.categories,
-                        sourceChannelId: res.channelInfo.id
+                        sourceChannelId: res.channelInfo.id,
+                        duration: '',
+                        durationSeconds: 0,
+                        isShort: false,
+                        viewCount: 0,
+                        likeCount: 0,
+                        commentCount: 0
                     };
-                    allVideos.push(video);
+                    baseVideos.push(video);
                     videoIdsForDetails.push(video.id);
                 });
             }
         });
 
+        let detailedVideos = [];
         if (videoIdsForDetails.length > 0) {
-            console.log("Filtrant Shorts...");
-            const durationMap = {};
+            console.log("Carregant duracions...");
             for (let i = 0; i < videoIdsForDetails.length; i += 50) {
                 const chunk = videoIdsForDetails.slice(i, i + 50);
-                const dUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${chunk.join(',')}&key=${API_KEY}`;
+                const dUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${chunk.join(',')}&key=${API_KEY}`;
                 const dData = await fetchYouTubeData(dUrl);
                 if (dData.items) {
                     dData.items.forEach(v => {
-                        durationMap[v.id] = parseDuration(v.contentDetails.duration) <= 60;
+                        const duration = v.contentDetails?.duration || '';
+                        const durationSeconds = isoDurationToSeconds(duration);
+                        detailedVideos.push({
+                            id: v.id,
+                            title: v.snippet?.title || '',
+                            thumbnail: v.snippet?.thumbnails?.medium?.url || v.snippet?.thumbnails?.high?.url || '',
+                            channelId: v.snippet?.channelId || '',
+                            channelTitle: v.snippet?.channelTitle || '',
+                            publishedAt: v.snippet?.publishedAt || '',
+                            duration,
+                            durationSeconds,
+                            isShort: durationSeconds > 0 && durationSeconds <= 120,
+                            viewCount: Number(v.statistics?.viewCount || 0),
+                            likeCount: Number(v.statistics?.likeCount || 0),
+                            commentCount: Number(v.statistics?.commentCount || 0)
+                        });
                     });
                 }
             }
-            allVideos = allVideos.map(v => ({ ...v, isShort: durationMap[v.id] || false }));
         }
 
+        const detailsById = new Map(detailedVideos.map(video => [video.id, video]));
+        const finalVideos = baseVideos.map(video => {
+            const details = detailsById.get(video.id);
+            if (!details) {
+                return video;
+            }
+            return {
+                ...video,
+                ...details,
+                categories: video.categories,
+                sourceChannelId: video.sourceChannelId
+            };
+        });
+
         const videosByChannel = new Map();
-        allVideos.forEach((video) => {
+        finalVideos.forEach((video) => {
             const key = video.sourceChannelId || video.channelId;
             if (!videosByChannel.has(key)) {
                 videosByChannel.set(key, []);
@@ -192,19 +226,18 @@ async function main() {
         channels.forEach((channel) => {
             const channelVideos = videosByChannel.get(channel.id) || [];
             console.log(`📺 Canal ${channel.name || channel.id}: ${channelVideos.length} vídeos abans de filtrar.`);
-            const nonShorts = channelVideos.filter((video) => !video.isShort);
-            let selected = nonShorts.slice(0, VIDEOS_PER_CHANNEL);
-            if (selected.length === 0 && channelVideos.length > 0) {
-                const fallbackCount = Math.min(3, channelVideos.length);
-                selected = channelVideos.slice(0, fallbackCount);
-                console.log(`⚠️ Canal ${channel.name || channel.id}: fallback aplicat (${fallbackCount} vídeos sense filtrar).`);
-            }
-            console.log(`✅ Canal ${channel.name || channel.id}: ${selected.length} vídeos després de filtrar.`);
+            const selected = channelVideos.slice(0, VIDEOS_PER_CHANNEL);
+            console.log(`✅ Canal ${channel.name || channel.id}: ${selected.length} vídeos seleccionats.`);
             feedVideos.push(...selected);
         });
 
         feedVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
         const feedPayload = feedVideos.slice(0, 100);
+        const videosWithViews = feedPayload.filter(video => (video.viewCount || 0) > 0);
+        console.log(`📊 Vídeos amb viewCount > 0: ${videosWithViews.length}/${feedPayload.length}`);
+        videosWithViews.slice(0, 3).forEach(video => {
+            console.log(`📈 ${video.id}: ${video.viewCount}`);
+        });
         const dataDir = path.join(process.cwd(), 'data');
         fs.mkdirSync(dataDir, { recursive: true });
         fs.writeFileSync(OUTPUT_FEED_JSON, JSON.stringify(feedPayload, null, 2));
@@ -215,7 +248,7 @@ async function main() {
         console.log("Feed escrit a:", OUTPUT_FEED_JSON);
         console.log("Existeix:", fs.existsSync(OUTPUT_FEED_JSON));
         console.log("Mida:", fs.statSync(OUTPUT_FEED_JSON).size);
-        console.log(`🚀 Feed actualitzat correctament amb ${allVideos.length} vídeos.`);
+        console.log(`🚀 Feed actualitzat correctament amb ${finalVideos.length} vídeos.`);
 
     } catch (error) {
         console.error("❌ Error en el procés:", error.message);
