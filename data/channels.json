@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-16T22:32:57.781Z",
+  "lastUpdated": "2026-01-17T09:56:15.106Z",
   "totalChannels": 7,
   "channels": [
     {
@@ -8,11 +8,14 @@
       "thumbnail": "https://yt3.ggpht.com/ECuCXTvGzVbIoiUIJGUS3AjNSFbkFHhR1oKwwK3g44xXvNRIIBgYbbcU-Jht8EXWOnpzknIE=s800-c-k-c0x00ffffff-no-rj",
       "description": "Em dic Enric Luzán i en aquest canal trobareu senderisme, travesses i bolets\n\nContacte professional: enricadventures@gmail.com\n",
       "stats": {
-        "viewCount": "1608095",
+        "viewCount": "1609826",
         "subscriberCount": "21400",
         "hiddenSubscriberCount": false,
         "videoCount": "249"
-      }
+      },
+      "categories": [
+        "vida"
+      ]
     },
     {
       "id": "UCaCWG8cBOwER_Vf3qAsr8Zg",
@@ -20,11 +23,14 @@
       "thumbnail": "https://yt3.ggpht.com/Hw-5OfXTofpK0KUBT5G8txv5DVPbv16sd4sdnpOT5VILlx7Hs-wlFKvVXVJ-ZEjgtfyw44J0Yw=s800-c-k-c0x00ffffff-no-rj",
       "description": "Les notícies de cada dia en 15 minuts. Comentades i explicades per Jordi Galves.",
       "stats": {
-        "viewCount": "743101",
+        "viewCount": "743484",
         "subscriberCount": "4420",
         "hiddenSubscriberCount": false,
-        "videoCount": "580"
-      }
+        "videoCount": "579"
+      },
+      "categories": [
+        "societat"
+      ]
     },
     {
       "id": "UC995eaX8sye3WGZB3XUl9lg",
@@ -32,11 +38,15 @@
       "thumbnail": "https://yt3.ggpht.com/3HUwOrjELA_Ef0xAacNO0df-YHiFP2o6FL41qhhv9pjL3LEDjFgxFc6iERK6-SozdJi8PnIJ7yk=s800-c-k-c0x00ffffff-no-rj",
       "description": "",
       "stats": {
-        "viewCount": "219910",
+        "viewCount": "219943",
         "subscriberCount": "1920",
         "hiddenSubscriberCount": false,
         "videoCount": "197"
-      }
+      },
+      "categories": [
+        "cultura",
+        "societat"
+      ]
     },
     {
       "id": "UCT8sBQf4grkfLMjOXdIkV2w",
@@ -44,11 +54,15 @@
       "thumbnail": "https://yt3.ggpht.com/ytc/AIdro_kFNW13EohJbYD9EtNjWPpKGIgSmMaCGt7YfftkU5iKwA=s800-c-k-c0x00ffffff-no-rj",
       "description": "Monòlegs de conya, xerrades i conferències. Repeteixo...de conya!!!!! Les xerrades i les conferències no són de conya, bé, una mica sí, perquè sino fem conya què? eh?\nL'actualitat del dia a dia, cada dia per riure una mica de tot el que ens passa!\n",
       "stats": {
-        "viewCount": "37001",
+        "viewCount": "37020",
         "subscriberCount": "303",
         "hiddenSubscriberCount": false,
-        "videoCount": "1296"
-      }
+        "videoCount": "1295"
+      },
+      "categories": [
+        "humor",
+        "societat"
+      ]
     },
     {
       "id": "UChOzqUp9V9AQPB4WzOhu-Xw",
@@ -56,11 +70,15 @@
       "thumbnail": "https://yt3.ggpht.com/AmupdKY3JuLY0OPRRwbHPFML5nsR2_5urZmxz9A7qZpWiO0YWT3sGP8wi63Rk14TzJmtZOmOVA=s800-c-k-c0x00ffffff-no-rj",
       "description": "Fem videos i parlem de Jocs de taula en català  ",
       "stats": {
-        "viewCount": "35184",
+        "viewCount": "35188",
         "subscriberCount": "603",
         "hiddenSubscriberCount": false,
         "videoCount": "391"
-      }
+      },
+      "categories": [
+        "gaming",
+        "cultura"
+      ]
     },
     {
       "id": "UC5ytRP5VNigPHovAY7kyicQ",
@@ -68,11 +86,14 @@
       "thumbnail": "https://yt3.ggpht.com/XDDUdG7DVvwndp1iicbIbUWausu4yGgjPjXURTou76lhF5Ec3ZksBM8MQhyXonlyoaQYu7yehyE=s800-c-k-c0x00ffffff-no-rj",
       "description": "Nous vídeos cada setmana\n\n\"Esquetxes comèdia en català\" és una web sèrie de gags en català, sense pressupost però amb molta gràcia i rodada a Malgrat de Mar. Feta per amor a l'art i per afició, conté tots els dialectes orientals i occidentals del català. També tenim varis premis i nominacions de festivals de Catalunya i d'arreu del món.\n\nAquest 2025 estem rodant la Temporada 4. \n\nMicro mecenes:\nhttps://www.patreon.com/Esquetxes\nhttps://esquetxes.aixeta.cat\n\nContacte: \nholaesquetxes@gmail.com\n",
       "stats": {
-        "viewCount": "206816",
+        "viewCount": "206841",
         "subscriberCount": "2960",
         "hiddenSubscriberCount": false,
         "videoCount": "230"
-      }
+      },
+      "categories": [
+        "humor"
+      ]
     },
     {
       "id": "UCNSmn5NLUDrV_paFZl--7qw",
@@ -80,11 +101,14 @@
       "thumbnail": "https://yt3.ggpht.com/ytc/AIdro_mO0v5nKplUkfqSab7DdXQSvTWrnqIgF1CafWsUG4IvAec=s800-c-k-c0x00ffffff-no-rj",
       "description": "",
       "stats": {
-        "viewCount": "20410579",
+        "viewCount": "20418055",
         "subscriberCount": "64900",
         "hiddenSubscriberCount": false,
         "videoCount": "399"
-      }
+      },
+      "categories": [
+        "humor"
+      ]
     }
   ]
 }
