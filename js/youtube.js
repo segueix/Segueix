@@ -35,12 +35,155 @@ const YouTubeAPI = {
     // Inicialitzar dades de canals catalans
     async init() {
         this.loadUserChannels();
-        await this.loadChannelsFromJSON();
+
+        // 1) CSV com a font principal
+        await this.loadChannelsFromCSV();
+
+        // 2) Fallback a JSON local si el CSV falla o ve buit
+        if (!this.catalanChannels || this.catalanChannels.length === 0) {
+            await this.loadChannelsFromJSON();
+        }
+
         console.log(`iuTube: ${this.catalanChannels.length} canals catalans carregats`);
         console.log(`iuTube: Cache configurat per ${this.CACHE_DURATION / 1000 / 60} minuts`);
     },
 
-// Carregar canals des del fitxer JSON local (pre-resolts)
+    getFromCacheWithTTL(key, ttlMs) {
+        try {
+            const cached = localStorage.getItem(`iutube_cache_${key}`);
+            if (!cached) return null;
+
+            const { data, timestamp } = JSON.parse(cached);
+            if (Date.now() - timestamp > ttlMs) {
+                localStorage.removeItem(`iutube_cache_${key}`);
+                return null;
+            }
+            return data;
+        } catch {
+            return null;
+        }
+    },
+
+    saveToCacheWithTTL(key, data) {
+        try {
+            localStorage.setItem(`iutube_cache_${key}`, JSON.stringify({
+                data,
+                timestamp: Date.now()
+            }));
+        } catch (e) {
+            console.warn("iuTube: No s'ha pogut guardar al cache:", e);
+        }
+    },
+
+    async loadChannelsFromCSV() {
+        try {
+            console.log('iuTube: Carregant canals des del CSV...');
+
+            // Cache de canals (24h)
+            const cached = this.getFromCacheWithTTL('channels_csv', this.CHANNELS_CACHE_DURATION);
+            if (cached && Array.isArray(cached) && cached.length) {
+                this.catalanChannels = cached;
+                console.log(`iuTube: ${cached.length} canals carregats del cache CSV`);
+                return;
+            }
+
+            // Cache-busting + no-store per esquivar caches agressives i SW
+            const url = this.CHANNELS_CSV_URL + '&t=' + Date.now();
+            const response = await fetch(url, { cache: 'no-store' });
+
+            if (!response.ok) throw new Error(`Error carregant CSV: ${response.status}`);
+
+            const csvText = await response.text();
+            const channels = this.parseCSVChannels(csvText);
+
+            this.catalanChannels = channels;
+            this.saveToCacheWithTTL('channels_csv', channels);
+
+            console.log(`iuTube: ${channels.length} canals carregats del CSV`);
+        } catch (error) {
+            console.error('iuTube: Error carregant canals del CSV:', error);
+        }
+    },
+
+    parseCSVChannels(csvText) {
+        const lines = csvText.split(/\r?\n/).filter(l => l.trim().length);
+        if (lines.length < 2) return [];
+
+        const headers = this.parseCSVLine(lines[0]).map(h => h.trim().toLowerCase());
+        const idx = (names) => headers.findIndex(h => names.includes(h));
+
+        const idIdx = idx(['id', 'channelid', 'channel_id']);
+        const nameIdx = idx(['name', 'channel', 'title', 'nom']);
+        const handleIdx = idx(['handle', 'username']);
+        const urlIdx = idx(['url', 'channelurl', 'link']);
+        const catIdx = idx(['categories', 'category', 'categoria', 'tags']);
+        const thumbIdx = idx(['thumbnail', 'thumb', 'imatge']);
+
+        const seen = new Set();
+        const out = [];
+
+        for (let i = 1; i < lines.length; i++) {
+            const cols = this.parseCSVLine(lines[i]);
+
+            const id = idIdx >= 0 ? (cols[idIdx] || '').trim() : '';
+            const handleRaw = handleIdx >= 0 ? (cols[handleIdx] || '').trim() : '';
+            const handle = handleRaw ? (handleRaw.startsWith('@') ? handleRaw : '@' + handleRaw) : '';
+            const url = urlIdx >= 0 ? (cols[urlIdx] || '').trim() : '';
+            const name = nameIdx >= 0 ? (cols[nameIdx] || '').trim() : '';
+
+            const key = (id || handle || url).toLowerCase();
+            if (!key) continue;
+            if (seen.has(key)) continue;
+            seen.add(key);
+
+            const categoriesRaw = catIdx >= 0 ? (cols[catIdx] || '').trim() : '';
+            const categories = categoriesRaw
+                ? categoriesRaw.split(/[;,|]/).map(s => s.trim()).filter(Boolean)
+                : [];
+
+            const thumbnail = thumbIdx >= 0 ? (cols[thumbIdx] || '').trim() : '';
+
+            out.push({
+                id,
+                name,
+                handle,
+                categories,
+                thumbnail,
+                source: 'csv'
+            });
+        }
+
+        return out;
+    },
+
+    parseCSVLine(line) {
+        const result = [];
+        let cur = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < line.length; i++) {
+            const ch = line[i];
+
+            if (ch === '"') {
+                if (inQuotes && line[i + 1] === '"') {
+                    cur += '"';
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (ch === ',' && !inQuotes) {
+                result.push(cur);
+                cur = '';
+            } else {
+                cur += ch;
+            }
+        }
+
+        result.push(cur);
+        return result;
+    },
+
+    // Carregar canals des del fitxer JSON local (pre-resolts)
     async loadChannelsFromJSON() {
         try {
             console.log('iuTube: Carregant canals des del JSON...');
@@ -182,17 +325,22 @@ const YouTubeAPI = {
 
         const allChannels = this.getAllChannels();
 
-        if (allChannels.length === 0) {
+        const validChannels = allChannels.filter(c => c.id && c.id.startsWith('UC'));
+        if (validChannels.length !== allChannels.length) {
+            console.warn(`iuTube: ${allChannels.length - validChannels.length} canals sense channelId UC... ignorats (revisa el CSV)`);
+        }
+
+        if (validChannels.length === 0) {
             return { items: [], error: 'No hi ha canals configurats' };
         }
 
-        console.log(`iuTube: Obtenint ${this.VIDEOS_PER_CHANNEL} vídeos de ${allChannels.length} canals`);
+        console.log(`iuTube: Obtenint ${this.VIDEOS_PER_CHANNEL} vídeos de ${validChannels.length} canals`);
 
         try {
             let allVideos = [];
 
             // Obtenir vídeos de cada canal en paral·lel
-            const promises = allChannels.map(async (channel) => {
+            const promises = validChannels.map(async (channel) => {
                 const playlistId = this.getUploadsPlaylistId(channel.id);
                 const videos = await this.getPlaylistVideos(playlistId, this.VIDEOS_PER_CHANNEL);
 
@@ -436,7 +584,7 @@ const YouTubeAPI = {
 
     // API Key injectada durant el build (GitHub Actions)
     // Aquest placeholder es reemplaça automàticament durant el desplegament
-    INJECTED_API_KEY: 'AIzaSyDISRBNRx7hyuxwcDC9lvWvKlVlx-L-IEA',
+    INJECTED_API_KEY: '__YOUTUBE_API_KEY__',
 
     // Obtenir la clau API (injectada o localStorage)
     getApiKey() {
@@ -537,87 +685,7 @@ const YouTubeAPI = {
 
     // Obtenir vídeos dels canals catalans verificats
     async getVideosFromCatalanChannels(maxResults = 12) {
-        const apiKey = this.getApiKey();
-        if (!apiKey) {
-            console.log('iuTube: No hi ha API key');
-            return { items: [], error: 'No API key' };
-        }
-
-        const allChannels = this.getAllChannels();
-        console.log(`iuTube: Cercant vídeos de ${allChannels.length} canals catalans`);
-
-        if (allChannels.length === 0) {
-            return { items: [], error: 'No hi ha canals catalans configurats' };
-        }
-
-        try {
-            // Seleccionar canals aleatoris per varietat
-            const shuffled = [...allChannels].sort(() => 0.5 - Math.random());
-            const selectedChannels = shuffled.slice(0, 8);
-
-            let allVideos = [];
-
-            // Obtenir vídeos de cada canal (en paral·lel per ser més ràpid)
-            const promises = selectedChannels.map(async (channel) => {
-                try {
-                    const response = await fetch(
-                        `${this.BASE_URL}/search?part=snippet&type=video&channelId=${channel.id}&maxResults=3&order=date&key=${apiKey}`
-                    );
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.items && data.items.length > 0) {
-                            console.log(`iuTube: ${data.items.length} vídeos de ${channel.name}`);
-                            return data.items.map(item => ({
-                                id: item.id.videoId,
-                                title: item.snippet.title,
-                                description: item.snippet.description,
-                                thumbnail: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.medium?.url,
-                                channelId: item.snippet.channelId,
-                                channelTitle: item.snippet.channelTitle,
-                                publishedAt: item.snippet.publishedAt,
-                                isVerifiedCatalan: true
-                            }));
-                        }
-                    } else {
-                        console.log(`iuTube: Error ${response.status} per canal ${channel.name}`);
-                    }
-                } catch (e) {
-                    console.log(`iuTube: Error canal ${channel.name}:`, e.message);
-                }
-                return [];
-            });
-
-            const results = await Promise.all(promises);
-            allVideos = results.flat();
-
-            console.log(`iuTube: Total ${allVideos.length} vídeos catalans trobats`);
-
-            // Obtenir detalls complets (estadístiques)
-            if (allVideos.length > 0) {
-                const videoIds = allVideos.map(v => v.id).join(',');
-                const detailsResponse = await fetch(
-                    `${this.BASE_URL}/videos?part=snippet,statistics,contentDetails&id=${videoIds}&key=${apiKey}`
-                );
-
-                if (detailsResponse.ok) {
-                    const detailsData = await detailsResponse.json();
-                    const detailedVideos = this.transformVideoResults(detailsData.items);
-                    // Marcar com a verificats
-                    detailedVideos.forEach(v => v.isVerifiedCatalan = true);
-                    // Barrejar i limitar
-                    return {
-                        items: detailedVideos.sort(() => 0.5 - Math.random()).slice(0, maxResults),
-                        error: null
-                    };
-                }
-            }
-
-            return { items: allVideos.slice(0, maxResults), error: null };
-        } catch (error) {
-            console.error('iuTube: Error obtenint vídeos catalans:', error);
-            return { items: [], error: error.message };
-        }
+        return await this.getVideosFromCatalanChannelsEfficient(maxResults);
     },
 
     // Obtenir vídeos populars (usa canals catalans - MOLT EFICIENT)

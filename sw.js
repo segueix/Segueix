@@ -1,81 +1,85 @@
 // Service Worker per PWA
-
-// !!! IMPORTANT: CANVIA AQUEST NÚMERO CADA VEGADA QUE PUBLIQUIS !!!
-const CACHE_NAME = 'mytube-v5'; 
+// IMPORTANT: CANVIA AQUEST NÚMERO CADA VEGADA QUE PUBLIQUIS !!!
+const CACHE_NAME = 'mytube-v6';
 
 const urlsToCache = [
-    './',                // Recorda posar el punt davant!
-    './index.html',
-    './css/styles.css',
-    './js/app.js',
-    './js/config.js',
-    './js/data.js',
-    './js/youtube.js',   // Afegeix youtube.js si no hi era
-    './manifest.json'
+  './',
+  './index.html',
+  './css/styles.css',
+  './js/app.js',
+  './js/config.js',
+  './js/data.js',
+  './js/youtube.js',
+  './manifest.json'
 ];
 
-// Instal·lació
 self.addEventListener('install', (event) => {
-    // Forçar que el nou Service Worker s'activi immediatament, sense esperar
-    self.skipWaiting(); 
-    
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then((cache) => {
-                console.log('Cache obert');
-                return cache.addAll(urlsToCache);
-            })
-    );
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+  );
 });
 
-// Activació
 self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheName !== CACHE_NAME) {
-                        console.log('Eliminant cache antic:', cacheName);
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        }).then(() => {
-            // Dir als navegadors oberts: "Fes servir la nova versió JA!"
-            return self.clients.claim(); 
-        })
-    );
+  event.waitUntil(
+    caches.keys().then((names) =>
+      Promise.all(names.map((n) => (n !== CACHE_NAME ? caches.delete(n) : null)))
+    ).then(() => self.clients.claim())
+  );
 });
 
-// Fetch (gestió de xarxa)
-self.addEventListener('fetch', (event) => {
-    // Ignorar extensions de Chrome o esquemes no suportats
-    if (!event.request.url.startsWith('http')) {
-        return;
-    }
+async function networkFirst(request) {
+  try {
+    const fresh = await fetch(request);
+    const cache = await caches.open(CACHE_NAME);
+    cache.put(request, fresh.clone());
+    return fresh;
+  } catch (e) {
+    const cached = await caches.match(request);
+    return cached || Response.error();
+  }
+}
 
-    event.respondWith(
-        caches.match(event.request)
-            .then((response) => {
-                // Retornar cache si existeix
-                if (response) {
-                    return response;
-                }
-                
-                // Si no, buscar a internet
-                return fetch(event.request).then((response) => {
-                    if (!response || response.status !== 200 || response.type !== 'basic') {
-                        return response;
-                    }
-                    
-                    const responseToCache = response.clone();
-                    caches.open(CACHE_NAME)
-                        .then((cache) => {
-                            cache.put(event.request, responseToCache);
-                        });
-                    
-                    return response;
-                });
-            })
-    );
+async function cacheFirst(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+
+  const fresh = await fetch(request);
+  const cache = await caches.open(CACHE_NAME);
+  cache.put(request, fresh.clone());
+  return fresh;
+}
+
+self.addEventListener('fetch', (event) => {
+  if (!event.request.url.startsWith('http')) return;
+
+  const url = new URL(event.request.url);
+
+  const isGoogleSheetsCSV =
+    url.href.includes('docs.google.com/spreadsheets') && url.search.includes('output=csv');
+
+  const isChannelsJSON = url.pathname.endsWith('/data/channels.json');
+
+  const isAppShell =
+    url.pathname.endsWith('/') ||
+    url.pathname.endsWith('/index.html') ||
+    url.pathname.endsWith('.js') ||
+    url.pathname.endsWith('.css') ||
+    url.pathname.endsWith('.json') ||
+    url.pathname.endsWith('/manifest.json');
+
+  // CSV i channels.json: sempre xarxa (evitar desincronització a mòbil)
+  if (isGoogleSheetsCSV || isChannelsJSON) {
+    event.respondWith(fetch(event.request, { cache: 'no-store' }));
+    return;
+  }
+
+  // App shell: network-first perquè els canvis es vegin a mòbil
+  if (isAppShell) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  // Resta: cache-first
+  event.respondWith(cacheFirst(event.request));
 });
