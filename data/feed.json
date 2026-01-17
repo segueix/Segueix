@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-17T23:39:07.079370Z",
+  "generatedAt": "2026-01-17T23:47:42.961Z",
   "videos": [
     {
       "id": "Zw-EL0TJK4c",
@@ -12,11 +12,16 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT46M22S",
+      "durationSeconds": 2782,
+      "isShort": false,
+      "viewCount": 91,
+      "likeCount": 23,
+      "commentCount": 9
     },
     {
       "id": "din1pM12Alg",
-      "title": "Monòlegs km0 (85.7) Santoral 16/01, IA del dia, Barça, Julio Iglesias, el Prat i la Corina Machado!",
+      "title": "Monòlegs km0 (85.7) Santoral 16/01, IA del dia, Barça, Julio Iglesias, el Prat i la Corina Machado! ",
       "thumbnail": "https://i.ytimg.com/vi/din1pM12Alg/mqdefault.jpg",
       "channelId": "UCT8sBQf4grkfLMjOXdIkV2w",
       "channelTitle": "Enric Bastardas",
@@ -26,7 +31,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT11M52S",
+      "durationSeconds": 712,
+      "isShort": false,
+      "viewCount": 13,
+      "likeCount": 0,
+      "commentCount": 0
     },
     {
       "id": "5U0vnOsxIhs",
@@ -39,7 +49,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT32M11S",
+      "durationSeconds": 1931,
+      "isShort": false,
+      "viewCount": 1006,
+      "likeCount": 213,
+      "commentCount": 51
     },
     {
       "id": "TKUR9sOyF60",
@@ -53,7 +68,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT13M4S",
+      "durationSeconds": 784,
+      "isShort": false,
+      "viewCount": 21,
+      "likeCount": 2,
+      "commentCount": 0
     },
     {
       "id": "eUyRCgOWaPc",
@@ -66,7 +86,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT33M52S",
+      "durationSeconds": 2032,
+      "isShort": false,
+      "viewCount": 1257,
+      "likeCount": 182,
+      "commentCount": 45
     },
     {
       "id": "sZoYVpX1QHo",
@@ -80,7 +105,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT12M15S",
+      "durationSeconds": 735,
+      "isShort": false,
+      "viewCount": 12,
+      "likeCount": 0,
+      "commentCount": 0
     },
     {
       "id": "YI2UdbdMTZo",
@@ -93,7 +123,12 @@
         "humor"
       ],
       "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1H6M17S",
+      "durationSeconds": 3977,
+      "isShort": false,
+      "viewCount": 60508,
+      "likeCount": 1339,
+      "commentCount": 77
     },
     {
       "id": "C44VS3k00E4",
@@ -106,7 +141,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT45M22S",
+      "durationSeconds": 2722,
+      "isShort": false,
+      "viewCount": 1089,
+      "likeCount": 200,
+      "commentCount": 41
     },
     {
       "id": "CN_qGC41T8Y",
@@ -119,7 +159,12 @@
         "humor"
       ],
       "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1M12S",
+      "durationSeconds": 72,
+      "isShort": true,
+      "viewCount": 2883,
+      "likeCount": 79,
+      "commentCount": 3
     },
     {
       "id": "udnve6TqYEM",
@@ -132,7 +177,12 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT17M59S",
+      "durationSeconds": 1079,
+      "isShort": false,
+      "viewCount": 13195,
+      "likeCount": 1088,
+      "commentCount": 115
     },
     {
       "id": "SqHN01ixMxE",
@@ -146,7 +196,12 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT12M35S",
+      "durationSeconds": 755,
+      "isShort": false,
+      "viewCount": 19,
+      "likeCount": 2,
+      "commentCount": 0
     },
     {
       "id": "cyt-u3rr-Ss",
@@ -159,7 +214,12 @@
         "humor"
       ],
       "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1M9S",
+      "durationSeconds": 69,
+      "isShort": true,
+      "viewCount": 4635,
+      "likeCount": 137,
+      "commentCount": 3
     },
     {
       "id": "COZ1wDRntxU",
@@ -173,7 +233,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT13M2S",
+      "durationSeconds": 782,
+      "isShort": false,
+      "viewCount": 17,
+      "likeCount": 2,
+      "commentCount": 1
     },
     {
       "id": "JkAk5rPi8lY",
@@ -186,7 +251,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT32M52S",
+      "durationSeconds": 1972,
+      "isShort": false,
+      "viewCount": 932,
+      "likeCount": 197,
+      "commentCount": 65
     },
     {
       "id": "L9lOghuO_S0",
@@ -199,11 +269,16 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT15M40S",
+      "durationSeconds": 940,
+      "isShort": false,
+      "viewCount": 14074,
+      "likeCount": 1182,
+      "commentCount": 158
     },
     {
       "id": "yM_RZg9jlx4",
-      "title": "Monòlegs km0 (81.7) Santoral 12/01, IA del dia, Barça campió!, forn, Cantó, xarampió i galàxia! 💩💩💩",
+      "title": "Monòlegs km0 (81.7) Santoral 12/01, IA del dia, Barça campió!, forn, Cantó, xarampió i galàxia! 💩💩💩 ",
       "thumbnail": "https://i.ytimg.com/vi/yM_RZg9jlx4/mqdefault.jpg",
       "channelId": "UCT8sBQf4grkfLMjOXdIkV2w",
       "channelTitle": "Enric Bastardas",
@@ -213,7 +288,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT10M16S",
+      "durationSeconds": 616,
+      "isShort": false,
+      "viewCount": 22,
+      "likeCount": 1,
+      "commentCount": 0
     },
     {
       "id": "AeoqjHYUn9s",
@@ -226,7 +306,12 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT13M51S",
+      "durationSeconds": 831,
+      "isShort": false,
+      "viewCount": 14282,
+      "likeCount": 1309,
+      "commentCount": 184
     },
     {
       "id": "ZdWqLoKRE28",
@@ -239,11 +324,16 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT13M46S",
+      "durationSeconds": 826,
+      "isShort": false,
+      "viewCount": 14087,
+      "likeCount": 1358,
+      "commentCount": 153
     },
     {
       "id": "HPpHamMx1qE",
-      "title": "Monòlegs km0 (80.7) Santoral 09/01, IA i CES, pacte, Més Trump, hàbits saludables i el Madrid! 💩💩💩",
+      "title": "Monòlegs km0 (80.7) Santoral 09/01, IA i CES, pacte, Més Trump, hàbits saludables i el Madrid! 💩💩💩 ",
       "thumbnail": "https://i.ytimg.com/vi/HPpHamMx1qE/mqdefault.jpg",
       "channelId": "UCT8sBQf4grkfLMjOXdIkV2w",
       "channelTitle": "Enric Bastardas",
@@ -253,7 +343,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT10M48S",
+      "durationSeconds": 648,
+      "isShort": false,
+      "viewCount": 16,
+      "likeCount": 1,
+      "commentCount": 0
     },
     {
       "id": "ws8iWa71Wx4",
@@ -266,7 +361,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT36M52S",
+      "durationSeconds": 2212,
+      "isShort": false,
+      "viewCount": 1294,
+      "likeCount": 216,
+      "commentCount": 80
     },
     {
       "id": "6iq4ZWx52qo",
@@ -279,7 +379,12 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT17M20S",
+      "durationSeconds": 1040,
+      "isShort": false,
+      "viewCount": 15374,
+      "likeCount": 1312,
+      "commentCount": 147
     },
     {
       "id": "jm9l5dxCLpE",
@@ -293,11 +398,16 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT11M25S",
+      "durationSeconds": 685,
+      "isShort": false,
+      "viewCount": 52,
+      "likeCount": 8,
+      "commentCount": 0
     },
     {
       "id": "c_GWf6q_Ffg",
-      "title": "Monòlegs km0 (79.7) Santoral 08/01, IA, Groenlàndia, Barça, Església, cosetes i Ordenatriz! 💩💩💩",
+      "title": "Monòlegs km0 (79.7) Santoral 08/01, IA, Groenlàndia, Barça, Església, cosetes i Ordenatriz! 💩💩💩 ",
       "thumbnail": "https://i.ytimg.com/vi/c_GWf6q_Ffg/mqdefault.jpg",
       "channelId": "UCT8sBQf4grkfLMjOXdIkV2w",
       "channelTitle": "Enric Bastardas",
@@ -307,7 +417,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT12M32S",
+      "durationSeconds": 752,
+      "isShort": false,
+      "viewCount": 17,
+      "likeCount": 1,
+      "commentCount": 0
     },
     {
       "id": "oPbnTSAzZJs",
@@ -320,7 +435,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT30M28S",
+      "durationSeconds": 1828,
+      "isShort": false,
+      "viewCount": 1231,
+      "likeCount": 202,
+      "commentCount": 64
     },
     {
       "id": "o4Oanig62Vw",
@@ -333,7 +453,12 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT19M21S",
+      "durationSeconds": 1161,
+      "isShort": false,
+      "viewCount": 14368,
+      "likeCount": 1249,
+      "commentCount": 121
     },
     {
       "id": "erUGvtKfqe8",
@@ -347,7 +472,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT16M30S",
+      "durationSeconds": 990,
+      "isShort": false,
+      "viewCount": 20,
+      "likeCount": 1,
+      "commentCount": 0
     },
     {
       "id": "ek-Da9v0O6U",
@@ -360,7 +490,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT30M7S",
+      "durationSeconds": 1807,
+      "isShort": false,
+      "viewCount": 1217,
+      "likeCount": 180,
+      "commentCount": 49
     },
     {
       "id": "bEZ4Fkyad0E",
@@ -373,7 +508,12 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT2H4M43S",
+      "durationSeconds": 7483,
+      "isShort": false,
+      "viewCount": 14654,
+      "likeCount": 976,
+      "commentCount": 56
     },
     {
       "id": "r8PJm11a3H0",
@@ -386,7 +526,12 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT18M58S",
+      "durationSeconds": 1138,
+      "isShort": false,
+      "viewCount": 15034,
+      "likeCount": 1428,
+      "commentCount": 160
     },
     {
       "id": "cy5HcNAM5Rs",
@@ -399,7 +544,12 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT16M42S",
+      "durationSeconds": 1002,
+      "isShort": false,
+      "viewCount": 13388,
+      "likeCount": 1290,
+      "commentCount": 188
     },
     {
       "id": "2R1wNIWWZvc",
@@ -412,7 +562,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT45M50S",
+      "durationSeconds": 2750,
+      "isShort": false,
+      "viewCount": 1329,
+      "likeCount": 209,
+      "commentCount": 69
     },
     {
       "id": "nW27ngR9GK4",
@@ -425,7 +580,12 @@
         "vida"
       ],
       "sourceChannelId": "@EnricAdventures",
-      "isShort": false
+      "duration": "PT18M13S",
+      "durationSeconds": 1093,
+      "isShort": false,
+      "viewCount": 15970,
+      "likeCount": 1342,
+      "commentCount": 177
     },
     {
       "id": "FLR3gEYe3cs",
@@ -439,7 +599,12 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT12M8S",
+      "durationSeconds": 728,
+      "isShort": false,
+      "viewCount": 32,
+      "likeCount": 2,
+      "commentCount": 0
     },
     {
       "id": "Ny6PGqLx79Q",
@@ -453,7 +618,12 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT3H6M45S",
+      "durationSeconds": 11205,
+      "isShort": false,
+      "viewCount": 63,
+      "likeCount": 8,
+      "commentCount": 0
     },
     {
       "id": "khGLrE5ZA4M",
@@ -467,7 +637,12 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT9M4S",
+      "durationSeconds": 544,
+      "isShort": false,
+      "viewCount": 56,
+      "likeCount": 2,
+      "commentCount": 0
     },
     {
       "id": "UNDdfG4Dd4U",
@@ -480,7 +655,12 @@
         "societat"
       ],
       "sourceChannelId": "@unquartdegalves",
-      "isShort": false
+      "duration": "PT32M58S",
+      "durationSeconds": 1978,
+      "isShort": false,
+      "viewCount": 1243,
+      "likeCount": 199,
+      "commentCount": 59
     },
     {
       "id": "Fg0u3SNOF-E",
@@ -494,7 +674,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT37M38S",
+      "durationSeconds": 2258,
+      "isShort": false,
+      "viewCount": 579,
+      "likeCount": 41,
+      "commentCount": 9
     },
     {
       "id": "t1wCHYdz3rU",
@@ -507,7 +692,12 @@
         "humor"
       ],
       "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1M33S",
+      "durationSeconds": 93,
+      "isShort": true,
+      "viewCount": 2546,
+      "likeCount": 59,
+      "commentCount": 1
     },
     {
       "id": "74CvvmVUgFo",
@@ -520,7 +710,12 @@
         "humor"
       ],
       "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1M15S",
+      "durationSeconds": 75,
+      "isShort": true,
+      "viewCount": 2711,
+      "likeCount": 47,
+      "commentCount": 0
     },
     {
       "id": "GbQAnYaMXnA",
@@ -533,7 +728,30 @@
         "humor"
       ],
       "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1H11M54S",
+      "durationSeconds": 4314,
+      "isShort": false,
+      "viewCount": 90643,
+      "likeCount": 1912,
+      "commentCount": 108
+    },
+    {
+      "id": "TVqCwc6FqjA",
+      "title": "Que la vida que ens hem perdut simplement no existeix. #català",
+      "thumbnail": "https://i.ytimg.com/vi/TVqCwc6FqjA/mqdefault.jpg",
+      "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+      "channelTitle": "La Sotana",
+      "publishedAt": "2025-12-23T17:29:14Z",
+      "categories": [
+        "humor"
+      ],
+      "sourceChannelId": "@LaSotana",
+      "duration": "PT40S",
+      "durationSeconds": 40,
+      "isShort": true,
+      "viewCount": 4840,
+      "likeCount": 72,
+      "commentCount": 3
     },
     {
       "id": "sW33OczZkY0",
@@ -546,7 +764,12 @@
         "humor"
       ],
       "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1M14S",
+      "durationSeconds": 74,
+      "isShort": true,
+      "viewCount": 3977,
+      "likeCount": 67,
+      "commentCount": 1
     },
     {
       "id": "ivKgGEnbD2Q",
@@ -560,7 +783,12 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT27M39S",
+      "durationSeconds": 1659,
+      "isShort": false,
+      "viewCount": 57,
+      "likeCount": 5,
+      "commentCount": 0
     },
     {
       "id": "xMPIutPc5fE",
@@ -574,7 +802,12 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT9M19S",
+      "durationSeconds": 559,
+      "isShort": false,
+      "viewCount": 24,
+      "likeCount": 4,
+      "commentCount": 0
     },
     {
       "id": "cWaNi5WH4LY",
@@ -588,7 +821,12 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT9M43S",
+      "durationSeconds": 583,
+      "isShort": false,
+      "viewCount": 9,
+      "likeCount": 3,
+      "commentCount": 0
     },
     {
       "id": "8b_oXcs4nMY",
@@ -602,7 +840,12 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT6M12S",
+      "durationSeconds": 372,
+      "isShort": false,
+      "viewCount": 65,
+      "likeCount": 8,
+      "commentCount": 0
     },
     {
       "id": "6-lokvEXno8",
@@ -616,11 +859,16 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT51M18S",
+      "durationSeconds": 3078,
+      "isShort": false,
+      "viewCount": 1013,
+      "likeCount": 58,
+      "commentCount": 15
     },
     {
       "id": "kx6MDKvq43c",
-      "title": "Monòlegs km0 (77.7) Bon Nadal, Santoral 19/12, Trumpada, llar, jubilats i anisakis! 💩💩💩 #pqeam",
+      "title": "Monòlegs km0 (77.7) Bon Nadal, Santoral 19/12, Trumpada, llar, jubilats i anisakis! 💩💩💩 #pqeam ",
       "thumbnail": "https://i.ytimg.com/vi/kx6MDKvq43c/mqdefault.jpg",
       "channelId": "UCT8sBQf4grkfLMjOXdIkV2w",
       "channelTitle": "Enric Bastardas",
@@ -630,7 +878,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT10M16S",
+      "durationSeconds": 616,
+      "isShort": false,
+      "viewCount": 16,
+      "likeCount": 1,
+      "commentCount": 0
     },
     {
       "id": "W7Yd5FBU0Zk",
@@ -643,7 +896,12 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
+      "duration": "PT1M14S",
+      "durationSeconds": 74,
+      "isShort": true,
+      "viewCount": 405,
+      "likeCount": 12,
+      "commentCount": 0
     },
     {
       "id": "5naWPM9DZoA",
@@ -656,7 +914,12 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
+      "duration": "PT1M12S",
+      "durationSeconds": 72,
+      "isShort": true,
+      "viewCount": 133,
+      "likeCount": 7,
+      "commentCount": 2
     },
     {
       "id": "5ShPNL5qQjk",
@@ -670,7 +933,30 @@
         "cultura"
       ],
       "sourceChannelId": "@AyaZholvaX",
-      "isShort": false
+      "duration": "PT20M1S",
+      "durationSeconds": 1201,
+      "isShort": false,
+      "viewCount": 47,
+      "likeCount": 6,
+      "commentCount": 0
+    },
+    {
+      "id": "QitfD8Cr6Mc",
+      "title": "Si tens antecedents penals però no els tens tots... Et busquem! A què esperes? #català #podcast",
+      "thumbnail": "https://i.ytimg.com/vi/QitfD8Cr6Mc/mqdefault.jpg",
+      "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+      "channelTitle": "La Sotana",
+      "publishedAt": "2025-12-18T10:57:42Z",
+      "categories": [
+        "humor"
+      ],
+      "sourceChannelId": "@LaSotana",
+      "duration": "PT51S",
+      "durationSeconds": 51,
+      "isShort": true,
+      "viewCount": 4039,
+      "likeCount": 76,
+      "commentCount": 0
     },
     {
       "id": "YmPaWNwL8m0",
@@ -684,7 +970,12 @@
         "societat"
       ],
       "sourceChannelId": "@EnricBastardas1",
-      "isShort": false
+      "duration": "PT10M49S",
+      "durationSeconds": 649,
+      "isShort": false,
+      "viewCount": 20,
+      "likeCount": 1,
+      "commentCount": 0
     },
     {
       "id": "e_7jSAJtLjc",
@@ -697,20 +988,12 @@
         "humor"
       ],
       "sourceChannelId": "@LaSotana",
-      "isShort": false
-    },
-    {
-      "id": "OplxI-rBR_Q",
-      "title": "La Sotana 393",
-      "thumbnail": "https://i.ytimg.com/vi/OplxI-rBR_Q/mqdefault.jpg",
-      "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
-      "channelTitle": "La Sotana",
-      "publishedAt": "2025-12-17T08:23:49Z",
-      "categories": [
-        "humor"
-      ],
-      "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1M16S",
+      "durationSeconds": 76,
+      "isShort": true,
+      "viewCount": 2436,
+      "likeCount": 80,
+      "commentCount": 3
     },
     {
       "id": "w-_h2C_ka3c",
@@ -723,7 +1006,12 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
+      "duration": "PT1H49M40S",
+      "durationSeconds": 6580,
+      "isShort": false,
+      "viewCount": 97,
+      "likeCount": 8,
+      "commentCount": 0
     },
     {
       "id": "TSanPHDdyys",
@@ -736,7 +1024,12 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
+      "duration": "PT12M",
+      "durationSeconds": 720,
+      "isShort": false,
+      "viewCount": 279,
+      "likeCount": 31,
+      "commentCount": 3
     },
     {
       "id": "JMsG6zAfBPg",
@@ -749,7 +1042,12 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
+      "duration": "PT1M30S",
+      "durationSeconds": 90,
+      "isShort": true,
+      "viewCount": 78,
+      "likeCount": 14,
+      "commentCount": 2
     },
     {
       "id": "nosEj4wxRBU",
@@ -762,20 +1060,12 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
-    },
-    {
-      "id": "soBSAUbvExs",
-      "title": "La Sotana 392",
-      "thumbnail": "https://i.ytimg.com/vi/soBSAUbvExs/mqdefault.jpg",
-      "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
-      "channelTitle": "La Sotana",
-      "publishedAt": "2025-12-03T07:27:16Z",
-      "categories": [
-        "humor"
-      ],
-      "sourceChannelId": "@LaSotana",
-      "isShort": false
+      "duration": "PT1M30S",
+      "durationSeconds": 90,
+      "isShort": true,
+      "viewCount": 60,
+      "likeCount": 5,
+      "commentCount": 0
     },
     {
       "id": "6DB1lfMSKSM",
@@ -788,7 +1078,30 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
+      "duration": "PT3M13S",
+      "durationSeconds": 193,
+      "isShort": false,
+      "viewCount": 213,
+      "likeCount": 24,
+      "commentCount": 4
+    },
+    {
+      "id": "Qu1aLdpkcZo",
+      "title": "una prèvia del que serà el pròxim curt | #Esquetxes #comèdia en #català",
+      "thumbnail": "https://i.ytimg.com/vi/Qu1aLdpkcZo/mqdefault.jpg",
+      "channelId": "UC5ytRP5VNigPHovAY7kyicQ",
+      "channelTitle": "Esquetxes comèdia en català",
+      "publishedAt": "2025-11-27T12:18:56Z",
+      "categories": [
+        "humor"
+      ],
+      "sourceChannelId": "@esquetxes",
+      "duration": "PT25S",
+      "durationSeconds": 25,
+      "isShort": true,
+      "viewCount": 51,
+      "likeCount": 4,
+      "commentCount": 0
     },
     {
       "id": "J2lxaCX3IbY",
@@ -801,7 +1114,12 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
+      "duration": "PT1M50S",
+      "durationSeconds": 110,
+      "isShort": true,
+      "viewCount": 87,
+      "likeCount": 5,
+      "commentCount": 0
     },
     {
       "id": "v977pXkkH-U",
@@ -814,20 +1132,12 @@
         "humor"
       ],
       "sourceChannelId": "@esquetxes",
-      "isShort": false
-    },
-    {
-      "id": "W_QEe5EjgnU",
-      "title": "Quan dic que me'n vaig és que me'n vaig | #Esquetxes #comèdia en #català",
-      "thumbnail": "https://i.ytimg.com/vi/W_QEe5EjgnU/mqdefault.jpg",
-      "channelId": "UC5ytRP5VNigPHovAY7kyicQ",
-      "channelTitle": "Esquetxes comèdia en català",
-      "publishedAt": "2025-11-15T11:01:05Z",
-      "categories": [
-        "humor"
-      ],
-      "sourceChannelId": "@esquetxes",
-      "isShort": false
+      "duration": "PT1M53S",
+      "durationSeconds": 113,
+      "isShort": true,
+      "viewCount": 108,
+      "likeCount": 20,
+      "commentCount": 9
     },
     {
       "id": "MqyJ9GqJhaw",
@@ -841,7 +1151,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT39M58S",
+      "durationSeconds": 2398,
+      "isShort": false,
+      "viewCount": 356,
+      "likeCount": 19,
+      "commentCount": 2
     },
     {
       "id": "mhUp3bTpZNQ",
@@ -855,7 +1170,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT39M26S",
+      "durationSeconds": 2366,
+      "isShort": false,
+      "viewCount": 1743,
+      "likeCount": 77,
+      "commentCount": 19
     },
     {
       "id": "fgZbjjp87Xg",
@@ -869,7 +1189,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT37M54S",
+      "durationSeconds": 2274,
+      "isShort": false,
+      "viewCount": 672,
+      "likeCount": 39,
+      "commentCount": 26
     },
     {
       "id": "PFeXIixoY0E",
@@ -883,7 +1208,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT39M55S",
+      "durationSeconds": 2395,
+      "isShort": false,
+      "viewCount": 321,
+      "likeCount": 28,
+      "commentCount": 1
     },
     {
       "id": "jzYk2DW_Jeo",
@@ -897,7 +1227,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT37M24S",
+      "durationSeconds": 2244,
+      "isShort": false,
+      "viewCount": 428,
+      "likeCount": 36,
+      "commentCount": 3
     },
     {
       "id": "oxu98bY4S1A",
@@ -911,7 +1246,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT40M32S",
+      "durationSeconds": 2432,
+      "isShort": false,
+      "viewCount": 278,
+      "likeCount": 24,
+      "commentCount": 0
     },
     {
       "id": "d8l8Qjgike4",
@@ -925,7 +1265,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT40M9S",
+      "durationSeconds": 2409,
+      "isShort": false,
+      "viewCount": 849,
+      "likeCount": 51,
+      "commentCount": 2
     },
     {
       "id": "HcbtMLMTD8Y",
@@ -939,7 +1284,12 @@
         "societat"
       ],
       "sourceChannelId": "@lescaquimat4658",
-      "isShort": false
+      "duration": "PT22M25S",
+      "durationSeconds": 1345,
+      "isShort": false,
+      "viewCount": 1075,
+      "likeCount": 25,
+      "commentCount": 28
     }
   ]
 }
