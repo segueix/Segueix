@@ -9,6 +9,8 @@ const path = require('path');
 const API_KEY = process.env.YOUTUBE_API_KEY;
 const OUTPUT_FEED_JSON = path.join(process.cwd(), 'data', 'feed.json');
 const OUTPUT_FEED_JS = 'feed_updates.js';
+const VIDEOS_PER_CHANNEL = Number.parseInt(process.env.VIDEOS_PER_CHANNEL ?? '5', 10);
+const FETCH_PER_CHANNEL = VIDEOS_PER_CHANNEL * 3;
 
 /**
  * Funció per descarregar dades que sap seguir TOTES les redireccions (301, 302, 307, 308)
@@ -132,7 +134,8 @@ async function main() {
 
             if (!uploadPlaylistId) return null;
 
-            const vUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadPlaylistId}&maxResults=5&key=${API_KEY}`;
+            const maxResults = Math.min(FETCH_PER_CHANNEL, 50);
+            const vUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadPlaylistId}&maxResults=${maxResults}&key=${API_KEY}`;
             const vData = await fetchYouTubeData(vUrl);
             return { items: vData.items || [], channelInfo: channel };
         });
@@ -151,7 +154,8 @@ async function main() {
                         channelId: item.snippet.channelId,
                         channelTitle: item.snippet.channelTitle,
                         publishedAt: item.snippet.publishedAt,
-                        categories: res.channelInfo.categories 
+                        categories: res.channelInfo.categories,
+                        sourceChannelId: res.channelInfo.id
                     };
                     allVideos.push(video);
                     videoIdsForDetails.push(video.id);
@@ -175,8 +179,32 @@ async function main() {
             allVideos = allVideos.map(v => ({ ...v, isShort: durationMap[v.id] || false }));
         }
 
-        allVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-        const feedPayload = allVideos.slice(0, 100);
+        const videosByChannel = new Map();
+        allVideos.forEach((video) => {
+            const key = video.sourceChannelId || video.channelId;
+            if (!videosByChannel.has(key)) {
+                videosByChannel.set(key, []);
+            }
+            videosByChannel.get(key).push(video);
+        });
+
+        const feedVideos = [];
+        channels.forEach((channel) => {
+            const channelVideos = videosByChannel.get(channel.id) || [];
+            console.log(`📺 Canal ${channel.name || channel.id}: ${channelVideos.length} vídeos abans de filtrar.`);
+            const nonShorts = channelVideos.filter((video) => !video.isShort);
+            let selected = nonShorts.slice(0, VIDEOS_PER_CHANNEL);
+            if (selected.length === 0 && channelVideos.length > 0) {
+                const fallbackCount = Math.min(3, channelVideos.length);
+                selected = channelVideos.slice(0, fallbackCount);
+                console.log(`⚠️ Canal ${channel.name || channel.id}: fallback aplicat (${fallbackCount} vídeos sense filtrar).`);
+            }
+            console.log(`✅ Canal ${channel.name || channel.id}: ${selected.length} vídeos després de filtrar.`);
+            feedVideos.push(...selected);
+        });
+
+        feedVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+        const feedPayload = feedVideos.slice(0, 100);
         const dataDir = path.join(process.cwd(), 'data');
         fs.mkdirSync(dataDir, { recursive: true });
         fs.writeFileSync(OUTPUT_FEED_JSON, JSON.stringify(feedPayload, null, 2));
