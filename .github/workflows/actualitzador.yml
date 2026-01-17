@@ -38,21 +38,21 @@ jobs:
           echo "=== Debug: git check-ignore data/feed.json ==="
           git check-ignore -v data/feed.json || true
 
-          echo "=== Debug: git status (incloent ignorats) ==="
+          echo "=== Debug: git status abans ==="
           git status --ignored --porcelain || true
 
-          echo "=== Força add del feed ==="
+          echo "=== Forca add del feed ==="
           git add -f data/feed.json
           git add -f data/channel_map.json 2>/dev/null || true
 
-          # Si feed_updates.js també és part del procés, afegeix-lo
+          # Si feed_updates.js forma part del flux, afegeix-lo
           git add -f feed_updates.js 2>/dev/null || true
 
-          echo "=== Debug: git status després d'add ==="
+          echo "=== Debug: git status despres ==="
           git status --porcelain || true
 
           if git diff --cached --quiet; then
-            echo "No hi ha canvis staged."
+            echo "No hi ha canvis staged (feed igual o encara ignorat)"
             exit 0
           fi
 

@@ -1,3 +1,6 @@
 .env
 node_modules/
 .DS_Store
+!data/
+!data/feed.json
+!data/channel_map.json
