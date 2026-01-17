@@ -30,10 +30,24 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/feed.json data/channel_map.json 2>/dev/null || true
+
+          echo "=== Debug: llista carpeta data ==="
+          ls -la data || true
+
+          echo "=== Debug: git status abans d'add ==="
+          git status --porcelain || true
+
+          # Força afegir per si hi ha .gitignore
+          git add -f data/feed.json 2>/dev/null || true
+          git add -f data/channel_map.json 2>/dev/null || true
+
+          echo "=== Debug: git status després d'add ==="
+          git status --porcelain || true
+
           if git diff --cached --quiet; then
-            echo "No hi ha canvis a data/feed.json"
+            echo "No hi ha canvis a data/feed.json (o està ignorat encara)"
             exit 0
           fi
+
           git commit -m "chore: update feed.json"
           git push
