@@ -1,0 +1,47 @@
+name: Update feed.json
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Cada 6 hores (UTC). Si vols quadrar amb hora local, ho ajustem després.
+    - cron: "0 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-feed
+  cancel-in-progress: true
+
+jobs:
+  build-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run generator
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          VIDEOS_PER_CHANNEL: "5"
+          CONCURRENCY: "10"
+        run: |
+          node scripts/update-feed.mjs
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/feed.json data/channel_map.json || true
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git commit -m "chore: update feed.json"
+          git push
