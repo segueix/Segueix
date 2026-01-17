@@ -635,7 +635,8 @@ const YouTubeAPI = {
             channelId: v.channelId || null,
             channelTitle: v.channelTitle,
             publishedAt: v.publishedAt,
-            duration: null,
+            duration: v.duration ? this.parseDuration(v.duration) : null,
+            durationSeconds: v.durationSeconds || this.parseDurationSeconds(v.duration) || 0,
             isShort: v.isShort || false,
             viewCount: 0,
             categories: v.categories || []
@@ -929,11 +930,11 @@ const YouTubeAPI = {
         });
     },
 
-    // Comprovar si un vídeo és Short (<= 60 segons)
+    // Comprovar si un vídeo és Short (<= 120 segons)
     isShortVideo(isoDuration) {
         const seconds = this.parseDurationSeconds(isoDuration);
         if (seconds === null) return false;
-        return seconds <= 60;
+        return seconds <= 120;
     },
 
     // Parsejar duració ISO 8601 a segons

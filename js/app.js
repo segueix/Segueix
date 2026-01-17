@@ -921,7 +921,25 @@ function renderVideos(videos) {
     const newest = getNewestVideoFromList(videos);
     updateHero(newest?.video, 'api');
 
-    videosGrid.innerHTML = videos.map(video => createVideoCardAPI(video)).join('');
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const shorts = videos.filter(video => video.isShort);
+    const normal = videos.filter(video => !video.isShort);
+
+    const shortsSection = isMobile && shorts.length > 0 ? `
+        <div class="shorts-section">
+            <h2 class="shorts-title">Shorts</h2>
+            <div class="shorts-row">
+                ${shorts.map(video => createShortCard(video)).join('')}
+            </div>
+        </div>
+    ` : '';
+
+    const normalVideos = isMobile ? normal : normal;
+
+    videosGrid.innerHTML = `
+        ${shortsSection}
+        ${normalVideos.map(video => createVideoCardAPI(video)).join('')}
+    `;
 
     // Event listeners
     const videoCards = document.querySelectorAll('.video-card');
@@ -935,6 +953,18 @@ function renderVideos(videos) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+}
+
+function createShortCard(video) {
+    return `
+        <a class="short-card" href="https://www.youtube.com/shorts/${video.id}" target="_blank" rel="noopener">
+            <img class="short-thumb" src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
+            <div class="short-meta">
+                <div class="short-title">${escapeHtml(video.title)}</div>
+                <div class="short-channel">${escapeHtml(video.channelTitle)}</div>
+            </div>
+        </a>
+    `;
 }
 
 // Renderitzar resultats de cerca (sense estadístiques)

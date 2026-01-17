@@ -98,13 +98,13 @@ function parseCSV(csvText) {
 /**
  * Converteix durada ISO 8601 a segons
  */
-function parseDuration(duration) {
-    if (!duration) return 0;
-    const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+function isoDurationToSeconds(iso) {
+    if (!iso) return 0;
+    const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
     if (!match) return 0;
-    const hours = (parseInt(match[1]) || 0);
-    const minutes = (parseInt(match[2]) || 0);
-    const seconds = (parseInt(match[3]) || 0);
+    const hours = Number(match[1] || 0);
+    const minutes = Number(match[2] || 0);
+    const seconds = Number(match[3] || 0);
     return (hours * 3600) + (minutes * 60) + seconds;
 }
 
@@ -155,7 +155,10 @@ async function main() {
                         channelTitle: item.snippet.channelTitle,
                         publishedAt: item.snippet.publishedAt,
                         categories: res.channelInfo.categories,
-                        sourceChannelId: res.channelInfo.id
+                        sourceChannelId: res.channelInfo.id,
+                        duration: '',
+                        durationSeconds: 0,
+                        isShort: false
                     };
                     allVideos.push(video);
                     videoIdsForDetails.push(video.id);
@@ -164,7 +167,7 @@ async function main() {
         });
 
         if (videoIdsForDetails.length > 0) {
-            console.log("Filtrant Shorts...");
+            console.log("Carregant duracions...");
             const durationMap = {};
             for (let i = 0; i < videoIdsForDetails.length; i += 50) {
                 const chunk = videoIdsForDetails.slice(i, i + 50);
@@ -172,11 +175,25 @@ async function main() {
                 const dData = await fetchYouTubeData(dUrl);
                 if (dData.items) {
                     dData.items.forEach(v => {
-                        durationMap[v.id] = parseDuration(v.contentDetails.duration) <= 60;
+                        const duration = v.contentDetails?.duration || '';
+                        const durationSeconds = isoDurationToSeconds(duration);
+                        durationMap[v.id] = {
+                            duration,
+                            durationSeconds,
+                            isShort: durationSeconds > 0 && durationSeconds <= 120
+                        };
                     });
                 }
             }
-            allVideos = allVideos.map(v => ({ ...v, isShort: durationMap[v.id] || false }));
+            allVideos = allVideos.map(v => {
+                const durationInfo = durationMap[v.id] || {};
+                return {
+                    ...v,
+                    duration: durationInfo.duration || '',
+                    durationSeconds: durationInfo.durationSeconds || 0,
+                    isShort: durationInfo.isShort || false
+                };
+            });
         }
 
         const videosByChannel = new Map();
@@ -192,14 +209,8 @@ async function main() {
         channels.forEach((channel) => {
             const channelVideos = videosByChannel.get(channel.id) || [];
             console.log(`📺 Canal ${channel.name || channel.id}: ${channelVideos.length} vídeos abans de filtrar.`);
-            const nonShorts = channelVideos.filter((video) => !video.isShort);
-            let selected = nonShorts.slice(0, VIDEOS_PER_CHANNEL);
-            if (selected.length === 0 && channelVideos.length > 0) {
-                const fallbackCount = Math.min(3, channelVideos.length);
-                selected = channelVideos.slice(0, fallbackCount);
-                console.log(`⚠️ Canal ${channel.name || channel.id}: fallback aplicat (${fallbackCount} vídeos sense filtrar).`);
-            }
-            console.log(`✅ Canal ${channel.name || channel.id}: ${selected.length} vídeos després de filtrar.`);
+            const selected = channelVideos.slice(0, VIDEOS_PER_CHANNEL);
+            console.log(`✅ Canal ${channel.name || channel.id}: ${selected.length} vídeos seleccionats.`);
             feedVideos.push(...selected);
         });
 
