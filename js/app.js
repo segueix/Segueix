@@ -1068,12 +1068,14 @@ async function showVideoFromAPI(videoId) {
     // Carregar reproductor
     const videoPlayer = document.getElementById('videoPlayer');
     videoPlayer.innerHTML = `
-        <iframe
-            src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-        </iframe>
+        <div class="video-embed-wrap">
+            <iframe
+                src="https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1&autoplay=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+        </div>
     `;
 
     // Obtenir detalls del vídeo
@@ -1309,12 +1311,14 @@ function showVideo(videoId) {
 
     const videoPlayer = document.getElementById('videoPlayer');
     videoPlayer.innerHTML = `
-        <iframe
-            src="${video.videoUrl}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-        </iframe>
+        <div class="video-embed-wrap">
+            <iframe
+                src="${video.videoUrl}"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+        </div>
     `;
 
     document.getElementById('videoTitle').textContent = video.title;
