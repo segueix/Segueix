@@ -66,25 +66,31 @@ main,
     overflow-x: hidden;
 }
 
-/* Header */
-.header {
-    position: fixed;
+/* Topbar */
+.topbar {
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    height: var(--header-height);
-    background-color: var(--color-background);
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
-    z-index: 1000;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #0f0f0f;
 }
 
-.header-left, .header-right {
+.topbar-left,
+.topbar-right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 8px;
+}
+
+.topbar-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
 }
 
 .logo {
@@ -96,23 +102,24 @@ main,
     font-size: 20px;
 }
 
-.logo-icon {
-    color: var(--color-primary);
-    width: 32px;
-    height: 32px;
+.logo-compact .logo-icon {
+    margin: 0;
 }
 
-.logo-text {
-    display: none;
+.logo-icon {
+    color: var(--color-primary);
+    width: 28px;
+    height: 28px;
 }
 
 .icon-btn {
-    background: none;
-    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 0;
+    background: #1a1a1a;
     color: var(--color-text);
     cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -120,60 +127,22 @@ main,
 }
 
 .icon-btn:hover {
-    background-color: var(--color-secondary);
+    background-color: #2a2a2a;
 }
 
 .icon-btn svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* Search */
-.header-center {
-    flex: 1;
-    max-width: 640px;
-    margin: 0 40px;
-    display: none;
-}
-
-.search-form {
-    display: flex;
-    height: 40px;
-}
-
-.search-input {
-    flex: 1;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-surface-border);
-    border-right: none;
-    border-radius: 40px 0 0 40px;
-    padding: 0 16px;
-    color: var(--color-text);
-    font-size: 16px;
-    outline: none;
-}
-
-.search-input:focus {
-    border-color: #3ea6ff;
-}
-
-.search-btn {
-    background-color: var(--color-surface-button);
-    border: 1px solid var(--color-surface-border);
-    border-radius: 0 40px 40px 0;
-    padding: 0 20px;
-    cursor: pointer;
-    color: var(--color-text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.search-btn:hover {
-    background-color: var(--color-secondary);
+    width: 20px;
+    height: 20px;
 }
 
 /* Sidebar */
+.sidebar,
+#sidebar,
+.side-nav,
+.left-nav {
+    display: none !important;
+}
+
 .sidebar {
     position: fixed;
     left: 0;
@@ -255,14 +224,16 @@ main,
 
 /* Main Content */
 .main-content {
-    margin-left: var(--sidebar-width);
+    margin-left: 0;
     transition: margin-left 0.3s ease;
     padding: 24px;
     padding-top: calc(var(--header-height) + 16px);
+    width: 100%;
+    max-width: 100%;
 }
 
 body.sidebar-collapsed .main-content {
-    margin-left: var(--sidebar-collapsed);
+    margin-left: 0;
 }
 
 .page {
@@ -366,6 +337,49 @@ body.sidebar-collapsed .main-content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
+}
+
+.chips-bar {
+    display: flex;
+    gap: 10px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x;
+}
+
+.chips-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.chips-bar {
+    scrollbar-width: none;
+}
+
+.chip {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border: 0;
+    border-radius: 999px;
+    padding: 8px 12px;
+    background: #1d1d1d;
+    color: #fff;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.chip.is-active {
+    background: #ffffff;
+    color: #000;
+}
+
+.empty-state {
+    padding: 40px 0;
+    text-align: center;
+    color: var(--color-text-secondary);
 }
 
 .shorts-section {
@@ -951,12 +965,8 @@ body.sidebar-collapsed .main-content {
 
 /* Responsive */
 @media (min-width: 768px) {
-    .logo-text {
-        display: inline;
-    }
-    
-    .header-center {
-        display: block;
+    .topbar {
+        padding: 12px 20px;
     }
 }
 

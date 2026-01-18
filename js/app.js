@@ -18,6 +18,10 @@ let apiModal, apiKeyInput, apiStatus, settingsBtn;
 let apiModalReady = false;
 let currentVideoId = null;
 let useYouTubeAPI = false;
+let selectedCategory = 'Tot';
+let currentFeedVideos = [];
+let currentFeedData = null;
+let currentFeedRenderer = null;
 
 // Vídeos de l'usuari (emmagatzemats a localStorage)
 let userVideos = [];
@@ -124,16 +128,18 @@ function initElements() {
 // Inicialitzar event listeners
 function initEventListeners() {
     // Toggle sidebar (expandir/minimitzar)
-    menuBtn.addEventListener('click', () => {
-        // En mòbil, mostrar/amagar sidebar
-        if (window.innerWidth <= 768) {
-            sidebar.classList.toggle('open');
-        } else {
-            // En desktop, expandir/minimitzar
-            sidebar.classList.toggle('collapsed');
-            document.body.classList.toggle('sidebar-collapsed');
-        }
-    });
+    if (menuBtn && sidebar) {
+        menuBtn.addEventListener('click', () => {
+            // En mòbil, mostrar/amagar sidebar
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('open');
+            } else {
+                // En desktop, expandir/minimitzar
+                sidebar.classList.toggle('collapsed');
+                document.body.classList.toggle('sidebar-collapsed');
+            }
+        });
+    }
 
     // Navegació
     const navItems = document.querySelectorAll('.nav-item');
@@ -162,13 +168,15 @@ function initEventListeners() {
 
     // Cerca
     const searchForm = document.getElementById('searchForm');
-    searchForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const query = document.getElementById('searchInput').value.trim();
-        if (query && useYouTubeAPI) {
-            await searchVideos(query);
-        }
-    });
+    if (searchForm) {
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = document.getElementById('searchInput').value.trim();
+            if (query && useYouTubeAPI) {
+                await searchVideos(query);
+            }
+        });
+    }
 
     // Botó configuració
     if (settingsBtn) {
@@ -190,7 +198,16 @@ function initEventListeners() {
 
     // Tancar sidebar en mòbil quan es clica fora
     document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
+        const chip = e.target.closest('.chip');
+        if (chip) {
+            selectedCategory = chip.dataset.cat || 'Tot';
+            document.querySelectorAll('.chip').forEach((item) => item.classList.remove('is-active'));
+            chip.classList.add('is-active');
+            renderFeed();
+            return;
+        }
+
+        if (window.innerWidth <= 768 && sidebar && menuBtn) {
             if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
                 sidebar.classList.remove('open');
             }
@@ -714,6 +731,60 @@ function updateHero(video, source = 'static') {
     }
 }
 
+function filterVideosByCategory(videos, feed) {
+    if (selectedCategory === 'Tot') return videos;
+    if (!feed || !Array.isArray(feed.channels)) return videos;
+
+    const map = new Map();
+    feed.channels.forEach((channel) => {
+        const cats = Array.isArray(channel.categories) ? channel.categories : [];
+        map.set(channel.id, cats.map(cat => String(cat).toLowerCase()));
+    });
+
+    const wanted = selectedCategory.toLowerCase();
+    return videos.filter((video) => {
+        const cats = map.get(video.channelId) || [];
+        return cats.includes(wanted);
+    });
+}
+
+function getFeedDataForFilter() {
+    if (Array.isArray(YouTubeAPI?.feedChannels) && YouTubeAPI.feedChannels.length > 0) {
+        return { channels: YouTubeAPI.feedChannels };
+    }
+
+    const cached = Object.values(cachedChannels || {});
+    if (cached.length > 0) {
+        return { channels: cached };
+    }
+
+    return null;
+}
+
+function setFeedContext(videos, feedData, renderer) {
+    currentFeedVideos = Array.isArray(videos) ? videos : [];
+    currentFeedData = feedData;
+    currentFeedRenderer = renderer;
+    renderFeed();
+}
+
+function renderFeed() {
+    if (!currentFeedRenderer) return;
+    const filtered = filterVideosByCategory(currentFeedVideos, currentFeedData);
+
+    if (selectedCategory !== 'Tot' && filtered.length === 0) {
+        updateHero(null);
+        if (videosGrid) {
+            videosGrid.innerHTML = `
+                <div class="empty-state">No hi ha vídeos per aquesta categoria.</div>
+            `;
+        }
+        return;
+    }
+
+    currentFeedRenderer(filtered);
+}
+
 // Carregar categories
 function loadCategories() {
     if (!CONFIG.features.categories) return;
@@ -780,7 +851,7 @@ async function loadVideosFromAPI() {
         }
     });
 
-    renderVideos(result.items);
+    setFeedContext(result.items, getFeedDataForFilter(), renderVideos);
     hideLoading();
 }
 
@@ -796,7 +867,7 @@ async function loadTrendingVideos() {
         return;
     }
 
-    renderVideos(result.items);
+    setFeedContext(result.items, getFeedDataForFilter(), renderVideos);
     hideLoading();
 }
 
@@ -1221,10 +1292,14 @@ async function loadRelatedVideosFromAPI(videoId) {
 // Carregar vídeos estàtics
 function loadVideos() {
     setPageTitle('Recomanats per a tu');
-    const newest = getNewestVideoFromList(VIDEOS);
+    setFeedContext(VIDEOS, getFeedDataForFilter(), renderStaticVideos);
+}
+
+function renderStaticVideos(videos) {
+    const newest = getNewestVideoFromList(videos);
     updateHero(newest?.video, 'static');
 
-    videosGrid.innerHTML = VIDEOS.map(video => createVideoCard(video)).join('');
+    videosGrid.innerHTML = videos.map(video => createVideoCard(video)).join('');
 
     const videoCards = document.querySelectorAll('.video-card');
     videoCards.forEach(card => {
