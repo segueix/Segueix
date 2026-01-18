@@ -295,7 +295,7 @@ main,
     margin-left: 0;
     transition: margin-left 0.3s ease;
     padding: 24px;
-    padding-top: calc(var(--header-height) + 16px);
+    padding-top: 16px;
     width: 100%;
     max-width: 100%;
 }
@@ -410,12 +410,13 @@ body.sidebar-collapsed .main-content {
 .chips-bar {
     display: flex;
     gap: 10px;
-    padding: 10px 12px;
+    padding: 10px 24px;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
     touch-action: pan-x;
+    border-bottom: 1px solid var(--color-surface-border);
 }
 
 .chips-bar::-webkit-scrollbar {
@@ -1066,7 +1067,11 @@ body.sidebar-collapsed .main-content {
     .main-content {
         margin-left: 0;
         padding: 16px;
-        padding-top: calc(var(--header-height) + 8px);
+        padding-top: 8px;
+    }
+
+    .chips-bar {
+        padding: 10px 16px;
     }
     
     .videos-grid {
