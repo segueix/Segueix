@@ -147,6 +147,22 @@
         </div>
     </main>
 
+    <div id="short-modal" class="short-modal hidden" aria-hidden="true">
+        <div class="short-modal-backdrop" onclick="closeShortModal()"></div>
+        <div class="short-modal-panel" role="dialog" aria-modal="true">
+            <button class="short-modal-close" type="button" onclick="closeShortModal()">Tancar</button>
+            <div class="short-player-wrap">
+                <iframe id="short-iframe"
+                    src=""
+                    title="Short"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    referrerpolicy="strict-origin-when-cross-origin">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
     <!-- Loading -->
     <div class="loading" id="loading">
         <div class="spinner"></div>

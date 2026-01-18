@@ -957,14 +957,35 @@ function renderVideos(videos) {
 
 function createShortCard(video) {
     return `
-        <a class="short-card" href="https://www.youtube.com/shorts/${video.id}" target="_blank" rel="noopener">
+        <button class="short-card" type="button" data-video-id="${video.id}" onclick="openShortModal('${video.id}')">
             <img class="short-thumb" src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
             <div class="short-meta">
                 <div class="short-title">${escapeHtml(video.title)}</div>
                 <div class="short-channel">${escapeHtml(video.channelTitle)}</div>
             </div>
-        </a>
+        </button>
     `;
+}
+
+function openShortModal(videoId) {
+    const modal = document.getElementById('short-modal');
+    const iframe = document.getElementById('short-iframe');
+    const src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?playsinline=1&rel=0&modestbranding=1&autoplay=1`;
+
+    iframe.src = src;
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('no-scroll');
+}
+
+function closeShortModal() {
+    const modal = document.getElementById('short-modal');
+    const iframe = document.getElementById('short-iframe');
+
+    iframe.src = '';
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('no-scroll');
 }
 
 // Renderitzar resultats de cerca (sense estadístiques)
