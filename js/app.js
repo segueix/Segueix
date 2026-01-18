@@ -14,7 +14,7 @@ function safeAddEventListener(elementId, event, handler) {
 let sidebar, menuBtn, videosGrid, homePage, watchPage, loading;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow;
 let pageTitle;
-let apiModal, apiKeyInput, apiStatus, settingsBtn;
+let apiModal, apiKeyInput, apiStatus;
 let apiModalReady = false;
 let currentVideoId = null;
 let useYouTubeAPI = false;
@@ -22,6 +22,8 @@ let selectedCategory = 'Tot';
 let currentFeedVideos = [];
 let currentFeedData = null;
 let currentFeedRenderer = null;
+
+const THEME_KEY = 'catube_theme_bg';
 
 // Vídeos de l'usuari (emmagatzemats a localStorage)
 let userVideos = [];
@@ -70,9 +72,106 @@ function safeAddEventListener(elementId, event, handler) {
     return false;
 }
 
+function applyTheme(bg) {
+    const root = document.documentElement;
+    root.style.setProperty('--app-bg', bg);
+
+    const isLight = isLightColor(bg);
+    root.style.setProperty('--app-fg', isLight ? '#111111' : '#ffffff');
+
+    document.querySelectorAll('.swatch').forEach(button => button.classList.remove('is-selected'));
+    const selected = document.querySelector(`.swatch[data-theme="${cssEscape(bg)}"]`);
+    if (selected) {
+        selected.classList.add('is-selected');
+    }
+}
+
+function isLightColor(hex) {
+    const match = /^#?([0-9a-f]{6})$/i.exec(hex || '');
+    if (!match) return false;
+    const value = parseInt(match[1], 16);
+    const r = (value >> 16) & 255;
+    const g = (value >> 8) & 255;
+    const b = value & 255;
+    const y = (r * 299 + g * 587 + b * 114) / 1000;
+    return y >= 160;
+}
+
+function cssEscape(value) {
+    return (value || '').replace(/"/g, '\\"');
+}
+
+function openThemePopover() {
+    const pop = document.getElementById('theme-popover');
+    if (!pop) return;
+    pop.classList.remove('hidden');
+    pop.setAttribute('aria-hidden', 'false');
+}
+
+function closeThemePopover() {
+    const pop = document.getElementById('theme-popover');
+    if (!pop) return;
+    pop.classList.add('hidden');
+    pop.setAttribute('aria-hidden', 'true');
+}
+
+function toggleThemePopover() {
+    const pop = document.getElementById('theme-popover');
+    if (!pop) return;
+    const hidden = pop.classList.contains('hidden');
+    if (hidden) {
+        openThemePopover();
+    } else {
+        closeThemePopover();
+    }
+}
+
+function initThemePopover() {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved) {
+        applyTheme(saved);
+    }
+
+    const pop = document.getElementById('theme-popover');
+    const btnSettings = document.getElementById('btn-settings');
+
+    if (btnSettings) {
+        btnSettings.addEventListener('click', (event) => {
+            event.stopPropagation();
+            toggleThemePopover();
+        });
+    }
+
+    document.querySelectorAll('.swatch').forEach((button) => {
+        const color = button.getAttribute('data-theme');
+        button.style.background = color;
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            localStorage.setItem(THEME_KEY, color);
+            applyTheme(color);
+            closeThemePopover();
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!pop || pop.classList.contains('hidden')) return;
+        const inside = pop.contains(event.target) || (btnSettings && btnSettings.contains(event.target));
+        if (!inside) {
+            closeThemePopover();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeThemePopover();
+        }
+    });
+}
+
 // Inicialitzar l'aplicació
 document.addEventListener('DOMContentLoaded', async () => {
     initElements();
+    initThemePopover();
     initEventListeners();
     initApiModal();
     initVideoTab();
@@ -114,7 +213,6 @@ function initElements() {
     apiModal = document.getElementById('apiModal');
     apiKeyInput = document.getElementById('apiKeyInput');
     apiStatus = document.getElementById('apiStatus');
-    settingsBtn = document.getElementById('settingsBtn');
     heroSection = document.getElementById('heroSection');
     heroTitle = document.getElementById('heroTitle');
     heroDescription = document.getElementById('heroDescription');
@@ -176,11 +274,6 @@ function initEventListeners() {
                 await searchVideos(query);
             }
         });
-    }
-
-    // Botó configuració
-    if (settingsBtn) {
-        settingsBtn.addEventListener('click', showApiModal);
     }
 
     if (heroButton) {

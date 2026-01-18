@@ -1,9 +1,11 @@
 /* Variables */
 :root {
+    --app-bg: #0f0f0f;
+    --app-fg: #ffffff;
     --color-primary: #cc0000;
     --color-secondary: #272727;
-    --color-background: #0f0f0f;
-    --color-text: #f1f1f1;
+    --color-background: var(--app-bg);
+    --color-text: var(--app-fg);
     --color-text-secondary: #aaaaaa;
     --color-surface: #121212;
     --color-surface-border: #303030;
@@ -36,10 +38,54 @@ body {
     display: none !important;
 }
 
+.theme-popover.hidden {
+    display: none;
+}
+
+.theme-popover {
+    position: fixed;
+    top: 56px;
+    right: 12px;
+    z-index: 2000;
+    width: min(280px, calc(100vw - 24px));
+    background: rgba(20, 20, 20, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 12px;
+    backdrop-filter: blur(8px);
+}
+
+.theme-title {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+.theme-swatches {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.swatch {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    background: #999;
+}
+
+.swatch.is-selected {
+    border-color: rgba(255, 255, 255, 0.85);
+    outline: 2px solid rgba(0, 0, 0, 0.35);
+    outline-offset: 2px;
+}
+
 body {
     font-family: 'Roboto', 'Arial', sans-serif;
-    background-color: var(--color-background);
-    color: var(--color-text);
+    background-color: var(--app-bg);
+    color: var(--app-fg);
     line-height: 1.6;
     overflow-x: hidden;
     margin: 0;
