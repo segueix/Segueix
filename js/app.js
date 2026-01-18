@@ -425,7 +425,7 @@ function loadCategories() {
 // Carregar vídeos populars des de l'API
 async function loadVideosFromAPI() {
     showLoading();
-    setPageTitle('Recomanats per a tu');
+    setPageTitle('Recomanat per a tu');
 
     const result = await YouTubeAPI.getPopularVideos(CONFIG.layout.videosPerPage);
 
@@ -867,7 +867,7 @@ async function loadRelatedVideosFromAPI(videoId) {
 
 // Carregar vídeos estàtics
 function loadVideos() {
-    setPageTitle('Recomanats per a tu');
+    setPageTitle('Recomanat per a tu');
     setFeedContext(VIDEOS, getFeedDataForFilter(), renderStaticVideos);
 }
 
