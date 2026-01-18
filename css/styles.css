@@ -380,7 +380,7 @@ body.sidebar-collapsed .main-content {
 .hero-channel {
     margin-left: auto;
     text-align: right;
-    font-size: 60px;
+    font-size: 30px;
     font-weight: 600;
     color: var(--color-text-secondary);
 }
@@ -1411,6 +1411,6 @@ body.sidebar-collapsed .main-content {
     }
 
     .hero-channel {
-        font-size: 30px;
+        font-size: 24px;
     }
 }
