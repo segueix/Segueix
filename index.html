@@ -24,30 +24,39 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="topbar">
-        <div class="topbar-left">
-            <button class="icon-btn" id="btn-library" aria-label="Biblioteca" title="Biblioteca">
+    <header class="app-header">
+        <a class="brand" href="/" aria-label="CaTube">
+            <img class="brand-logo" src="img/icon.svg" alt="">
+            <span class="brand-name">CaTube</span>
+        </a>
+
+        <form class="search" role="search" action="/search">
+            <input
+                class="search-input"
+                type="search"
+                name="q"
+                placeholder="Cerca..."
+                autocomplete="off"
+                aria-label="Cerca vídeos">
+            <button class="search-btn" type="submit" aria-label="Cercar" title="Cercar">
+                <i data-lucide="search"></i>
+            </button>
+        </form>
+
+        <nav class="actions" aria-label="Navegació">
+            <a class="icon-btn" href="/library" aria-label="Biblioteca" title="Biblioteca">
                 <i data-lucide="library"></i>
-            </button>
-            <button class="icon-btn" id="btn-subs" aria-label="Subscripcions" title="Subscripcions">
-                <i data-lucide="users"></i>
-            </button>
-            <button class="icon-btn" id="btn-history" aria-label="Historial" title="Historial">
+            </a>
+            <a class="icon-btn" href="/history" aria-label="Historial" title="Historial">
                 <i data-lucide="history"></i>
-            </button>
-        </div>
-
-        <div class="topbar-center">
-            <div class="logo logo-compact" aria-label="CaTube">
-                <i data-lucide="video" class="logo-icon"></i>
-            </div>
-        </div>
-
-        <div class="topbar-right">
-            <button class="icon-btn" id="settingsBtn" aria-label="Configuració" title="Configuració">
+            </a>
+            <a class="icon-btn" href="/subscriptions" aria-label="Subscripcions" title="Subscripcions">
+                <i data-lucide="users"></i>
+            </a>
+            <button class="icon-btn" id="settingsBtn" type="button" aria-label="Configuració" title="Configuració">
                 <i data-lucide="settings"></i>
             </button>
-        </div>
+        </nav>
     </header>
 
     <!-- Sidebar -->
