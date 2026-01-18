@@ -47,8 +47,8 @@ function togglePopover() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("btn-settings");
   const pop = document.getElementById("theme-popover");
+  const btn = document.getElementById("btn-settings");
 
   console.log("theme.js loaded", { hasBtn: !!btn, hasPopover: !!pop });
 
@@ -66,14 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  if (btn) {
-    btn.addEventListener("click", (e) => {
+  document.addEventListener("click", (e) => {
+    const settingsBtn = e.target.closest("#btn-settings");
+    if (settingsBtn) {
       e.stopPropagation();
       togglePopover();
-    });
-  }
+      return;
+    }
 
-  document.addEventListener("click", (e) => {
     if (!pop || pop.classList.contains("hidden")) return;
     const inside = pop.contains(e.target) || (btn && btn.contains(e.target));
     if (!inside) closePopover();
