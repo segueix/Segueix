@@ -136,6 +136,27 @@ function initEventListeners() {
         });
     });
 
+    const brandLink = document.querySelector('.brand');
+    if (brandLink) {
+        brandLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            navItems.forEach(nav => nav.classList.remove('active'));
+            const homeNav = document.querySelector('.nav-item[data-page="home"]');
+            if (homeNav) {
+                homeNav.classList.add('active');
+            }
+            const basePath = window.location.pathname.replace(/\/index\.html$/, '/');
+            history.pushState({}, '', basePath);
+            stopVideoPlayback();
+            showHome();
+            if (useYouTubeAPI) {
+                loadVideosFromAPI();
+            } else {
+                loadVideos();
+            }
+        });
+    }
+
     // Cerca
     const searchForm = document.getElementById('searchForm');
     if (searchForm) {
@@ -918,6 +939,17 @@ function createVideoCard(video) {
             </div>
         </div>
     `;
+}
+
+function stopVideoPlayback() {
+    if (!watchPage || watchPage.classList.contains('hidden')) {
+        return;
+    }
+    const videoPlayer = document.getElementById('videoPlayer');
+    if (videoPlayer) {
+        videoPlayer.innerHTML = '';
+    }
+    currentVideoId = null;
 }
 
 // Mostrar pàgina principal
