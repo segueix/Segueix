@@ -1807,73 +1807,66 @@ body.light-mode .action-btn:hover {
 
 /* ==================== PÀGINA DE VÍDEO ESTIL YOUTUBE ==================== */
 
+/* Secció d'informació del vídeo */
+.yt-video-info-section {
+    margin: 16px 0;
+}
+
 /* Títol del vídeo */
 .yt-video-title {
     font-size: 20px;
     font-weight: 600;
     line-height: 28px;
-    margin: 12px 0;
+    margin: 0 0 8px 0;
     color: var(--color-text);
     word-wrap: break-word;
 }
 
-/* Informació principal: Canal i accions */
-.yt-video-primary-info {
+/* Meta informació (canal, visualitzacions, data) */
+.yt-video-meta {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.light-mode .yt-video-primary-info {
-    border-bottom-color: rgba(0, 0, 0, 0.1);
-}
-
-/* Informació del canal */
-.yt-channel-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.yt-channel-avatar-link {
-    flex-shrink: 0;
-}
-
-.yt-channel-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.yt-channel-details {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+    gap: 4px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
 }
 
 .yt-channel-name {
-    font-size: 16px;
     font-weight: 600;
     color: var(--color-text);
-    line-height: 22px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
-.yt-channel-subscribers {
-    font-size: 12px;
+.yt-meta-separator {
+    margin: 0 4px;
     color: var(--color-text-secondary);
-    line-height: 18px;
 }
 
+.yt-video-views,
+.yt-video-date {
+    color: var(--color-text-secondary);
+}
+
+/* Barra d'accions del vídeo */
+.yt-video-actions-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 0;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.light-mode .yt-video-actions-bar {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Botó subscriu-te a YouTube */
 .yt-subscribe-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     background-color: var(--color-primary);
     color: white;
     border: none;
@@ -1884,29 +1877,20 @@ body.light-mode .yt-video-primary-info {
     cursor: pointer;
     transition: background-color 0.2s, opacity 0.2s;
     white-space: nowrap;
-    margin-left: 8px;
+    text-decoration: none;
+    margin-left: auto;
 }
 
 .yt-subscribe-btn:hover {
     background-color: #cc0000;
 }
 
-.yt-subscribe-btn.subscribed {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--color-text);
+.yt-subscribe-btn svg {
+    width: 18px;
+    height: 18px;
 }
 
-body.light-mode .yt-subscribe-btn.subscribed {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-/* Accions del vídeo */
-.yt-video-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
+/* Accions del vídeo (likes, compartir) */
 
 .yt-like-dislike-container {
     display: flex;
@@ -1984,9 +1968,6 @@ body.light-mode .yt-dislike-btn:hover {
     background-color: rgba(0, 0, 0, 0.08);
 }
 
-.yt-more-btn {
-    padding: 10px;
-}
 
 /* Caixa de descripció */
 .yt-description-box {
@@ -2008,23 +1989,6 @@ body.light-mode .yt-description-box {
 
 body.light-mode .yt-description-box:hover {
     background-color: rgba(0, 0, 0, 0.08);
-}
-
-.yt-description-stats {
-    display: flex;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 8px;
-}
-
-.yt-views {
-    color: var(--color-text);
-}
-
-.yt-date {
-    color: var(--color-text);
 }
 
 .yt-description-text {

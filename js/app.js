@@ -758,6 +758,9 @@ async function showVideoFromAPI(videoId) {
         // Títol del vídeo
         document.getElementById('videoTitle').textContent = video.title;
 
+        // Nom del canal
+        document.getElementById('channelName').textContent = video.channelTitle || '';
+
         // Estadístiques (visualitzacions i data)
         document.getElementById('videoViews').textContent = `${formatViews(video.viewCount)} visualitzacions`;
         document.getElementById('videoDate').textContent = formatDateFull(video.publishedAt);
@@ -772,30 +775,10 @@ async function showVideoFromAPI(videoId) {
         // Configurar toggle de descripció
         initDescriptionToggle();
 
-        // Obtenir informació del canal
-        const channelResult = await YouTubeAPI.getChannelDetails(video.channelId);
-
-        if (channelResult.channel) {
-            const channel = channelResult.channel;
-
-            // Avatar del canal
-            const channelAvatar = document.getElementById('channelAvatar');
-            channelAvatar.src = channel.thumbnail;
-            channelAvatar.alt = escapeHtml(channel.title);
-
-            // Nom del canal
-            document.getElementById('channelName').textContent = channel.title;
-
-            // Subscriptors
-            document.getElementById('channelSubscribers').textContent = `${formatViews(channel.subscriberCount)} subscriptors`;
-
-            // Mostrar/amagar botó de subscripció
-            const subscribeBtn = document.getElementById('subscribeBtn');
-            if (CONFIG.features.subscriptions) {
-                subscribeBtn.style.display = 'block';
-            } else {
-                subscribeBtn.style.display = 'none';
-            }
+        // Configurar botó subscriu-te amb enllaç al canal de YouTube
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        if (subscribeBtn && video.channelId) {
+            subscribeBtn.href = `https://www.youtube.com/channel/${video.channelId}?sub_confirmation=1`;
         }
     }
 

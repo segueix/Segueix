@@ -131,48 +131,42 @@
                 <div class="watch-main">
                     <div class="video-player" id="videoPlayer"></div>
 
-                    <!-- Títol del vídeo -->
-                    <h1 class="yt-video-title" id="videoTitle"></h1>
+                    <!-- Informació del vídeo -->
+                    <div class="yt-video-info-section">
+                        <h1 class="yt-video-title" id="videoTitle"></h1>
+                        <div class="yt-video-meta">
+                            <span class="yt-channel-name" id="channelName"></span>
+                            <span class="yt-meta-separator">•</span>
+                            <span class="yt-video-views" id="videoViews"></span>
+                            <span class="yt-meta-separator">•</span>
+                            <span class="yt-video-date" id="videoDate"></span>
+                        </div>
+                    </div>
 
-                    <!-- Informació principal: Canal i accions -->
-                    <div class="yt-video-primary-info">
-                        <div class="yt-channel-info">
-                            <a href="#" class="yt-channel-avatar-link" id="channelAvatarLink">
-                                <img src="" alt="" class="yt-channel-avatar" id="channelAvatar">
-                            </a>
-                            <div class="yt-channel-details">
-                                <div class="yt-channel-name" id="channelName"></div>
-                                <div class="yt-channel-subscribers" id="channelSubscribers"></div>
-                            </div>
-                            <button class="yt-subscribe-btn" id="subscribeBtn">Subscriu-te</button>
-                        </div>
-                        <div class="yt-video-actions">
-                            <div class="yt-like-dislike-container">
-                                <button class="yt-action-btn yt-like-btn">
-                                    <i data-lucide="thumbs-up"></i>
-                                    <span id="videoLikes">0</span>
-                                </button>
-                                <div class="yt-action-divider"></div>
-                                <button class="yt-action-btn yt-dislike-btn">
-                                    <i data-lucide="thumbs-down"></i>
-                                </button>
-                            </div>
-                            <button class="yt-action-btn yt-share-btn">
-                                <i data-lucide="share"></i>
-                                <span>Compartir</span>
+                    <!-- Accions del vídeo -->
+                    <div class="yt-video-actions-bar">
+                        <div class="yt-like-dislike-container">
+                            <button class="yt-action-btn yt-like-btn">
+                                <i data-lucide="thumbs-up"></i>
+                                <span id="videoLikes">0</span>
                             </button>
-                            <button class="yt-action-btn yt-more-btn">
-                                <i data-lucide="more-horizontal"></i>
+                            <div class="yt-action-divider"></div>
+                            <button class="yt-action-btn yt-dislike-btn">
+                                <i data-lucide="thumbs-down"></i>
                             </button>
                         </div>
+                        <button class="yt-action-btn yt-share-btn" id="shareBtn">
+                            <i data-lucide="share"></i>
+                            <span>Compartir</span>
+                        </button>
+                        <a href="#" class="yt-subscribe-btn" id="subscribeBtn" target="_blank" rel="noopener noreferrer">
+                            <i data-lucide="youtube"></i>
+                            <span>Subscriu-te a YouTube</span>
+                        </a>
                     </div>
 
                     <!-- Descripció expandible -->
                     <div class="yt-description-box" id="descriptionBox">
-                        <div class="yt-description-stats">
-                            <span class="yt-views" id="videoViews"></span>
-                            <span class="yt-date" id="videoDate"></span>
-                        </div>
                         <div class="yt-description-text" id="videoDescription"></div>
                         <button class="yt-description-toggle" id="descriptionToggle">Mostra més</button>
                     </div>
