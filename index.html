@@ -53,8 +53,8 @@
             <a class="icon-btn" href="/subscriptions" aria-label="Subscripcions" title="Subscripcions">
                 <i data-lucide="users"></i>
             </a>
-            <button class="icon-btn" id="settingsBtn" type="button" aria-label="Configuració" title="Configuració">
-                <i data-lucide="settings"></i>
+            <button class="icon-btn" id="backgroundBtn" type="button" aria-label="Color de fons" title="Color de fons">
+                <i data-lucide="palette"></i>
             </button>
         </nav>
     </header>
@@ -181,143 +181,32 @@
         <div class="spinner"></div>
     </div>
 
-    <!-- Modal Configuració -->
-    <div class="modal-overlay" id="apiModal">
-        <div class="modal modal-large">
+    <!-- Modal Color de fons -->
+    <div class="modal-overlay" id="backgroundModal">
+        <div class="modal modal-small" role="dialog" aria-modal="true" aria-labelledby="backgroundModalTitle">
             <div class="modal-header">
-                <h2 class="modal-title">
-                    <i data-lucide="settings"></i>
-                    Configuració
+                <h2 class="modal-title" id="backgroundModalTitle">
+                    <i data-lucide="palette"></i>
+                    Color de fons
                 </h2>
-                <button class="modal-close" id="closeModal">
+                <button class="modal-close" id="closeBackgroundModal">
                     <i data-lucide="x"></i>
                 </button>
             </div>
 
             <div class="modal-body">
-    <!-- PESTANYES DEL MODAL -->
-    <div class="modal-tabs">
-        <button class="tab-btn active" data-tab="api">
-            <i data-lucide="key"></i>
-            Clau API
-        </button>
-        <button class="tab-btn" data-tab="channels">
-            <i data-lucide="users"></i>
-            Canals
-        </button>
-        <button class="tab-btn" data-tab="videos">
-            <i data-lucide="video"></i>
-            Vídeos
-        </button>
-        <button class="tab-btn" data-tab="tags">
-            <i data-lucide="tag"></i>
-            Etiquetar
-        </button>
-    </div>
-
-    <!-- TAB 1: CLAU API -->
-    <div id="tab-api" class="tab-content active">
-        <p class="modal-description">
-            Per carregar vídeos de YouTube, necessites una clau API. 
-            <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Obtenir clau API</a>
-        </p>
-
-        <div class="form-group">
-            <label for="apiKeyInput">Clau API de YouTube</label>
-            <input type="password" id="apiKeyInput" placeholder="Enganxa la teva clau API aquí">
-            <button type="button" class="toggle-visibility" id="toggleApiKey">
-                <i data-lucide="eye"></i>
-            </button>
-        </div>
-
-        <div id="apiStatus" class="api-status"></div>
-
-        <div class="modal-footer">
-            <button class="btn btn-secondary" id="clearApiKey">Esborrar clau</button>
-            <button class="btn btn-primary" id="saveApiKey">Desar clau</button>
-        </div>
-    </div>
-
-    <!-- TAB 2: CANALS -->
-    <div id="tab-channels" class="tab-content">
-        <div class="form-group">
-            <label for="channelInput">Afegir canal (ID, URL o @username)</label>
-            <div class="input-with-button">
-                <input type="text" id="channelInput" placeholder="@username o UC...">
-                <button class="btn btn-primary" id="addChannelBtn">
-                    <i data-lucide="plus"></i>
-                </button>
+                <p class="modal-description">Tria un color de fons per a l'aplicació.</p>
+                <div class="background-options" id="backgroundOptions">
+                    <button class="background-option" type="button" data-color="#0f0f0f" aria-label="Negre carbó"></button>
+                    <button class="background-option" type="button" data-color="#1b1b1b" aria-label="Gris fosc"></button>
+                    <button class="background-option" type="button" data-color="#112131" aria-label="Blau nit"></button>
+                    <button class="background-option" type="button" data-color="#1a2a1f" aria-label="Verd avet"></button>
+                    <button class="background-option" type="button" data-color="#2c1f14" aria-label="Marró cacau"></button>
+                    <button class="background-option" type="button" data-color="#2b1b2f" aria-label="Pruna fosca"></button>
+                </div>
             </div>
         </div>
-
-        <div id="channelStatus" class="channel-status"></div>
-
-        <div class="channels-section">
-            <h3 class="section-title">Canals verificats</h3>
-            <div id="verifiedChannelsList" class="channels-list"></div>
-        </div>
-
-        <div class="channels-section">
-            <h3 class="section-title">Els meus canals</h3>
-            <div id="userChannelsList" class="channels-list"></div>
-        </div>
-
-        <div class="backup-buttons">
-            <button class="btn btn-secondary" id="exportChannelsBtn">
-                <i data-lucide="download"></i>
-                Exportar
-            </button>
-            <button class="btn btn-secondary" id="importChannelsBtn">
-                <i data-lucide="upload"></i>
-                Importar
-            </button>
-            <input type="file" id="importFileInput" accept=".json" style="display: none;">
-        </div>
-
-        <div id="importStatus" class="import-status"></div>
     </div>
-
-    <!-- TAB 3: VÍDEOS -->
-    <div id="tab-videos" class="tab-content">
-        <div class="form-group">
-            <label for="videoUrlInput">URL del vídeo de YouTube</label>
-            <input type="text" id="videoUrlInput" placeholder="https://youtube.com/watch?v=...">
-        </div>
-
-        <div class="form-group">
-            <label for="videoCategorySelect">Categoria</label>
-            <select id="videoCategorySelect" class="form-select">
-                <option value="societat">Societat</option>
-                <option value="cultura">Cultura</option>
-                <option value="humor">Humor</option>
-                <option value="gaming">Gaming</option>
-                <option value="vida">Vida</option>
-            </select>
-        </div>
-
-        <button class="btn btn-primary" id="addVideoBtn">Afegir vídeo</button>
-
-        <div id="videoStatus" class="video-status"></div>
-
-        <div class="channels-section">
-            <h3 class="section-title">Els meus vídeos</h3>
-            <div id="userVideosList" class="channels-list"></div>
-        </div>
-    </div>
-
-    <!-- TAB 4: ETIQUETAR CANALS -->
-    <div id="tab-tags" class="tab-content">
-        <p class="modal-description">
-            Assigna categories als canals per organitzar els vídeos.
-        </p>
-
-        <div id="tagStatus" class="tag-status"></div>
-
-        <div class="channels-section">
-            <div id="taggableChannelsList" class="taggable-channels-list"></div>
-        </div>
-    </div>
-</div>
 
     <!-- Scripts -->
     <script src="js/config.js"></script>

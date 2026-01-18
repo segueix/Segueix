@@ -1,21 +1,10 @@
-// Protecció contra errors
-function safeAddEventListener(elementId, event, handler) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.addEventListener(event, handler);
-        return true;
-    }
-    return false;
-}
-
 // App Principal
 
 // Elements del DOM
 let sidebar, menuBtn, videosGrid, homePage, watchPage, loading;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow;
 let pageTitle;
-let apiModal, apiKeyInput, apiStatus, settingsBtn;
-let apiModalReady = false;
+let backgroundModal, backgroundBtn, backgroundOptions;
 let currentVideoId = null;
 let useYouTubeAPI = false;
 let selectedCategory = 'Tot';
@@ -23,36 +12,21 @@ let currentFeedVideos = [];
 let currentFeedData = null;
 let currentFeedRenderer = null;
 
-// Vídeos de l'usuari (emmagatzemats a localStorage)
-let userVideos = [];
-const USER_VIDEOS_KEY = 'iutube_user_videos';
+const BACKGROUND_STORAGE_KEY = 'catube_background_color';
+const BACKGROUND_COLORS = [
+    '#0f0f0f',
+    '#1b1b1b',
+    '#112131',
+    '#1a2a1f',
+    '#2c1f14',
+    '#2b1b2f'
+];
 
-// Etiquetes de canals (categories assignades als canals - pot tenir múltiples)
-let channelTags = {};
-const CHANNEL_TAGS_KEY = 'iutube_channel_tags';
-
-// Cache de canals carregats de l'API (per mostrar a la pestanya d'etiquetar)
+// Cache de canals carregats de l'API
 let cachedChannels = {};
 
 // Cache de vídeos carregats de l'API
 let cachedAPIVideos = [];
-
-function normalizeChannelCategories(channel) {
-    const rawCategories = channel?.categories || channel?.category || [];
-    if (Array.isArray(rawCategories)) {
-        return rawCategories.filter(Boolean);
-    }
-    if (typeof rawCategories === 'string') {
-        return rawCategories.split(';').map(cat => cat.trim()).filter(Boolean);
-    }
-    return [];
-}
-
-function getDisplayCategories(channel) {
-    const baseCategories = normalizeChannelCategories(channel);
-    const taggedCategories = channelTags[channel?.id] || [];
-    return [...new Set([...baseCategories, ...taggedCategories])];
-}
 
 function mergeChannelCategories(channel, categories) {
     if (!channel || !Array.isArray(categories) || categories.length === 0) {
@@ -61,22 +35,12 @@ function mergeChannelCategories(channel, categories) {
     channel.categories = [...new Set([...(channel.categories || []), ...categories])];
 }
 
-function safeAddEventListener(elementId, event, handler) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.addEventListener(event, handler);
-        return true;
-    }
-    return false;
-}
-
 // Inicialitzar l'aplicació
 document.addEventListener('DOMContentLoaded', async () => {
     initElements();
     initEventListeners();
-    initApiModal();
-    initVideoTab();
-    initTagsTab();
+    initBackgroundModal();
+    initBackgroundPicker();
     loadCategories();
 
     // Inicialitzar YouTubeAPI (carregar canals catalans)
@@ -84,17 +48,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Carregar vídeos (prioritza feed)
     if (YouTubeAPI.feedLoaded && YouTubeAPI.feedVideos.length > 0) {
-        // Tenim feed, no cal API key per veure vídeos
-        useYouTubeAPI = true;
-        loadVideosFromAPI();
-    } else if (YouTubeAPI.hasApiKey()) {
-        // Tenim API key configurada
         useYouTubeAPI = true;
         loadVideosFromAPI();
     } else {
-        // No tenim ni feed ni API key
+        useYouTubeAPI = false;
         loadVideos();
-        setTimeout(() => showApiModal(), 500);
+    }
+
+    // Carregar vídeo des de URL si hi ha paràmetre ?v=
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoParam = urlParams.get('v');
+    if (videoParam) {
+        setTimeout(() => {
+            if (useYouTubeAPI) {
+                showVideoFromAPI(videoParam);
+            } else {
+                showVideo(videoParam);
+            }
+        }, 100);
     }
 
     // Inicialitzar icons
@@ -111,10 +82,9 @@ function initElements() {
     homePage = document.getElementById('homePage');
     watchPage = document.getElementById('watchPage');
     loading = document.getElementById('loading');
-    apiModal = document.getElementById('apiModal');
-    apiKeyInput = document.getElementById('apiKeyInput');
-    apiStatus = document.getElementById('apiStatus');
-    settingsBtn = document.getElementById('settingsBtn');
+    backgroundModal = document.getElementById('backgroundModal');
+    backgroundBtn = document.getElementById('backgroundBtn');
+    backgroundOptions = document.getElementById('backgroundOptions');
     heroSection = document.getElementById('heroSection');
     heroTitle = document.getElementById('heroTitle');
     heroDescription = document.getElementById('heroDescription');
@@ -178,9 +148,9 @@ function initEventListeners() {
         });
     }
 
-    // Botó configuració
-    if (settingsBtn) {
-        settingsBtn.addEventListener('click', showApiModal);
+    // Botó color de fons
+    if (backgroundBtn) {
+        backgroundBtn.addEventListener('click', openBackgroundModal);
     }
 
     if (heroButton) {
@@ -215,458 +185,62 @@ function initEventListeners() {
     });
 }
 
-// Inicialitzar modal API
-function initApiModal() {
-    const closeModal = document.getElementById('closeModal');
-    
-    // Protecció: Elements mínims necessaris
-    if (!apiModal || !closeModal) {
-        console.warn('⚠️  Modal API incomplet - algunes funcionalitats no disponibles');
+// Inicialitzar modal de colors
+function initBackgroundModal() {
+    const closeModal = document.getElementById('closeBackgroundModal');
+
+    if (!backgroundModal || !closeModal || !backgroundOptions) {
+        console.warn('⚠️  Modal de color de fons no disponible');
         return;
     }
 
-    // Tancar modal (sempre disponible)
-    closeModal.addEventListener('click', hideApiModal);
-    apiModal.addEventListener('click', (e) => {
-        if (e.target === apiModal) hideApiModal();
+    closeModal.addEventListener('click', closeBackgroundModal);
+    backgroundModal.addEventListener('click', (e) => {
+        if (e.target === backgroundModal) closeBackgroundModal();
     });
 
-    const saveApiKey = document.getElementById('saveApiKey');
-    const apiKeyInput = document.getElementById('apiKeyInput');
-    
-    if (!saveApiKey || !apiKeyInput) {
-        console.warn('⚠️  Modal API sense formulari - configuració desactivada');
-        apiModalReady = false;
+    const buttons = backgroundOptions.querySelectorAll('[data-color]');
+    buttons.forEach(button => {
+        const color = button.dataset.color;
+        button.style.backgroundColor = color;
+        button.addEventListener('click', () => applyBackgroundColor(color));
+    });
+}
+
+function initBackgroundPicker() {
+    const stored = localStorage.getItem(BACKGROUND_STORAGE_KEY);
+    const initial = BACKGROUND_COLORS.includes(stored) ? stored : BACKGROUND_COLORS[0];
+    applyBackgroundColor(initial, false);
+}
+
+function applyBackgroundColor(color, persist = true) {
+    if (!BACKGROUND_COLORS.includes(color)) {
         return;
     }
-
-    apiModalReady = true;
-
-    // Tabs (amb protecció)
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tabId = btn.dataset.tab;
-            tabBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            const tabContent = document.getElementById(`tab-${tabId}`);
-            if (tabContent) tabContent.classList.add('active');
-            
-            // Carregar dades segons pestanya
-            if (tabId === 'channels' && typeof loadChannelsList === 'function') {
-                loadChannelsList();
-                if (typeof loadTaggableChannelsList === 'function') {
-                    loadTaggableChannelsList();
-                }
-            }
-            if (tabId === 'videos' && typeof loadUserVideosList === 'function') {
-                loadUserVideosList();
-            }
-            
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-        });
-    });
-
-    // Toggle visibilitat clau
-    safeAddEventListener('toggleApiKey', 'click', () => {
-        const type = apiKeyInput.type === 'password' ? 'text' : 'password';
-        apiKeyInput.type = type;
-        const toggle = document.getElementById('toggleApiKey');
-        if (toggle) {
-            toggle.innerHTML = `<i data-lucide="${type === 'password' ? 'eye' : 'eye-off'}"></i>`;
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
-    });
-
-    // Desar clau API
-    saveApiKey.addEventListener('click', async () => {
-        const key = apiKeyInput.value.trim();
-        if (!key) {
-            showApiStatus('Introdueix una clau API', 'error');
-            return;
-        }
-
-        showApiStatus('Verificant clau...', 'loading');
-        const result = await YouTubeAPI.verifyApiKey(key);
-        
-        if (result.valid) {
-            YouTubeAPI.setApiKey(key);
-            useYouTubeAPI = true;
-            showApiStatus('Clau vàlida! Carregant vídeos...', 'success');
-            setTimeout(() => {
-                hideApiModal();
-                if (typeof loadVideosFromAPI === 'function') {
-                    loadVideosFromAPI();
-                }
-            }, 1000);
-        } else {
-            showApiStatus(result.error || 'Clau API invàlida', 'error');
-        }
-    });
-
-    // Esborrar clau API
-    safeAddEventListener('clearApiKey', 'click', () => {
-        YouTubeAPI.clearApiKey();
-        apiKeyInput.value = '';
-        useYouTubeAPI = false;
-        showApiStatus('Clau esborrada', 'success');
-        if (typeof loadVideos === 'function') loadVideos();
-    });
-
-    // Afegir canal (amb protecció)
-    const addChannelBtn = document.getElementById('addChannelBtn');
-    const channelInput = document.getElementById('channelInput');
-    
-    if (addChannelBtn && channelInput && typeof addChannel === 'function') {
-        addChannelBtn.addEventListener('click', async () => await addChannel());
-        channelInput.addEventListener('keypress', async (e) => {
-            if (e.key === 'Enter') await addChannel();
+    document.documentElement.style.setProperty('--color-background', color);
+    if (persist) {
+        localStorage.setItem(BACKGROUND_STORAGE_KEY, color);
+    }
+    if (backgroundOptions) {
+        backgroundOptions.querySelectorAll('[data-color]').forEach(button => {
+            const isActive = button.dataset.color === color;
+            button.classList.toggle('is-active', isActive);
+            button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
         });
     }
-
-    // Exportar/Importar (amb protecció)
-    if (typeof exportChannels === 'function') {
-        safeAddEventListener('exportChannelsBtn', 'click', exportChannels);
-    }
-    
-    const importBtn = document.getElementById('importChannelsBtn');
-    const importInput = document.getElementById('importFileInput');
-    
-    if (importBtn && importInput && typeof importChannels === 'function') {
-        importBtn.addEventListener('click', () => importInput.click());
-        importInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                importChannels(e.target.files[0]);
-                e.target.value = '';
-            }
-        });
-    }
-
-    // Carregar clau existent
-    if (YouTubeAPI.hasApiKey()) {
-        apiKeyInput.value = YouTubeAPI.getApiKey();
-    }
 }
 
-// Afegir canal
-async function addChannel() {
-    const channelInput = document.getElementById('channelInput');
-    const channelStatus = document.getElementById('channelStatus');
-    let input = channelInput.value.trim();
-
-    if (!input) {
-        showChannelStatus('Introdueix un ID o URL de canal', 'error');
-        return;
-    }
-
-    if (!YouTubeAPI.hasApiKey()) {
-        showChannelStatus('Necessites configurar la clau API primer', 'error');
-        return;
-    }
-
-    // Comprovar si és una URL amb @username
-    const handle = extractHandle(input);
-    if (handle) {
-        showChannelStatus('Cercant canal...', 'loading');
-
-        const result = await YouTubeAPI.getChannelByHandle(handle);
-        if (result.channel) {
-            // Afegir el canal amb l'ID obtingut
-            const addResult = await YouTubeAPI.addUserChannel(result.channel.id);
-            if (addResult.success) {
-                showChannelStatus(`Canal "${addResult.channel.name}" afegit correctament!`, 'success');
-                channelInput.value = '';
-                loadChannelsList();
-            } else {
-                showChannelStatus(addResult.error, 'error');
-            }
-        } else {
-            showChannelStatus(result.error || 'Canal no trobat', 'error');
-        }
-        return;
-    }
-
-    // Extreure ID del canal si és una URL tradicional
-    const channelId = extractChannelId(input);
-
-    if (!channelId) {
-        showChannelStatus('Format no vàlid. Usa l\'ID del canal, URL o @username.', 'error');
-        return;
-    }
-
-    showChannelStatus('Verificant canal...', 'loading');
-
-    const result = await YouTubeAPI.addUserChannel(channelId);
-
-    if (result.success) {
-        showChannelStatus(`Canal "${result.channel.name}" afegit correctament!`, 'success');
-        channelInput.value = '';
-        loadChannelsList();
-    } else {
-        showChannelStatus(result.error, 'error');
-    }
-}
-
-// Extreure handle (@username) d'una URL o input directe
-function extractHandle(input) {
-    // Format: @username directe
-    if (input.startsWith('@')) {
-        return input.substring(1);
-    }
-
-    // Format: youtube.com/@username o youtube.com/@username/videos
-    const handleMatch = input.match(/youtube\.com\/@([a-zA-Z0-9_-]+)/);
-    if (handleMatch) {
-        return handleMatch[1];
-    }
-
-    return null;
-}
-
-// Extreure ID del canal d'una URL
-function extractChannelId(input) {
-    // Si ja és un ID (comença amb UC)
-    if (input.startsWith('UC') && input.length === 24) {
-        return input;
-    }
-
-    // URL format: youtube.com/channel/UC...
-    const channelMatch = input.match(/youtube\.com\/channel\/(UC[a-zA-Z0-9_-]{22})/);
-    if (channelMatch) {
-        return channelMatch[1];
-    }
-
-    // Si és un string de 24 caràcters, assumim que és un ID
-    if (input.length === 24) {
-        return input;
-    }
-
-    return null;
-}
-
-// Mostrar estat del canal
-function showChannelStatus(message, type) {
-    const channelStatus = document.getElementById('channelStatus');
-    channelStatus.textContent = message;
-    channelStatus.className = `channel-status ${type}`;
-
-    // Amagar després de 3 segons si és success
-    if (type === 'success') {
-        setTimeout(() => {
-            channelStatus.className = 'channel-status';
-        }, 3000);
-    }
-}
-
-// Exportar canals a fitxer JSON
-function exportChannels() {
-    const channels = YouTubeAPI.userChannels;
-
-    if (channels.length === 0) {
-        showImportStatus('No hi ha canals per exportar', 'error');
-        return;
-    }
-
-    const exportData = {
-        version: '1.0',
-        exportDate: new Date().toISOString(),
-        appName: 'iuTube',
-        channels: channels.map(channel => ({
-            ...channel,
-            tags: channelTags[channel.id] || []
-        }))
-    };
-
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `iutube-canals-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    showImportStatus(`${channels.length} canals exportats correctament`, 'success');
-}
-
-// Importar canals des de fitxer JSON
-function importChannels(file) {
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-        try {
-            const data = JSON.parse(e.target.result);
-
-            // Validar format
-            if (!data.channels || !Array.isArray(data.channels)) {
-                showImportStatus('Format de fitxer invàlid', 'error');
-                return;
-            }
-
-            let imported = 0;
-            let skipped = 0;
-
-            data.channels.forEach(channel => {
-                // Validar que té ID
-                if (!channel.id) {
-                    skipped++;
-                    return;
-                }
-
-                // Comprovar si ja existeix
-                const baseChannels = YouTubeAPI.feedLoaded && YouTubeAPI.feedChannels.length > 0
-                    ? YouTubeAPI.feedChannels
-                    : YouTubeAPI.catalanChannels;
-                const exists = YouTubeAPI.userChannels.find(c => c.id === channel.id) ||
-                               baseChannels.find(c => c.id === channel.id);
-
-                if (!exists) {
-                    const importedCategories = normalizeChannelCategories(channel);
-                    YouTubeAPI.userChannels.push({
-                        id: channel.id,
-                        name: channel.name || 'Canal importat',
-                        categories: importedCategories.length > 0 ? importedCategories : ['usuari'],
-                        addedBy: 'import'
-                    });
-                    imported++;
-                } else {
-                    skipped++;
-                }
-
-                if (Array.isArray(channel.tags) && channel.tags.length > 0) {
-                    channelTags[channel.id] = channel.tags;
-                }
-            });
-
-            // Guardar
-            YouTubeAPI.saveUserChannels();
-            saveChannelTags();
-            loadChannelsList();
-            loadTaggableChannelsList();
-
-            if (imported > 0) {
-                showImportStatus(`${imported} canals importats${skipped > 0 ? `, ${skipped} omesos (duplicats)` : ''}`, 'success');
-            } else {
-                showImportStatus('Tots els canals ja existeixen', 'error');
-            }
-
-        } catch (error) {
-            console.error('Error important canals:', error);
-            showImportStatus('Error llegint el fitxer', 'error');
-        }
-    };
-
-    reader.onerror = () => {
-        showImportStatus('Error llegint el fitxer', 'error');
-    };
-
-    reader.readAsText(file);
-}
-
-// Mostrar estat d'importació
-function showImportStatus(message, type) {
-    const importStatus = document.getElementById('importStatus');
-    importStatus.textContent = message;
-    importStatus.className = `import-status ${type}`;
-
-    // Amagar després de 5 segons si és success
-    if (type === 'success') {
-        setTimeout(() => {
-            importStatus.className = 'import-status';
-        }, 5000);
-    }
-}
-
-// Carregar llista de canals
-function loadChannelsList() {
-    const verifiedList = document.getElementById('verifiedChannelsList');
-    const userList = document.getElementById('userChannelsList');
-    const verifiedSection = verifiedList.closest('.channels-section');
-    const baseChannels = YouTubeAPI.feedLoaded && YouTubeAPI.feedChannels.length > 0
-        ? YouTubeAPI.feedChannels
-        : YouTubeAPI.catalanChannels;
-
-    // Canals verificats - amagar secció si està buida
-    if (baseChannels.length > 0) {
-        verifiedSection.style.display = 'block';
-        verifiedList.innerHTML = baseChannels.map(channel => `
-            <div class="channel-item">
-                <div class="channel-item-info">
-                    <div class="channel-item-name">${escapeHtml(channel.name)}</div>
-                    <div class="channel-item-category">${getDisplayCategories(channel).map(getCategoryName).join(', ') || 'Sense categories'}</div>
-                </div>
-                <span class="channel-item-badge">Verificat</span>
-            </div>
-        `).join('');
-    } else {
-        verifiedSection.style.display = 'none';
-    }
-
-    // Canals de l'usuari
-    if (YouTubeAPI.userChannels.length > 0) {
-        userList.innerHTML = YouTubeAPI.userChannels.map(channel => `
-            <div class="channel-item">
-                <div class="channel-item-info">
-                    <div class="channel-item-name">${escapeHtml(channel.name)}</div>
-                    <div class="channel-item-category">${getDisplayCategories(channel).map(getCategoryName).join(', ') || 'Sense categories'}</div>
-                </div>
-                <span class="channel-item-badge user">Personal</span>
-                <button class="channel-item-remove" data-channel-id="${channel.id}" title="Eliminar">
-                    <i data-lucide="x"></i>
-                </button>
-            </div>
-        `).join('');
-
-        // Event listeners per eliminar
-        const removeButtons = userList.querySelectorAll('.channel-item-remove');
-        removeButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const channelId = btn.dataset.channelId;
-                YouTubeAPI.removeUserChannel(channelId);
-                loadChannelsList();
-                showChannelStatus('Canal eliminat', 'success');
-            });
-        });
-    } else {
-        userList.innerHTML = '<div class="empty-channels">No has afegit cap canal. Afegeix canals catalans per personalitzar el teu feed.</div>';
-    }
-
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-
-    loadTaggableChannelsList();
-}
-
-// Mostrar/amagar modal
-function showApiModal() {
-    if (!apiModal || !apiModalReady) {
-        return;
-    }
-    apiModal.classList.add('active');
+function openBackgroundModal() {
+    if (!backgroundModal) return;
+    backgroundModal.classList.add('active');
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 }
 
-function hideApiModal() {
-    if (!apiModal) {
-        return;
-    }
-    apiModal.classList.remove('active');
-}
-
-// Mostrar estat API
-function showApiStatus(message, type) {
-    apiStatus.textContent = message;
-    apiStatus.className = `api-status ${type}`;
+function closeBackgroundModal() {
+    if (!backgroundModal) return;
+    backgroundModal.classList.remove('active');
 }
 
 // Mostrar/amagar loading
@@ -808,7 +382,15 @@ function loadCategories() {
             item.classList.add('active');
 
             const categoryId = item.dataset.category;
-            await loadVideosByCategoryWithUser(categoryId);
+            if (useYouTubeAPI) {
+                const category = CONFIG.categories.find(c => c.id === categoryId);
+                selectedCategory = category ? category.name : 'Tot';
+                setPageTitle(category ? category.name : 'Categoria');
+                showHome();
+                renderFeed();
+            } else {
+                loadVideosByCategoryStatic(categoryId);
+            }
         });
     });
 
@@ -939,33 +521,6 @@ async function fetchVideoDetails(videoIds) {
     } catch (error) {
         return [];
     }
-}
-
-// Carregar vídeos per categoria
-async function loadVideosByCategory(categoryId) {
-    showLoading();
-    const category = CONFIG.categories.find(c => c.id == categoryId);
-    setPageTitle(category ? category.name : 'Categoria');
-    showHome();
-
-    const result = await YouTubeAPI.getVideosByCategory(categoryId, CONFIG.layout.videosPerPage);
-
-    if (result.error || result.items.length === 0) {
-        // Fallback: cercar per nom de categoria
-        const searchResult = await YouTubeAPI.searchVideos(category.name, CONFIG.layout.videosPerPage);
-        if (searchResult.items.length > 0) {
-            const videoIds = searchResult.items.map(v => v.id).join(',');
-            const details = await fetchVideoDetails(videoIds);
-            renderVideos(details.length > 0 ? details : searchResult.items);
-        } else {
-            updateHero(null);
-        }
-        hideLoading();
-        return;
-    }
-
-    renderVideos(result.items);
-    hideLoading();
 }
 
 // Renderitzar vídeos de l'API
@@ -1528,470 +1083,3 @@ window.addEventListener('popstate', (e) => {
         }
     }
 });
-
-// Carregar vídeo des de URL si hi ha paràmetre ?v=
-const urlParams = new URLSearchParams(window.location.search);
-const videoParam = urlParams.get('v');
-if (videoParam) {
-    setTimeout(() => {
-        if (YouTubeAPI.hasApiKey()) {
-            showVideoFromAPI(videoParam);
-        } else {
-            showVideo(videoParam);
-        }
-    }, 100);
-}
-
-// ==================== GESTIÓ DE VÍDEOS D'USUARI ====================
-
-// Carregar vídeos de l'usuari des de localStorage
-function loadUserVideos() {
-    const stored = localStorage.getItem(USER_VIDEOS_KEY);
-    if (stored) {
-        try {
-            userVideos = JSON.parse(stored);
-        } catch (e) {
-            userVideos = [];
-        }
-    }
-}
-
-// Guardar vídeos de l'usuari a localStorage
-function saveUserVideos() {
-    localStorage.setItem(USER_VIDEOS_KEY, JSON.stringify(userVideos));
-}
-
-// Extreure ID del vídeo de YouTube d'una URL
-function extractVideoId(url) {
-    if (!url) return null;
-
-    // Format: youtube.com/watch?v=VIDEO_ID
-    let match = url.match(/[?&]v=([^&]+)/);
-    if (match) return match[1];
-
-    // Format: youtu.be/VIDEO_ID
-    match = url.match(/youtu\.be\/([^?&]+)/);
-    if (match) return match[1];
-
-    // Format: youtube.com/embed/VIDEO_ID
-    match = url.match(/youtube\.com\/embed\/([^?&]+)/);
-    if (match) return match[1];
-
-    // Format: youtube.com/v/VIDEO_ID
-    match = url.match(/youtube\.com\/v\/([^?&]+)/);
-    if (match) return match[1];
-
-    // Si ja és un ID (11 caràcters)
-    if (url.length === 11 && /^[a-zA-Z0-9_-]+$/.test(url)) {
-        return url;
-    }
-
-    return null;
-}
-
-// Inicialitzar el tab de vídeos
-function initVideoTab() {
-    const addVideoBtn = document.getElementById('addVideoBtn');
-    const videoUrlInput = document.getElementById('videoUrlInput');
-
-    // Protecció: Si no existeixen els elements, sortir
-    if (!addVideoBtn || !videoUrlInput) {
-        console.info('ℹ️  Funcionalitat "Afegir vídeos" no disponible (elements HTML no trobats)');
-        return;
-    }
-
-    if (typeof addUserVideo === 'function') {
-        addVideoBtn.addEventListener('click', addUserVideo);
-        videoUrlInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addUserVideo();
-        });
-    }
-
-    // Carregar vídeos guardats
-    if (typeof loadUserVideos === 'function') {
-        loadUserVideos();
-    }
-}
-
-// Afegir vídeo de l'usuari
-async function addUserVideo() {
-    const videoUrlInput = document.getElementById('videoUrlInput');
-    const categorySelect = document.getElementById('videoCategorySelect');
-    const url = videoUrlInput.value.trim();
-    const category = categorySelect.value;
-
-    if (!url) {
-        showVideoStatus('Introdueix una URL de vídeo', 'error');
-        return;
-    }
-
-    const videoId = extractVideoId(url);
-    if (!videoId) {
-        showVideoStatus('URL no vàlida. Usa una URL de YouTube.', 'error');
-        return;
-    }
-
-    // Comprovar si ja existeix
-    if (userVideos.find(v => v.id === videoId)) {
-        showVideoStatus('Aquest vídeo ja està afegit', 'error');
-        return;
-    }
-
-    showVideoStatus('Obtenint informació del vídeo...', 'loading');
-
-    // Intentar obtenir informació del vídeo via API si està disponible
-    let videoInfo = {
-        id: videoId,
-        title: 'Vídeo de YouTube',
-        thumbnail: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
-        channelTitle: 'Canal desconegut',
-        category: category,
-        addedAt: new Date().toISOString()
-    };
-
-    if (YouTubeAPI.hasApiKey()) {
-        try {
-            const result = await YouTubeAPI.getVideoDetails(videoId);
-            if (result.video) {
-                videoInfo.title = result.video.title;
-                videoInfo.thumbnail = result.video.thumbnail;
-                videoInfo.channelTitle = result.video.channelTitle;
-                videoInfo.duration = result.video.duration;
-                videoInfo.viewCount = result.video.viewCount;
-                videoInfo.publishedAt = result.video.publishedAt;
-            }
-        } catch (e) {
-            console.log('No s\'ha pogut obtenir info del vídeo:', e);
-        }
-    }
-
-    // Afegir a la llista
-    userVideos.push(videoInfo);
-    saveUserVideos();
-
-    // Netejar input
-    videoUrlInput.value = '';
-
-    showVideoStatus(`Vídeo "${videoInfo.title}" afegit a ${getCategoryName(category)}!`, 'success');
-    loadUserVideosList();
-}
-
-// Obtenir nom de categoria
-function getCategoryName(categoryId) {
-    const cat = CONFIG.categories.find(c => c.id === categoryId);
-    return cat ? cat.name : categoryId;
-}
-
-// Mostrar estat del vídeo
-function showVideoStatus(message, type) {
-    const videoStatus = document.getElementById('videoStatus');
-    if (!videoStatus) return;
-
-    videoStatus.textContent = message;
-    videoStatus.className = `video-status ${type}`;
-
-    if (type === 'success') {
-        setTimeout(() => {
-            videoStatus.className = 'video-status';
-            videoStatus.textContent = '';
-        }, 3000);
-    }
-}
-
-// Carregar llista de vídeos de l'usuari
-function loadUserVideosList() {
-    const userVideosList = document.getElementById('userVideosList');
-    if (!userVideosList) return;
-
-    if (userVideos.length === 0) {
-        userVideosList.innerHTML = '<div class="empty-channels">No has afegit cap vídeo. Afegeix vídeos amb la URL de YouTube.</div>';
-        return;
-    }
-
-    userVideosList.innerHTML = userVideos.map(video => `
-        <div class="channel-item video-item">
-            <img src="${video.thumbnail}" alt="${escapeHtml(video.title)}" class="video-item-thumb">
-            <div class="channel-item-info">
-                <div class="channel-item-name">${escapeHtml(video.title)}</div>
-                <div class="channel-item-category">${getCategoryName(video.category)}</div>
-            </div>
-            <button class="channel-item-remove" data-video-id="${video.id}" title="Eliminar">
-                <i data-lucide="x"></i>
-            </button>
-        </div>
-    `).join('');
-
-    // Event listeners per eliminar
-    const removeButtons = userVideosList.querySelectorAll('.channel-item-remove');
-    removeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const videoId = btn.dataset.videoId;
-            removeUserVideo(videoId);
-        });
-    });
-
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-}
-
-// Eliminar vídeo de l'usuari
-function removeUserVideo(videoId) {
-    userVideos = userVideos.filter(v => v.id !== videoId);
-    saveUserVideos();
-    loadUserVideosList();
-    showVideoStatus('Vídeo eliminat', 'success');
-}
-
-// Carregar vídeos per categoria (incloent vídeos d'usuari)
-async function loadVideosByCategoryWithUser(categoryId) {
-    showLoading();
-    const category = CONFIG.categories.find(c => c.id === categoryId);
-    setPageTitle(category ? category.name : 'Categoria');
-    showHome();
-
-    // Combinar vídeos de l'usuari i vídeos de canals etiquetats
-    let categoryVideos = [];
-
-    // Afegir vídeos de l'usuari amb aquesta categoria
-    userVideos.forEach(video => {
-        if (video.category === categoryId) {
-            categoryVideos.push({
-                ...video,
-                source: 'user'
-            });
-        }
-    });
-
-    // Afegir vídeos de canals que tenen aquesta categoria assignada
-    cachedAPIVideos.forEach(video => {
-        const channelCategories = channelTags[video.channelId] || [];
-        const videoCategories = Array.isArray(video.categories) ? video.categories : [];
-        if (channelCategories.includes(categoryId) || videoCategories.includes(categoryId)) {
-            // Evitar duplicats
-            if (!categoryVideos.find(v => v.id === video.id)) {
-                categoryVideos.push({
-                    ...video,
-                    source: 'api'
-                });
-            }
-        }
-    });
-
-    if (categoryVideos.length > 0) {
-        renderUserVideos(categoryVideos);
-    } else {
-        updateHero(null);
-        videosGrid.innerHTML = `
-            <div class="empty-category">
-                <i data-lucide="video-off"></i>
-                <p>No hi ha vídeos en aquesta categoria</p>
-                <p class="empty-hint">Afegeix vídeos o etiqueta canals des de Configuració → Etiquetar</p>
-            </div>
-        `;
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    }
-
-    hideLoading();
-}
-
-// Renderitzar vídeos de l'usuari
-function renderUserVideos(videos) {
-    const newest = getNewestVideoFromList(videos);
-    if (newest?.video) {
-        const source = newest.video.source === 'user' || newest.video.source === 'api' ? 'api' : 'static';
-        updateHero(newest.video, source);
-    } else {
-        updateHero(null);
-    }
-
-    videosGrid.innerHTML = videos.map(video => `
-        <div class="video-card" data-video-id="${video.id}">
-            <div class="video-thumbnail">
-                <img src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
-                ${video.duration ? `<span class="video-duration">${video.duration}</span>` : ''}
-            </div>
-            <div class="video-details">
-                <div class="video-info-container">
-                    <h3 class="video-card-title">${escapeHtml(video.title)}</h3>
-                    <div class="video-metadata">
-                        <div class="channel-name">${escapeHtml(video.channelTitle)}</div>
-                        <div class="video-stats">
-                            ${video.viewCount ? `<i data-lucide="eye" style="width: 12px; height: 12px;"></i><span>${formatViews(video.viewCount)} visualitzacions</span><span>•</span>` : ''}
-                            <span>${video.publishedAt ? formatDate(video.publishedAt) : formatDate(video.addedAt)}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
-
-    // Event listeners
-    const videoCards = document.querySelectorAll('.video-card');
-    videoCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const videoId = card.dataset.videoId;
-            showVideoFromAPI(videoId);
-        });
-    });
-
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-}
-
-// ==================== GESTIÓ D'ETIQUETES DE CANALS ====================
-
-// Carregar etiquetes de canals des de localStorage
-function loadChannelTags() {
-    const stored = localStorage.getItem(CHANNEL_TAGS_KEY);
-    if (stored) {
-        try {
-            channelTags = JSON.parse(stored);
-        } catch (e) {
-            channelTags = {};
-        }
-    }
-}
-
-// Guardar etiquetes de canals a localStorage
-function saveChannelTags() {
-    localStorage.setItem(CHANNEL_TAGS_KEY, JSON.stringify(channelTags));
-}
-
-// Inicialitzar el tab d'etiquetes
-function initTagsTab() {
-    if (typeof loadChannelTags === 'function') {
-        loadChannelTags();
-    } else {
-        console.info('ℹ️  Funcionalitat "Etiquetar canals" no completament disponible');
-    }
-}
-
-// Carregar llista de canals etiquetables
-function loadTaggableChannelsList() {
-    const taggableChannelsList = document.getElementById('taggableChannelsList');
-    if (!taggableChannelsList) return;
-
-    // Obtenir tots els canals (dels vídeos cached i dels canals de l'usuari)
-    let allChannels = [];
-
-    // Afegir canals de l'API cached
-    Object.values(cachedChannels).forEach(channel => {
-        if (!allChannels.find(c => c.id === channel.id)) {
-            allChannels.push({
-                ...channel,
-                categories: getDisplayCategories(channel)
-            });
-        }
-    });
-
-    // Afegir canals dels canals catalans i de l'usuari si estan disponibles
-    if (typeof YouTubeAPI !== 'undefined') {
-        (YouTubeAPI.getAllChannels() || []).forEach(channel => {
-            if (!allChannels.find(c => c.id === channel.id)) {
-                allChannels.push({
-                    id: channel.id,
-                    name: channel.name,
-                    thumbnail: null,
-                    categories: getDisplayCategories(channel)
-                });
-            }
-        });
-    }
-
-    if (allChannels.length === 0) {
-        taggableChannelsList.innerHTML = `
-            <div class="empty-channels">
-                No hi ha canals. Navega per la pàgina principal per carregar vídeos o afegeix canals a la pestanya "Canals".
-            </div>
-        `;
-        return;
-    }
-
-    // Ordenar per nom
-    allChannels.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-
-    taggableChannelsList.innerHTML = allChannels.map(channel => `
-        <div class="taggable-channel-item" data-channel-id="${channel.id}">
-            <div class="taggable-channel-info">
-                <div class="channel-item-name">${escapeHtml(channel.name || 'Canal desconegut')}</div>
-                <div class="channel-categories-display">
-                    ${channel.categories.length > 0 ?
-                        channel.categories.map(cat => `<span class="category-badge">${getCategoryName(cat)}</span>`).join('') :
-                        '<span class="no-category">Sense categories</span>'}
-                </div>
-            </div>
-            <div class="channel-categories-selector">
-                ${CONFIG.categories.map(cat => `
-                    <label class="category-checkbox">
-                        <input type="checkbox"
-                            data-channel-id="${channel.id}"
-                            data-category="${cat.id}"
-                            ${channel.categories.includes(cat.id) ? 'checked' : ''}>
-                        <span>${cat.name}</span>
-                    </label>
-                `).join('')}
-            </div>
-        </div>
-    `).join('');
-
-    // Event listeners per canviar categories
-    const checkboxes = taggableChannelsList.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', (e) => {
-            const channelId = e.target.dataset.channelId;
-            const categoryId = e.target.dataset.category;
-            const isChecked = e.target.checked;
-            toggleChannelCategory(channelId, categoryId, isChecked);
-        });
-    });
-
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-}
-
-// Alternar categoria d'un canal
-function toggleChannelCategory(channelId, categoryId, add) {
-    if (!channelTags[channelId]) {
-        channelTags[channelId] = [];
-    }
-
-    if (add) {
-        if (!channelTags[channelId].includes(categoryId)) {
-            channelTags[channelId].push(categoryId);
-        }
-    } else {
-        channelTags[channelId] = channelTags[channelId].filter(c => c !== categoryId);
-        // Eliminar entrada si no té categories
-        if (channelTags[channelId].length === 0) {
-            delete channelTags[channelId];
-        }
-    }
-
-    saveChannelTags();
-
-    // Actualitzar la visualització de categories
-    loadTaggableChannelsList();
-
-    showTagStatus('Categories actualitzades!', 'success');
-}
-
-// Mostrar estat de l'etiquetatge
-function showTagStatus(message, type) {
-    const tagStatus = document.getElementById('tagStatus');
-    if (!tagStatus) return;
-
-    tagStatus.textContent = message;
-    tagStatus.className = `tag-status ${type}`;
-
-    if (type === 'success') {
-        setTimeout(() => {
-            tagStatus.className = 'tag-status';
-            tagStatus.textContent = '';
-        }, 2000);
-    }
-}
