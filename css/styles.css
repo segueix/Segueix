@@ -1338,3 +1338,46 @@ body.sidebar-collapsed .main-content {
     height: 20px;
     flex-shrink: 0;
 }
+
+/* Category tags */
+.tag-tot,
+[data-category="Tot"] {
+    background-color: #636e72;
+    color: #ffffff;
+}
+
+.tag-tendencies,
+[data-category="Tendències"] {
+    background-color: #d63031;
+    color: #ffffff;
+}
+
+.tag-vida,
+[data-category="Vida"] {
+    background-color: #00b894;
+    color: #ffffff;
+}
+
+.tag-cultura,
+[data-category="Cultura"] {
+    background-color: #6c5ce7;
+    color: #ffffff;
+}
+
+.tag-humor,
+[data-category="Humor"] {
+    background-color: #e17055;
+    color: #ffffff;
+}
+
+.tag-societat,
+[data-category="Societat"] {
+    background-color: #0984e3;
+    color: #ffffff;
+}
+
+.tag-gaming,
+[data-category="Gaming"] {
+    background-color: #e84393;
+    color: #ffffff;
+}
