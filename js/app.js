@@ -755,13 +755,27 @@ async function showVideoFromAPI(videoId) {
     if (videoResult.video) {
         const video = videoResult.video;
 
+        // 1. Actualitzar estadístiques principals
         document.getElementById('videoTitle').textContent = video.title;
         document.getElementById('videoViews').innerHTML = `
             <i data-lucide="eye"></i>
             ${formatViews(video.viewCount)} visualitzacions
         `;
         document.getElementById('videoDate').textContent = formatDate(video.publishedAt);
-        document.getElementById('videoLikes').textContent = formatViews(video.likeCount);
+
+        // 2. Mostrar Likes
+        const likeCountElement = document.getElementById('videoLikes');
+        if (likeCountElement) {
+            likeCountElement.textContent = formatViews(video.likeCount);
+        }
+
+        // 3. AMAGAR el botó de Dislike (No m'agrada)
+        // Busquem el botó que conté la icona thumbs-down
+        const dislikeIcon = document.querySelector('.action-btn i[data-lucide="thumbs-down"]');
+        if (dislikeIcon) {
+            const dislikeBtn = dislikeIcon.closest('button');
+            if (dislikeBtn) dislikeBtn.style.display = 'none';
+        }
 
         // Obtenir informació del canal
         const channelResult = await YouTubeAPI.getChannelDetails(video.channelId);
@@ -769,6 +783,7 @@ async function showVideoFromAPI(videoId) {
         if (channelResult.channel) {
             const channel = channelResult.channel;
             const channelInfo = document.getElementById('channelInfo');
+            const channelUrl = `https://www.youtube.com/channel/${channel.id}`;
             channelInfo.innerHTML = `
                 <div class="channel-header">
                     <img src="${channel.thumbnail}" alt="${escapeHtml(channel.title)}" class="channel-avatar-large">
@@ -776,9 +791,9 @@ async function showVideoFromAPI(videoId) {
                         <div class="channel-name-large">${escapeHtml(channel.title)}</div>
                         <div class="channel-subscribers">${formatViews(channel.subscriberCount)} subscriptors</div>
                     </div>
-                    ${CONFIG.features.subscriptions ? `
-                        <button class="subscribe-btn">Subscriu-te</button>
-                    ` : ''}
+                    <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
+                        Canal Youtube
+                    </a>
                 </div>
                 <div class="video-description">${escapeHtml(video.description).substring(0, 500)}${video.description.length > 500 ? '...' : ''}</div>
             `;
@@ -1007,15 +1022,30 @@ function showVideo(videoId) {
         </div>
     `;
 
+    // 1. Actualitzar estadístiques principals
     document.getElementById('videoTitle').textContent = video.title;
     document.getElementById('videoViews').innerHTML = `
         <i data-lucide="eye"></i>
         ${formatViews(video.views)} visualitzacions
     `;
     document.getElementById('videoDate').textContent = formatDate(video.uploadDate);
-    document.getElementById('videoLikes').textContent = formatViews(video.likes);
+
+    // 2. Mostrar Likes
+    const likeCountElement = document.getElementById('videoLikes');
+    if (likeCountElement) {
+        likeCountElement.textContent = formatViews(video.likes);
+    }
+
+    // 3. AMAGAR el botó de Dislike (No m'agrada)
+    // Busquem el botó que conté la icona thumbs-down
+    const dislikeIcon = document.querySelector('.action-btn i[data-lucide="thumbs-down"]');
+    if (dislikeIcon) {
+        const dislikeBtn = dislikeIcon.closest('button');
+        if (dislikeBtn) dislikeBtn.style.display = 'none';
+    }
 
     const channelInfo = document.getElementById('channelInfo');
+    const channelUrl = `https://www.youtube.com/channel/${channel.id}`;
     channelInfo.innerHTML = `
         <div class="channel-header">
             <img src="${channel.avatar}" alt="${channel.name}" class="channel-avatar-large">
@@ -1023,9 +1053,9 @@ function showVideo(videoId) {
                 <div class="channel-name-large">${channel.name}</div>
                 <div class="channel-subscribers">${formatViews(channel.subscribers)} subscriptors</div>
             </div>
-            ${CONFIG.features.subscriptions ? `
-                <button class="subscribe-btn">Subscriu-te</button>
-            ` : ''}
+            <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
+                Canal Youtube
+            </a>
         </div>
         <div class="video-description">${video.description}</div>
     `;
