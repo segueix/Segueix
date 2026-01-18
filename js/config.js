@@ -8,7 +8,7 @@ const CONFIG = {
     theme: {
         primaryColor: "#FF0000",
         secondaryColor: "#282828",
-        backgroundColor: "#0F0F0F",
+        backgroundColor: "#333333",
         textColor: "#FFFFFF"
     },
     
