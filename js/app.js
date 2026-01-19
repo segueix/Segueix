@@ -677,6 +677,12 @@ function setLikedVideoIds(ids) {
     localStorage.setItem('user_liked_videos', JSON.stringify(ids));
 }
 
+const HEART_TOGGLE_SVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true" focusable="false">
+        <path d="M128 224s-96-54-96-118c0-36 28-58 56-58 24 0 40 18 40 18s16-18 40-18c28 0 56 22 56 58 0 64-96 118-96 118z"></path>
+    </svg>
+`;
+
 function setupLikeBadge(videoId) {
     const likeBadge = document.getElementById('likeToggle');
     if (!likeBadge) {
@@ -819,24 +825,29 @@ async function showVideoFromAPI(videoId) {
         document.getElementById('videoTitle').textContent = cachedVideo.title || '';
         document.getElementById('videoViews').textContent = `${formatViews(cachedVideo.viewCount || 0)} visualitzacions`;
 
-        setupLikeBadge(videoId);
-
         const channelInfo = document.getElementById('channelInfo');
         if (channelInfo) {
             const cachedChannelTitle = cachedVideo.channelTitle || '';
             channelInfo.innerHTML = `
                 <div class="channel-header">
-                    <img src="" alt="${escapeHtml(cachedChannelTitle)}" class="channel-avatar-large">
-                    <div class="channel-details">
+                    <div class="channel-meta">
                         <div class="channel-name-large">${escapeHtml(cachedChannelTitle)}</div>
-                        <div class="channel-subscribers"></div>
+                        <a href="https://www.youtube.com/channel/${cachedVideo.channelId || ''}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
+                            Canal Youtube
+                        </a>
                     </div>
-                    <a href="https://www.youtube.com/channel/${cachedVideo.channelId || ''}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
-                        Canal Youtube
-                    </a>
+                    <div class="channel-actions">
+                        <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
+                            ${HEART_TOGGLE_SVG}
+                        </button>
+                        <button class="icon-btn-ghost" id="shareBtn" aria-label="Compartir">
+                            <i data-lucide="share-2"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="video-description"></div>
             `;
+            setupLikeBadge(videoId);
         }
     }
 
@@ -851,9 +862,6 @@ async function showVideoFromAPI(videoId) {
             document.getElementById('videoTitle').textContent = video.title;
             document.getElementById('videoViews').textContent = `${formatViews(video.viewCount)} visualitzacions`;
 
-            // 2. Mostrar Likes
-            setupLikeBadge(videoId);
-
             // Obtenir informació del canal
             const channelResult = await YouTubeAPI.getChannelDetails(video.channelId);
 
@@ -863,17 +871,24 @@ async function showVideoFromAPI(videoId) {
                 const channelUrl = `https://www.youtube.com/channel/${channel.id}`;
                 channelInfo.innerHTML = `
                     <div class="channel-header">
-                        <img src="${channel.thumbnail}" alt="${escapeHtml(channel.title)}" class="channel-avatar-large">
-                        <div class="channel-details">
+                        <div class="channel-meta">
                             <div class="channel-name-large">${escapeHtml(channel.title)}</div>
-                            <div class="channel-subscribers">${formatViews(channel.subscriberCount)} subscriptors</div>
+                            <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
+                                Canal Youtube
+                            </a>
                         </div>
-                        <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
-                            Canal Youtube
-                        </a>
+                        <div class="channel-actions">
+                            <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
+                                ${HEART_TOGGLE_SVG}
+                            </button>
+                            <button class="icon-btn-ghost" id="shareBtn" aria-label="Compartir">
+                                <i data-lucide="share-2"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="video-description">${escapeHtml(video.description).substring(0, 500)}${video.description.length > 500 ? '...' : ''}</div>
                 `;
+                setupLikeBadge(videoId);
             }
         }
     } catch (error) {
@@ -1107,23 +1122,28 @@ function showVideo(videoId) {
     document.getElementById('videoViews').textContent = `${formatViews(video.views)} visualitzacions`;
 
     // 2. Mostrar Likes
-    setupLikeBadge(videoId);
-
     const channelInfo = document.getElementById('channelInfo');
     const channelUrl = `https://www.youtube.com/channel/${channel.id}`;
     channelInfo.innerHTML = `
         <div class="channel-header">
-            <img src="${channel.avatar}" alt="${channel.name}" class="channel-avatar-large">
-            <div class="channel-details">
+            <div class="channel-meta">
                 <div class="channel-name-large">${channel.name}</div>
-                <div class="channel-subscribers">${formatViews(channel.subscribers)} subscriptors</div>
+                <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
+                    Canal Youtube
+                </a>
             </div>
-            <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
-                Canal Youtube
-            </a>
+            <div class="channel-actions">
+                <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
+                    ${HEART_TOGGLE_SVG}
+                </button>
+                <button class="icon-btn-ghost" id="shareBtn" aria-label="Compartir">
+                    <i data-lucide="share-2"></i>
+                </button>
+            </div>
         </div>
         <div class="video-description">${video.description}</div>
     `;
+    setupLikeBadge(videoId);
 
     if (CONFIG.features.comments) {
         loadComments(videoId);
