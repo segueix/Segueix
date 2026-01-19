@@ -1,6 +1,24 @@
 {
-  "generatedAt": "2026-01-19T22:28:10.011Z",
+  "generatedAt": "2026-01-19T23:27:06.402Z",
   "videos": [
+    {
+      "id": "ZF7hXf91tls",
+      "title": "Un accident estrany a Adamuz i l'estranya malaltia de Salvador Illa. Tot molt estrany /2026 01 19",
+      "thumbnail": "https://i.ytimg.com/vi/ZF7hXf91tls/mqdefault.jpg",
+      "channelId": "UCaCWG8cBOwER_Vf3qAsr8Zg",
+      "channelTitle": "Notícies Un Quart de Galves",
+      "publishedAt": "2026-01-19T22:34:26Z",
+      "categories": [
+        "societat"
+      ],
+      "sourceChannelId": "@unquartdegalves",
+      "duration": "PT38M43S",
+      "durationSeconds": 2323,
+      "isShort": false,
+      "viewCount": 88,
+      "likeCount": 19,
+      "commentCount": 14
+    },
     {
       "id": "u66_6odnN0E",
       "title": "🎴 Juguem en directe: DEAD CELLS de Devir | Un roguelite de taula",
@@ -53,9 +71,9 @@
       "duration": "PT15M21S",
       "durationSeconds": 921,
       "isShort": false,
-      "viewCount": 6010,
-      "likeCount": 894,
-      "commentCount": 100
+      "viewCount": 7148,
+      "likeCount": 963,
+      "commentCount": 103
     },
     {
       "id": "STZqF2Oq0hM",
@@ -90,9 +108,9 @@
       "duration": "PT18M12S",
       "durationSeconds": 1092,
       "isShort": false,
-      "viewCount": 12200,
-      "likeCount": 1206,
-      "commentCount": 142
+      "viewCount": 12442,
+      "likeCount": 1213,
+      "commentCount": 143
     },
     {
       "id": "Zw-EL0TJK4c",
@@ -108,9 +126,9 @@
       "duration": "PT46M22S",
       "durationSeconds": 2782,
       "isShort": false,
-      "viewCount": 1134,
-      "likeCount": 218,
-      "commentCount": 50
+      "viewCount": 1145,
+      "likeCount": 220,
+      "commentCount": 69
     },
     {
       "id": "din1pM12Alg",
@@ -145,7 +163,7 @@
       "duration": "PT32M11S",
       "durationSeconds": 1931,
       "isShort": false,
-      "viewCount": 1062,
+      "viewCount": 1064,
       "likeCount": 221,
       "commentCount": 52
     },
@@ -219,7 +237,7 @@
       "duration": "PT1H6M17S",
       "durationSeconds": 3977,
       "isShort": false,
-      "viewCount": 65814,
+      "viewCount": 66013,
       "likeCount": 1385,
       "commentCount": 78
     },
@@ -273,9 +291,9 @@
       "duration": "PT17M59S",
       "durationSeconds": 1079,
       "isShort": false,
-      "viewCount": 14060,
-      "likeCount": 1125,
-      "commentCount": 118
+      "viewCount": 14085,
+      "likeCount": 1126,
+      "commentCount": 119
     },
     {
       "id": "SqHN01ixMxE",
@@ -347,7 +365,7 @@
       "duration": "PT32M52S",
       "durationSeconds": 1972,
       "isShort": false,
-      "viewCount": 939,
+      "viewCount": 940,
       "likeCount": 200,
       "commentCount": 65
     },
@@ -365,8 +383,8 @@
       "duration": "PT15M40S",
       "durationSeconds": 940,
       "isShort": false,
-      "viewCount": 14570,
-      "likeCount": 1202,
+      "viewCount": 14599,
+      "likeCount": 1203,
       "commentCount": 158
     },
     {
@@ -549,8 +567,8 @@
       "duration": "PT19M21S",
       "durationSeconds": 1161,
       "isShort": false,
-      "viewCount": 14465,
-      "likeCount": 1256,
+      "viewCount": 14475,
+      "likeCount": 1257,
       "commentCount": 121
     },
     {
@@ -604,7 +622,7 @@
       "duration": "PT2H4M43S",
       "durationSeconds": 7483,
       "isShort": false,
-      "viewCount": 14715,
+      "viewCount": 14717,
       "likeCount": 977,
       "commentCount": 56
     },
@@ -702,24 +720,6 @@
       "commentCount": 0
     },
     {
-      "id": "UNDdfG4Dd4U",
-      "title": "Catalunya té més immigració que ningú a tota Europa i continuarà descontrolada /2025 12 30",
-      "thumbnail": "https://i.ytimg.com/vi/UNDdfG4Dd4U/mqdefault.jpg",
-      "channelId": "UCaCWG8cBOwER_Vf3qAsr8Zg",
-      "channelTitle": "Notícies Un Quart de Galves",
-      "publishedAt": "2025-12-30T08:05:30Z",
-      "categories": [
-        "societat"
-      ],
-      "sourceChannelId": "@unquartdegalves",
-      "duration": "PT32M58S",
-      "durationSeconds": 1978,
-      "isShort": false,
-      "viewCount": 1250,
-      "likeCount": 200,
-      "commentCount": 59
-    },
-    {
       "id": "Fg0u3SNOF-E",
       "title": "Amb Xavier Gual, Educació i Immigració, Escriptor i professor de secundària, Aula d'acollida,",
       "thumbnail": "https://i.ytimg.com/vi/Fg0u3SNOF-E/mqdefault.jpg",
@@ -734,7 +734,7 @@
       "duration": "PT37M38S",
       "durationSeconds": 2258,
       "isShort": false,
-      "viewCount": 586,
+      "viewCount": 587,
       "likeCount": 41,
       "commentCount": 9
     },
@@ -788,7 +788,7 @@
       "duration": "PT1H11M54S",
       "durationSeconds": 4314,
       "isShort": false,
-      "viewCount": 91213,
+      "viewCount": 91211,
       "likeCount": 1920,
       "commentCount": 109
     },
@@ -806,7 +806,7 @@
       "duration": "PT40S",
       "durationSeconds": 40,
       "isShort": true,
-      "viewCount": 4880,
+      "viewCount": 4878,
       "likeCount": 72,
       "commentCount": 3
     },
@@ -1027,7 +1027,7 @@
       "duration": "PT12M",
       "durationSeconds": 720,
       "isShort": false,
-      "viewCount": 287,
+      "viewCount": 288,
       "likeCount": 32,
       "commentCount": 3
     },
@@ -1269,7 +1269,7 @@
       "durationSeconds": 2409,
       "isShort": false,
       "viewCount": 851,
-      "likeCount": 51,
+      "likeCount": 52,
       "commentCount": 2
     },
     {
