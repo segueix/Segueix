@@ -913,6 +913,18 @@ body.sidebar-collapsed .main-content {
         align-items: flex-start;
     }
 
+    .channel-meta {
+        width: 100%;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .channel-name-large {
+        font-size: 17px;
+        margin-bottom: 0;
+        max-width: 70%;
+    }
+
     .channel-actions {
         width: 100%;
     }
