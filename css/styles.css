@@ -866,11 +866,14 @@ body.sidebar-collapsed .main-content {
     flex-wrap: wrap;
 }
 
+.channel-details,
 .channel-meta {
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
 }
 
 .channel-actions {
@@ -883,6 +886,9 @@ body.sidebar-collapsed .main-content {
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 4px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 @media (min-width: 1024px) {
