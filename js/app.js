@@ -641,7 +641,7 @@ function createShortCard(video) {
 function openShortModal(videoId) {
     const modal = document.getElementById('short-modal');
     const iframe = document.getElementById('short-iframe');
-    const src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?playsinline=1&rel=0&modestbranding=1&autoplay=1`;
+    const src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?playsinline=1&rel=0&modestbranding=1&autoplay=1&hl=ca&cc_lang_pref=ca`;
 
     iframe.src = src;
     modal.classList.remove('hidden');
@@ -811,7 +811,7 @@ async function showVideoFromAPI(videoId) {
     videoPlayer.innerHTML = `
         <div class="video-embed-wrap">
             <iframe
-                src="https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1&autoplay=1"
+                src="https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1&autoplay=1&hl=ca&cc_lang_pref=ca" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
                 referrerpolicy="strict-origin-when-cross-origin">
