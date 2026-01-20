@@ -7,7 +7,7 @@ const YouTubeAPI = {
 
     // Configuració de llengua
     language: 'ca',        // Català
-    regionCode: 'ES',      // Espanya (inclou Catalunya)
+    regionCode: 'AD',      // Andorra (per prioritzar contingut català)
 
     // Configuració de cache
     CACHE_DURATION: 2 * 60 * 60 * 1000, // 2 hores en mil·lisegons
