@@ -844,6 +844,89 @@ function updateMiniPlayerSize() {
     videoPlayer.style.height = `${height}px`;
 }
 
+function makeDraggable(element, handle) {
+    if (!element || !handle) {
+        return;
+    }
+
+    const startDrag = (clientX, clientY) => {
+        const rect = element.getBoundingClientRect();
+        const offsetX = clientX - rect.left;
+        const offsetY = clientY - rect.top;
+
+        element.style.setProperty('top', `${rect.top}px`, 'important');
+        element.style.setProperty('left', `${rect.left}px`, 'important');
+        element.style.setProperty('bottom', 'auto', 'important');
+        element.style.setProperty('right', 'auto', 'important');
+
+        const handleMove = (moveX, moveY) => {
+            const width = rect.width;
+            const height = rect.height;
+            const maxLeft = Math.max(0, window.innerWidth - width);
+            const maxTop = Math.max(0, window.innerHeight - height);
+            const nextLeft = Math.min(Math.max(0, moveX - offsetX), maxLeft);
+            const nextTop = Math.min(Math.max(0, moveY - offsetY), maxTop);
+            element.style.setProperty('left', `${nextLeft}px`, 'important');
+            element.style.setProperty('top', `${nextTop}px`, 'important');
+        };
+
+        const onMouseMove = (event) => {
+            handleMove(event.clientX, event.clientY);
+        };
+
+        const onTouchMove = (event) => {
+            if (!event.touches || event.touches.length === 0) {
+                return;
+            }
+            handleMove(event.touches[0].clientX, event.touches[0].clientY);
+        };
+
+        const stopDrag = () => {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', stopDrag);
+            document.removeEventListener('touchcancel', stopDrag);
+        };
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', stopDrag);
+        document.addEventListener('touchcancel', stopDrag);
+    };
+
+    const onMouseDown = (event) => {
+        event.preventDefault();
+        startDrag(event.clientX, event.clientY);
+    };
+
+    const onTouchStart = (event) => {
+        if (!event.touches || event.touches.length === 0) {
+            return;
+        }
+        event.preventDefault();
+        startDrag(event.touches[0].clientX, event.touches[0].clientY);
+    };
+
+    if (handle._dragHandlers) {
+        handle.removeEventListener('mousedown', handle._dragHandlers.onMouseDown);
+        handle.removeEventListener('touchstart', handle._dragHandlers.onTouchStart);
+    }
+
+    handle._dragHandlers = { onMouseDown, onTouchStart };
+    handle.addEventListener('mousedown', onMouseDown);
+    handle.addEventListener('touchstart', onTouchStart, { passive: false });
+}
+
+function setupDragHandle() {
+    const handle = videoPlayer?.querySelector('.drag-handle');
+    if (!handle) {
+        return;
+    }
+    makeDraggable(videoPlayer, handle);
+}
+
 function preparePlayerForPlayback({ thumbnail, title }) {
     if (!videoPlayer) {
         return;
@@ -860,6 +943,7 @@ function preparePlayerForPlayback({ thumbnail, title }) {
     }
 
     setPlaceholderImage(thumbnail, title);
+    setupDragHandle();
     requestAnimationFrame(updatePlayerPosition);
 }
 
@@ -898,8 +982,10 @@ function setupMiniPlayerToggle() {
                 videoPlaceholder.classList.remove('hidden');
                 videoPlaceholder.classList.remove('is-placeholder-hidden');
             }
-            videoPlayer.style.top = '';
-            videoPlayer.style.left = '';
+            videoPlayer.style.removeProperty('top');
+            videoPlayer.style.removeProperty('left');
+            videoPlayer.style.removeProperty('bottom');
+            videoPlayer.style.removeProperty('right');
             updateMiniPlayerSize();
         } else {
             if (videoPlaceholder) {
@@ -1014,6 +1100,7 @@ async function showVideoFromAPI(videoId) {
 
     // Carregar reproductor
     videoPlayer.innerHTML = `
+        <div class="drag-handle" aria-hidden="true"></div>
         <div class="video-embed-wrap">
             <iframe
                 src="https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1&autoplay=1&hl=ca&cc_lang_pref=ca&gl=AD" 
@@ -1372,6 +1459,7 @@ function showVideo(videoId) {
     watchPage.classList.remove('hidden');
 
     videoPlayer.innerHTML = `
+        <div class="drag-handle" aria-hidden="true"></div>
         <div class="video-embed-wrap">
             <iframe
                 src="${video.videoUrl}"
