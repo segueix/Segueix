@@ -151,6 +151,37 @@ function initEventListeners() {
         });
     });
 
+    const navTriggers = document.querySelectorAll('.nav-trigger');
+    navTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            const page = trigger.dataset.page;
+            navItems.forEach(nav => nav.classList.remove('active'));
+            const matchingNav = document.querySelector(`.nav-item[data-page="${page}"]`);
+            if (matchingNav) {
+                matchingNav.classList.add('active');
+            }
+
+            if (page === 'history') {
+                showHistory();
+            } else if (page === 'home') {
+                showHome();
+                if (useYouTubeAPI) {
+                    loadVideosFromAPI();
+                } else {
+                    loadVideos();
+                }
+            } else if (page === 'trending') {
+                showHome();
+                if (useYouTubeAPI) {
+                    loadTrendingVideos();
+                }
+            } else {
+                showHome();
+            }
+        });
+    });
+
     const brandLink = document.querySelector('.brand');
     if (brandLink) {
         brandLink.addEventListener('click', (e) => {
