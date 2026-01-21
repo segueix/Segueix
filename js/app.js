@@ -398,7 +398,7 @@ function updateHero(video, source = 'static') {
 
     const title = video.title || video.snippet?.title || 'Vídeo destacat';
     const description = video.description || video.snippet?.description || '';
-    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.high?.url || '';
+    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.maxres?.url || video.snippet?.thumbnails?.standard?.url || video.snippet?.thumbnails?.high?.url || '';
     const duration = video.duration || video.contentDetails?.duration || '';
 
     heroSection.classList.remove('hidden');
@@ -1908,7 +1908,7 @@ function createHistoryCard(video) {
     const isStatic = source === 'static';
     const channel = isStatic ? getChannelById(video.channelId) : null;
     const title = video.title || video.snippet?.title || '';
-    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.high?.url || '';
+    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.maxres?.url || video.snippet?.thumbnails?.standard?.url || video.snippet?.thumbnails?.high?.url || '';
     const duration = video.duration || video.contentDetails?.duration || '';
     const channelTitle = video.channelTitle || channel?.name || '';
     const publishedAt = video.publishedAt || video.uploadDate || video.snippet?.publishedAt || '';
