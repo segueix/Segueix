@@ -3,9 +3,11 @@
 // Elements del DOM
 let sidebar, menuBtn, videosGrid, homePage, watchPage, loading, mainContent;
 let historyPage, historyGrid, historyFilters, chipsBar;
+let playlistsPage, playlistsList, playlistNameInput, createPlaylistBtn;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow, heroChannel;
 let pageTitle;
 let backgroundModal, backgroundBtn, backgroundOptions;
+let playlistModal, playlistModalBody;
 let videoPlayer, videoPlaceholder, placeholderImage;
 let currentVideoId = null;
 let useYouTubeAPI = false;
@@ -15,6 +17,7 @@ let historyFilterLiked = false;
 let currentFeedVideos = [];
 let currentFeedData = null;
 let currentFeedRenderer = null;
+let activePlaylistVideo = null;
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
 const BACKGROUND_COLORS = [
@@ -28,6 +31,7 @@ const BACKGROUND_COLORS = [
 
 const HISTORY_STORAGE_KEY = 'catube_history';
 const HISTORY_LIMIT = 50;
+const PLAYLIST_STORAGE_KEY = 'catube_playlists';
 
 // Cache de canals carregats de l'API
 let cachedChannels = {};
@@ -49,6 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initBackgroundModal();
     initBackgroundPicker();
     loadCategories();
+    renderPlaylistsPage();
 
     // Inicialitzar YouTubeAPI (carregar canals catalans)
     await YouTubeAPI.init();
@@ -92,6 +97,10 @@ function initElements() {
     historyPage = document.getElementById('historyPage');
     historyGrid = document.getElementById('historyGrid');
     historyFilters = document.getElementById('historyFilters');
+    playlistsPage = document.getElementById('playlistsPage');
+    playlistsList = document.getElementById('playlistsList');
+    playlistNameInput = document.getElementById('playlistNameInput');
+    createPlaylistBtn = document.getElementById('createPlaylistBtn');
     chipsBar = document.querySelector('.chips-bar');
     loading = document.getElementById('loading');
     backgroundModal = document.getElementById('backgroundModal');
@@ -106,6 +115,8 @@ function initElements() {
     heroEyebrow = document.getElementById('heroEyebrow');
     heroChannel = document.getElementById('heroChannel');
     pageTitle = document.getElementById('pageTitle');
+    playlistModal = document.getElementById('playlistModal');
+    playlistModalBody = document.getElementById('playlistModalBody');
     videoPlayer = document.getElementById('videoPlayer');
     videoPlaceholder = document.getElementById('videoPlaceholder');
     placeholderImage = document.getElementById('placeholderImage');
@@ -180,6 +191,8 @@ function initEventListeners() {
                 if (useYouTubeAPI) {
                     loadTrendingVideos();
                 }
+            } else if (page === 'playlists') {
+                showPlaylists();
             } else {
                 showHome();
             }
@@ -225,6 +238,40 @@ function initEventListeners() {
     if (backgroundBtn) {
         backgroundBtn.addEventListener('click', openBackgroundModal);
     }
+
+    if (createPlaylistBtn) {
+        createPlaylistBtn.addEventListener('click', () => {
+            const name = playlistNameInput?.value?.trim();
+            if (!name) return;
+            createPlaylist(name);
+            if (playlistNameInput) {
+                playlistNameInput.value = '';
+            }
+            renderPlaylistsPage();
+        });
+    }
+
+    if (playlistNameInput) {
+        playlistNameInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                createPlaylistBtn?.click();
+            }
+        });
+    }
+
+    if (playlistModal) {
+        const closeBtn = playlistModal.querySelector('.playlist-modal-close');
+        const backdrop = playlistModal.querySelector('.playlist-modal-backdrop');
+        closeBtn?.addEventListener('click', closePlaylistModal);
+        backdrop?.addEventListener('click', closePlaylistModal);
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && playlistModal && !playlistModal.classList.contains('hidden')) {
+            closePlaylistModal();
+        }
+    });
 
     if (heroButton) {
         heroButton.addEventListener('click', () => {
@@ -345,6 +392,7 @@ function openBackgroundModal() {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 function closeBackgroundModal() {
@@ -398,7 +446,7 @@ function updateHero(video, source = 'static') {
 
     const title = video.title || video.snippet?.title || 'Vídeo destacat';
     const description = video.description || video.snippet?.description || '';
-    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.high?.url || '';
+    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.maxres?.url || video.snippet?.thumbnails?.standard?.url || video.snippet?.thumbnails?.high?.url || '';
     const duration = video.duration || video.contentDetails?.duration || '';
 
     heroSection.classList.remove('hidden');
@@ -523,6 +571,7 @@ function loadCategories() {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 // ==================== CARREGAR VÍDEOS AMB API ====================
@@ -705,6 +754,7 @@ function renderVideos(videos) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 function createShortCard(video) {
@@ -764,6 +814,13 @@ const HEART_TOGGLE_SVG = `
     </svg>
 `;
 
+const PLAYLIST_ICON_SVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" class="icon-playlist" aria-hidden="true" focusable="false">
+        <rect x="40" y="10" width="20" height="80" rx="10" ry="10" fill="white"></rect>
+        <rect x="10" y="40" width="80" height="20" rx="10" ry="10" fill="white"></rect>
+    </svg>
+`;
+
 function setupLikeBadge(videoId) {
     const likeBadge = document.getElementById('likeToggle');
     if (!likeBadge) {
@@ -808,6 +865,198 @@ function setupLikeBadge(videoId) {
 
     likeBadge.addEventListener('click', likeBadge._likeHandler);
     likeBadge.addEventListener('keydown', likeBadge._likeHandler);
+}
+
+function getPreferredThumbnail(video) {
+    return video.thumbnail
+        || video.snippet?.thumbnails?.maxres?.url
+        || video.snippet?.thumbnails?.standard?.url
+        || video.snippet?.thumbnails?.high?.url
+        || video.snippet?.thumbnails?.medium?.url
+        || video.snippet?.thumbnails?.default?.url
+        || '';
+}
+
+function getPlaylists() {
+    const stored = localStorage.getItem(PLAYLIST_STORAGE_KEY);
+    if (!stored) return [];
+    try {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.warn('No es pot llegir playlists', error);
+        return [];
+    }
+}
+
+function savePlaylists(playlists) {
+    localStorage.setItem(PLAYLIST_STORAGE_KEY, JSON.stringify(playlists));
+}
+
+function createPlaylist(name, video) {
+    const trimmedName = name.trim();
+    if (!trimmedName) return;
+    const playlists = getPlaylists();
+    const playlist = {
+        id: `pl_${Date.now()}`,
+        name: trimmedName,
+        videos: []
+    };
+    if (video) {
+        playlist.videos.push(video);
+    }
+    playlists.push(playlist);
+    savePlaylists(playlists);
+}
+
+function addVideoToPlaylist(playlistId, video) {
+    const playlists = getPlaylists();
+    const playlist = playlists.find(item => item.id === playlistId);
+    if (!playlist) return;
+    const exists = playlist.videos.some(item => String(item.id) === String(video.id));
+    if (!exists) {
+        playlist.videos.unshift(video);
+    }
+    savePlaylists(playlists);
+}
+
+function removePlaylist(playlistId) {
+    const playlists = getPlaylists().filter(item => item.id !== playlistId);
+    savePlaylists(playlists);
+}
+
+function renderPlaylistsPage() {
+    if (!playlistsList) return;
+    const playlists = getPlaylists();
+    if (playlists.length === 0) {
+        playlistsList.innerHTML = `<div class="playlist-empty">Encara no tens cap llista creada.</div>`;
+        return;
+    }
+
+    playlistsList.innerHTML = playlists.map(list => `
+        <div class="playlist-item">
+            <div>
+                <div class="playlist-item-name">${escapeHtml(list.name)}</div>
+                <div class="playlist-item-meta">${list.videos.length} vídeos</div>
+            </div>
+            <button class="playlist-delete" type="button" data-playlist-id="${list.id}" aria-label="Esborrar llista">×</button>
+        </div>
+    `).join('');
+
+    playlistsList.querySelectorAll('.playlist-delete').forEach(button => {
+        button.addEventListener('click', () => {
+            removePlaylist(button.dataset.playlistId);
+            renderPlaylistsPage();
+        });
+    });
+}
+
+function openPlaylistModal(video) {
+    if (!playlistModal || !playlistModalBody) return;
+    activePlaylistVideo = video;
+    renderPlaylistModal();
+    playlistModal.classList.remove('hidden');
+    playlistModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('no-scroll');
+}
+
+function closePlaylistModal() {
+    if (!playlistModal) return;
+    playlistModal.classList.add('hidden');
+    playlistModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('no-scroll');
+    activePlaylistVideo = null;
+}
+
+function renderPlaylistModal() {
+    if (!playlistModalBody) return;
+    const playlists = getPlaylists();
+
+    const listSection = playlists.length > 0
+        ? `
+            <div class="playlist-modal-buttons">
+                ${playlists.map(list => `
+                    <button class="playlist-select-btn" type="button" data-playlist-id="${list.id}">
+                        ${escapeHtml(list.name)}
+                    </button>
+                `).join('')}
+            </div>
+        `
+        : `<p class="modal-description">Crea una llista per començar.</p>`;
+
+    playlistModalBody.innerHTML = `
+        ${listSection}
+        <div class="playlist-modal-create">
+            <div class="modal-description">Crea una llista</div>
+            <input class="playlist-input" type="text" id="playlistModalInput" placeholder="Nom de la llista">
+            <button class="playlist-create-btn" type="button" id="playlistModalCreateBtn">OK</button>
+        </div>
+    `;
+
+    playlistModalBody.querySelectorAll('.playlist-select-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            if (activePlaylistVideo) {
+                addVideoToPlaylist(button.dataset.playlistId, activePlaylistVideo);
+                renderPlaylistsPage();
+            }
+            closePlaylistModal();
+        });
+    });
+
+    const modalInput = playlistModalBody.querySelector('#playlistModalInput');
+    const modalCreateBtn = playlistModalBody.querySelector('#playlistModalCreateBtn');
+    if (modalCreateBtn) {
+        modalCreateBtn.addEventListener('click', () => {
+            const name = modalInput?.value?.trim();
+            if (!name || !activePlaylistVideo) return;
+            createPlaylist(name, activePlaylistVideo);
+            renderPlaylistsPage();
+            closePlaylistModal();
+        });
+    }
+    if (modalInput) {
+        modalInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                modalCreateBtn?.click();
+            }
+        });
+    }
+}
+
+function getPlaylistVideoData(video) {
+    return {
+        id: video.id,
+        title: video.title || video.snippet?.title || '',
+        thumbnail: getPreferredThumbnail(video),
+        channelTitle: video.channelTitle || video.snippet?.channelTitle || '',
+        duration: video.duration || video.contentDetails?.duration || ''
+    };
+}
+
+function setupVideoCardActionButtons() {
+    document.querySelectorAll('.video-card .playlist-action').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const payload = button.dataset.playlistVideo;
+            if (!payload) return;
+            const video = JSON.parse(decodeURIComponent(payload));
+            openPlaylistModal(video);
+        });
+    });
+
+    document.querySelectorAll('.video-card .like-action').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const videoId = String(button.dataset.videoId || '');
+            if (!videoId) return;
+            const likedIds = getLikedVideoIds();
+            const wasLiked = likedIds.includes(videoId);
+            const next = wasLiked ? likedIds.filter(id => id !== videoId) : [...likedIds, videoId];
+            setLikedVideoIds(next);
+            button.classList.toggle('is-liked', !wasLiked);
+        });
+    });
 }
 
 function isMiniPlayerActive() {
@@ -980,6 +1229,7 @@ function updatePlayerIframe({ source, videoId, videoUrl }) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 function makeDraggable(element, handle) {
@@ -1210,6 +1460,7 @@ function updateMiniPlayerToggleIcon(isActive) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 function setMiniPlayerState(isActive) {
@@ -1282,7 +1533,11 @@ function renderSearchResults(videos) {
     const newest = getNewestVideoFromList(videos);
     updateHero(newest?.video, 'api');
 
-    videosGrid.innerHTML = videos.map(video => `
+    const likedIds = getLikedVideoIds();
+    videosGrid.innerHTML = videos.map(video => {
+        const isLiked = likedIds.includes(String(video.id));
+        const payload = encodeURIComponent(JSON.stringify(getPlaylistVideoData(video)));
+        return `
         <div class="video-card" data-video-id="${video.id}">
             <div class="video-thumbnail${video.isShort ? ' is-short' : ''}">
                 <img src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
@@ -1290,7 +1545,17 @@ function renderSearchResults(videos) {
             </div>
             <div class="video-details">
                 <div class="video-info-container">
-                    <h3 class="video-card-title">${escapeHtml(video.title)}</h3>
+                    <div class="video-info-header">
+                        <h3 class="video-card-title">${escapeHtml(video.title)}</h3>
+                        <div class="video-card-actions">
+                            <button class="video-action-btn like-action${isLiked ? ' is-liked' : ''}" type="button" data-video-id="${video.id}" aria-label="Preferit">
+                                <i data-lucide="heart"></i>
+                            </button>
+                            <button class="video-action-btn playlist-action" type="button" data-playlist-video="${payload}" aria-label="Afegir a una llista">
+                                ${PLAYLIST_ICON_SVG}
+                            </button>
+                        </div>
+                    </div>
                     <div class="video-metadata">
                         <div class="channel-name">${escapeHtml(video.channelTitle)}</div>
                         <div class="video-stats">
@@ -1300,7 +1565,8 @@ function renderSearchResults(videos) {
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     const videoCards = document.querySelectorAll('.video-card');
     videoCards.forEach(card => {
@@ -1313,10 +1579,14 @@ function renderSearchResults(videos) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 // Crear targeta de vídeo (API)
 function createVideoCardAPI(video) {
+    const likedIds = getLikedVideoIds();
+    const isLiked = likedIds.includes(String(video.id));
+    const payload = encodeURIComponent(JSON.stringify(getPlaylistVideoData(video)));
     return `
         <div class="video-card" data-video-id="${video.id}">
             <div class="video-thumbnail${video.isShort ? ' is-short' : ''}">
@@ -1326,7 +1596,17 @@ function createVideoCardAPI(video) {
             </div>
             <div class="video-details">
                 <div class="video-info-container">
-                    <h3 class="video-card-title">${escapeHtml(video.title)}</h3>
+                    <div class="video-info-header">
+                        <h3 class="video-card-title">${escapeHtml(video.title)}</h3>
+                        <div class="video-card-actions">
+                            <button class="video-action-btn like-action${isLiked ? ' is-liked' : ''}" type="button" data-video-id="${video.id}" aria-label="Preferit">
+                                <i data-lucide="heart"></i>
+                            </button>
+                            <button class="video-action-btn playlist-action" type="button" data-playlist-video="${payload}" aria-label="Afegir a una llista">
+                                ${PLAYLIST_ICON_SVG}
+                            </button>
+                        </div>
+                    </div>
                     <div class="video-metadata">
                         <div class="channel-name">${escapeHtml(video.channelTitle)}</div>
                         <div class="video-stats">
@@ -1356,6 +1636,9 @@ async function showVideoFromAPI(videoId) {
     }
     if (historyPage) {
         historyPage.classList.add('hidden');
+    }
+    if (playlistsPage) {
+        playlistsPage.classList.add('hidden');
     }
     if (chipsBar) {
         chipsBar.classList.add('hidden');
@@ -1499,6 +1782,7 @@ async function showVideoFromAPI(videoId) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 // Carregar comentaris des de l'API
@@ -1536,6 +1820,7 @@ async function loadCommentsFromAPI(videoId) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 // Carregar vídeos relacionats des de l'API
@@ -1610,6 +1895,7 @@ function renderStaticVideos(videos) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+    setupVideoCardActionButtons();
 }
 
 // Carregar vídeos per categoria (estàtic)
@@ -1637,6 +1923,9 @@ function loadVideosByCategoryStatic(categoryId) {
 // Crear targeta de vídeo (estàtic)
 function createVideoCard(video) {
     const channel = getChannelById(video.channelId);
+    const likedIds = getLikedVideoIds();
+    const isLiked = likedIds.includes(String(video.id));
+    const payload = encodeURIComponent(JSON.stringify(getPlaylistVideoData(video)));
 
     return `
         <div class="video-card" data-video-id="${video.id}">
@@ -1647,7 +1936,17 @@ function createVideoCard(video) {
             <div class="video-details">
                 <img src="${channel.avatar}" alt="${channel.name}" class="channel-avatar">
                 <div class="video-info-container">
-                    <h3 class="video-card-title">${video.title}</h3>
+                    <div class="video-info-header">
+                        <h3 class="video-card-title">${video.title}</h3>
+                        <div class="video-card-actions">
+                            <button class="video-action-btn like-action${isLiked ? ' is-liked' : ''}" type="button" data-video-id="${video.id}" aria-label="Preferit">
+                                <i data-lucide="heart"></i>
+                            </button>
+                            <button class="video-action-btn playlist-action" type="button" data-playlist-video="${payload}" aria-label="Afegir a una llista">
+                                ${PLAYLIST_ICON_SVG}
+                            </button>
+                        </div>
+                    </div>
                     <div class="video-metadata">
                         <div class="channel-name">${channel.name}</div>
                         <div class="video-stats">
@@ -1692,6 +1991,9 @@ function showHome() {
     }
     if (historyPage) {
         historyPage.classList.add('hidden');
+    }
+    if (playlistsPage) {
+        playlistsPage.classList.add('hidden');
     }
     if (chipsBar) {
         chipsBar.classList.remove('hidden');
@@ -1908,11 +2210,14 @@ function createHistoryCard(video) {
     const isStatic = source === 'static';
     const channel = isStatic ? getChannelById(video.channelId) : null;
     const title = video.title || video.snippet?.title || '';
-    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.high?.url || '';
+    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.maxres?.url || video.snippet?.thumbnails?.standard?.url || video.snippet?.thumbnails?.high?.url || '';
     const duration = video.duration || video.contentDetails?.duration || '';
     const channelTitle = video.channelTitle || channel?.name || '';
     const publishedAt = video.publishedAt || video.uploadDate || video.snippet?.publishedAt || '';
     const views = video.viewCount || video.views || 0;
+    const likedIds = getLikedVideoIds();
+    const isLiked = likedIds.includes(String(video.id));
+    const payload = encodeURIComponent(JSON.stringify(getPlaylistVideoData(video)));
 
     return `
         <div class="video-card" data-video-id="${video.id}" data-video-source="${source}">
@@ -1927,7 +2232,17 @@ function createHistoryCard(video) {
             <div class="video-details">
                 ${channel ? `<img src="${channel.avatar}" alt="${escapeHtml(channel.name)}" class="channel-avatar">` : ''}
                 <div class="video-info-container">
-                    <h3 class="video-card-title">${escapeHtml(title)}</h3>
+                    <div class="video-info-header">
+                        <h3 class="video-card-title">${escapeHtml(title)}</h3>
+                        <div class="video-card-actions">
+                            <button class="video-action-btn like-action${isLiked ? ' is-liked' : ''}" type="button" data-video-id="${video.id}" aria-label="Preferit">
+                                <i data-lucide="heart"></i>
+                            </button>
+                            <button class="video-action-btn playlist-action" type="button" data-playlist-video="${payload}" aria-label="Afegir a una llista">
+                                ${PLAYLIST_ICON_SVG}
+                            </button>
+                        </div>
+                    </div>
                     <div class="video-metadata">
                         <div class="channel-name">${escapeHtml(channelTitle)}</div>
                         <div class="video-stats">
@@ -1995,11 +2310,32 @@ function showHistory() {
     if (historyPage) {
         historyPage.classList.remove('hidden');
     }
+    if (playlistsPage) {
+        playlistsPage.classList.add('hidden');
+    }
     if (chipsBar) {
         chipsBar.classList.add('hidden');
     }
     updateHistoryFilterUI();
     renderHistory();
+    window.scrollTo(0, 0);
+}
+
+function showPlaylists() {
+    handlePlayerVisibilityOnNavigation();
+    if (mainContent) {
+        mainContent.classList.add('hidden');
+    }
+    if (historyPage) {
+        historyPage.classList.add('hidden');
+    }
+    if (playlistsPage) {
+        playlistsPage.classList.remove('hidden');
+    }
+    if (chipsBar) {
+        chipsBar.classList.add('hidden');
+    }
+    renderPlaylistsPage();
     window.scrollTo(0, 0);
 }
 
