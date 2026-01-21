@@ -1,6 +1,24 @@
 {
-  "generatedAt": "2026-01-21T01:42:27.358Z",
+  "generatedAt": "2026-01-21T07:26:44.392Z",
   "videos": [
+    {
+      "id": "oLY_Y0bXS1o",
+      "title": "La Sotana 396 amb Èric Montes",
+      "thumbnail": "https://i.ytimg.com/vi/oLY_Y0bXS1o/mqdefault.jpg",
+      "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+      "channelTitle": "La Sotana",
+      "publishedAt": "2026-01-21T07:08:29Z",
+      "categories": [
+        "humor"
+      ],
+      "sourceChannelId": "@LaSotana",
+      "duration": "PT1H3M21S",
+      "durationSeconds": 3801,
+      "isShort": false,
+      "viewCount": 5089,
+      "likeCount": 140,
+      "commentCount": 19
+    },
     {
       "id": "1VbgtmNtJ3g",
       "title": "Gabriel Rufián diu que l'accident ha estat mala sort i n'exculpa Pedro Sánchez /2026 01 20",
@@ -15,9 +33,9 @@
       "duration": "PT45M26S",
       "durationSeconds": 2726,
       "isShort": false,
-      "viewCount": 160,
-      "likeCount": 39,
-      "commentCount": 18
+      "viewCount": 276,
+      "likeCount": 71,
+      "commentCount": 23
     },
     {
       "id": "n9GlWSujeWY",
@@ -33,9 +51,9 @@
       "duration": "PT14M20S",
       "durationSeconds": 860,
       "isShort": false,
-      "viewCount": 8273,
-      "likeCount": 952,
-      "commentCount": 91
+      "viewCount": 8617,
+      "likeCount": 981,
+      "commentCount": 99
     },
     {
       "id": "mi720wF4MtQ",
@@ -51,8 +69,8 @@
       "duration": "PT42S",
       "durationSeconds": 42,
       "isShort": true,
-      "viewCount": 2803,
-      "likeCount": 65,
+      "viewCount": 3023,
+      "likeCount": 75,
       "commentCount": 0
     },
     {
@@ -69,8 +87,8 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 4555,
-      "likeCount": 93,
+      "viewCount": 4668,
+      "likeCount": 94,
       "commentCount": 4
     },
     {
@@ -107,7 +125,7 @@
       "duration": "PT1H39M27S",
       "durationSeconds": 5967,
       "isShort": false,
-      "viewCount": 33,
+      "viewCount": 34,
       "likeCount": 5,
       "commentCount": 0
     },
@@ -125,7 +143,7 @@
       "duration": "PT38M43S",
       "durationSeconds": 2323,
       "isShort": false,
-      "viewCount": 1775,
+      "viewCount": 1802,
       "likeCount": 272,
       "commentCount": 75
     },
@@ -162,9 +180,9 @@
       "duration": "PT15M21S",
       "durationSeconds": 921,
       "isShort": false,
-      "viewCount": 11374,
-      "likeCount": 1187,
-      "commentCount": 124
+      "viewCount": 11440,
+      "likeCount": 1191,
+      "commentCount": 125
     },
     {
       "id": "STZqF2Oq0hM",
@@ -199,8 +217,8 @@
       "duration": "PT18M12S",
       "durationSeconds": 1092,
       "isShort": false,
-      "viewCount": 13610,
-      "likeCount": 1268,
+      "viewCount": 13641,
+      "likeCount": 1270,
       "commentCount": 144
     },
     {
@@ -217,7 +235,7 @@
       "duration": "PT46M22S",
       "durationSeconds": 2782,
       "isShort": false,
-      "viewCount": 1208,
+      "viewCount": 1212,
       "likeCount": 229,
       "commentCount": 69
     },
@@ -291,7 +309,7 @@
       "duration": "PT33M52S",
       "durationSeconds": 2032,
       "isShort": false,
-      "viewCount": 1315,
+      "viewCount": 1319,
       "likeCount": 188,
       "commentCount": 45
     },
@@ -328,9 +346,9 @@
       "duration": "PT1H6M17S",
       "durationSeconds": 3977,
       "isShort": false,
-      "viewCount": 69357,
-      "likeCount": 1405,
-      "commentCount": 79
+      "viewCount": 69557,
+      "likeCount": 1406,
+      "commentCount": 80
     },
     {
       "id": "C44VS3k00E4",
@@ -364,8 +382,8 @@
       "duration": "PT1M12S",
       "durationSeconds": 72,
       "isShort": true,
-      "viewCount": 3891,
-      "likeCount": 85,
+      "viewCount": 3956,
+      "likeCount": 86,
       "commentCount": 3
     },
     {
@@ -382,8 +400,8 @@
       "duration": "PT17M59S",
       "durationSeconds": 1079,
       "isShort": false,
-      "viewCount": 14308,
-      "likeCount": 1140,
+      "viewCount": 14321,
+      "likeCount": 1141,
       "commentCount": 120
     },
     {
@@ -419,7 +437,7 @@
       "duration": "PT1M9S",
       "durationSeconds": 69,
       "isShort": true,
-      "viewCount": 5106,
+      "viewCount": 5140,
       "likeCount": 143,
       "commentCount": 4
     },
@@ -474,8 +492,8 @@
       "duration": "PT15M40S",
       "durationSeconds": 940,
       "isShort": false,
-      "viewCount": 14735,
-      "likeCount": 1212,
+      "viewCount": 14745,
+      "likeCount": 1214,
       "commentCount": 158
     },
     {
@@ -511,7 +529,7 @@
       "duration": "PT13M51S",
       "durationSeconds": 831,
       "isShort": false,
-      "viewCount": 14613,
+      "viewCount": 14632,
       "likeCount": 1337,
       "commentCount": 185
     },
@@ -529,8 +547,8 @@
       "duration": "PT13M46S",
       "durationSeconds": 826,
       "isShort": false,
-      "viewCount": 14357,
-      "likeCount": 1378,
+      "viewCount": 14364,
+      "likeCount": 1379,
       "commentCount": 153
     },
     {
@@ -584,7 +602,7 @@
       "duration": "PT17M20S",
       "durationSeconds": 1040,
       "isShort": false,
-      "viewCount": 15569,
+      "viewCount": 15590,
       "likeCount": 1330,
       "commentCount": 147
     },
@@ -640,7 +658,7 @@
       "duration": "PT30M28S",
       "durationSeconds": 1828,
       "isShort": false,
-      "viewCount": 1246,
+      "viewCount": 1247,
       "likeCount": 203,
       "commentCount": 64
     },
@@ -658,7 +676,7 @@
       "duration": "PT19M21S",
       "durationSeconds": 1161,
       "isShort": false,
-      "viewCount": 14523,
+      "viewCount": 14534,
       "likeCount": 1262,
       "commentCount": 121
     },
@@ -713,7 +731,7 @@
       "duration": "PT2H4M43S",
       "durationSeconds": 7483,
       "isShort": false,
-      "viewCount": 14751,
+      "viewCount": 14762,
       "likeCount": 979,
       "commentCount": 56
     },
@@ -807,7 +825,7 @@
       "duration": "PT1M33S",
       "durationSeconds": 93,
       "isShort": true,
-      "viewCount": 2790,
+      "viewCount": 2800,
       "likeCount": 65,
       "commentCount": 1
     },
@@ -825,7 +843,7 @@
       "duration": "PT1M15S",
       "durationSeconds": 75,
       "isShort": true,
-      "viewCount": 2852,
+      "viewCount": 2894,
       "likeCount": 50,
       "commentCount": 1
     },
@@ -843,7 +861,7 @@
       "duration": "PT1H11M54S",
       "durationSeconds": 4314,
       "isShort": false,
-      "viewCount": 91677,
+      "viewCount": 91695,
       "likeCount": 1926,
       "commentCount": 110
     },
@@ -861,27 +879,9 @@
       "duration": "PT40S",
       "durationSeconds": 40,
       "isShort": true,
-      "viewCount": 4997,
+      "viewCount": 5002,
       "likeCount": 73,
       "commentCount": 3
-    },
-    {
-      "id": "sW33OczZkY0",
-      "title": "En Peyu: vida, obra i miracles. #català #podcast",
-      "thumbnail": "https://i.ytimg.com/vi/sW33OczZkY0/mqdefault.jpg",
-      "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
-      "channelTitle": "La Sotana",
-      "publishedAt": "2025-12-23T17:29:11Z",
-      "categories": [
-        "humor"
-      ],
-      "sourceChannelId": "@LaSotana",
-      "duration": "PT1M14S",
-      "durationSeconds": 74,
-      "isShort": true,
-      "viewCount": 4083,
-      "likeCount": 68,
-      "commentCount": 1
     },
     {
       "id": "ivKgGEnbD2Q",
@@ -955,7 +955,7 @@
       "duration": "PT51M18S",
       "durationSeconds": 3078,
       "isShort": false,
-      "viewCount": 1025,
+      "viewCount": 1026,
       "likeCount": 59,
       "commentCount": 15
     },
@@ -1173,8 +1173,8 @@
       "duration": "PT39M26S",
       "durationSeconds": 2366,
       "isShort": false,
-      "viewCount": 1752,
-      "likeCount": 77,
+      "viewCount": 1755,
+      "likeCount": 78,
       "commentCount": 19
     },
     {
