@@ -899,6 +899,7 @@ body.sidebar-collapsed .main-content {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    z-index: 2002;
 }
 
 .close-mini-player-btn svg {
@@ -919,6 +920,7 @@ body.sidebar-collapsed .main-content {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    z-index: 2002;
 }
 
 .expand-mini-player-btn svg {

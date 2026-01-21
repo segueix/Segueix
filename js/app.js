@@ -933,6 +933,9 @@ function updatePlayerIframe({ source, videoId, videoUrl }) {
     if (!videoPlayer) {
         return;
     }
+    if (videoId) {
+        videoPlayer.dataset.playingVideoId = videoId;
+    }
     const iframeSrc = source === 'api'
         ? `https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1&autoplay=1&hl=ca&cc_lang_pref=ca&gl=AD`
         : addAutoplayParam(videoUrl);
@@ -952,7 +955,7 @@ function updatePlayerIframe({ source, videoId, videoUrl }) {
             </svg>
         </div>
         <button class="expand-mini-player-btn" type="button" aria-label="Restaurar reproductor">
-            <i data-lucide="maximize-2"></i>
+            <i data-lucide="maximize"></i>
         </button>
         <button class="close-mini-player-btn" type="button" aria-label="Tancar mini reproductor">
             <i data-lucide="x"></i>
@@ -1087,6 +1090,15 @@ function setupDragHandle() {
     const onExpand = (event) => {
         event.preventDefault();
         event.stopPropagation();
+        const playingId = videoPlayer.dataset.playingVideoId;
+        const currentPageId = currentVideoId;
+        if (playingId && playingId !== currentPageId) {
+            if (useYouTubeAPI) {
+                showVideoFromAPI(playingId);
+            } else {
+                showVideo(playingId);
+            }
+        }
         setMiniPlayerState(false);
     };
 
