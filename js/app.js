@@ -1,13 +1,16 @@
 // App Principal
 
 // Elements del DOM
-let sidebar, menuBtn, videosGrid, homePage, watchPage, loading;
+let sidebar, menuBtn, videosGrid, homePage, watchPage, loading, mainContent;
+let historyPage, historyGrid, historyFilters, chipsBar;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow, heroChannel;
 let pageTitle;
 let backgroundModal, backgroundBtn, backgroundOptions;
 let currentVideoId = null;
 let useYouTubeAPI = false;
 let selectedCategory = 'Tot';
+let historySelectedCategory = 'Tot';
+let historyFilterLiked = false;
 let currentFeedVideos = [];
 let currentFeedData = null;
 let currentFeedRenderer = null;
@@ -21,6 +24,9 @@ const BACKGROUND_COLORS = [
     '#5a3f29',
     '#513359'
 ];
+
+const HISTORY_STORAGE_KEY = 'catube_history';
+const HISTORY_LIMIT = 50;
 
 // Cache de canals carregats de l'API
 let cachedChannels = {};
@@ -78,9 +84,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 function initElements() {
     sidebar = document.getElementById('sidebar');
     menuBtn = document.getElementById('menuBtn');
+    mainContent = document.getElementById('mainContent');
     videosGrid = document.getElementById('videosGrid');
     homePage = document.getElementById('homePage');
     watchPage = document.getElementById('watchPage');
+    historyPage = document.getElementById('historyPage');
+    historyGrid = document.getElementById('historyGrid');
+    historyFilters = document.getElementById('historyFilters');
+    chipsBar = document.querySelector('.chips-bar');
     loading = document.getElementById('loading');
     backgroundModal = document.getElementById('backgroundModal');
     backgroundBtn = document.getElementById('backgroundBtn');
@@ -122,6 +133,7 @@ function initEventListeners() {
 
             const page = item.dataset.page;
             if (page === 'home') {
+                historyFilterLiked = false;
                 showHome();
                 if (useYouTubeAPI) {
                     loadVideosFromAPI();
@@ -133,6 +145,8 @@ function initEventListeners() {
                 if (useYouTubeAPI) {
                     loadTrendingVideos();
                 }
+            } else if (page === 'history') {
+                showHistory();
             }
         });
     });
@@ -189,9 +203,25 @@ function initEventListeners() {
     }
 
     // Tancar sidebar en mòbil quan es clica fora
+    if (historyFilters) {
+        historyFilters.addEventListener('click', (event) => {
+            const chip = event.target.closest('.chip');
+            if (!chip) return;
+            event.stopPropagation();
+            const historyCategory = chip.dataset.historyCat;
+            if (chip.dataset.historyFilter === 'liked') {
+                historyFilterLiked = !historyFilterLiked;
+            } else if (historyCategory) {
+                historySelectedCategory = historyCategory;
+            }
+            updateHistoryFilterUI();
+            renderHistory();
+        });
+    }
+
     document.addEventListener('click', (e) => {
         const chip = e.target.closest('.chip');
-        if (chip) {
+        if (chip && !chip.closest('#historyPage')) {
             selectedCategory = chip.dataset.cat || 'Tot';
             document.querySelectorAll('.chip').forEach((item) => item.classList.remove('is-active'));
             chip.classList.add('is-active');
@@ -803,6 +833,15 @@ async function showVideoFromAPI(videoId) {
     history.pushState({ videoId }, '', `?v=${videoId}`);
 
     // Mostrar pàgina de vídeo
+    if (mainContent) {
+        mainContent.classList.remove('hidden');
+    }
+    if (historyPage) {
+        historyPage.classList.add('hidden');
+    }
+    if (chipsBar) {
+        chipsBar.classList.add('hidden');
+    }
     homePage.classList.add('hidden');
     watchPage.classList.remove('hidden');
 
@@ -822,6 +861,10 @@ async function showVideoFromAPI(videoId) {
     // 1. Renderitzat immediat des del catxé si està disponible
     const cachedVideo = cachedAPIVideos.find(video => video.id === videoId);
     if (cachedVideo) {
+        addToHistory({
+            ...cachedVideo,
+            historySource: 'api'
+        });
         document.getElementById('videoTitle').textContent = cachedVideo.title || '';
         document.getElementById('videoDate').textContent = cachedVideo.publishedAt
             ? formatDate(cachedVideo.publishedAt)
@@ -860,6 +903,10 @@ async function showVideoFromAPI(videoId) {
 
         if (videoResult.video) {
             const video = videoResult.video;
+            addToHistory({
+                ...video,
+                historySource: 'api'
+            });
 
             // 1. Actualitzar estadístiques principals
             document.getElementById('videoTitle').textContent = video.title;
@@ -1092,6 +1139,15 @@ function stopVideoPlayback() {
 
 // Mostrar pàgina principal
 function showHome() {
+    if (mainContent) {
+        mainContent.classList.remove('hidden');
+    }
+    if (historyPage) {
+        historyPage.classList.add('hidden');
+    }
+    if (chipsBar) {
+        chipsBar.classList.remove('hidden');
+    }
     homePage.classList.remove('hidden');
     watchPage.classList.add('hidden');
     currentVideoId = null;
@@ -1104,8 +1160,22 @@ function showVideo(videoId) {
     const video = getVideoById(videoId);
     const channel = getChannelById(video.channelId);
 
+    addToHistory({
+        ...video,
+        historySource: 'static'
+    });
+
     history.pushState({ videoId }, '', `?v=${videoId}`);
 
+    if (mainContent) {
+        mainContent.classList.remove('hidden');
+    }
+    if (historyPage) {
+        historyPage.classList.add('hidden');
+    }
+    if (chipsBar) {
+        chipsBar.classList.add('hidden');
+    }
     homePage.classList.add('hidden');
     watchPage.classList.remove('hidden');
 
@@ -1163,6 +1233,211 @@ function showVideo(videoId) {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+}
+
+function getHistoryItems() {
+    const stored = localStorage.getItem(HISTORY_STORAGE_KEY);
+    if (!stored) {
+        return [];
+    }
+    try {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.warn('No es pot llegir catube_history', error);
+        return [];
+    }
+}
+
+function saveHistoryItems(items) {
+    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(items));
+}
+
+function addToHistory(video) {
+    if (!video || video.id === undefined || video.id === null) {
+        return;
+    }
+
+    const history = getHistoryItems();
+    const normalizedId = String(video.id);
+    const existingIndex = history.findIndex(item => String(item.id) === normalizedId);
+
+    if (existingIndex !== -1) {
+        history.splice(existingIndex, 1);
+    }
+
+    history.unshift(video);
+
+    if (history.length > HISTORY_LIMIT) {
+        history.length = HISTORY_LIMIT;
+    }
+
+    saveHistoryItems(history);
+}
+
+function getStaticCategoryName(video) {
+    const map = {
+        1: 'Vida',
+        2: 'Gaming',
+        3: 'Cultura',
+        4: 'Societat',
+        5: 'Humor'
+    };
+    return map[video.categoryId] || null;
+}
+
+function getHistoryVideoCategories(video) {
+    if (!video) return [];
+    if (Array.isArray(video.categories) && video.categories.length > 0) {
+        return video.categories;
+    }
+    if (video.categoryName) {
+        return [video.categoryName];
+    }
+    if (video.category) {
+        return [video.category];
+    }
+    if (video.categoryId) {
+        const mapped = getStaticCategoryName(video);
+        return mapped ? [mapped] : [];
+    }
+    return [];
+}
+
+function getFilteredHistoryItems() {
+    const history = getHistoryItems();
+    const likedIds = getLikedVideoIds();
+    let filtered = history;
+
+    if (historyFilterLiked) {
+        filtered = filtered.filter(video => likedIds.includes(String(video.id)));
+    }
+
+    if (historySelectedCategory !== 'Tot') {
+        const wanted = historySelectedCategory.toLowerCase();
+        filtered = filtered.filter(video =>
+            getHistoryVideoCategories(video).some(cat => String(cat).toLowerCase() === wanted)
+        );
+    }
+
+    return filtered;
+}
+
+function updateHistoryFilterUI() {
+    if (!historyFilters) return;
+
+    historyFilters.querySelectorAll('[data-history-cat]').forEach(chip => {
+        const isActive = chip.dataset.historyCat === historySelectedCategory;
+        chip.classList.toggle('is-active', isActive);
+        chip.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    const likedChip = historyFilters.querySelector('[data-history-filter="liked"]');
+    if (likedChip) {
+        likedChip.classList.toggle('is-active', historyFilterLiked);
+        likedChip.setAttribute('aria-pressed', historyFilterLiked ? 'true' : 'false');
+    }
+}
+
+function createHistoryCard(video) {
+    const source = video.historySource || 'api';
+    const isShort = video.isShort;
+    const isStatic = source === 'static';
+    const channel = isStatic ? getChannelById(video.channelId) : null;
+    const title = video.title || video.snippet?.title || '';
+    const thumbnail = video.thumbnail || video.snippet?.thumbnails?.high?.url || '';
+    const duration = video.duration || video.contentDetails?.duration || '';
+    const channelTitle = video.channelTitle || channel?.name || '';
+    const publishedAt = video.publishedAt || video.uploadDate || video.snippet?.publishedAt || '';
+    const views = video.viewCount || video.views || 0;
+
+    return `
+        <div class="video-card" data-video-id="${video.id}" data-video-source="${source}">
+            <div class="video-thumbnail${isShort ? ' is-short' : ''}">
+                <img src="${thumbnail}" alt="${escapeHtml(title)}" loading="lazy">
+                <button class="delete-history-btn" type="button" aria-label="Eliminar de l'historial" data-history-id="${video.id}">
+                    <i data-lucide="x"></i>
+                </button>
+                ${isShort ? '<span class="video-short-badge">SHORT</span>' : ''}
+                ${duration ? `<span class="video-duration">${duration}</span>` : ''}
+            </div>
+            <div class="video-details">
+                ${channel ? `<img src="${channel.avatar}" alt="${escapeHtml(channel.name)}" class="channel-avatar">` : ''}
+                <div class="video-info-container">
+                    <h3 class="video-card-title">${escapeHtml(title)}</h3>
+                    <div class="video-metadata">
+                        <div class="channel-name">${escapeHtml(channelTitle)}</div>
+                        <div class="video-stats">
+                            <i data-lucide="eye" style="width: 12px; height: 12px;"></i>
+                            <span>${formatViews(views)} visualitzacions</span>
+                            ${publishedAt ? `<span>•</span><span>${formatDate(publishedAt)}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderHistory() {
+    if (!historyGrid) return;
+
+    const historyItems = getFilteredHistoryItems();
+    const totalHistoryItems = getHistoryItems();
+
+    if (historyItems.length === 0) {
+        const message = totalHistoryItems.length === 0
+            ? 'Encara no hi ha vídeos a l\'historial.'
+            : 'No hi ha vídeos que coincideixin amb aquests filtres.';
+        historyGrid.innerHTML = `<div class="empty-state">${message}</div>`;
+        return;
+    }
+
+    historyGrid.innerHTML = historyItems.map(video => createHistoryCard(video)).join('');
+
+    const cards = historyGrid.querySelectorAll('.video-card');
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const videoId = card.dataset.videoId;
+            const source = card.dataset.videoSource;
+            if (source === 'static') {
+                showVideo(videoId);
+            } else {
+                showVideoFromAPI(videoId);
+            }
+        });
+    });
+
+    const deleteButtons = historyGrid.querySelectorAll('.delete-history-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const targetId = button.dataset.historyId;
+            const history = getHistoryItems().filter(item => String(item.id) !== String(targetId));
+            saveHistoryItems(history);
+            renderHistory();
+        });
+    });
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+function showHistory() {
+    stopVideoPlayback();
+    if (mainContent) {
+        mainContent.classList.add('hidden');
+    }
+    if (historyPage) {
+        historyPage.classList.remove('hidden');
+    }
+    if (chipsBar) {
+        chipsBar.classList.add('hidden');
+    }
+    updateHistoryFilterUI();
+    renderHistory();
+    window.scrollTo(0, 0);
 }
 
 // Carregar comentaris (estàtic)

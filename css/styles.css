@@ -628,6 +628,7 @@ body.sidebar-collapsed .main-content {
 .video-card {
     cursor: pointer;
     animation: fadeIn 0.3s;
+    position: relative;
 }
 
 .video-thumbnail {
@@ -708,6 +709,35 @@ body.sidebar-collapsed .main-content {
 
 .video-card:hover .video-card-title {
     color: var(--color-text);
+}
+
+.delete-history-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.video-card:hover .delete-history-btn,
+.delete-history-btn:focus-visible {
+    opacity: 1;
+}
+
+.delete-history-btn svg {
+    width: 14px;
+    height: 14px;
 }
 
 .video-metadata {
