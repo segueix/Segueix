@@ -922,27 +922,51 @@ function addAutoplayParam(url) {
     if (!url) {
         return url;
     }
-    if (url.includes('autoplay=1')) {
-        return url;
+    let newUrl = url;
+    if (!newUrl.includes('playsinline=1')) {
+        const separator = newUrl.includes('?') ? '&' : '?';
+        newUrl = `${newUrl}${separator}playsinline=1`;
     }
-    const separator = url.includes('?') ? '&' : '?';
-    return `${url}${separator}autoplay=1`;
+    if (!newUrl.includes('autoplay=1')) {
+        const separator = newUrl.includes('?') ? '&' : '?';
+        newUrl = `${newUrl}${separator}autoplay=1`;
+    }
+    return newUrl;
 }
 
 function updatePlayerIframe({ source, videoId, videoUrl }) {
     if (!videoPlayer) {
         return;
     }
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        || window.matchMedia('(max-width: 768px)').matches;
+    if (videoId) {
+        videoPlayer.dataset.playingVideoId = videoId;
+    }
     const iframeSrc = source === 'api'
         ? `https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1&autoplay=1&hl=ca&cc_lang_pref=ca&gl=AD`
         : addAutoplayParam(videoUrl);
     const existingIframe = videoPlayer.querySelector('iframe');
-    if (existingIframe) {
+    if (!isMobile && existingIframe) {
         existingIframe.src = iframeSrc;
         return;
     }
     videoPlayer.innerHTML = `
-        <div class="drag-handle" aria-hidden="true"></div>
+        <div class="drag-handle" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" aria-hidden="true" focusable="false">
+                <polygon points="50,5 65,30 55,30 55,40 45,40 45,30 35,30" fill="white"/>
+                <polygon points="50,95 35,70 45,70 45,60 55,60 55,70 65,70" fill="white"/>
+                <polygon points="5,50 30,35 30,45 40,45 40,55 30,55 30,65" fill="white"/>
+                <polygon points="95,50 70,65 70,55 60,55 60,45 70,45 70,35" fill="white"/>
+                <circle cx="50" cy="50" r="8" fill="white"/>
+            </svg>
+        </div>
+        <button class="expand-mini-player-btn" type="button" aria-label="Restaurar reproductor">
+            <i data-lucide="maximize"></i>
+        </button>
+        <button class="close-mini-player-btn" type="button" aria-label="Tancar mini reproductor">
+            <i data-lucide="x"></i>
+        </button>
         <div class="video-embed-wrap">
             <iframe
                 src="${iframeSrc}"
@@ -953,6 +977,9 @@ function updatePlayerIframe({ source, videoId, videoUrl }) {
         </div>
     `;
     setupDragHandle();
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 }
 
 function makeDraggable(element, handle) {
@@ -1036,6 +1063,95 @@ function setupDragHandle() {
         return;
     }
     makeDraggable(videoPlayer, handle);
+
+    const closeButton = videoPlayer.querySelector('.close-mini-player-btn');
+    const expandButton = videoPlayer.querySelector('.expand-mini-player-btn');
+    if (!closeButton) {
+        return;
+    }
+
+    const miniPlayerControls = [closeButton, expandButton].filter(Boolean);
+
+    if (closeButton._closeHandlers) {
+        closeButton.removeEventListener('click', closeButton._closeHandlers.onClose);
+        closeButton.removeEventListener('mousedown', closeButton._closeHandlers.stopPropagation);
+        closeButton.removeEventListener('touchstart', closeButton._closeHandlers.stopPropagation);
+    }
+
+    if (expandButton?._expandHandlers) {
+        expandButton.removeEventListener('click', expandButton._expandHandlers.onExpand);
+        expandButton.removeEventListener('mousedown', expandButton._expandHandlers.stopPropagation);
+        expandButton.removeEventListener('touchstart', expandButton._expandHandlers.stopPropagation);
+    }
+
+    const stopPropagation = (event) => {
+        event.stopPropagation();
+    };
+
+    const onClose = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const isWatchPageVisible = watchPage && !watchPage.classList.contains('hidden');
+
+        if (isWatchPageVisible) {
+            if (videoPlayer) {
+                videoPlayer.innerHTML = '';
+                videoPlayer.style.display = 'none';
+                videoPlayer.classList.remove('mini-player-active');
+                videoPlayer.style.top = '';
+                videoPlayer.style.left = '';
+                videoPlayer.style.width = '';
+                videoPlayer.style.height = '';
+            }
+
+            if (videoPlaceholder) {
+                videoPlaceholder.classList.remove('hidden');
+                videoPlaceholder.classList.remove('is-placeholder-hidden');
+                ensurePlayOverlay(() => {
+                    if (currentVideoId) {
+                        if (useYouTubeAPI) {
+                            showVideoFromAPI(currentVideoId);
+                        } else {
+                            showVideo(currentVideoId);
+                        }
+                    }
+                });
+            }
+        } else {
+            stopVideoPlayback();
+        }
+    };
+
+    const onExpand = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const playingId = videoPlayer.dataset.playingVideoId;
+        const currentPageId = currentVideoId;
+        if (playingId && playingId !== currentPageId) {
+            if (useYouTubeAPI) {
+                showVideoFromAPI(playingId);
+            } else {
+                showVideo(playingId);
+            }
+        }
+        setMiniPlayerState(false);
+    };
+
+    closeButton._closeHandlers = { onClose, stopPropagation };
+    closeButton.addEventListener('click', onClose);
+    closeButton.addEventListener('mousedown', stopPropagation);
+    closeButton.addEventListener('touchstart', stopPropagation);
+
+    if (expandButton) {
+        expandButton._expandHandlers = { onExpand, stopPropagation };
+        expandButton.addEventListener('click', onExpand);
+        expandButton.addEventListener('mousedown', stopPropagation);
+        expandButton.addEventListener('touchstart', stopPropagation);
+    }
+
+    miniPlayerControls.forEach(control => {
+        control.addEventListener('pointerdown', stopPropagation);
+    });
 }
 
 function preparePlayerForPlayback({ thumbnail, title }) {
@@ -1082,62 +1198,71 @@ function handlePlayerVisibilityOnNavigation() {
     stopVideoPlayback();
 }
 
+function updateMiniPlayerToggleIcon(isActive) {
+    const miniToggle = document.getElementById('miniPlayerToggle');
+    if (!miniToggle) {
+        return;
+    }
+    miniToggle.disabled = isActive;
+    miniToggle.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    miniToggle.setAttribute('aria-label', isActive ? 'Restaurar reproductor' : 'Mini reproductor');
+    miniToggle.innerHTML = `<i data-lucide="minimize-2"></i>`;
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+function setMiniPlayerState(isActive) {
+    if (!videoPlayer) {
+        return;
+    }
+
+    videoPlayer.classList.toggle('mini-player-active', isActive);
+
+    if (isActive) {
+        if (videoPlaceholder) {
+            videoPlaceholder.classList.remove('hidden');
+            videoPlaceholder.classList.remove('is-placeholder-hidden');
+        }
+        videoPlayer.style.removeProperty('top');
+        videoPlayer.style.removeProperty('left');
+        videoPlayer.style.removeProperty('bottom');
+        videoPlayer.style.removeProperty('right');
+        updateMiniPlayerSize();
+    } else {
+        if (mainContent) {
+            mainContent.classList.remove('hidden');
+        }
+        if (historyPage) {
+            historyPage.classList.add('hidden');
+        }
+        if (chipsBar) {
+            chipsBar.classList.add('hidden');
+        }
+        homePage.classList.add('hidden');
+        watchPage.classList.remove('hidden');
+        if (videoPlaceholder) {
+            videoPlaceholder.classList.add('is-placeholder-hidden');
+        }
+        videoPlayer.style.width = '';
+        videoPlayer.style.height = '';
+        updatePlayerPosition();
+        if (videoPlaceholder) {
+            requestAnimationFrame(() => {
+                videoPlaceholder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+    }
+
+    updateMiniPlayerToggleIcon(isActive);
+}
+
 function setupMiniPlayerToggle() {
     const miniToggle = document.getElementById('miniPlayerToggle');
 
     if (!miniToggle || !videoPlayer) {
         return;
     }
-
-    const updateToggleIcon = (isActive) => {
-        miniToggle.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-        miniToggle.setAttribute('aria-label', isActive ? 'Restaurar reproductor' : 'Mini reproductor');
-        miniToggle.innerHTML = `<i data-lucide="${isActive ? 'maximize-2' : 'minimize-2'}"></i>`;
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    };
-
-    const setMiniPlayerState = (isActive) => {
-        videoPlayer.classList.toggle('mini-player-active', isActive);
-
-        if (isActive) {
-            if (videoPlaceholder) {
-                videoPlaceholder.classList.remove('hidden');
-                videoPlaceholder.classList.remove('is-placeholder-hidden');
-            }
-            videoPlayer.style.removeProperty('top');
-            videoPlayer.style.removeProperty('left');
-            videoPlayer.style.removeProperty('bottom');
-            videoPlayer.style.removeProperty('right');
-            updateMiniPlayerSize();
-        } else {
-            if (mainContent) {
-                mainContent.classList.remove('hidden');
-            }
-            if (historyPage) {
-                historyPage.classList.add('hidden');
-            }
-            if (chipsBar) {
-                chipsBar.classList.add('hidden');
-            }
-            homePage.classList.add('hidden');
-            watchPage.classList.remove('hidden');
-            if (videoPlaceholder) {
-                videoPlaceholder.classList.add('is-placeholder-hidden');
-            }
-            videoPlayer.style.width = '';
-            videoPlayer.style.height = '';
-            updatePlayerPosition();
-            if (videoPlaceholder) {
-                requestAnimationFrame(() => {
-                    videoPlaceholder.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            }
-        }
-
-        updateToggleIcon(isActive);
-    };
 
     if (miniToggle._miniHandler) {
         miniToggle.removeEventListener('click', miniToggle._miniHandler);

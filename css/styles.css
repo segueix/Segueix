@@ -783,6 +783,7 @@ body.sidebar-collapsed .main-content {
     left: 0;
     z-index: 100;
     display: none;
+    box-sizing: border-box;
 }
 
 .video-player iframe {
@@ -872,8 +873,8 @@ body.sidebar-collapsed .main-content {
     top: 0;
     left: 0;
     width: 100%;
-    height: 24px;
-    background: rgba(0, 0, 0, 0.8);
+    height: 36px;
+    background: transparent;
     cursor: grab;
     z-index: 2001;
     display: flex;
@@ -881,17 +882,66 @@ body.sidebar-collapsed .main-content {
     justify-content: center;
 }
 
-.drag-handle::after {
-    content: "";
-    width: 40px;
-    height: 4px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.4);
+.drag-handle svg {
+    width: 28px;
+    height: 28px;
 }
 
-#videoPlayer:not(.mini-player-active) .drag-handle {
+.close-mini-player-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2002;
+}
+
+.close-mini-player-btn svg {
+    width: 26px;
+    height: 26px;
+    stroke-width: 3;
+}
+
+.expand-mini-player-btn {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2002;
+}
+
+.expand-mini-player-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.5;
+}
+
+button:disabled,
+.icon-btn-ghost:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+#videoPlayer:not(.mini-player-active) .drag-handle,
+#videoPlayer:not(.mini-player-active) .close-mini-player-btn,
+#videoPlayer:not(.mini-player-active) .expand-mini-player-btn {
     display: none;
 }
+
 
 @media (max-width: 768px) {
     .mini-player-active {
