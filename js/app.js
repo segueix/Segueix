@@ -1688,6 +1688,9 @@ async function showVideoFromAPI(videoId) {
                         <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
                             ${HEART_TOGGLE_SVG}
                         </button>
+                        <button class="icon-btn-ghost" id="addToPlaylistBtn" type="button" aria-label="Afegir a una llista">
+                            ${PLAYLIST_ICON_SVG}
+                        </button>
                         <button class="icon-btn-ghost" id="miniPlayerToggle" type="button" aria-label="Mini reproductor" aria-pressed="false">
                             <i data-lucide="minimize-2"></i>
                         </button>
@@ -1700,6 +1703,12 @@ async function showVideoFromAPI(videoId) {
             `;
             setupLikeBadge(videoId);
             setupMiniPlayerToggle();
+            const addToPlaylistBtn = document.getElementById('addToPlaylistBtn');
+            if (addToPlaylistBtn) {
+                addToPlaylistBtn.addEventListener('click', () => {
+                    openPlaylistModal(getPlaylistVideoData(cachedVideo));
+                });
+            }
         }
     }
 
@@ -1748,6 +1757,9 @@ async function showVideoFromAPI(videoId) {
                             <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
                                 ${HEART_TOGGLE_SVG}
                             </button>
+                            <button class="icon-btn-ghost" id="addToPlaylistBtn" type="button" aria-label="Afegir a una llista">
+                                ${PLAYLIST_ICON_SVG}
+                            </button>
                             <button class="icon-btn-ghost" id="miniPlayerToggle" type="button" aria-label="Mini reproductor" aria-pressed="false">
                                 <i data-lucide="minimize-2"></i>
                             </button>
@@ -1760,6 +1772,12 @@ async function showVideoFromAPI(videoId) {
                 `;
                 setupLikeBadge(videoId);
                 setupMiniPlayerToggle();
+                const addToPlaylistBtn = document.getElementById('addToPlaylistBtn');
+                if (addToPlaylistBtn) {
+                    addToPlaylistBtn.addEventListener('click', () => {
+                        openPlaylistModal(getPlaylistVideoData(video));
+                    });
+                }
             }
         }
     } catch (error) {
@@ -2072,6 +2090,9 @@ function showVideo(videoId) {
                 <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
                     ${HEART_TOGGLE_SVG}
                 </button>
+                <button class="icon-btn-ghost" id="addToPlaylistBtn" type="button" aria-label="Afegir a una llista">
+                    ${PLAYLIST_ICON_SVG}
+                </button>
                 <button class="icon-btn-ghost" id="miniPlayerToggle" type="button" aria-label="Mini reproductor" aria-pressed="false">
                     <i data-lucide="minimize-2"></i>
                 </button>
@@ -2084,6 +2105,12 @@ function showVideo(videoId) {
     `;
     setupLikeBadge(videoId);
     setupMiniPlayerToggle();
+    const addToPlaylistBtn = document.getElementById('addToPlaylistBtn');
+    if (addToPlaylistBtn) {
+        addToPlaylistBtn.addEventListener('click', () => {
+            openPlaylistModal(getPlaylistVideoData(video));
+        });
+    }
 
     if (CONFIG.features.comments) {
         loadComments(videoId);
