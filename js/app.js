@@ -23,7 +23,7 @@ let currentPlaylistIndex = 0;
 let activePlaylistId = null;
 let activePlaylistName = '';
 let isPlaylistNavigation = false;
-let playlistModeActive = false;
+let isPlaylistMode = false;
 let youtubeMessageListenerInitialized = false;
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
@@ -928,6 +928,26 @@ function addVideoToPlaylist(playlistId, video) {
     savePlaylists(playlists);
 }
 
+function removeVideoFromPlaylist(playlistId, videoId) {
+    const playlists = getPlaylists();
+    const playlist = playlists.find(item => item.id === playlistId);
+    if (!playlist) return;
+    playlist.videos = playlist.videos.filter(video => String(video.id) !== String(videoId));
+    savePlaylists(playlists);
+    if (activePlaylistId === playlistId) {
+        activePlaylistQueue = playlist.videos;
+        if (currentPlaylistIndex >= activePlaylistQueue.length) {
+            currentPlaylistIndex = Math.max(activePlaylistQueue.length - 1, 0);
+        }
+        if (activePlaylistQueue.length === 0) {
+            exitPlaylistMode();
+        } else {
+            updatePlaylistModeBadge();
+            renderPlaylistQueue();
+        }
+    }
+}
+
 function removePlaylist(playlistId) {
     const playlists = getPlaylists().filter(item => item.id !== playlistId);
     savePlaylists(playlists);
@@ -960,6 +980,17 @@ function renderPlaylistsPage() {
                 <div class="playlist-card-body">
                     <div class="playlist-card-title">${escapeHtml(list.name)}</div>
                     <div class="playlist-card-meta">${videoCount} vídeos</div>
+                    <div class="playlist-video-list">
+                        ${list.videos.length > 0
+                            ? list.videos.map(video => `
+                                <div class="playlist-video-row" data-playlist-id="${list.id}" data-video-id="${video.id}">
+                                    <img class="playlist-video-thumb" src="${video.thumbnail || 'img/icon-192.png'}" alt="${escapeHtml(video.title)}" loading="lazy">
+                                    <span class="playlist-video-title">${escapeHtml(video.title)}</span>
+                                    <button class="playlist-video-remove" type="button" data-playlist-id="${list.id}" data-video-id="${video.id}" aria-label="Eliminar vídeo">×</button>
+                                </div>
+                            `).join('')
+                            : `<div class="playlist-video-empty">Encara no hi ha vídeos.</div>`}
+                    </div>
                 </div>
             </div>
         `;
@@ -974,22 +1005,34 @@ function renderPlaylistsPage() {
 
     playlistsList.querySelectorAll('.playlist-play-btn').forEach(button => {
         button.addEventListener('click', () => {
-            playPlaylist(button.dataset.playlistId);
+            startPlaylistPlayback(button.dataset.playlistId);
+        });
+    });
+
+    playlistsList.querySelectorAll('.playlist-video-remove').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            removeVideoFromPlaylist(button.dataset.playlistId, button.dataset.videoId);
+            renderPlaylistsPage();
         });
     });
 }
 
 function playPlaylist(playlistId) {
+    startPlaylistPlayback(playlistId);
+}
+
+function startPlaylistPlayback(playlistId) {
     const playlists = getPlaylists();
     const playlist = playlists.find(item => item.id === playlistId);
     if (!playlist || !Array.isArray(playlist.videos) || playlist.videos.length === 0) {
         return;
     }
+    isPlaylistMode = true;
     activePlaylistQueue = [...playlist.videos];
     currentPlaylistIndex = 0;
     activePlaylistId = playlist.id;
     activePlaylistName = playlist.name || 'Llista';
-    playlistModeActive = true;
     loadVideoInSequence();
 }
 
@@ -1003,7 +1046,7 @@ function loadVideoInSequence() {
         exitPlaylistMode();
         return;
     }
-    playlistModeActive = true;
+    isPlaylistMode = true;
     updatePlaylistModeBadge();
     isPlaylistNavigation = true;
     if (video.source === 'static') {
@@ -1015,7 +1058,7 @@ function loadVideoInSequence() {
 }
 
 function handlePlaylistVideoEnded() {
-    if (!playlistModeActive || activePlaylistQueue.length === 0) {
+    if (!isPlaylistMode || activePlaylistQueue.length === 0) {
         return;
     }
     if (currentPlaylistIndex < activePlaylistQueue.length - 1) {
@@ -1032,7 +1075,7 @@ function updatePlaylistModeBadge() {
         return;
     }
     const existing = document.getElementById('playlistModeBadge');
-    if (!playlistModeActive) {
+    if (!isPlaylistMode) {
         existing?.remove();
         return;
     }
@@ -1049,7 +1092,7 @@ function updatePlaylistModeBadge() {
 }
 
 function exitPlaylistMode() {
-    playlistModeActive = false;
+    isPlaylistMode = false;
     activePlaylistQueue = [];
     currentPlaylistIndex = 0;
     activePlaylistId = null;
@@ -1186,6 +1229,41 @@ function setVideoTitleText(title) {
     }
     titleElement.textContent = title || '';
     updatePlaylistModeBadge();
+}
+
+function renderPlaylistQueue() {
+    const relatedContainer = document.getElementById('relatedVideos');
+    if (!relatedContainer) {
+        return;
+    }
+    if (!isPlaylistMode || activePlaylistQueue.length === 0) {
+        return;
+    }
+    relatedContainer.innerHTML = `
+        <div class="playlist-queue">
+            <div class="playlist-queue-title">Cua de la llista</div>
+            <div class="playlist-queue-list">
+                ${activePlaylistQueue.map((video, index) => `
+                    <button class="playlist-queue-item${index === currentPlaylistIndex ? ' is-active' : ''}" type="button" data-queue-index="${index}">
+                        <img src="${video.thumbnail || 'img/icon-192.png'}" alt="${escapeHtml(video.title)}" loading="lazy">
+                        <div class="playlist-queue-meta">
+                            <div class="playlist-queue-name">${escapeHtml(video.title)}</div>
+                        </div>
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    relatedContainer.querySelectorAll('.playlist-queue-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const index = Number(item.dataset.queueIndex || 0);
+            if (Number.isNaN(index)) {
+                return;
+            }
+            currentPlaylistIndex = index;
+            loadVideoInSequence();
+        });
+    });
 }
 
 function updatePlayerPosition() {
@@ -1980,8 +2058,10 @@ async function showVideoFromAPI(videoId) {
         loadCommentsFromAPI(videoId);
     }
 
-    // Carregar vídeos relacionats
-    if (CONFIG.features.recommendations) {
+    // Carregar vídeos relacionats o cua de la llista
+    if (isPlaylistMode) {
+        renderPlaylistQueue();
+    } else if (CONFIG.features.recommendations) {
         loadRelatedVideosFromAPI(videoId);
     }
 
@@ -2311,7 +2391,9 @@ function showVideo(videoId) {
         loadComments(videoId);
     }
 
-    if (CONFIG.features.recommendations) {
+    if (isPlaylistMode) {
+        renderPlaylistQueue();
+    } else if (CONFIG.features.recommendations) {
         loadRelatedVideos(videoId);
     }
 
