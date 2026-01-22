@@ -108,6 +108,20 @@ function isoDurationToSeconds(iso) {
     return (hours * 3600) + (minutes * 60) + seconds;
 }
 
+function chunkArray(items, size) {
+    const chunks = [];
+    for (let i = 0; i < items.length; i += size) {
+        chunks.push(items.slice(i, i + size));
+    }
+    return chunks;
+}
+
+function truncateText(text, maxLength = 300) {
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return `${text.slice(0, maxLength).trim()}...`;
+}
+
 async function main() {
     try {
         console.log("--- Iniciant actualització des de Google Sheets ---");
@@ -238,10 +252,60 @@ async function main() {
         videosWithViews.slice(0, 3).forEach(video => {
             console.log(`📈 ${video.id}: ${video.viewCount}`);
         });
+        const channelIds = Array.from(new Set(feedPayload.map(video => video.channelId).filter(Boolean)));
+        const channelMetadata = {};
+        if (channelIds.length > 0) {
+            console.log(`🔎 Carregant metadades per ${channelIds.length} canals...`);
+            const channelChunks = chunkArray(channelIds, 50);
+            for (const chunk of channelChunks) {
+                const cUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${chunk.join(',')}&key=${API_KEY}`;
+                const cData = await fetchYouTubeData(cUrl);
+                if (Array.isArray(cData.items)) {
+                    cData.items.forEach(item => {
+                        const thumbnail = item.snippet?.thumbnails?.high?.url
+                            || item.snippet?.thumbnails?.medium?.url
+                            || '';
+                        const customUrl = item.snippet?.customUrl || '';
+                        const handle = customUrl
+                            ? (customUrl.startsWith('@') ? customUrl : `@${customUrl}`)
+                            : '';
+                        channelMetadata[item.id] = {
+                            name: item.snippet?.title || '',
+                            avatar: thumbnail,
+                            description: truncateText(item.snippet?.description || ''),
+                            handle
+                        };
+                    });
+                }
+            }
+        }
+
+        const categoriesBySourceId = new Map(
+            channels.map(channel => [channel.id, channel.categories || []])
+        );
+        const categoriesByChannelId = new Map();
+        finalVideos.forEach(video => {
+            if (!video.channelId) return;
+            const sourceCategories = categoriesBySourceId.get(video.sourceChannelId) || [];
+            if (!categoriesByChannelId.has(video.channelId)) {
+                categoriesByChannelId.set(video.channelId, new Set());
+            }
+            const bucket = categoriesByChannelId.get(video.channelId);
+            sourceCategories.forEach(category => bucket.add(category));
+        });
+
+        Object.keys(channelMetadata).forEach(channelId => {
+            const categories = Array.from(categoriesByChannelId.get(channelId) || []);
+            if (categories.length > 0) {
+                channelMetadata[channelId].categories = categories;
+            }
+        });
+
         const dataDir = path.join(process.cwd(), 'data');
         fs.mkdirSync(dataDir, { recursive: true });
         const feedOutput = {
             generatedAt: new Date().toISOString(),
+            channels: channelMetadata,
             videos: feedPayload
         };
         fs.writeFileSync(OUTPUT_FEED_JSON, JSON.stringify(feedOutput, null, 2));

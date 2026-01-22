@@ -73,26 +73,42 @@ const YouTubeAPI = {
             const feedItems = Array.isArray(feedData)
                 ? feedData
                 : (Array.isArray(feedData.items) ? feedData.items : (Array.isArray(feedData.videos) ? feedData.videos : []));
-            
+
+            const feedChannelsMap = feedData?.channels && typeof feedData.channels === 'object'
+                ? feedData.channels
+                : null;
+
             if (Array.isArray(feedItems) && feedItems.length > 0) {
                 // Guardar vídeos del feed
                 this.feedVideos = feedItems;
-                
-                // Extreure canals únics dels vídeos
-                const channelsMap = {};
-                feedItems.forEach(video => {
-                    if (video.channelTitle && !channelsMap[video.channelTitle]) {
-                        channelsMap[video.channelTitle] = {
-                            id: video.channelId || null,
-                            name: video.channelTitle,
-                            categories: this.normalizeCategories(video.categories)
-                        };
-                    }
-                });
-                
-                this.feedChannels = Object.values(channelsMap);
+
+                if (feedChannelsMap) {
+                    this.feedChannels = Object.entries(feedChannelsMap).map(([id, channel]) => ({
+                        id,
+                        name: channel.name || '',
+                        avatar: channel.avatar || '',
+                        description: channel.description || '',
+                        handle: channel.handle || '',
+                        categories: this.normalizeCategories(channel.categories || [])
+                    }));
+                } else {
+                    // Fallback per feeds antics
+                    const channelsMap = {};
+                    feedItems.forEach(video => {
+                        if (video.channelTitle && !channelsMap[video.channelTitle]) {
+                            channelsMap[video.channelTitle] = {
+                                id: video.channelId || null,
+                                name: video.channelTitle,
+                                categories: this.normalizeCategories(video.categories)
+                            };
+                        }
+                    });
+
+                    this.feedChannels = Object.values(channelsMap);
+                }
+
                 this.feedLoaded = true;
-                
+
                 console.log(`iuTube: Carregats ${this.feedVideos.length} vídeos i ${this.feedChannels.length} canals des del feed`);
             }
         } catch (error) {
