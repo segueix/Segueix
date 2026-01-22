@@ -4,7 +4,7 @@
 let sidebar, menuBtn, videosGrid, homePage, watchPage, loading, mainContent;
 let historyPage, historyGrid, historyFilters, chipsBar;
 let playlistsPage, playlistsList, playlistNameInput, createPlaylistBtn;
-let followPage, followGrid;
+let followPage, followGrid, followTabs;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow, heroChannel;
 let pageTitle;
 let backgroundModal, backgroundBtn, backgroundOptions;
@@ -47,7 +47,7 @@ let cachedChannels = {};
 
 // Cache de vídeos carregats de l'API
 let cachedAPIVideos = [];
-let followChannelsCache = null;
+let activeFollowTab = 'following';
 
 function mergeChannelCategories(channel, categories) {
     if (!channel || !Array.isArray(categories) || categories.length === 0) {
@@ -124,34 +124,23 @@ function bindFollowButtons(container = document) {
         const channelId = button.dataset.followChannel;
         updateFollowButtonState(button, channelId);
         button.addEventListener('click', (event) => {
+            event.stopPropagation();
             event.preventDefault();
-            toggleFollowChannel(channelId);
+            const normalizedId = String(channelId);
+            const nowFollowed = toggleFollowChannel(normalizedId);
+            updateFollowButtonState(button, normalizedId);
             refreshFollowButtons(channelId);
+            if (activeFollowTab === 'following' && !nowFollowed) {
+                const card = button.closest('.follow-card');
+                if (card) {
+                    card.remove();
+                }
+                if (followGrid && followGrid.children.length === 0) {
+                    renderFollowEmptyState();
+                }
+            }
         });
     });
-}
-
-async function loadFollowChannelsList() {
-    if (Array.isArray(followChannelsCache)) {
-        return followChannelsCache;
-    }
-    if (Array.isArray(window.CHANNELS_LIST)) {
-        followChannelsCache = window.CHANNELS_LIST;
-        return followChannelsCache;
-    }
-    try {
-        const response = await fetch('js/channels-ca.json', { cache: 'no-store' });
-        if (!response.ok) {
-            throw new Error('No s\'ha pogut carregar channels-ca.json');
-        }
-        const data = await response.json();
-        followChannelsCache = Array.isArray(data.channels) ? data.channels : [];
-        return followChannelsCache;
-    } catch (error) {
-        console.warn('Error carregant canals catalans', error);
-        followChannelsCache = [];
-        return followChannelsCache;
-    }
 }
 
 function getFollowChannelAvatar(channelId) {
@@ -246,6 +235,7 @@ function initElements() {
     createPlaylistBtn = document.getElementById('createPlaylistBtn');
     followPage = document.getElementById('followPage');
     followGrid = document.getElementById('followGrid');
+    followTabs = document.getElementById('followTabs');
     chipsBar = document.querySelector('.chips-bar');
     loading = document.getElementById('loading');
     backgroundModal = document.getElementById('backgroundModal');
@@ -347,6 +337,18 @@ function initEventListeners() {
             }
         });
     });
+
+    if (followTabs) {
+        followTabs.querySelectorAll('.follow-tab').forEach(tab => {
+            tab.addEventListener('click', (event) => {
+                event.preventDefault();
+                const tabId = tab.dataset.followTab;
+                if (tabId) {
+                    setActiveFollowTab(tabId);
+                }
+            });
+        });
+    }
 
     const brandLink = document.querySelector('.brand');
     if (brandLink) {
@@ -1165,9 +1167,22 @@ async function renderFollowPage() {
     }
     followGrid.innerHTML = '<div class="empty-state">Carregant canals...</div>';
 
-    const channels = await loadFollowChannelsList();
-    if (!channels.length) {
+    const allChannels = Array.isArray(YouTubeAPI?.getAllChannels?.())
+        ? YouTubeAPI.getAllChannels()
+        : [];
+
+    if (!allChannels.length) {
         followGrid.innerHTML = '<div class="empty-state">No hi ha canals disponibles ara mateix.</div>';
+        return;
+    }
+
+    const followedIds = new Set(getFollowedChannelIds().map(id => String(id)));
+    const channels = activeFollowTab === 'following'
+        ? allChannels.filter(channel => followedIds.has(String(channel.id)))
+        : allChannels;
+
+    if (channels.length === 0) {
+        renderFollowEmptyState();
         return;
     }
 
@@ -1189,6 +1204,41 @@ async function renderFollowPage() {
 
     bindFollowButtons(followGrid);
     enrichFollowChannelAvatars(channels);
+}
+
+function renderFollowEmptyState() {
+    if (!followGrid) {
+        return;
+    }
+    if (activeFollowTab === 'following') {
+        followGrid.innerHTML = `
+            <div class="empty-state">
+                Encara no segueixes cap canal.
+                <button class="follow-empty-link" type="button" data-follow-tab-link="all">Veure tots els canals</button>
+            </div>
+        `;
+        const link = followGrid.querySelector('[data-follow-tab-link="all"]');
+        if (link) {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                setActiveFollowTab('all');
+            });
+        }
+    } else {
+        followGrid.innerHTML = '<div class="empty-state">No hi ha canals disponibles ara mateix.</div>';
+    }
+}
+
+function setActiveFollowTab(tabId) {
+    activeFollowTab = tabId;
+    if (followTabs) {
+        followTabs.querySelectorAll('.follow-tab').forEach(tab => {
+            const isActive = tab.dataset.followTab === activeFollowTab;
+            tab.classList.toggle('is-active', isActive);
+            tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+    }
+    renderFollowPage();
 }
 
 function playPlaylist(playlistId) {
@@ -2866,7 +2916,7 @@ function showFollow() {
     if (chipsBar) {
         chipsBar.classList.add('hidden');
     }
-    renderFollowPage();
+    setActiveFollowTab('following');
     window.scrollTo(0, 0);
 }
 

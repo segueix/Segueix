@@ -510,14 +510,12 @@ const YouTubeAPI = {
         localStorage.removeItem('iutube_cache_catalan_videos');
     },
 
-    // Obtenir tots els canals (feed > hardcodejats > usuari)
+    // Obtenir tots els canals (feed.json com a font única)
     getAllChannels() {
-        // Prioritat: feed, després fallback hardcodejat, després usuari
-        const baseChannels = this.feedLoaded && this.feedChannels.length > 0 
-            ? this.feedChannels 
-            : this.catalanChannels;
-        
-        return [...baseChannels, ...this.userChannels];
+        if (this.feedLoaded && this.feedChannels.length > 0) {
+            return this.feedChannels;
+        }
+        return [];
     },
 
     // Obtenir vídeos per categoria (suporta múltiples categories per canal)
