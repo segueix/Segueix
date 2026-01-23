@@ -989,6 +989,112 @@ const PLAYLIST_ICON_SVG = `
     </svg>
 `;
 
+const LIKED_VIDEOS_STORAGE_KEY = 'catube_liked_videos';
+
+function getLikedVideos() {
+    const stored = localStorage.getItem(LIKED_VIDEOS_STORAGE_KEY);
+    if (!stored) {
+        return [];
+    }
+    try {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.warn('No es pot llegir catube_liked_videos', error);
+        return [];
+    }
+}
+
+function setLikedVideos(videos) {
+    localStorage.setItem(LIKED_VIDEOS_STORAGE_KEY, JSON.stringify(videos));
+}
+
+function isLiked(videoId) {
+    if (!videoId) {
+        return false;
+    }
+    const normalizedId = String(videoId);
+    return getLikedVideos().some(video => String(video.id) === normalizedId);
+}
+
+function normalizeLikedVideo(video) {
+    if (!video) {
+        return null;
+    }
+    return {
+        id: video.id,
+        title: video.title || video.snippet?.title || '',
+        thumbnail: video.thumbnail || video.snippet?.thumbnails?.medium?.url || '',
+        channelId: video.channelId || video.snippet?.channelId || '',
+        channelTitle: video.channelTitle || video.channel?.name || video.snippet?.channelTitle || '',
+        publishedAt: video.publishedAt || video.uploadDate || '',
+        viewCount: video.viewCount || video.views || 0
+    };
+}
+
+function toggleLikeVideo(video) {
+    if (!video || video.id === undefined || video.id === null) {
+        return false;
+    }
+    const likedVideos = getLikedVideos();
+    const normalizedId = String(video.id);
+    const existingIndex = likedVideos.findIndex(item => String(item.id) === normalizedId);
+    let nowLiked = false;
+
+    if (existingIndex !== -1) {
+        likedVideos.splice(existingIndex, 1);
+        nowLiked = false;
+    } else {
+        const normalizedVideo = normalizeLikedVideo(video);
+        if (normalizedVideo) {
+            likedVideos.unshift(normalizedVideo);
+            nowLiked = true;
+        }
+    }
+
+    setLikedVideos(likedVideos);
+    return nowLiked;
+}
+
+function updateLikeButtonState(button, liked) {
+    if (!button) {
+        return;
+    }
+    button.classList.toggle('is-liked', liked);
+    button.setAttribute('aria-pressed', liked ? 'true' : 'false');
+    const icon = button.querySelector('i');
+    if (icon) {
+        icon.classList.toggle('fas', liked);
+        icon.classList.toggle('far', !liked);
+    }
+}
+
+function bindLikeButton(container, video) {
+    const likeButton = container.querySelector('#likeToggle');
+    if (!likeButton || !video) {
+        return;
+    }
+    if (likeButton.dataset.likeBound === 'true') {
+        return;
+    }
+    likeButton.dataset.likeBound = 'true';
+    const liked = isLiked(video.id);
+    updateLikeButtonState(likeButton, liked);
+
+    const handleLike = (event) => {
+        if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const nowLiked = toggleLikeVideo(video);
+        updateLikeButtonState(likeButton, nowLiked);
+    };
+
+    likeButton.addEventListener('click', handleLike);
+    likeButton.addEventListener('keydown', handleLike);
+}
+
 function setupLikeBadge(videoId) {
     const likeBadge = document.getElementById('likeToggle');
     if (!likeBadge) {
@@ -2229,15 +2335,17 @@ async function showVideoFromAPI(videoId) {
                             <div class="channel-text-modern">
                                 <div class="channel-name-row">
                                     <h1 class="channel-name-modern">${escapeHtml(channel.title)}</h1>
-                                    <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
-                                        Segueix
-                                    </button>
-                                    <button class="btn-round-icon" id="likeToggle" type="button" aria-label="M'agrada">
-                                        <i data-lucide="heart"></i>
-                                    </button>
                                 </div>
                                 <span class="channel-subs-modern">${subsText}</span>
                             </div>
+                        </div>
+                        <div class="channel-actions-inline">
+                            <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                                Segueix
+                            </button>
+                            <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
+                                <i class="far fa-heart" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
 
@@ -2270,7 +2378,7 @@ async function showVideoFromAPI(videoId) {
                     </div>
                 </div>
             `;
-            setupLikeBadge(videoId);
+            bindLikeButton(channelInfo, cachedVideo);
             setupMiniPlayerToggle();
             bindFollowButtons(channelInfo);
             bindChannelLinks(channelInfo);
@@ -2338,15 +2446,17 @@ async function showVideoFromAPI(videoId) {
                                 <div class="channel-text-modern">
                                     <div class="channel-name-row">
                                         <h1 class="channel-name-modern">${escapeHtml(channel.title)}</h1>
-                                        <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
-                                            Segueix
-                                        </button>
-                                        <button class="btn-round-icon" id="likeToggle" type="button" aria-label="M'agrada">
-                                            <i data-lucide="heart"></i>
-                                        </button>
                                     </div>
                                     <span class="channel-subs-modern">${subsText}</span>
                                 </div>
+                            </div>
+                            <div class="channel-actions-inline">
+                                <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                                    Segueix
+                                </button>
+                                <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
+                                    <i class="far fa-heart" aria-hidden="true"></i>
+                                </button>
                             </div>
                         </div>
 
@@ -2381,7 +2491,7 @@ async function showVideoFromAPI(videoId) {
                         </div>
                     </div>
                 `;
-                setupLikeBadge(videoId);
+                bindLikeButton(channelInfo, video);
                 setupMiniPlayerToggle();
                 bindFollowButtons(channelInfo);
                 bindChannelLinks(channelInfo);
@@ -2720,15 +2830,17 @@ function showVideo(videoId) {
                     <div class="channel-text-modern">
                         <div class="channel-name-row">
                             <h1 class="channel-name-modern">${escapeHtml(channel.name)}</h1>
-                            <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
-                                Segueix
-                            </button>
-                            <button class="btn-round-icon" id="likeToggle" type="button" aria-label="M'agrada">
-                                <i data-lucide="heart"></i>
-                            </button>
                         </div>
                         <span class="channel-subs-modern">${subsText}</span>
                     </div>
+                </div>
+                <div class="channel-actions-inline">
+                    <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                        Segueix
+                    </button>
+                    <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
+                        <i class="far fa-heart" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
 
@@ -2763,7 +2875,14 @@ function showVideo(videoId) {
             </div>
         </div>
     `;
-    setupLikeBadge(videoId);
+    const likeVideoData = {
+        ...video,
+        channel: {
+            id: channel.id,
+            name: channel.name
+        }
+    };
+    bindLikeButton(channelInfo, likeVideoData);
     setupMiniPlayerToggle();
     bindFollowButtons(channelInfo);
     bindChannelLinks(channelInfo);

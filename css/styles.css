@@ -2456,9 +2456,28 @@ button:disabled,
     flex-shrink: 0;
 }
 
-.channel-name-row .btn-round-icon {
-    width: 54px;
-    height: 54px;
+.channel-actions-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.btn-heart {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    background: transparent;
+    border: none;
+    padding: 6px;
+    margin-left: 0.25rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-heart.is-liked {
+    color: var(--color-primary);
 }
 
 /* Row 2: Action Buttons */
