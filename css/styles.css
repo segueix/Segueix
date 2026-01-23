@@ -2452,6 +2452,11 @@ button:disabled,
     flex-shrink: 0;
 }
 
+.channel-name-row .btn-round-icon {
+    width: 36px;
+    height: 36px;
+}
+
 /* Row 2: Action Buttons */
 .video-info-modern .video-metadata-bar {
     flex-wrap: nowrap;
@@ -2508,8 +2513,10 @@ html[style*="--color-background: #224262"] .btn-round-icon {
 }
 
 .btn-round-icon:hover { opacity: 0.8; }
-.btn-round-icon.is-liked { color: #CC0000; }
-.btn-round-icon.is-liked svg { fill: #CC0000; }
+.btn-round-icon.is-liked,
+.btn-round-icon.liked { color: #CC0000; }
+.btn-round-icon.is-liked svg,
+.btn-round-icon.liked svg { fill: #CC0000; }
 
 /* Row 3: Comments Preview Box */
 .comments-preview-box {
@@ -2565,14 +2572,4 @@ html[style*="--color-background: #3d3d3d"] .comments-preview-box {
     background-color: var(--color-primary);
     color: #ffffff;
     border-color: var(--color-primary);
-}
-
-.desktop-only {
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .desktop-only {
-        display: inline-flex;
-    }
 }

@@ -1003,6 +1003,7 @@ function setupLikeBadge(videoId) {
     const likedIds = getLikedVideoIds();
     const isLiked = likedIds.includes(normalizedId);
     likeBadge.classList.toggle('liked', isLiked);
+    likeBadge.classList.toggle('is-liked', isLiked);
     likeBadge.setAttribute('aria-pressed', isLiked ? 'true' : 'false');
 
     if (likeBadge._likeHandler) {
@@ -1027,6 +1028,7 @@ function setupLikeBadge(videoId) {
 
         const isNowLiked = !wasLiked;
         likeBadge.classList.toggle('liked', isNowLiked);
+        likeBadge.classList.toggle('is-liked', isNowLiked);
         likeBadge.setAttribute('aria-pressed', isNowLiked ? 'true' : 'false');
 
     };
@@ -2230,15 +2232,12 @@ async function showVideoFromAPI(videoId) {
                                     <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
                                         Segueix
                                     </button>
+                                    <button class="btn-round-icon" id="likeToggle" type="button" aria-label="M'agrada">
+                                        <i data-lucide="heart"></i>
+                                    </button>
                                 </div>
                                 <span class="channel-subs-modern">${subsText}</span>
                             </div>
-                        </div>
-                        
-                        <div class="channel-header-actions">
-                            <button class="btn-round-icon desktop-only" id="likeToggle" type="button" aria-label="M'agrada">
-                                <i data-lucide="heart"></i>
-                            </button>
                         </div>
                     </div>
 
@@ -2342,15 +2341,12 @@ async function showVideoFromAPI(videoId) {
                                         <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
                                             Segueix
                                         </button>
+                                        <button class="btn-round-icon" id="likeToggle" type="button" aria-label="M'agrada">
+                                            <i data-lucide="heart"></i>
+                                        </button>
                                     </div>
                                     <span class="channel-subs-modern">${subsText}</span>
                                 </div>
-                            </div>
-                            
-                            <div class="channel-header-actions">
-                                <button class="btn-round-icon desktop-only" id="likeToggle" type="button" aria-label="M'agrada">
-                                    <i data-lucide="heart"></i>
-                                </button>
                             </div>
                         </div>
 
@@ -2727,15 +2723,12 @@ function showVideo(videoId) {
                             <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
                                 Segueix
                             </button>
+                            <button class="btn-round-icon" id="likeToggle" type="button" aria-label="M'agrada">
+                                <i data-lucide="heart"></i>
+                            </button>
                         </div>
                         <span class="channel-subs-modern">${subsText}</span>
                     </div>
-                </div>
-                
-                <div class="channel-header-actions">
-                    <button class="btn-round-icon desktop-only" id="likeToggle" type="button" aria-label="M'agrada">
-                        <i data-lucide="heart"></i>
-                    </button>
                 </div>
             </div>
 
