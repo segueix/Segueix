@@ -989,6 +989,112 @@ const PLAYLIST_ICON_SVG = `
     </svg>
 `;
 
+const LIKED_VIDEOS_STORAGE_KEY = 'catube_liked_videos';
+
+function getLikedVideos() {
+    const stored = localStorage.getItem(LIKED_VIDEOS_STORAGE_KEY);
+    if (!stored) {
+        return [];
+    }
+    try {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.warn('No es pot llegir catube_liked_videos', error);
+        return [];
+    }
+}
+
+function setLikedVideos(videos) {
+    localStorage.setItem(LIKED_VIDEOS_STORAGE_KEY, JSON.stringify(videos));
+}
+
+function isLiked(videoId) {
+    if (!videoId) {
+        return false;
+    }
+    const normalizedId = String(videoId);
+    return getLikedVideos().some(video => String(video.id) === normalizedId);
+}
+
+function normalizeLikedVideo(video) {
+    if (!video) {
+        return null;
+    }
+    return {
+        id: video.id,
+        title: video.title || video.snippet?.title || '',
+        thumbnail: video.thumbnail || video.snippet?.thumbnails?.medium?.url || '',
+        channelId: video.channelId || video.snippet?.channelId || '',
+        channelTitle: video.channelTitle || video.channel?.name || video.snippet?.channelTitle || '',
+        publishedAt: video.publishedAt || video.uploadDate || '',
+        viewCount: video.viewCount || video.views || 0
+    };
+}
+
+function toggleLikeVideo(video) {
+    if (!video || video.id === undefined || video.id === null) {
+        return false;
+    }
+    const likedVideos = getLikedVideos();
+    const normalizedId = String(video.id);
+    const existingIndex = likedVideos.findIndex(item => String(item.id) === normalizedId);
+    let nowLiked = false;
+
+    if (existingIndex !== -1) {
+        likedVideos.splice(existingIndex, 1);
+        nowLiked = false;
+    } else {
+        const normalizedVideo = normalizeLikedVideo(video);
+        if (normalizedVideo) {
+            likedVideos.unshift(normalizedVideo);
+            nowLiked = true;
+        }
+    }
+
+    setLikedVideos(likedVideos);
+    return nowLiked;
+}
+
+function updateLikeButtonState(button, liked) {
+    if (!button) {
+        return;
+    }
+    button.classList.toggle('is-liked', liked);
+    button.setAttribute('aria-pressed', liked ? 'true' : 'false');
+    const icon = button.querySelector('i');
+    if (icon) {
+        icon.classList.toggle('fas', liked);
+        icon.classList.toggle('far', !liked);
+    }
+}
+
+function bindLikeButton(container, video) {
+    const likeButton = container.querySelector('#likeToggle');
+    if (!likeButton || !video) {
+        return;
+    }
+    if (likeButton.dataset.likeBound === 'true') {
+        return;
+    }
+    likeButton.dataset.likeBound = 'true';
+    const liked = isLiked(video.id);
+    updateLikeButtonState(likeButton, liked);
+
+    const handleLike = (event) => {
+        if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const nowLiked = toggleLikeVideo(video);
+        updateLikeButtonState(likeButton, nowLiked);
+    };
+
+    likeButton.addEventListener('click', handleLike);
+    likeButton.addEventListener('keydown', handleLike);
+}
+
 function setupLikeBadge(videoId) {
     const likeBadge = document.getElementById('likeToggle');
     if (!likeBadge) {
@@ -1003,6 +1109,7 @@ function setupLikeBadge(videoId) {
     const likedIds = getLikedVideoIds();
     const isLiked = likedIds.includes(normalizedId);
     likeBadge.classList.toggle('liked', isLiked);
+    likeBadge.classList.toggle('is-liked', isLiked);
     likeBadge.setAttribute('aria-pressed', isLiked ? 'true' : 'false');
 
     if (likeBadge._likeHandler) {
@@ -1027,6 +1134,7 @@ function setupLikeBadge(videoId) {
 
         const isNowLiked = !wasLiked;
         likeBadge.classList.toggle('liked', isNowLiked);
+        likeBadge.classList.toggle('is-liked', isNowLiked);
         likeBadge.setAttribute('aria-pressed', isNowLiked ? 'true' : 'false');
 
     };
@@ -2108,8 +2216,6 @@ function renderSearchResults(videos) {
 
 // Crear targeta de vídeo (API)
 function createVideoCardAPI(video) {
-    const likedIds = getLikedVideoIds();
-    const isLiked = likedIds.includes(String(video.id));
     const payload = encodeURIComponent(JSON.stringify(getPlaylistVideoData(video)));
     return `
         <div class="video-card" data-video-id="${video.id}">
@@ -2123,9 +2229,6 @@ function createVideoCardAPI(video) {
                     <div class="video-info-header">
                         <h3 class="video-card-title">${escapeHtml(video.title)}</h3>
                         <div class="video-card-actions">
-                            <button class="video-action-btn like-action${isLiked ? ' is-liked' : ''}" type="button" data-video-id="${video.id}" aria-label="Preferit">
-                                <i data-lucide="heart"></i>
-                            </button>
                             <button class="video-action-btn playlist-action" type="button" data-playlist-video="${payload}" aria-label="Afegir a una llista">
                                 ${PLAYLIST_ICON_SVG}
                             </button>
@@ -2214,38 +2317,68 @@ async function showVideoFromAPI(videoId) {
                 || cachedVideo.channelThumbnail
                 || getFollowChannelAvatar(cachedVideo.channelId)
                 || 'img/icon-192.png';
+            const channel = {
+                id: cachedVideo.channelId || '',
+                title: cachedChannelTitle,
+                subscriberCount: matchedChannel?.subscriberCount
+            };
+            const channelUrl = `https://www.youtube.com/channel/${channel.id}`;
+            const watchUrl = `https://www.youtube.com/watch?v=${cachedVideo.id || videoId}`;
+            const subsText = channel.subscriberCount
+                ? formatViews(channel.subscriberCount) + ' subscriptors'
+                : 'Subscriptors ocults';
             channelInfo.innerHTML = `
-                <div class="video-metadata-bar">
-                    <div class="channel-meta">
-                        <div class="channel-name-large channel-link" data-channel-id="${cachedVideo.channelId || ''}">
-                            <img src="${cachedChannelAvatar}" alt="${escapeHtml(cachedChannelTitle)}" class="channel-avatar-small" loading="lazy">
-                            <span>${escapeHtml(cachedChannelTitle)}</span>
+                <div class="video-info-modern">
+                    <div class="channel-header-row">
+                        <div class="channel-identity-modern channel-link" data-channel-id="${channel.id}">
+                            <img src="${cachedChannelAvatar}" alt="${escapeHtml(channel.title)}" class="channel-avatar-small">
+                            <div class="channel-text-modern">
+                                <div class="channel-name-row">
+                                    <h1 class="channel-name-modern">${escapeHtml(channel.title)}</h1>
+                                </div>
+                                <span class="channel-subs-modern">${subsText}</span>
+                            </div>
+                        </div>
+                        <div class="channel-actions-inline">
+                            <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                                Segueix
+                            </button>
+                            <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
+                                <i class="far fa-heart" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="video-metadata-actions">
-                        <button class="follow-channel-btn" type="button" data-follow-channel="${cachedVideo.channelId || ''}" aria-pressed="false"></button>
-                        <button class="icon-btn-ghost" id="addToPlaylistBtn" type="button" aria-label="Afegir a una llista">
-                            ${PLAYLIST_ICON_SVG}
-                        </button>
+
+                    <div class="video-metadata-bar">
+                        <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="btn-pill-red">
+                            Canal Youtube
+                        </a>
+                        
+                        <div class="action-group">
+                            <button class="btn-round-icon" id="shareBtn" aria-label="Compartir">
+                                <i data-lucide="share-2"></i>
+                            </button>
+                            <button class="btn-round-icon" id="miniPlayerToggle" type="button" aria-label="Mini reproductor">
+                                <i data-lucide="minimize-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="video-description"></div>
+
+                    <div class="comments-preview-box" onclick="window.open('${watchUrl}', '_blank', 'noopener')">
+                        <div class="comments-header-mini">
+                            <span>Comentaris <span style="font-weight: normal; color: var(--text-secondary);">${formatViews(cachedVideo.commentCount || 0)}</span></span>
+                            <i data-lucide="chevrons-down" style="width: 16px;"></i>
+                        </div>
+                        <div class="comment-input-placeholder">
+                            <div class="user-avatar-placeholder"></div>
+                            <span class="comment-text-placeholder">Afegeix un comentari a YouTube</span>
+                        </div>
                     </div>
                 </div>
-                <div class="channel-actions">
-                    <a href="https://www.youtube.com/channel/${cachedVideo.channelId || ''}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
-                        Canal Youtube
-                    </a>
-                    <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
-                        ${HEART_TOGGLE_SVG}
-                    </button>
-                    <button class="icon-btn-ghost" id="miniPlayerToggle" type="button" aria-label="Mini reproductor" aria-pressed="false">
-                        <i data-lucide="minimize-2"></i>
-                    </button>
-                    <button class="icon-btn-ghost" id="shareBtn" aria-label="Compartir">
-                        <i data-lucide="share-2"></i>
-                    </button>
-                </div>
-                <div class="video-description"></div>
             `;
-            setupLikeBadge(videoId);
+            bindLikeButton(channelInfo, cachedVideo);
             setupMiniPlayerToggle();
             bindFollowButtons(channelInfo);
             bindChannelLinks(channelInfo);
@@ -2292,6 +2425,7 @@ async function showVideoFromAPI(videoId) {
                 const currentVideo = video;
                 const channelInfo = document.getElementById('channelInfo');
                 const channelUrl = `https://www.youtube.com/channel/${channel.id}`;
+                const watchUrl = `https://www.youtube.com/watch?v=${video.id || videoId}`;
                 const channelList = Array.isArray(YouTubeAPI?.getAllChannels?.())
                     ? YouTubeAPI.getAllChannels()
                     : [];
@@ -2301,38 +2435,63 @@ async function showVideoFromAPI(videoId) {
                     || channel.avatar
                     || getFollowChannelAvatar(channel.id)
                     || 'img/icon-192.png';
+                const subsText = channel.subscriberCount
+                    ? formatViews(channel.subscriberCount) + ' subscriptors'
+                    : 'Subscriptors ocults';
                 channelInfo.innerHTML = `
-                    <div class="video-metadata-bar">
-                        <div class="channel-meta">
-                            <div class="channel-name-large channel-link" data-channel-id="${channel.id}">
-                                <img src="${channelAvatar}" alt="${escapeHtml(channel.title)}" class="channel-avatar-small" loading="lazy">
-                                <span>${escapeHtml(channel.title)}</span>
+                    <div class="video-info-modern">
+                        <div class="channel-header-row">
+                            <div class="channel-identity-modern channel-link" data-channel-id="${channel.id}">
+                                <img src="${channelAvatar}" alt="${escapeHtml(channel.title)}" class="channel-avatar-small">
+                                <div class="channel-text-modern">
+                                    <div class="channel-name-row">
+                                        <h1 class="channel-name-modern">${escapeHtml(channel.title)}</h1>
+                                    </div>
+                                    <span class="channel-subs-modern">${subsText}</span>
+                                </div>
+                            </div>
+                            <div class="channel-actions-inline">
+                                <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                                    Segueix
+                                </button>
+                                <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
+                                    <i class="far fa-heart" aria-hidden="true"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="video-metadata-actions">
-                            <button class="follow-channel-btn" type="button" data-follow-channel="${channel.id}" aria-pressed="false"></button>
-                            <button class="icon-btn-ghost" id="addToPlaylistBtn" type="button" aria-label="Afegir a una llista">
-                                ${PLAYLIST_ICON_SVG}
-                            </button>
+
+                        <div class="video-metadata-bar">
+                            <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="btn-pill-red">
+                                Canal Youtube
+                            </a>
+                            
+                            <div class="action-group">
+                                <button class="btn-round-icon" id="shareBtn" aria-label="Compartir">
+                                    <i data-lucide="share-2"></i>
+                                </button>
+                                <button class="btn-round-icon" id="miniPlayerToggle" type="button" aria-label="Mini reproductor">
+                                    <i data-lucide="minimize-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="video-description">
+                            ${escapeHtml(video.description || '').substring(0, 500)}${video.description?.length > 500 ? '...' : ''}
+                        </div>
+
+                        <div class="comments-preview-box" onclick="window.open('${watchUrl}', '_blank', 'noopener')">
+                            <div class="comments-header-mini">
+                                <span>Comentaris <span style="font-weight: normal; color: var(--text-secondary);">${formatViews(video.commentCount || 0)}</span></span>
+                                <i data-lucide="chevrons-down" style="width: 16px;"></i>
+                            </div>
+                            <div class="comment-input-placeholder">
+                                <div class="user-avatar-placeholder"></div>
+                                <span class="comment-text-placeholder">Afegeix un comentari a YouTube</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="channel-actions">
-                        <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
-                            Canal Youtube
-                        </a>
-                        <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
-                            ${HEART_TOGGLE_SVG}
-                        </button>
-                        <button class="icon-btn-ghost" id="miniPlayerToggle" type="button" aria-label="Mini reproductor" aria-pressed="false">
-                            <i data-lucide="minimize-2"></i>
-                        </button>
-                        <button class="icon-btn-ghost" id="shareBtn" aria-label="Compartir">
-                            <i data-lucide="share-2"></i>
-                        </button>
-                    </div>
-                    <div class="video-description">${escapeHtml(video.description).substring(0, 500)}${video.description.length > 500 ? '...' : ''}</div>
                 `;
-                setupLikeBadge(videoId);
+                bindLikeButton(channelInfo, video);
                 setupMiniPlayerToggle();
                 bindFollowButtons(channelInfo);
                 bindChannelLinks(channelInfo);
@@ -2509,8 +2668,6 @@ function loadVideosByCategoryStatic(categoryId) {
 // Crear targeta de vídeo (estàtic)
 function createVideoCard(video) {
     const channel = getChannelById(video.channelId);
-    const likedIds = getLikedVideoIds();
-    const isLiked = likedIds.includes(String(video.id));
     const payload = encodeURIComponent(JSON.stringify(getPlaylistVideoData(video)));
 
     return `
@@ -2525,9 +2682,6 @@ function createVideoCard(video) {
                     <div class="video-info-header">
                         <h3 class="video-card-title">${video.title}</h3>
                         <div class="video-card-actions">
-                            <button class="video-action-btn like-action${isLiked ? ' is-liked' : ''}" type="button" data-video-id="${video.id}" aria-label="Preferit">
-                                <i data-lucide="heart"></i>
-                            </button>
                             <button class="video-action-btn playlist-action" type="button" data-playlist-video="${payload}" aria-label="Afegir a una llista">
                                 ${PLAYLIST_ICON_SVG}
                             </button>
@@ -2662,38 +2816,73 @@ function showVideo(videoId) {
     // 2. Mostrar Likes
     const channelInfo = document.getElementById('channelInfo');
     const channelUrl = `https://www.youtube.com/channel/${channel.id}`;
+    const watchUrl = video.videoUrl
+        ? video.videoUrl.replace('embed/', 'watch?v=')
+        : `https://www.youtube.com/watch?v=${videoId}`;
+    const subsText = channel.subscriberCount
+        ? formatViews(channel.subscriberCount) + ' subscriptors'
+        : 'Subscriptors ocults';
     channelInfo.innerHTML = `
-        <div class="video-metadata-bar">
-            <div class="channel-meta">
-                <div class="channel-name-large channel-link" data-channel-id="${channel.id}">
-                    <img src="${channel.avatar || 'img/icon-192.png'}" alt="${channel.name}" class="channel-avatar-small" loading="lazy">
-                    <span>${channel.name}</span>
+        <div class="video-info-modern">
+            <div class="channel-header-row">
+                <div class="channel-identity-modern channel-link" data-channel-id="${channel.id}">
+                    <img src="${channel.avatar || 'img/icon-192.png'}" alt="${escapeHtml(channel.name)}" class="channel-avatar-small">
+                    <div class="channel-text-modern">
+                        <div class="channel-name-row">
+                            <h1 class="channel-name-modern">${escapeHtml(channel.name)}</h1>
+                        </div>
+                        <span class="channel-subs-modern">${subsText}</span>
+                    </div>
+                </div>
+                <div class="channel-actions-inline">
+                    <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                        Segueix
+                    </button>
+                    <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
+                        <i class="far fa-heart" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-            <div class="video-metadata-actions">
-                <button class="follow-channel-btn" type="button" data-follow-channel="${channel.id}" aria-pressed="false"></button>
-                <button class="icon-btn-ghost" id="addToPlaylistBtn" type="button" aria-label="Afegir a una llista">
-                    ${PLAYLIST_ICON_SVG}
-                </button>
+
+            <div class="video-metadata-bar">
+                <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="btn-pill-red">
+                    Canal Youtube
+                </a>
+                
+                <div class="action-group">
+                    <button class="btn-round-icon" id="shareBtn" aria-label="Compartir">
+                        <i data-lucide="share-2"></i>
+                    </button>
+                    <button class="btn-round-icon" id="miniPlayerToggle" type="button" aria-label="Mini reproductor">
+                        <i data-lucide="minimize-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="video-description">
+                ${escapeHtml(video.description || '').substring(0, 500)}${video.description?.length > 500 ? '...' : ''}
+            </div>
+
+            <div class="comments-preview-box" onclick="window.open('${watchUrl}', '_blank', 'noopener')">
+                <div class="comments-header-mini">
+                    <span>Comentaris <span style="font-weight: normal; color: var(--text-secondary);">${formatViews(video.commentCount || 0)}</span></span>
+                    <i data-lucide="chevrons-down" style="width: 16px;"></i>
+                </div>
+                <div class="comment-input-placeholder">
+                    <div class="user-avatar-placeholder"></div>
+                    <span class="comment-text-placeholder">Afegeix un comentari a YouTube</span>
+                </div>
             </div>
         </div>
-        <div class="channel-actions">
-            <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="subscribe-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background-color: #cc0000; color: white;">
-                Canal Youtube
-            </a>
-            <button class="info-badge" id="likeToggle" type="button" aria-pressed="false" aria-label="M'agrada">
-                ${HEART_TOGGLE_SVG}
-            </button>
-            <button class="icon-btn-ghost" id="miniPlayerToggle" type="button" aria-label="Mini reproductor" aria-pressed="false">
-                <i data-lucide="minimize-2"></i>
-            </button>
-            <button class="icon-btn-ghost" id="shareBtn" aria-label="Compartir">
-                <i data-lucide="share-2"></i>
-            </button>
-        </div>
-        <div class="video-description">${video.description}</div>
     `;
-    setupLikeBadge(videoId);
+    const likeVideoData = {
+        ...video,
+        channel: {
+            id: channel.id,
+            name: channel.name
+        }
+    };
+    bindLikeButton(channelInfo, likeVideoData);
     setupMiniPlayerToggle();
     bindFollowButtons(channelInfo);
     bindChannelLinks(channelInfo);
