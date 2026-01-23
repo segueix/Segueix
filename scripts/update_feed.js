@@ -258,7 +258,7 @@ async function main() {
             console.log(`🔎 Carregant metadades per ${channelIds.length} canals...`);
             const channelChunks = chunkArray(channelIds, 50);
             for (const chunk of channelChunks) {
-                const cUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${chunk.join(',')}&key=${API_KEY}`;
+                const cUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${chunk.join(',')}&key=${API_KEY}`;
                 const cData = await fetchYouTubeData(cUrl);
                 if (Array.isArray(cData.items)) {
                     cData.items.forEach(item => {
@@ -269,11 +269,13 @@ async function main() {
                         const handle = customUrl
                             ? (customUrl.startsWith('@') ? customUrl : `@${customUrl}`)
                             : '';
+                        const subscriberCount = Number(item.statistics?.subscriberCount || 0);
                         channelMetadata[item.id] = {
                             name: item.snippet?.title || '',
                             avatar: thumbnail,
                             description: truncateText(item.snippet?.description || ''),
-                            handle
+                            handle,
+                            subscriberCount
                         };
                     });
                 }

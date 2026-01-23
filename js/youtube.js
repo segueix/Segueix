@@ -89,6 +89,7 @@ const YouTubeAPI = {
                         avatar: channel.avatar || '',
                         description: channel.description || '',
                         handle: channel.handle || '',
+                        subscriberCount: channel.subscriberCount ?? null,
                         categories: this.normalizeCategories(channel.categories || [])
                     }));
                 } else {
@@ -99,6 +100,10 @@ const YouTubeAPI = {
                             channelsMap[video.channelTitle] = {
                                 id: video.channelId || null,
                                 name: video.channelTitle,
+                                avatar: '',
+                                description: '',
+                                handle: '',
+                                subscriberCount: null,
                                 categories: this.normalizeCategories(video.categories)
                             };
                         }

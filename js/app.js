@@ -12,7 +12,7 @@ let playlistModal, playlistModalBody;
 let videoPlayer, videoPlaceholder, placeholderImage;
 let channelPage, channelVideosGrid;
 let channelBackBtn, channelProfileAvatar, channelProfileName, channelProfileSubscribers;
-let channelProfileDescription, channelProfileFollowBtn;
+let channelProfileHandle, channelProfileDescription, channelProfileFollowBtn;
 let currentVideoId = null;
 let useYouTubeAPI = false;
 let selectedCategory = 'Tot';
@@ -154,31 +154,6 @@ function getFollowChannelAvatar(channelId) {
     return null;
 }
 
-async function enrichFollowChannelAvatars(channels) {
-    if (!Array.isArray(channels) || typeof YouTubeAPI?.getChannelDetails !== 'function') {
-        return;
-    }
-    await Promise.all(channels.map(async (channel) => {
-        if (!channel?.id) {
-            return;
-        }
-        const existing = channel.avatar || channel.thumbnail || getFollowChannelAvatar(channel.id);
-        if (existing) {
-            const image = document.querySelector(`.follow-card[data-channel-id="${channel.id}"] img`);
-            if (image) {
-                image.src = existing;
-            }
-            return;
-        }
-        const result = await YouTubeAPI.getChannelDetails(channel.id);
-        if (result.channel?.thumbnail) {
-            const image = document.querySelector(`.follow-card[data-channel-id="${channel.id}"] img`);
-            if (image) {
-                image.src = result.channel.thumbnail;
-            }
-        }
-    }));
-}
 
 // Inicialitzar l'aplicació
 document.addEventListener('DOMContentLoaded', async () => {
@@ -263,6 +238,7 @@ function initElements() {
     channelBackBtn = document.getElementById('channelBackBtn');
     channelProfileAvatar = document.getElementById('channelProfileAvatar');
     channelProfileName = document.getElementById('channelProfileName');
+    channelProfileHandle = document.getElementById('channelProfileHandle');
     channelProfileSubscribers = document.getElementById('channelProfileSubscribers');
     channelProfileDescription = document.getElementById('channelProfileDescription');
     channelProfileFollowBtn = document.getElementById('channelProfileFollowBtn');
@@ -1208,8 +1184,8 @@ async function renderFollowPage() {
         .map(channel => ({
             ...channel,
             name: channel.name || channel.title || ''
-        }))
-        .sort((a, b) => a.name.localeCompare(b.name));
+        }));
+    sortedChannels.sort((a, b) => a.name.localeCompare(b.name, 'ca', { sensitivity: 'base' }));
 
     followGrid.innerHTML = sortedChannels.map(channel => {
         const name = channel.name || 'Canal';
@@ -1228,10 +1204,11 @@ async function renderFollowPage() {
     }).join('');
 
     bindFollowButtons(followGrid);
-    enrichFollowChannelAvatars(sortedChannels);
-
     followGrid.querySelectorAll('.follow-card').forEach(card => {
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('[data-follow-channel]')) {
+                return;
+            }
             openChannelProfile(card.dataset.channelId);
         });
     });
@@ -3015,6 +2992,15 @@ function openChannelProfile(channelId) {
     }
     if (channelProfileName) {
         channelProfileName.textContent = channelName;
+    }
+    if (channelProfileHandle) {
+        if (channel?.handle) {
+            channelProfileHandle.textContent = channel.handle;
+            channelProfileHandle.classList.remove('hidden');
+        } else {
+            channelProfileHandle.textContent = '';
+            channelProfileHandle.classList.add('hidden');
+        }
     }
     if (channelProfileSubscribers) {
         if (channel?.subscriberCount) {
