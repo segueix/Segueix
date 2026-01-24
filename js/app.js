@@ -935,12 +935,13 @@ function getTrendingVideos(videos, feedGeneratedAt) {
     const now = feedGeneratedAt ? new Date(feedGeneratedAt).getTime() : Date.now();
     const scoredVideos = videos.map(video => {
         // Calculate age in hours
-        const publishedAt = new Date(video.publishedAt).getTime();
+        const pubDate = video.publishedAt || video.uploadDate;
+        const publishedAt = new Date(pubDate).getTime();
         const diffMs = Math.max(0, now - publishedAt);
         const hoursOld = diffMs / (1000 * 60 * 60);
         // Calculate Interaction Score
-        const views = parseInt(video.viewCount || 0, 10);
-        const likes = parseInt(video.likeCount || 0, 10);
+        const views = parseInt(video.viewCount || video.views || 0, 10);
+        const likes = parseInt(video.likeCount || video.likes || 0, 10);
         const comments = parseInt(video.commentCount || 0, 10);
         let interactionScore = views + (likes * 5) + (comments * 10);
         // Penalty for Shorts (they get views too easily)
@@ -966,15 +967,26 @@ async function loadTrendingVideos() {
     showLoading();
     setPageTitle('Tendències');
 
-    const result = await YouTubeAPI.getPopularVideos(24);
-
-    if (result.error) {
+    // 1. Determine source of videos (Local Feed > Cache > Static)
+    let videosSource = [];
+    if (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.feedLoaded && YouTubeAPI.feedVideos.length > 0) {
+        videosSource = YouTubeAPI.feedVideos;
+    } else if (typeof cachedAPIVideos !== 'undefined' && cachedAPIVideos.length > 0) {
+        videosSource = cachedAPIVideos;
+    } else if (typeof VIDEOS !== 'undefined') {
+        videosSource = VIDEOS;
+    }
+    // If no data available, show empty state
+    if (videosSource.length === 0) {
+        if (videosGrid) {
+            videosGrid.innerHTML = '<div class="empty-state">No hi ha dades disponibles per calcular tendències.</div>';
+        }
         hideLoading();
         return;
     }
 
     const feedGeneratedAt = localStorage.getItem('iutube_feed_generatedAt');
-    const trendingVideos = getTrendingVideos(result.items, feedGeneratedAt);
+    const trendingVideos = getTrendingVideos(videosSource, feedGeneratedAt);
     setFeedContext(trendingVideos, getFeedDataForFilter(), renderVideos);
     hideLoading();
 }
