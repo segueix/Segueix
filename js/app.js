@@ -13,6 +13,7 @@ let videoPlayer, videoPlaceholder, placeholderImage;
 let channelPage, channelVideosGrid;
 let channelBackBtn, channelProfileAvatar, channelProfileName, channelProfileSubscribers;
 let channelProfileHandle, channelProfileDescription, channelProfileFollowBtn;
+let searchForm, searchInput, searchDropdown;
 let currentVideoId = null;
 let useYouTubeAPI = false;
 let selectedCategory = 'Tot';
@@ -29,6 +30,9 @@ let activePlaylistName = '';
 let isPlaylistNavigation = false;
 let isPlaylistMode = false;
 let youtubeMessageListenerInitialized = false;
+let searchDropdownItems = [];
+let searchDropdownActiveIndex = -1;
+let searchDebounceTimeout = null;
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
 const BACKGROUND_COLORS = [
@@ -329,6 +333,8 @@ function initElements() {
     channelProfileSubscribers = document.getElementById('channelProfileSubscribers');
     channelProfileDescription = document.getElementById('channelProfileDescription');
     channelProfileFollowBtn = document.getElementById('channelProfileFollowBtn');
+    searchForm = document.querySelector('.search');
+    searchInput = searchForm?.querySelector('.search-input') || null;
 }
 
 // Inicialitzar event listeners
@@ -455,15 +461,76 @@ function initEventListeners() {
     }
 
     // Cerca
-    const searchForm = document.getElementById('searchForm');
-    if (searchForm) {
-        searchForm.addEventListener('submit', async (e) => {
+    if (searchForm && searchInput) {
+        ensureSearchDropdown();
+
+        searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const query = document.getElementById('searchInput').value.trim();
-            if (query && useYouTubeAPI) {
-                await searchVideos(query);
+            const query = searchInput.value.trim();
+            if (!query) {
+                hideSearchDropdown();
+                return;
+            }
+            navigateToSearchResults(query);
+        });
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim();
+            if (searchDebounceTimeout) {
+                clearTimeout(searchDebounceTimeout);
+            }
+            if (!query) {
+                hideSearchDropdown();
+                return;
+            }
+            searchDebounceTimeout = setTimeout(() => {
+                const results = performLocalSearch(query);
+                showSearchDropdown(results);
+            }, 300);
+        });
+
+        searchInput.addEventListener('keydown', (event) => {
+            if (!searchDropdown || searchDropdown.hidden) {
+                return;
+            }
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                focusSearchDropdownItem(0);
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                focusSearchDropdownItem(searchDropdownItems.length - 1);
+            } else if (event.key === 'Escape') {
+                hideSearchDropdown();
             }
         });
+
+        if (searchDropdown) {
+            searchDropdown.addEventListener('click', (event) => {
+                const item = event.target.closest('.search-result-item');
+                if (!item) {
+                    return;
+                }
+                handleSearchResultSelection(item);
+            });
+
+            searchDropdown.addEventListener('keydown', (event) => {
+                if (!searchDropdownItems.length) {
+                    return;
+                }
+                const currentIndex = searchDropdownItems.indexOf(document.activeElement);
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    focusSearchDropdownItem(currentIndex + 1);
+                } else if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    focusSearchDropdownItem(currentIndex - 1);
+                } else if (event.key === 'Escape') {
+                    event.preventDefault();
+                    hideSearchDropdown();
+                    searchInput.focus();
+                }
+            });
+        }
     }
 
     // Botó color de fons
@@ -536,6 +603,13 @@ function initEventListeners() {
     }
 
     document.addEventListener('click', (e) => {
+        if (searchDropdown && !searchDropdown.hidden) {
+            const clickedInsideSearch = searchForm?.contains(e.target);
+            if (!clickedInsideSearch) {
+                hideSearchDropdown();
+            }
+        }
+
         const chip = e.target.closest('.chip');
         if (chip && !chip.closest('#historyPage')) {
             selectedCategory = chip.dataset.cat || 'Tot';
@@ -861,6 +935,397 @@ async function loadTrendingVideos() {
 
     setFeedContext(result.items, getFeedDataForFilter(), renderVideos);
     hideLoading();
+}
+
+function ensureSearchDropdown() {
+    if (!searchForm) {
+        return null;
+    }
+    if (searchDropdown) {
+        return searchDropdown;
+    }
+    const dropdown = document.createElement('div');
+    dropdown.className = 'search-dropdown';
+    dropdown.id = 'searchDropdown';
+    dropdown.setAttribute('role', 'listbox');
+    dropdown.setAttribute('aria-label', 'Resultats de cerca');
+    dropdown.setAttribute('aria-hidden', 'true');
+    dropdown.hidden = true;
+    searchForm.appendChild(dropdown);
+    searchDropdown = dropdown;
+    if (searchInput) {
+        searchInput.setAttribute('aria-expanded', 'false');
+        searchInput.setAttribute('aria-controls', dropdown.id);
+        searchInput.setAttribute('aria-autocomplete', 'list');
+    }
+    return dropdown;
+}
+
+function getMatchScore(text, query) {
+    if (!text) {
+        return 0;
+    }
+    const lowerText = String(text).toLowerCase();
+    if (lowerText === query) {
+        return 3;
+    }
+    if (lowerText.startsWith(query)) {
+        return 2;
+    }
+    if (lowerText.includes(query)) {
+        return 1;
+    }
+    return 0;
+}
+
+function performLocalSearch(query) {
+    const normalizedQuery = query.trim().toLowerCase();
+    if (!normalizedQuery) {
+        return { channels: [], videos: [] };
+    }
+
+    const channelsMap = new Map();
+    const feedChannels = Array.isArray(YouTubeAPI?.feedChannels) ? YouTubeAPI.feedChannels : [];
+    feedChannels.forEach(channel => {
+        if (!channel?.id) {
+            return;
+        }
+        channelsMap.set(String(channel.id), {
+            id: channel.id,
+            name: channel.name || channel.title || '',
+            avatar: channel.avatar || channel.thumbnail || '',
+            subscriberCount: channel.subscriberCount ?? null
+        });
+    });
+
+    Object.values(cachedChannels || {}).forEach(channel => {
+        if (!channel?.id) {
+            return;
+        }
+        const normalizedId = String(channel.id);
+        if (!channelsMap.has(normalizedId)) {
+            channelsMap.set(normalizedId, {
+                id: channel.id,
+                name: channel.name || channel.title || '',
+                avatar: channel.thumbnail || '',
+                subscriberCount: channel.subscriberCount ?? null
+            });
+        }
+    });
+
+    const channelResults = Array.from(channelsMap.values())
+        .map(channel => ({
+            ...channel,
+            score: getMatchScore(channel.name, normalizedQuery)
+        }))
+        .filter(channel => channel.score > 0)
+        .sort((a, b) => {
+            if (b.score !== a.score) {
+                return b.score - a.score;
+            }
+            return (a.name || '').localeCompare((b.name || ''), 'ca', { sensitivity: 'base' });
+        });
+
+    const videosMap = new Map();
+    const feedVideos = Array.isArray(YouTubeAPI?.feedVideos) ? YouTubeAPI.feedVideos : [];
+    feedVideos.forEach(video => {
+        if (!video?.id) {
+            return;
+        }
+        videosMap.set(String(video.id), { ...video, source: 'api' });
+    });
+
+    cachedAPIVideos.forEach(video => {
+        if (!video?.id) {
+            return;
+        }
+        const normalizedId = String(video.id);
+        if (!videosMap.has(normalizedId)) {
+            videosMap.set(normalizedId, { ...video, source: 'api' });
+        }
+    });
+
+    if (videosMap.size === 0 && Array.isArray(VIDEOS)) {
+        VIDEOS.forEach(video => {
+            if (!video?.id) {
+                return;
+            }
+            const channel = getChannelById(video.channelId);
+            videosMap.set(String(video.id), {
+                id: video.id,
+                title: video.title,
+                description: video.description || '',
+                thumbnail: video.thumbnail,
+                channelId: video.channelId,
+                channelTitle: channel?.name || '',
+                viewCount: video.views || 0,
+                publishedAt: video.uploadDate,
+                duration: video.duration,
+                videoUrl: video.videoUrl,
+                source: 'static'
+            });
+        });
+    }
+
+    const videoResults = Array.from(videosMap.values())
+        .map(video => {
+            const titleScore = getMatchScore(video.title, normalizedQuery);
+            const descriptionScore = getMatchScore(video.description, normalizedQuery);
+            return {
+                ...video,
+                score: (titleScore * 2) + descriptionScore
+            };
+        })
+        .filter(video => video.score > 0)
+        .sort((a, b) => {
+            if (b.score !== a.score) {
+                return b.score - a.score;
+            }
+            const viewA = a.viewCount ?? a.views ?? 0;
+            const viewB = b.viewCount ?? b.views ?? 0;
+            if (viewA !== viewB) {
+                return viewB - viewA;
+            }
+            return (a.title || '').localeCompare((b.title || ''), 'ca', { sensitivity: 'base' });
+        });
+
+    return { channels: channelResults, videos: videoResults };
+}
+
+function resetSearchDropdownNavigation() {
+    searchDropdownItems.forEach(item => {
+        item.classList.remove('is-active');
+        item.setAttribute('aria-selected', 'false');
+        item.setAttribute('tabindex', '-1');
+    });
+    searchDropdownItems = searchDropdown ? Array.from(searchDropdown.querySelectorAll('.search-result-item')) : [];
+    searchDropdownItems.forEach(item => {
+        item.setAttribute('role', 'option');
+        item.setAttribute('aria-selected', 'false');
+        item.setAttribute('tabindex', '-1');
+    });
+    searchDropdownActiveIndex = -1;
+}
+
+function focusSearchDropdownItem(index) {
+    if (!searchDropdownItems.length) {
+        return;
+    }
+    const total = searchDropdownItems.length;
+    const normalizedIndex = ((index % total) + total) % total;
+    searchDropdownItems.forEach((item, itemIndex) => {
+        const isActive = itemIndex === normalizedIndex;
+        item.classList.toggle('is-active', isActive);
+        item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        item.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+    searchDropdownActiveIndex = normalizedIndex;
+    searchDropdownItems[normalizedIndex].focus();
+}
+
+function showSearchDropdown(results) {
+    if (!searchDropdown || !searchInput) {
+        return;
+    }
+    const channels = Array.isArray(results?.channels) ? results.channels.slice(0, 5) : [];
+    const videos = Array.isArray(results?.videos) ? results.videos.slice(0, 8) : [];
+
+    if (channels.length === 0 && videos.length === 0) {
+        searchDropdown.innerHTML = `
+            <div class="search-no-results" role="status">No s'han trobat resultats.</div>
+        `;
+    } else {
+        const channelMarkup = channels.length ? `
+            <div class="search-section" role="group" aria-label="Canals">
+                <h4>Canals</h4>
+                ${channels.map(channel => {
+                    const avatar = channel.avatar || getFollowChannelAvatar(channel.id) || 'img/icon-192.png';
+                    const subscriberText = channel.subscriberCount != null
+                        ? `${formatViews(channel.subscriberCount)} subscriptors`
+                        : 'Subscriptors no disponibles';
+                    return `
+                        <button type="button" class="search-result-item" data-result-type="channel" data-channel-id="${channel.id}">
+                            <img class="search-result-avatar" src="${avatar}" alt="${escapeHtml(channel.name || 'Canal')}">
+                            <div class="search-result-info">
+                                <span class="name">${escapeHtml(channel.name || 'Canal')}</span>
+                                <span class="meta">${subscriberText}</span>
+                            </div>
+                        </button>
+                    `;
+                }).join('')}
+            </div>
+        ` : '';
+
+        const videoMarkup = videos.length ? `
+            <div class="search-section" role="group" aria-label="Vídeos">
+                <h4>Vídeos</h4>
+                ${videos.map(video => {
+                    const channelName = video.channelTitle || '';
+                    const viewCount = video.viewCount ?? video.views ?? 0;
+                    const meta = channelName
+                        ? `${escapeHtml(channelName)} • ${formatViews(viewCount)} visualitzacions`
+                        : `${formatViews(viewCount)} visualitzacions`;
+                    return `
+                        <button type="button" class="search-result-item" data-result-type="video" data-video-id="${video.id}" data-video-source="${video.source || 'api'}">
+                            <img class="search-result-thumb" src="${video.thumbnail}" alt="${escapeHtml(video.title)}">
+                            <div class="search-result-info">
+                                <span class="title">${escapeHtml(video.title)}</span>
+                                <span class="meta">${meta}</span>
+                            </div>
+                        </button>
+                    `;
+                }).join('')}
+            </div>
+        ` : '';
+
+        searchDropdown.innerHTML = `
+            ${channelMarkup}
+            ${videoMarkup}
+        `;
+    }
+
+    searchDropdown.hidden = false;
+    searchDropdown.setAttribute('aria-hidden', 'false');
+    searchDropdown.classList.add('is-visible');
+    searchInput.setAttribute('aria-expanded', 'true');
+    resetSearchDropdownNavigation();
+}
+
+function hideSearchDropdown() {
+    if (!searchDropdown || !searchInput) {
+        return;
+    }
+    searchDropdown.hidden = true;
+    searchDropdown.setAttribute('aria-hidden', 'true');
+    searchDropdown.classList.remove('is-visible');
+    searchInput.setAttribute('aria-expanded', 'false');
+    searchDropdown.innerHTML = '';
+    searchDropdownItems = [];
+    searchDropdownActiveIndex = -1;
+}
+
+function handleSearchResultSelection(item) {
+    if (!item) {
+        return;
+    }
+    const resultType = item.dataset.resultType;
+    if (resultType === 'channel') {
+        const channelId = item.dataset.channelId;
+        if (channelId) {
+            openChannelProfile(channelId);
+        }
+    } else if (resultType === 'video') {
+        const videoId = item.dataset.videoId;
+        const source = item.dataset.videoSource;
+        if (videoId) {
+            if (source === 'static') {
+                showVideo(videoId);
+            } else {
+                showVideoFromAPI(videoId);
+            }
+        }
+    }
+    hideSearchDropdown();
+}
+
+function navigateToSearchResults(query) {
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) {
+        return;
+    }
+    hideSearchDropdown();
+
+    if (useYouTubeAPI && !YouTubeAPI?.feedLoaded) {
+        searchVideos(trimmedQuery);
+        return;
+    }
+
+    const results = performLocalSearch(trimmedQuery);
+    showHome();
+    setPageTitle(`Resultats per: "${trimmedQuery}"`);
+    updateHero(null);
+
+    if (!videosGrid) {
+        return;
+    }
+
+    if (results.channels.length === 0 && results.videos.length === 0) {
+        videosGrid.innerHTML = `
+            <div class="search-error">
+                <i data-lucide="search-x"></i>
+                <p>No s'han trobat resultats locals.</p>
+            </div>
+        `;
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+        return;
+    }
+
+    const channelSection = results.channels.length ? `
+        <section class="search-results-section">
+            <h2 class="search-results-title">Canals</h2>
+            <div class="follow-grid search-channel-grid">
+                ${results.channels.map(channel => {
+                    const avatar = channel.avatar || getFollowChannelAvatar(channel.id) || 'img/icon-192.png';
+                    return `
+                        <div class="follow-card search-channel-card" data-channel-id="${channel.id}">
+                            <div class="follow-avatar-wrap">
+                                <img class="follow-avatar" src="${avatar}" alt="${escapeHtml(channel.name || 'Canal')}" loading="lazy">
+                            </div>
+                            <div class="follow-name">${escapeHtml(channel.name || 'Canal')}</div>
+                            <button class="follow-toggle-btn" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                                Segueix
+                            </button>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        </section>
+    ` : '';
+
+    const videoSection = results.videos.length ? `
+        <section class="search-results-section">
+            <h2 class="search-results-title">Vídeos</h2>
+            <div class="videos-grid">
+                ${results.videos.map(video => createVideoCardAPI(video)).join('')}
+            </div>
+        </section>
+    ` : '';
+
+    videosGrid.innerHTML = `
+        ${channelSection}
+        ${videoSection}
+    `;
+
+    videosGrid.querySelectorAll('.search-channel-card').forEach(card => {
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('[data-follow-channel]')) {
+                return;
+            }
+            openChannelProfile(card.dataset.channelId);
+        });
+    });
+
+    videosGrid.querySelectorAll('.video-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const videoId = card.dataset.videoId;
+            const video = results.videos.find(item => String(item.id) === String(videoId));
+            if (video?.source === 'static') {
+                showVideo(videoId);
+            } else {
+                showVideoFromAPI(videoId);
+            }
+        });
+    });
+
+    bindFollowButtons(videosGrid);
+    bindChannelLinks(videosGrid);
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    setupVideoCardActionButtons();
 }
 
 // Cercar vídeos
