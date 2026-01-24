@@ -203,7 +203,14 @@ const CATALAN_MONTHS = [
 function formatDate(dateString) {
     if (!dateString) return '';
 
-    const date = new Date(dateString);
+    // Si rebem una data en format ISO curt (YYYY-MM-DD), la tractem com a local
+    // per evitar desplaçaments de fus horari que confonguin "avui" amb "ahir".
+    const isoShortMatch = typeof dateString === 'string'
+        ? dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+        : null;
+    const date = isoShortMatch
+        ? new Date(Number(isoShortMatch[1]), Number(isoShortMatch[2]) - 1, Number(isoShortMatch[3]))
+        : new Date(dateString);
     const now = new Date();
 
     // Normalitzar dates a mitjanit per comparacions precises de dies
@@ -213,6 +220,16 @@ function formatDate(dateString) {
     // Diferència en dies
     const diffTime = nowAtMidnight - dateAtMidnight;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    // Si la data és futura o invàlida, mostrem el format complet per no confondre
+    if (Number.isNaN(diffDays) || diffDays < 0) {
+        const day = date.getDate();
+        const monthName = CATALAN_MONTHS[date.getMonth()];
+        const year = date.getFullYear();
+        return year === now.getFullYear()
+            ? `El ${day} de ${monthName}`
+            : `El ${day} de ${monthName} de ${year}`;
+    }
 
     // Avui
     if (diffDays === 0) {
