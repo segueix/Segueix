@@ -2563,37 +2563,14 @@ html[style*="--color-background: #224262"] .btn-round-icon {
         width: 1.6em;
         height: 1.6em;
     }
-}
 
-.video-info-section {
-    margin-bottom: 0;
-}
-
-/* RESPONSIVE: Mobile adjustments */
-@media screen and (max-width: 768px) {
-    .video-info-modern {
-        padding: 0.35rem 0.75rem 0.2rem 0.75rem;
-        gap: 0.4rem;
-    }
-    
-    .follow-btn-pill,
-    .subscribe-btn-modern {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
-    }
-    
-    .channel-avatar-small {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .action-group {
-        gap: 0.4rem;
-    }
-    
     .btn-comment-youtube {
         margin-top: 0.5rem;
         padding: 0.5rem 1rem;
         font-size: 0.85rem;
     }
+}
+
+.video-info-section {
+    margin-bottom: 0;
 }
