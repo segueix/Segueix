@@ -9,8 +9,8 @@ const path = require('path');
 const API_KEY = process.env.YOUTUBE_API_KEY;
 const OUTPUT_FEED_JSON = path.join(process.cwd(), 'data', 'feed.json');
 const OUTPUT_FEED_JS = 'feed_updates.js';
-const VIDEOS_PER_CHANNEL = Number.parseInt(process.env.VIDEOS_PER_CHANNEL ?? '5', 10);
-const FETCH_PER_CHANNEL = VIDEOS_PER_CHANNEL * 3;
+const VIDEOS_PER_CHANNEL = Number.parseInt(process.env.VIDEOS_PER_CHANNEL ?? '50', 10);
+const FETCH_PER_CHANNEL = 50; // Maximum allowed by YouTube API per request
 
 /**
  * Funció per descarregar dades que sap seguir TOTES les redireccions (301, 302, 307, 308)
@@ -237,17 +237,17 @@ async function main() {
         });
 
         const feedVideos = [];
-        channels.forEach((channel) => {
-            const channelVideos = videosByChannel.get(channel.id) || [];
-            console.log(`📺 Canal ${channel.name || channel.id}: ${channelVideos.length} vídeos abans de filtrar.`);
-            const selected = channelVideos.slice(0, VIDEOS_PER_CHANNEL);
-            console.log(`✅ Canal ${channel.name || channel.id}: ${selected.length} vídeos seleccionats.`);
-            feedVideos.push(...selected);
-        });
+channels.forEach((channel) => {
+    const channelVideos = videosByChannel.get(channel.id) || [];
+    console.log(`📺 Canal ${channel.name || channel.id}: ${channelVideos.length} vídeos abans de filtrar.`);
+    const selected = channelVideos.slice(0, VIDEOS_PER_CHANNEL);
+    console.log(`✅ Canal ${channel.name || channel.id}: ${selected.length} vídeos seleccionats (de ${channelVideos.length} disponibles).`);
+    feedVideos.push(...selected);
+});
 
-        feedVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-        const feedPayload = feedVideos.slice(0, 100);
-        const videosWithViews = feedPayload.filter(video => (video.viewCount || 0) > 0);
+feedVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+const feedPayload = feedVideos; // No limit - include ALL videos
+const videosWithViews = feedPayload.filter(video => (video.viewCount || 0) > 0);
         console.log(`📊 Vídeos amb viewCount > 0: ${videosWithViews.length}/${feedPayload.length}`);
         videosWithViews.slice(0, 3).forEach(video => {
             console.log(`📈 ${video.id}: ${video.viewCount}`);

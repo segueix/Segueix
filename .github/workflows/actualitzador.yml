@@ -24,7 +24,7 @@ jobs:
       - name: Genera feed
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY_SERVER }}
-          VIDEOS_PER_CHANNEL: "10"
+          VIDEOS_PER_CHANNEL: "50"
         run: node scripts/update_feed.js
 
       - name: Commit i push si hi ha canvis

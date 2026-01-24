@@ -289,11 +289,11 @@ const YouTubeAPI = {
         }
     },
 
-    // Vídeos per canal (configurable)
-    VIDEOS_PER_CHANNEL: 10,
+  // Vídeos per canal (configurable)
+  VIDEOS_PER_CHANNEL: 50,
 
     // Obtenir vídeos de múltiples canals catalans (MOLT EFICIENT!)
-    async getVideosFromCatalanChannelsEfficient(maxResults = 100) {
+  async getVideosFromCatalanChannelsEfficient(maxResults = 1000) {
         const apiKey = this.getApiKey();
         if (!apiKey) return { items: [], error: 'No API key' };
 
@@ -417,11 +417,12 @@ const YouTubeAPI = {
 
         const result = [];
 
-        // FASE 1: Intercalar els primers N vídeos de cada canal
-        const initialVideos = {};
-        channelIds.forEach(channelId => {
-            initialVideos[channelId] = videosByChannel[channelId].splice(0, this.INITIAL_VIDEOS_PER_CHANNEL);
-        });
+    // FASE 1: Intercalar els primers N vídeos de cada canal
+    const initialVideos = {};
+    const INITIAL_COUNT = Math.min(5, this.INITIAL_VIDEOS_PER_CHANNEL);
+    channelIds.forEach(channelId => {
+      initialVideos[channelId] = videosByChannel[channelId].splice(0, INITIAL_COUNT);
+    });
 
         let hasMore = true;
         while (hasMore) {
@@ -685,7 +686,7 @@ const YouTubeAPI = {
             categories: v.categories || []
         }));
         
-        return { items: videos.slice(0, maxResults), error: null, fromFeed: true };
+    return { items: videos, error: null, fromFeed: true };
     }
 
     // PRIORITAT 2: Si hi ha API key, obtenir vídeos frescos
