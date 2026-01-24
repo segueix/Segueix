@@ -2366,16 +2366,6 @@ async function showVideoFromAPI(videoId) {
 
                     <div class="video-description"></div>
 
-                    <div class="comments-preview-inline" onclick="window.open('${watchUrl}', '_blank', 'noopener')">
-                        <div class="comments-header-mini">
-                            <span>Comentaris <span style="font-weight: normal; color: var(--text-secondary);">${formatViews(cachedVideo.commentCount || 0)}</span></span>
-                            <i data-lucide="chevrons-down" style="width: 16px;"></i>
-                        </div>
-                        <div class="comment-input-placeholder">
-                            <div class="user-avatar-placeholder"></div>
-                            <span class="comment-text-placeholder">Afegeix un comentari a YouTube</span>
-                        </div>
-                    </div>
                 </div>
             `;
             bindLikeButton(channelInfo, cachedVideo);
@@ -2479,16 +2469,6 @@ async function showVideoFromAPI(videoId) {
                             ${escapeHtml(video.description || '').substring(0, 500)}${video.description?.length > 500 ? '...' : ''}
                         </div>
 
-                        <div class="comments-preview-inline" onclick="window.open('${watchUrl}', '_blank', 'noopener')">
-                            <div class="comments-header-mini">
-                                <span>Comentaris <span style="font-weight: normal; color: var(--text-secondary);">${formatViews(video.commentCount || 0)}</span></span>
-                                <i data-lucide="chevrons-down" style="width: 16px;"></i>
-                            </div>
-                            <div class="comment-input-placeholder">
-                                <div class="user-avatar-placeholder"></div>
-                                <span class="comment-text-placeholder">Afegeix un comentari a YouTube</span>
-                            </div>
-                        </div>
                     </div>
                 `;
                 bindLikeButton(channelInfo, video);
@@ -2507,11 +2487,6 @@ async function showVideoFromAPI(videoId) {
         console.warn("L'API ha fallat, però almenys es veu la info bàsica", error);
     }
 
-    // Carregar comentaris
-    if (CONFIG.features.comments) {
-        loadCommentsFromAPI(videoId);
-    }
-
     // Carregar vídeos relacionats o cua de la llista
     if (isPlaylistMode) {
         renderPlaylistQueue();
@@ -2521,44 +2496,6 @@ async function showVideoFromAPI(videoId) {
 
     window.scrollTo(0, 0);
     hideLoading();
-
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-    setupVideoCardActionButtons();
-}
-
-// Carregar comentaris des de l'API
-async function loadCommentsFromAPI(videoId) {
-    const result = await YouTubeAPI.getVideoComments(videoId, 20);
-    const commentsSection = document.getElementById('commentsSection');
-
-    if (result.error || result.items.length === 0) {
-        commentsSection.innerHTML = '<p class="no-comments">No hi ha comentaris disponibles</p>';
-        return;
-    }
-
-    commentsSection.innerHTML = `
-        <h2 class="comments-header">${result.items.length} comentaris</h2>
-        ${result.items.map(comment => `
-            <div class="comment">
-                <img src="${comment.authorAvatar}" alt="${escapeHtml(comment.authorName)}" class="comment-avatar">
-                <div class="comment-content">
-                    <div class="comment-header">
-                        <span class="comment-author">${escapeHtml(comment.authorName)}</span>
-                        <span class="comment-date">${formatDate(comment.publishedAt)}</span>
-                    </div>
-                    <div class="comment-text">${comment.text}</div>
-                    <div class="comment-actions">
-                        <button class="comment-like-btn">
-                            <i data-lucide="thumbs-up"></i>
-                            <span>${comment.likeCount}</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('')}
-    `;
 
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
@@ -2863,16 +2800,6 @@ function showVideo(videoId) {
                 ${escapeHtml(video.description || '').substring(0, 500)}${video.description?.length > 500 ? '...' : ''}
             </div>
 
-            <div class="comments-preview-inline" onclick="window.open('${watchUrl}', '_blank', 'noopener')">
-                <div class="comments-header-mini">
-                    <span>Comentaris <span style="font-weight: normal; color: var(--text-secondary);">${formatViews(video.commentCount || 0)}</span></span>
-                    <i data-lucide="chevrons-down" style="width: 16px;"></i>
-                </div>
-                <div class="comment-input-placeholder">
-                    <div class="user-avatar-placeholder"></div>
-                    <span class="comment-text-placeholder">Afegeix un comentari a YouTube</span>
-                </div>
-            </div>
         </div>
     `;
     const likeVideoData = {
@@ -2891,10 +2818,6 @@ function showVideo(videoId) {
         addToPlaylistBtn.addEventListener('click', () => {
             openPlaylistModal(getPlaylistVideoData(video));
         });
-    }
-
-    if (CONFIG.features.comments) {
-        loadComments(videoId);
     }
 
     if (isPlaylistMode) {
@@ -3296,41 +3219,6 @@ function openChannelProfile(channelId) {
     setupVideoCardActionButtons();
     window.scrollTo(0, 0);
 }
-
-// Carregar comentaris (estàtic)
-function loadComments(videoId) {
-    const comments = getCommentsByVideoId(videoId);
-    const commentsSection = document.getElementById('commentsSection');
-
-    if (comments.length === 0) return;
-
-    commentsSection.innerHTML = `
-        <h2 class="comments-header">${comments.length} comentaris</h2>
-        ${comments.map(comment => `
-            <div class="comment">
-                <img src="${comment.avatar}" alt="${comment.author}" class="comment-avatar">
-                <div class="comment-content">
-                    <div class="comment-header">
-                        <span class="comment-author">${comment.author}</span>
-                        <span class="comment-date">${formatDate(comment.timestamp)}</span>
-                    </div>
-                    <div class="comment-text">${comment.text}</div>
-                    <div class="comment-actions">
-                        <button class="comment-like-btn">
-                            <i data-lucide="thumbs-up"></i>
-                            <span>${comment.likes}</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('')}
-    `;
-
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-}
-
 // Carregar vídeos relacionats (estàtic)
 function loadRelatedVideos(currentVideoId) {
     const relatedVideos = VIDEOS.filter(v => v.id !== parseInt(currentVideoId)).slice(0, 10);

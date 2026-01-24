@@ -1486,86 +1486,6 @@ button:disabled,
     color: #ffffff;
 }
 
-/* Comments */
-.comments-section {
-    margin-top: 24px;
-}
-
-.comments-header {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 24px;
-}
-
-.comment {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-.comment-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.comment-content {
-    flex: 1;
-}
-
-.comment-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-}
-
-.comment-author {
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.comment-date {
-    font-size: 12px;
-    color: var(--color-text-secondary);
-}
-
-.comment-text {
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 8px;
-}
-
-.comment-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.comment-like-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: none;
-    border: none;
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 16px;
-    transition: background 0.2s;
-}
-
-.comment-like-btn:hover {
-    background-color: rgba(255,255,255,0.1);
-}
-
-.comment-like-btn svg {
-    width: 16px;
-    height: 16px;
-}
-
 /* Related Videos */
 .watch-sidebar {
     position: sticky;
@@ -2235,12 +2155,6 @@ button:disabled,
     outline-offset: 2px;
 }
 
-.no-comments {
-    color: var(--color-text-secondary);
-    font-style: italic;
-    padding: 20px 0;
-}
-
 
 /* Verified badge for videos */
 .video-badge-catalan {
@@ -2548,39 +2462,6 @@ html[style*="--color-background: #224262"] .btn-round-icon {
 .btn-round-icon.liked { color: #CC0000; }
 .btn-round-icon.is-liked svg,
 .btn-round-icon.liked svg { fill: #CC0000; }
-
-/* Row 3: Comments Preview Box */
-.comments-preview-inline {
-    margin-top: 0.5rem;
-    cursor: pointer;
-}
-
-.comments-header-mini {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-.comment-input-placeholder {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.user-avatar-placeholder {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: #9CA3AF;
-}
-
-.comment-text-placeholder {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-}
 
 .follow-btn-pill {
     background-color: #ffffff;
