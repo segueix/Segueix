@@ -2311,7 +2311,7 @@ button:disabled,
 }
 
 .video-info-modern {
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem 0.5rem 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -2497,7 +2497,7 @@ html[style*="--color-background: #224262"] .btn-round-icon {
 /* RESPONSIVE: Mobile adjustments */
 @media screen and (max-width: 768px) {
     .video-info-modern {
-        padding: 0.5rem 0.75rem;
+        padding: 0.5rem 0.75rem 0.35rem 0.75rem;
     }
 
     .follow-btn-pill,
