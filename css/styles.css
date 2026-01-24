@@ -2384,170 +2384,243 @@ button:disabled,
     }
 }
 
-/* --- Modern Video Info Interface (Mobile) --- */
-:root {
-    --surface-light: #F3F4F6;
-    --surface-dark: #272727;
-    --text-secondary: #6B7280;
-}
+/* ========================================
+   CATUBE INTERFACE - IMPROVED PROPORTIONS
+   ======================================== */
 
-[data-theme="dark"] {
-    --surface-light: #272727;
-    --text-secondary: #9CA3AF;
-}
-
-.video-info-modern {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-/* Row 1: Channel Header */
+/* Channel Header Row */
 .channel-header-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    margin-bottom: 16px;
+    gap: 16px;
 }
 
-.channel-identity-modern {
+.channel-info {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    min-width: 0;
+    gap: 12px;
+    flex: 1;
+    min-width: 0; /* Enables text truncation */
 }
 
-.channel-text-modern {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-}
-
-.channel-name-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-}
-
-.channel-name-row .follow-btn-pill {
-    margin-left: 0.25rem;
-}
-
-.channel-name-modern {
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 1.2;
-    color: var(--text-color);
-    margin: 0;
-}
-
-.channel-subs-modern {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.channel-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.channel-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #cc0000, #ff4444);
     flex-shrink: 0;
 }
 
+.channel-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.channel-details h3 {
+    font-size: 0.9375rem; /* 15px */
+    font-weight: 500;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.channel-details p {
+    font-size: 0.8125rem; /* 13px */
+    color: #aaaaaa;
+    white-space: nowrap;
+}
+
+/* Action Buttons Inline (Follow + Heart) */
 .channel-actions-inline {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 8px;
     flex-shrink: 0;
 }
 
-.btn-heart {
-    font-size: 1.8rem;
-    color: white;
-    background: transparent;
+.follow-btn-pill {
+    background-color: #ffffff;
+    color: #cc0000;
+    padding: 10px 16px;
+    border-radius: 18px;
+    font-weight: 500;
+    font-size: 0.875rem; /* 14px */
     border: none;
-    padding: 6px;
-    margin-left: 0.25rem;
     cursor: pointer;
-    display: inline-flex;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    height: 36px;
+    display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 90px;
+}
+
+.follow-btn-pill:hover {
+    background-color: #f0f0f0;
+}
+
+.follow-btn-pill.is-followed {
+    background-color: #cc0000;
+    color: #ffffff;
+    border: 1px solid #cc0000;
+}
+
+.follow-btn-pill.is-followed:hover {
+    background-color: #b30000;
+}
+
+.btn-heart {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    transition: transform 0.2s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.btn-heart:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
 }
 
 .btn-heart svg {
     stroke: white;
     fill: none;
-    transition: fill 0.2s ease;
+    transition: all 0.2s ease;
+    width: 22px;
+    height: 22px;
 }
 
-.btn-heart.is-liked svg,
 .btn-heart.liked svg {
     fill: white;
     stroke: white;
 }
 
-/* Row 2: Action Buttons */
-.video-info-modern .video-metadata-bar {
-    flex-wrap: nowrap;
-}
-
-.btn-pill-red {
-    background-color: #CC0000;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    font-weight: 700;
-    white-space: nowrap;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    border: none;
-}
-
-.btn-pill-red:active { transform: scale(0.98); }
-
+/* Action Group (Share + Mini-player) */
 .action-group {
     display: flex;
+    gap: 8px;
     align-items: center;
-    gap: 0.5rem;
 }
 
 .btn-round-icon {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background-color: var(--surface-light);
-    color: var(--text-color);
+    background-color: #272727;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
 }
 
-/* Dark mode override for specific backgrounds */
-@media (prefers-color-scheme: dark) {
+.btn-round-icon:hover {
+    background-color: #3f3f3f;
+}
+
+.btn-round-icon svg {
+    stroke: white;
+    width: 18px;
+    height: 18px;
+}
+
+/* Video Metadata Bar */
+.video-metadata-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid #2f2f2f; /* Visual separator */
+    gap: 16px;
+}
+
+.video-stats {
+    color: #aaaaaa;
+    font-size: 0.8125rem; /* 13px */
+    flex: 1;
+    min-width: 0;
+}
+
+/* ========================================
+   MOBILE RESPONSIVE (≤ 768px)
+   ======================================== */
+
+@media (max-width: 768px) {
+    .channel-header-row {
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .channel-avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .channel-details h3 {
+        font-size: 0.875rem; /* 14px */
+    }
+
+    .channel-details p {
+        font-size: 0.75rem; /* 12px */
+    }
+
+    .channel-actions-inline {
+        gap: 6px;
+    }
+
+    .follow-btn-pill {
+        padding: 8px 14px;
+        font-size: 0.8125rem; /* 13px */
+        height: 32px;
+        min-width: 80px;
+    }
+
+    .btn-heart {
+        width: 32px;
+        height: 32px;
+        padding: 5px;
+    }
+
+    .btn-heart svg {
+        width: 20px;
+        height: 20px;
+    }
+
     .btn-round-icon {
-        background-color: #272727;
-        color: white;
+        width: 32px;
+        height: 32px;
+    }
+
+    .btn-round-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .video-metadata-bar {
+        padding-top: 10px;
+        gap: 12px;
+    }
+
+    .video-stats {
+        font-size: 0.75rem; /* 12px */
+    }
+
+    .action-group {
+        gap: 6px;
     }
 }
-html[style*="--color-background: #333333"] .btn-round-icon,
-html[style*="--color-background: #3d3d3d"] .btn-round-icon,
-html[style*="--color-background: #224262"] .btn-round-icon {
-    background-color: #272727;
-    color: white;
-}
-
-.btn-round-icon:hover { opacity: 0.8; }
-.btn-round-icon.is-liked,
-.btn-round-icon.liked { color: #CC0000; }
-.btn-round-icon.is-liked svg,
-.btn-round-icon.liked svg { fill: #CC0000; }
 
 /* Row 3: Comments Preview Box */
 .comments-preview-inline {
@@ -2580,20 +2653,4 @@ html[style*="--color-background: #224262"] .btn-round-icon {
 .comment-text-placeholder {
     font-size: 0.75rem;
     color: var(--text-secondary);
-}
-
-.follow-btn-pill {
-    background-color: #ffffff;
-    color: var(--color-primary);
-    padding: 6px 14px;
-    border-radius: 9999px;
-    font-size: 14px;
-    font-weight: 600;
-    border: 1px solid var(--color-primary);
-    cursor: pointer;
-}
-.follow-btn-pill.is-followed {
-    background-color: var(--color-primary);
-    color: #ffffff;
-    border-color: var(--color-primary);
 }
