@@ -173,11 +173,79 @@ function bindChannelLinks(container = document) {
     });
 }
 
+// Function to handle custom sharing logic
+function shareVideo(videoData) {
+    // Construct the URL with the video ID parameter
+    const shareUrl = `${window.location.origin}${window.location.pathname}?v=${videoData.id}`;
+    const shareText = `Descobreix tots els Youtubers en català: ${videoData.title}`;
+
+    // Use native sharing API if available (Mobile/Modern browsers)
+    if (navigator.share) {
+        navigator.share({
+            title: 'CaTube - Seguint!',
+            text: shareText,
+            url: shareUrl,
+        }).catch((err) => console.log('Share dismissed', err));
+    } else {
+        // Fallback: Custom Modal for Desktop
+        const existingModal = document.querySelector('.share-modal-overlay');
+        if (existingModal) existingModal.remove();
+
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay active share-modal-overlay';
+        modal.innerHTML = `
+            <div class="modal modal-small">
+                <div class="modal-header">
+                    <h2 class="modal-title" style="display:flex; align-items:center; gap:10px;">
+                        <img src="img/icon-192.png" width="32" height="32" alt="CaTube Logo"> 
+                        Seguint!
+                    </h2>
+                    <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align:center; padding-top:0;">
+                    <p class="modal-description" style="margin-bottom:20px;">
+                        Comparteix el vídeo: <br><strong>${videoData.title}</strong>
+                    </p>
+                    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                        <button class="hero-button" onclick="window.open('https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}', '_blank')">
+                            <i data-lucide="message-circle" style="width:18px; display:inline-block; vertical-align:middle;"></i> Compartir
+                        </button>
+                        <button class="hero-button" style="background:#333; color:white;" onclick="navigator.clipboard.writeText('${shareUrl}'); alert('Enllaç copiat!'); this.closest('.modal-overlay').remove();">
+                            <i data-lucide="link" style="width:18px; display:inline-block; vertical-align:middle;"></i> Copiar Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+}
+
+// Setup Event Listener for the Share Button
+function setupShareButtons() {
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('#shareBtn');
+        if (btn) {
+            e.stopPropagation();
+            const videoId = currentVideoId;
+            // Fallback to get title if not passed directly
+            const videoTitle = document.getElementById('videoTitle') ? document.getElementById('videoTitle').textContent : 'Vídeo';
+
+            if (videoId) {
+                shareVideo({ id: videoId, title: videoTitle });
+            }
+        }
+    });
+}
 
 // Inicialitzar l'aplicació
 document.addEventListener('DOMContentLoaded', async () => {
     initElements();
     initEventListeners();
+    setupShareButtons();
     initBackgroundModal();
     initBackgroundPicker();
     loadCategories();
