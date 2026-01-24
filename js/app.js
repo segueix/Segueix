@@ -827,9 +827,14 @@ function setFeedContext(videos, feedData, renderer) {
 
 function renderFeed() {
     if (!currentFeedRenderer) return;
-    const filtered = filterVideosByCategory(currentFeedVideos, currentFeedData);
 
-    if (selectedCategory !== 'Tot' && filtered.length === 0) {
+    // Don't filter by category on the Trending page
+    const isTrendingPage = pageTitle?.textContent === 'Tendències';
+    const filtered = isTrendingPage
+        ? currentFeedVideos
+        : filterVideosByCategory(currentFeedVideos, currentFeedData);
+
+    if (selectedCategory !== 'Tot' && filtered.length === 0 && !isTrendingPage) {
         updateHero(null);
         if (videosGrid) {
             videosGrid.innerHTML = `
