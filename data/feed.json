@@ -1,24 +1,14 @@
 {
-  "generatedAt": "2026-01-23T09:09:16.767Z",
+  "generatedAt": "2026-01-24T01:27:32.388Z",
   "channels": {
-    "UC5ytRP5VNigPHovAY7kyicQ": {
-      "name": "Esquetxes comèdia en català",
-      "avatar": "https://yt3.ggpht.com/XDDUdG7DVvwndp1iicbIbUWausu4yGgjPjXURTou76lhF5Ec3ZksBM8MQhyXonlyoaQYu7yehyE=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Nous vídeos cada setmana\n\n\"Esquetxes comèdia en català\" és una web sèrie de gags en català, sense pressupost però amb molta gràcia i rodada a Malgrat de Mar. Feta per amor a l'art i per afició, conté tots els dialectes orientals i occidentals del català. També tenim varis premis i nominacions de fes...",
-      "handle": "@esquetxes",
-      "subscriberCount": 2960,
+    "UC995eaX8sye3WGZB3XUl9lg": {
+      "name": "L´ESCAQUIMAT",
+      "avatar": "https://yt3.ggpht.com/3HUwOrjELA_Ef0xAacNO0df-YHiFP2o6FL41qhhv9pjL3LEDjFgxFc6iERK6-SozdJi8PnIJ7yk=s800-c-k-c0x00ffffff-no-rj",
+      "description": "",
+      "handle": "@lescaquimat4658",
+      "subscriberCount": 1920,
       "categories": [
-        "humor"
-      ]
-    },
-    "UCT8sBQf4grkfLMjOXdIkV2w": {
-      "name": "Enric Bastardas",
-      "avatar": "https://yt3.ggpht.com/ytc/AIdro_kFNW13EohJbYD9EtNjWPpKGIgSmMaCGt7YfftkU5iKwA=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Monòlegs de conya, xerrades i conferències. Repeteixo...de conya!!!!! Les xerrades i les conferències no són de conya, bé, una mica sí, perquè sino fem conya què? eh?\nL'actualitat del dia a dia, cada dia per riure una mica de tot el que ens passa!\n",
-      "handle": "@enricbastardas1",
-      "subscriberCount": 303,
-      "categories": [
-        "humor",
+        "cultura",
         "societat"
       ]
     },
@@ -43,6 +33,37 @@
         "cultura"
       ]
     },
+    "UCDawX1bxeC4-hZiGnkqevbw": {
+      "name": "Enric Adventures",
+      "avatar": "https://yt3.ggpht.com/ECuCXTvGzVbIoiUIJGUS3AjNSFbkFHhR1oKwwK3g44xXvNRIIBgYbbcU-Jht8EXWOnpzknIE=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Em dic Enric Luzán i en aquest canal trobareu senderisme, travesses i bolets\n\nContacte professional: enricadventures@gmail.com\n",
+      "handle": "@enricadventures",
+      "subscriberCount": 21800,
+      "categories": [
+        "vida"
+      ]
+    },
+    "UCT8sBQf4grkfLMjOXdIkV2w": {
+      "name": "Enric Bastardas",
+      "avatar": "https://yt3.ggpht.com/ytc/AIdro_kFNW13EohJbYD9EtNjWPpKGIgSmMaCGt7YfftkU5iKwA=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Monòlegs de conya, xerrades i conferències. Repeteixo...de conya!!!!! Les xerrades i les conferències no són de conya, bé, una mica sí, perquè sino fem conya què? eh?\nL'actualitat del dia a dia, cada dia per riure una mica de tot el que ens passa!\n",
+      "handle": "@enricbastardas1",
+      "subscriberCount": 303,
+      "categories": [
+        "humor",
+        "societat"
+      ]
+    },
+    "UC5ytRP5VNigPHovAY7kyicQ": {
+      "name": "Esquetxes comèdia en català",
+      "avatar": "https://yt3.ggpht.com/XDDUdG7DVvwndp1iicbIbUWausu4yGgjPjXURTou76lhF5Ec3ZksBM8MQhyXonlyoaQYu7yehyE=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Nous vídeos cada setmana\n\n\"Esquetxes comèdia en català\" és una web sèrie de gags en català, sense pressupost però amb molta gràcia i rodada a Malgrat de Mar. Feta per amor a l'art i per afició, conté tots els dialectes orientals i occidentals del català. També tenim varis premis i nominacions de fes...",
+      "handle": "@esquetxes",
+      "subscriberCount": 2960,
+      "categories": [
+        "humor"
+      ]
+    },
     "UCNSmn5NLUDrV_paFZl--7qw": {
       "name": "La Sotana",
       "avatar": "https://yt3.ggpht.com/ytc/AIdro_mO0v5nKplUkfqSab7DdXQSvTWrnqIgF1CafWsUG4IvAec=s800-c-k-c0x00ffffff-no-rj",
@@ -52,30 +73,82 @@
       "categories": [
         "humor"
       ]
-    },
-    "UCDawX1bxeC4-hZiGnkqevbw": {
-      "name": "Enric Adventures",
-      "avatar": "https://yt3.ggpht.com/ECuCXTvGzVbIoiUIJGUS3AjNSFbkFHhR1oKwwK3g44xXvNRIIBgYbbcU-Jht8EXWOnpzknIE=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Em dic Enric Luzán i en aquest canal trobareu senderisme, travesses i bolets\n\nContacte professional: enricadventures@gmail.com\n",
-      "handle": "@enricadventures",
-      "subscriberCount": 21700,
-      "categories": [
-        "vida"
-      ]
-    },
-    "UC995eaX8sye3WGZB3XUl9lg": {
-      "name": "L´ESCAQUIMAT",
-      "avatar": "https://yt3.ggpht.com/3HUwOrjELA_Ef0xAacNO0df-YHiFP2o6FL41qhhv9pjL3LEDjFgxFc6iERK6-SozdJi8PnIJ7yk=s800-c-k-c0x00ffffff-no-rj",
-      "description": "",
-      "handle": "@lescaquimat4658",
-      "subscriberCount": 1920,
-      "categories": [
-        "cultura",
-        "societat"
-      ]
     }
   },
   "videos": [
+    {
+      "id": "TKCi7XSAZbk",
+      "title": "Guerra de la informació: publiquen dades personals d'Ayuso, Guardiola i Moreno Bonilla/2026 01 23",
+      "thumbnail": "https://i.ytimg.com/vi/TKCi7XSAZbk/mqdefault.jpg",
+      "channelId": "UCaCWG8cBOwER_Vf3qAsr8Zg",
+      "channelTitle": "Notícies Un Quart de Galves",
+      "publishedAt": "2026-01-23T22:10:05Z",
+      "categories": [
+        "societat"
+      ],
+      "sourceChannelId": "@unquartdegalves",
+      "duration": "PT41M",
+      "durationSeconds": 2460,
+      "isShort": false,
+      "viewCount": 132,
+      "likeCount": 41,
+      "commentCount": 7
+    },
+    {
+      "id": "CR6061_1oMo",
+      "title": "Mode Camacu Activat. Dia 54 de La Volta al Món a Peu ",
+      "thumbnail": "https://i.ytimg.com/vi/CR6061_1oMo/mqdefault.jpg",
+      "channelId": "UCDawX1bxeC4-hZiGnkqevbw",
+      "channelTitle": "Enric Adventures",
+      "publishedAt": "2026-01-23T15:00:00Z",
+      "categories": [
+        "vida"
+      ],
+      "sourceChannelId": "@EnricAdventures",
+      "duration": "PT18M2S",
+      "durationSeconds": 1082,
+      "isShort": false,
+      "viewCount": 7277,
+      "likeCount": 903,
+      "commentCount": 98
+    },
+    {
+      "id": "xIm531Ggu64",
+      "title": "Monòlegs km0 (90.7) Santoral 23/01, IA, Rodalies, AP-7, més Groenlàndia, Tik Tok EUA, Sirat i Musk! ",
+      "thumbnail": "https://i.ytimg.com/vi/xIm531Ggu64/mqdefault.jpg",
+      "channelId": "UCT8sBQf4grkfLMjOXdIkV2w",
+      "channelTitle": "Enric Bastardas",
+      "publishedAt": "2026-01-23T09:43:10Z",
+      "categories": [
+        "humor",
+        "societat"
+      ],
+      "sourceChannelId": "@EnricBastardas1",
+      "duration": "PT11M11S",
+      "durationSeconds": 671,
+      "isShort": false,
+      "viewCount": 11,
+      "likeCount": 0,
+      "commentCount": 0
+    },
+    {
+      "id": "AB2uULDOYrA",
+      "title": "Els crims de l'avinguda Montaigne. #català #podcast #humor #ericmontes",
+      "thumbnail": "https://i.ytimg.com/vi/AB2uULDOYrA/mqdefault.jpg",
+      "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
+      "channelTitle": "La Sotana",
+      "publishedAt": "2026-01-23T09:16:10Z",
+      "categories": [
+        "humor"
+      ],
+      "sourceChannelId": "@LaSotana",
+      "duration": "PT1M6S",
+      "durationSeconds": 66,
+      "isShort": true,
+      "viewCount": 987,
+      "likeCount": 22,
+      "commentCount": 1
+    },
     {
       "id": "hJNEX1HYgXk",
       "title": "Pedro Sánchez ens fa triar entre ell i el caos? Però si són ells mateixos /2026 01 22",
@@ -90,9 +163,9 @@
       "duration": "PT31M18S",
       "durationSeconds": 1878,
       "isShort": false,
-      "viewCount": 386,
-      "likeCount": 109,
-      "commentCount": 21
+      "viewCount": 960,
+      "likeCount": 200,
+      "commentCount": 41
     },
     {
       "id": "rlZ-FUIE65w",
@@ -108,9 +181,9 @@
       "duration": "PT16M24S",
       "durationSeconds": 984,
       "isShort": false,
-      "viewCount": 8999,
-      "likeCount": 1008,
-      "commentCount": 190
+      "viewCount": 10800,
+      "likeCount": 1112,
+      "commentCount": 229
     },
     {
       "id": "kQ3veSrw9JQ",
@@ -126,8 +199,8 @@
       "duration": "PT28S",
       "durationSeconds": 28,
       "isShort": true,
-      "viewCount": 1547,
-      "likeCount": 47,
+      "viewCount": 2021,
+      "likeCount": 50,
       "commentCount": 1
     },
     {
@@ -145,7 +218,7 @@
       "duration": "PT10M39S",
       "durationSeconds": 639,
       "isShort": false,
-      "viewCount": 13,
+      "viewCount": 17,
       "likeCount": 0,
       "commentCount": 0
     },
@@ -163,9 +236,9 @@
       "duration": "PT34M21S",
       "durationSeconds": 2061,
       "isShort": false,
-      "viewCount": 2120,
-      "likeCount": 275,
-      "commentCount": 77
+      "viewCount": 2277,
+      "likeCount": 288,
+      "commentCount": 81
     },
     {
       "id": "bZz5o6y9_FQ",
@@ -182,7 +255,7 @@
       "duration": "PT11M5S",
       "durationSeconds": 665,
       "isShort": false,
-      "viewCount": 19,
+      "viewCount": 21,
       "likeCount": 0,
       "commentCount": 0
     },
@@ -200,8 +273,8 @@
       "duration": "PT24S",
       "durationSeconds": 24,
       "isShort": true,
-      "viewCount": 1823,
-      "likeCount": 37,
+      "viewCount": 2165,
+      "likeCount": 38,
       "commentCount": 0
     },
     {
@@ -218,9 +291,9 @@
       "duration": "PT23M59S",
       "durationSeconds": 1439,
       "isShort": false,
-      "viewCount": 12203,
-      "likeCount": 1268,
-      "commentCount": 180
+      "viewCount": 12879,
+      "likeCount": 1308,
+      "commentCount": 183
     },
     {
       "id": "ZzzyUVI5CK4",
@@ -236,9 +309,9 @@
       "duration": "PT34S",
       "durationSeconds": 34,
       "isShort": true,
-      "viewCount": 5042,
-      "likeCount": 196,
-      "commentCount": 6
+      "viewCount": 5985,
+      "likeCount": 228,
+      "commentCount": 7
     },
     {
       "id": "NZOMMnrmlv4",
@@ -254,7 +327,7 @@
       "duration": "PT1M21S",
       "durationSeconds": 81,
       "isShort": true,
-      "viewCount": 1434,
+      "viewCount": 1612,
       "likeCount": 28,
       "commentCount": 0
     },
@@ -272,9 +345,9 @@
       "duration": "PT1H3M21S",
       "durationSeconds": 3801,
       "isShort": false,
-      "viewCount": 56469,
-      "likeCount": 1848,
-      "commentCount": 145
+      "viewCount": 64153,
+      "likeCount": 1986,
+      "commentCount": 153
     },
     {
       "id": "1VbgtmNtJ3g",
@@ -290,9 +363,9 @@
       "duration": "PT45M26S",
       "durationSeconds": 2726,
       "isShort": false,
-      "viewCount": 1209,
-      "likeCount": 209,
-      "commentCount": 69
+      "viewCount": 1232,
+      "likeCount": 212,
+      "commentCount": 70
     },
     {
       "id": "n9GlWSujeWY",
@@ -308,8 +381,8 @@
       "duration": "PT14M20S",
       "durationSeconds": 860,
       "isShort": false,
-      "viewCount": 11345,
-      "likeCount": 1149,
+      "viewCount": 11597,
+      "likeCount": 1164,
       "commentCount": 124
     },
     {
@@ -326,8 +399,8 @@
       "duration": "PT42S",
       "durationSeconds": 42,
       "isShort": true,
-      "viewCount": 4298,
-      "likeCount": 89,
+      "viewCount": 4501,
+      "likeCount": 91,
       "commentCount": 0
     },
     {
@@ -344,8 +417,8 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 5992,
-      "likeCount": 113,
+      "viewCount": 6164,
+      "likeCount": 117,
       "commentCount": 4
     },
     {
@@ -363,7 +436,7 @@
       "duration": "PT12M",
       "durationSeconds": 720,
       "isShort": false,
-      "viewCount": 25,
+      "viewCount": 27,
       "likeCount": 0,
       "commentCount": 0
     },
@@ -382,7 +455,7 @@
       "duration": "PT1H39M27S",
       "durationSeconds": 5967,
       "isShort": false,
-      "viewCount": 36,
+      "viewCount": 37,
       "likeCount": 5,
       "commentCount": 0
     },
@@ -400,8 +473,8 @@
       "duration": "PT38M43S",
       "durationSeconds": 2323,
       "isShort": false,
-      "viewCount": 1919,
-      "likeCount": 276,
+      "viewCount": 1943,
+      "likeCount": 280,
       "commentCount": 75
     },
     {
@@ -437,8 +510,8 @@
       "duration": "PT15M21S",
       "durationSeconds": 921,
       "isShort": false,
-      "viewCount": 12367,
-      "likeCount": 1246,
+      "viewCount": 12527,
+      "likeCount": 1254,
       "commentCount": 128
     },
     {
@@ -456,7 +529,7 @@
       "duration": "PT11M3S",
       "durationSeconds": 663,
       "isShort": false,
-      "viewCount": 19,
+      "viewCount": 20,
       "likeCount": 1,
       "commentCount": 1
     },
@@ -474,8 +547,8 @@
       "duration": "PT18M12S",
       "durationSeconds": 1092,
       "isShort": false,
-      "viewCount": 14156,
-      "likeCount": 1299,
+      "viewCount": 14245,
+      "likeCount": 1302,
       "commentCount": 145
     },
     {
@@ -492,8 +565,8 @@
       "duration": "PT46M22S",
       "durationSeconds": 2782,
       "isShort": false,
-      "viewCount": 1250,
-      "likeCount": 229,
+      "viewCount": 1261,
+      "likeCount": 230,
       "commentCount": 69
     },
     {
@@ -529,7 +602,7 @@
       "duration": "PT32M11S",
       "durationSeconds": 1931,
       "isShort": false,
-      "viewCount": 1093,
+      "viewCount": 1097,
       "likeCount": 223,
       "commentCount": 52
     },
@@ -566,7 +639,7 @@
       "duration": "PT33M52S",
       "durationSeconds": 2032,
       "isShort": false,
-      "viewCount": 1337,
+      "viewCount": 1344,
       "likeCount": 189,
       "commentCount": 45
     },
@@ -585,7 +658,7 @@
       "duration": "PT12M15S",
       "durationSeconds": 735,
       "isShort": false,
-      "viewCount": 15,
+      "viewCount": 16,
       "likeCount": 0,
       "commentCount": 0
     },
@@ -603,8 +676,8 @@
       "duration": "PT1H6M17S",
       "durationSeconds": 3977,
       "isShort": false,
-      "viewCount": 71059,
-      "likeCount": 1426,
+      "viewCount": 71413,
+      "likeCount": 1432,
       "commentCount": 81
     },
     {
@@ -639,8 +712,8 @@
       "duration": "PT1M12S",
       "durationSeconds": 72,
       "isShort": true,
-      "viewCount": 4311,
-      "likeCount": 88,
+      "viewCount": 4384,
+      "likeCount": 90,
       "commentCount": 3
     },
     {
@@ -657,8 +730,8 @@
       "duration": "PT17M59S",
       "durationSeconds": 1079,
       "isShort": false,
-      "viewCount": 14531,
-      "likeCount": 1153,
+      "viewCount": 14576,
+      "likeCount": 1157,
       "commentCount": 120
     },
     {
@@ -676,27 +749,9 @@
       "duration": "PT12M35S",
       "durationSeconds": 755,
       "isShort": false,
-      "viewCount": 24,
+      "viewCount": 25,
       "likeCount": 2,
       "commentCount": 0
-    },
-    {
-      "id": "cyt-u3rr-Ss",
-      "title": "Els jugadors del Rei4l M4drid segons arquetips de dolent de cinema. #català #podcast #lasotana",
-      "thumbnail": "https://i.ytimg.com/vi/cyt-u3rr-Ss/mqdefault.jpg",
-      "channelId": "UCNSmn5NLUDrV_paFZl--7qw",
-      "channelTitle": "La Sotana",
-      "publishedAt": "2026-01-13T10:08:35Z",
-      "categories": [
-        "humor"
-      ],
-      "sourceChannelId": "@LaSotana",
-      "duration": "PT1M9S",
-      "durationSeconds": 69,
-      "isShort": true,
-      "viewCount": 5355,
-      "likeCount": 144,
-      "commentCount": 4
     },
     {
       "id": "COZ1wDRntxU",
@@ -731,7 +786,7 @@
       "duration": "PT32M52S",
       "durationSeconds": 1972,
       "isShort": false,
-      "viewCount": 945,
+      "viewCount": 947,
       "likeCount": 200,
       "commentCount": 65
     },
@@ -749,8 +804,8 @@
       "duration": "PT15M40S",
       "durationSeconds": 940,
       "isShort": false,
-      "viewCount": 14872,
-      "likeCount": 1218,
+      "viewCount": 14919,
+      "likeCount": 1220,
       "commentCount": 157
     },
     {
@@ -786,8 +841,8 @@
       "duration": "PT13M51S",
       "durationSeconds": 831,
       "isShort": false,
-      "viewCount": 14731,
-      "likeCount": 1341,
+      "viewCount": 14769,
+      "likeCount": 1342,
       "commentCount": 185
     },
     {
@@ -804,64 +859,9 @@
       "duration": "PT13M46S",
       "durationSeconds": 826,
       "isShort": false,
-      "viewCount": 14436,
+      "viewCount": 14467,
       "likeCount": 1382,
       "commentCount": 153
-    },
-    {
-      "id": "HPpHamMx1qE",
-      "title": "Monòlegs km0 (80.7) Santoral 09/01, IA i CES, pacte, Més Trump, hàbits saludables i el Madrid! 💩💩💩 ",
-      "thumbnail": "https://i.ytimg.com/vi/HPpHamMx1qE/mqdefault.jpg",
-      "channelId": "UCT8sBQf4grkfLMjOXdIkV2w",
-      "channelTitle": "Enric Bastardas",
-      "publishedAt": "2026-01-09T08:28:32Z",
-      "categories": [
-        "humor",
-        "societat"
-      ],
-      "sourceChannelId": "@EnricBastardas1",
-      "duration": "PT10M48S",
-      "durationSeconds": 648,
-      "isShort": false,
-      "viewCount": 17,
-      "likeCount": 1,
-      "commentCount": 0
-    },
-    {
-      "id": "ws8iWa71Wx4",
-      "title": "Oriol Junqueras consolida amb Pedro Sánchez l'espoli fiscal de Catalunya /2026 01 09",
-      "thumbnail": "https://i.ytimg.com/vi/ws8iWa71Wx4/mqdefault.jpg",
-      "channelId": "UCaCWG8cBOwER_Vf3qAsr8Zg",
-      "channelTitle": "Notícies Un Quart de Galves",
-      "publishedAt": "2026-01-09T08:25:51Z",
-      "categories": [
-        "societat"
-      ],
-      "sourceChannelId": "@unquartdegalves",
-      "duration": "PT36M52S",
-      "durationSeconds": 2212,
-      "isShort": false,
-      "viewCount": 1297,
-      "likeCount": 217,
-      "commentCount": 80
-    },
-    {
-      "id": "6iq4ZWx52qo",
-      "title": "Tancat per dol. Dia 39 de La Volta al Món a Peu",
-      "thumbnail": "https://i.ytimg.com/vi/6iq4ZWx52qo/mqdefault.jpg",
-      "channelId": "UCDawX1bxeC4-hZiGnkqevbw",
-      "channelTitle": "Enric Adventures",
-      "publishedAt": "2026-01-08T21:46:37Z",
-      "categories": [
-        "vida"
-      ],
-      "sourceChannelId": "@EnricAdventures",
-      "duration": "PT17M20S",
-      "durationSeconds": 1040,
-      "isShort": false,
-      "viewCount": 15656,
-      "likeCount": 1332,
-      "commentCount": 146
     },
     {
       "id": "jm9l5dxCLpE",
@@ -954,7 +954,7 @@
       "duration": "PT37M38S",
       "durationSeconds": 2258,
       "isShort": false,
-      "viewCount": 600,
+      "viewCount": 603,
       "likeCount": 43,
       "commentCount": 9
     },
@@ -1030,7 +1030,7 @@
       "duration": "PT51M18S",
       "durationSeconds": 3078,
       "isShort": false,
-      "viewCount": 1028,
+      "viewCount": 1030,
       "likeCount": 59,
       "commentCount": 15
     },
@@ -1102,7 +1102,7 @@
       "duration": "PT12M",
       "durationSeconds": 720,
       "isShort": false,
-      "viewCount": 295,
+      "viewCount": 297,
       "likeCount": 32,
       "commentCount": 3
     },
@@ -1248,7 +1248,7 @@
       "duration": "PT39M26S",
       "durationSeconds": 2366,
       "isShort": false,
-      "viewCount": 1765,
+      "viewCount": 1766,
       "likeCount": 79,
       "commentCount": 19
     },
@@ -1324,7 +1324,7 @@
       "duration": "PT40M32S",
       "durationSeconds": 2432,
       "isShort": false,
-      "viewCount": 279,
+      "viewCount": 280,
       "likeCount": 24,
       "commentCount": 0
     },
