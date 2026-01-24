@@ -2331,6 +2331,18 @@ button:disabled,
     margin-bottom: 0;
 }
 
+.video-description {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    min-height: 0;
+}
+
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 /* Row 1: Channel Header */
 .channel-header-row {
     display: flex;
@@ -2439,10 +2451,28 @@ button:disabled,
 
 .btn-pill-red:active { transform: scale(0.98); }
 
-.action-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+/* Comment on YouTube button */
+.btn-comment-youtube {
+    display: inline-block;
+    background-color: white;
+    color: black;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-top: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-comment-youtube:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.02);
+}
+
+.btn-comment-youtube:active {
+    transform: scale(0.98);
 }
 
 .btn-round-icon {
@@ -2532,6 +2562,12 @@ html[style*="--color-background: #224262"] .btn-round-icon {
     .btn-round-icon svg {
         width: 1.6em;
         height: 1.6em;
+    }
+
+    .btn-comment-youtube {
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
     }
 }
 
