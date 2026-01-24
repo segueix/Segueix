@@ -3035,7 +3035,6 @@ function createHistoryCard(video) {
     const thumbnail = video.thumbnail || video.snippet?.thumbnails?.maxres?.url || video.snippet?.thumbnails?.standard?.url || video.snippet?.thumbnails?.high?.url || '';
     const duration = video.duration || video.contentDetails?.duration || '';
     const channelTitle = video.channelTitle || channel?.name || '';
-    const publishedAt = video.publishedAt || video.uploadDate || video.snippet?.publishedAt || '';
     const views = video.viewCount || video.views || 0;
     const likedIds = getLikedVideoIds();
     const isLiked = likedIds.includes(String(video.id));
@@ -3070,7 +3069,6 @@ function createHistoryCard(video) {
                         <div class="video-stats">
                             <i data-lucide="eye" style="width: 12px; height: 12px;"></i>
                             <span>${formatViews(views)} visualitzacions</span>
-                            ${publishedAt ? `<span>•</span><span>${formatDate(publishedAt)}</span>` : ''}
                         </div>
                     </div>
                 </div>
@@ -3093,7 +3091,17 @@ function renderHistory() {
         return;
     }
 
-    historyGrid.innerHTML = historyItems.map(video => createHistoryCard(video)).join('');
+    let currentLabel = null;
+    const groupedMarkup = historyItems.map(video => {
+        const publishedAt = video.publishedAt || video.uploadDate || video.snippet?.publishedAt || '';
+        const label = publishedAt ? formatDate(publishedAt) : 'Sense data';
+        const heading = label !== currentLabel
+            ? `<h2 class="history-group-title">${escapeHtml(label)}</h2>`
+            : '';
+        currentLabel = label;
+        return `${heading}${createHistoryCard(video)}`;
+    }).join('');
+    historyGrid.innerHTML = groupedMarkup;
 
     const cards = historyGrid.querySelectorAll('.video-card');
     cards.forEach(card => {

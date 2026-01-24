@@ -432,6 +432,14 @@ body.sidebar-collapsed .main-content {
     gap: 16px;
 }
 
+.history-group-title {
+    grid-column: 1 / -1;
+    margin: 12px 0 4px;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
 .chips-bar {
     display: flex;
     gap: 10px;
