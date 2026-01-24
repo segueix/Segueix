@@ -177,12 +177,12 @@ function bindChannelLinks(container = document) {
 function shareVideo(videoData) {
     // Construct the URL with the video ID parameter
     const shareUrl = `${window.location.origin}${window.location.pathname}?v=${videoData.id}`;
-    const shareText = `Descobreix tots els Youtubers en català: ${videoData.title}`;
+    const shareText = `Descobreix tots els Youtubers en català ❤️: ${videoData.title}`;
 
     // Use native sharing API if available (Mobile/Modern browsers)
     if (navigator.share) {
         navigator.share({
-            title: 'CaTube - Seguint!',
+            title: 'CaTube - Seguint! ❤️',
             text: shareText,
             url: shareUrl,
         }).catch((err) => console.log('Share dismissed', err));
