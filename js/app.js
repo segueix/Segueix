@@ -2435,6 +2435,10 @@ async function showVideoFromAPI(videoId) {
                         </div>
                     </div>
 
+                    <a href="${watchUrl}" target="_blank" class="btn-comment-youtube">
+                        Comenta a Youtube
+                    </a>
+
                     <div class="video-description"></div>
 
                 </div>
@@ -2538,6 +2542,10 @@ async function showVideoFromAPI(videoId) {
                                 </button>
                             </div>
                         </div>
+
+                        <a href="${watchUrl}" target="_blank" class="btn-comment-youtube">
+                            Comenta a Youtube
+                        </a>
 
                         <div class="video-description">
                             ${escapeHtml(video.description || '').substring(0, 500)}${video.description?.length > 500 ? '...' : ''}
@@ -2872,6 +2880,10 @@ function showVideo(videoId) {
                     </button>
                 </div>
             </div>
+
+            <a href="${watchUrl}" target="_blank" class="btn-comment-youtube">
+                Comenta a Youtube
+            </a>
 
             <div class="video-description">
                 ${escapeHtml(video.description || '').substring(0, 500)}${video.description?.length > 500 ? '...' : ''}
