@@ -31,7 +31,8 @@ let activePlaylistName = '';
 let isPlaylistNavigation = false;
 let isPlaylistMode = false;
 let currentShortIndex = 0;
-let availableShorts = [];
+let currentShortsQueue = [];
+let isNavigatingShort = false;
 let youtubeMessageListenerInitialized = false;
 let searchDropdownItems = [];
 let searchDropdownActiveIndex = -1;
@@ -1664,23 +1665,46 @@ function createShortCard(video) {
 // ==================== SHORTS MANAGEMENT ====================
 
 function openShortModal(videoId) {
-    availableShorts = currentFeedVideos.filter(v => v.isShort);
+    const modal = document.getElementById('short-modal');
+    if (!modal) return;
 
-    if (availableShorts.length === 0) {
-        console.warn('No hi ha shorts disponibles');
-        return;
+    if (isPlaylistMode && activePlaylistQueue.length > 0) {
+        currentShortsQueue = activePlaylistQueue;
+        currentShortIndex = currentPlaylistIndex;
+    } else {
+        let sourceVideos = currentFeedVideos;
+        if (!sourceVideos || sourceVideos.length === 0 || !sourceVideos.some(v => v.isShort)) {
+            sourceVideos = cachedAPIVideos;
+        }
+        currentShortsQueue = sourceVideos.filter(v => v.isShort);
+
+        if (currentShortsQueue.length === 0) {
+            console.warn('No hi ha shorts disponibles');
+            return;
+        }
+
+        const currentVideoIdStr = String(videoId);
+        if (!currentShortsQueue.find(v => String(v.id) === currentVideoIdStr)) {
+            const video = cachedAPIVideos.find(v => String(v.id) === currentVideoIdStr)
+                || { id: videoId, isShort: true, title: '', channelTitle: '' };
+            currentShortsQueue.unshift(video);
+        }
+
+        currentShortIndex = currentShortsQueue.findIndex(v => String(v.id) === currentVideoIdStr);
+        if (currentShortIndex === -1) currentShortIndex = 0;
     }
 
-    currentShortIndex = availableShorts.findIndex(v => String(v.id) === String(videoId));
-    if (currentShortIndex === -1) currentShortIndex = 0;
-
-    const modal = document.getElementById('short-modal');
-    modal.classList.remove('hidden');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('no-scroll');
+    const panel = modal.querySelector('.short-modal-panel');
+    if (panel) {
+        panel.classList.add('immersive');
+    }
 
     loadShort(currentShortIndex);
     setupShortScroll();
+
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('no-scroll');
 
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
@@ -1688,13 +1712,15 @@ function openShortModal(videoId) {
 }
 
 function loadShort(index) {
-    if (index < 0 || index >= availableShorts.length) return;
+    if (index < 0 || index >= currentShortsQueue.length) return;
 
-    const short = availableShorts[index];
+    const short = currentShortsQueue[index];
     const iframe = document.getElementById('short-iframe');
-    const src = `https://www.youtube.com/embed/${encodeURIComponent(short.id)}?playsinline=1&rel=0&modestbranding=1&autoplay=1&hl=ca&cc_lang_pref=ca&gl=AD`;
+    const origin = encodeURIComponent(window.location.origin || '');
+    const src = `https://www.youtube.com/embed/${encodeURIComponent(short.id)}?playsinline=1&rel=0&modestbranding=1&autoplay=1&enablejsapi=1&origin=${origin}&hl=ca&cc_lang_pref=ca&gl=AD`;
 
     iframe.src = src;
+    iframe.dataset.shortPaused = 'false';
 
     const titleEl = document.getElementById('shortTitle');
     const channelEl = document.getElementById('shortChannel');
@@ -1705,11 +1731,36 @@ function loadShort(index) {
 }
 
 function navigateShort(direction) {
+    handleScrollIntent(direction);
+}
+
+function handleScrollIntent(direction) {
+    if (isNavigatingShort) return;
+
     const newIndex = currentShortIndex + direction;
 
-    if (newIndex >= 0 && newIndex < availableShorts.length) {
+    if (newIndex >= 0 && newIndex < currentShortsQueue.length) {
+        isNavigatingShort = true;
+
+        if (isPlaylistMode) {
+            currentPlaylistIndex = newIndex;
+            const nextVideo = currentShortsQueue[newIndex];
+
+            if (nextVideo && !nextVideo.isShort) {
+                closeShortModal();
+                loadVideoInSequence();
+                setTimeout(() => {
+                    isNavigatingShort = false;
+                }, 800);
+                return;
+            }
+        }
+
         currentShortIndex = newIndex;
         loadShort(currentShortIndex);
+        setTimeout(() => {
+            isNavigatingShort = false;
+        }, 800);
     }
 }
 
@@ -1718,19 +1769,26 @@ function updateShortNavButtons() {
     const nextBtn = document.querySelector('.short-nav-next');
 
     if (prevBtn) prevBtn.disabled = currentShortIndex === 0;
-    if (nextBtn) nextBtn.disabled = currentShortIndex === availableShorts.length - 1;
+    if (nextBtn) nextBtn.disabled = currentShortIndex === currentShortsQueue.length - 1;
 }
 
 function setupShortScroll() {
-    const playerWrap = document.getElementById('shortPlayerWrap');
-    if (!playerWrap || playerWrap.dataset.shortScrollBound === 'true') return;
+    const playerWrap = document.getElementById('shortPlayerWrap')
+        || document.querySelector('.short-player-wrap');
+    const gestureOverlay = document.getElementById('shortGestureOverlay');
 
-    playerWrap.dataset.shortScrollBound = 'true';
+    if (!playerWrap || !gestureOverlay || gestureOverlay.dataset.shortScrollBound === 'true') return;
+
+    gestureOverlay.dataset.shortScrollBound = 'true';
     let startY = 0;
+    let startX = 0;
+    let startTime = 0;
     let isDragging = false;
 
     const handleStart = (e) => {
         startY = e.touches ? e.touches[0].clientY : e.clientY;
+        startX = e.touches ? e.touches[0].clientX : e.clientX;
+        startTime = Date.now();
         isDragging = true;
     };
 
@@ -1739,19 +1797,46 @@ function setupShortScroll() {
         isDragging = false;
 
         const endY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+        const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
         const deltaY = startY - endY;
+        const deltaX = startX - endX;
+        const elapsed = Date.now() - startTime;
+        const isTap = Math.abs(deltaY) < 10 && Math.abs(deltaX) < 10 && elapsed < 250;
 
-        if (deltaY > 50) {
-            navigateShort(1);
+        if (isTap) {
+            toggleShortPlayback();
+        } else if (deltaY > 50) {
+            handleScrollIntent(1);
         } else if (deltaY < -50) {
-            navigateShort(-1);
+            handleScrollIntent(-1);
         }
     };
 
-    playerWrap.addEventListener('touchstart', handleStart);
-    playerWrap.addEventListener('touchend', handleEnd);
-    playerWrap.addEventListener('mousedown', handleStart);
-    playerWrap.addEventListener('mouseup', handleEnd);
+    gestureOverlay.addEventListener('touchstart', handleStart, { passive: true });
+    gestureOverlay.addEventListener('touchend', handleEnd);
+    gestureOverlay.addEventListener('mousedown', handleStart);
+    gestureOverlay.addEventListener('mouseup', handleEnd);
+
+    gestureOverlay.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const direction = e.deltaY > 0 ? 1 : -1;
+        handleScrollIntent(direction);
+    }, { passive: false });
+}
+
+function toggleShortPlayback() {
+    const iframe = document.getElementById('short-iframe');
+    if (!iframe || !iframe.contentWindow) {
+        return;
+    }
+    const isPaused = iframe.dataset.shortPaused === 'true';
+    const func = isPaused ? 'playVideo' : 'pauseVideo';
+    iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func,
+        args: []
+    }), '*');
+    iframe.dataset.shortPaused = isPaused ? 'false' : 'true';
 }
 
 function closeShortModal() {
@@ -1764,7 +1849,8 @@ function closeShortModal() {
     document.body.classList.remove('no-scroll');
 
     currentShortIndex = 0;
-    availableShorts = [];
+    currentShortsQueue = [];
+    isNavigatingShort = false;
 }
 
 function getLikedVideoIds() {
@@ -2220,6 +2306,11 @@ function loadVideoInSequence() {
     isPlaylistMode = true;
     updatePlaylistModeBadge();
     isPlaylistNavigation = true;
+    if (video.isShort) {
+        openShortModal(video.id);
+        isPlaylistNavigation = false;
+        return;
+    }
     if (video.source === 'static') {
         showVideo(video.id);
     } else {
