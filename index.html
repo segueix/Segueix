@@ -228,8 +228,21 @@
     <div id="short-modal" class="short-modal hidden" aria-hidden="true">
         <div class="short-modal-backdrop" onclick="closeShortModal()"></div>
         <div class="short-modal-panel" role="dialog" aria-modal="true">
-            <button class="short-modal-close" type="button" onclick="closeShortModal()">Tancar</button>
-            <div class="short-player-wrap">
+            <!-- Botó tancar -->
+            <button class="short-modal-close" type="button" onclick="closeShortModal()">
+                <i data-lucide="x"></i>
+            </button>
+
+            <!-- Navegació entre shorts -->
+            <button class="short-nav-btn short-nav-prev" type="button" onclick="navigateShort(-1)" aria-label="Short anterior">
+                <i data-lucide="chevron-up"></i>
+            </button>
+            <button class="short-nav-btn short-nav-next" type="button" onclick="navigateShort(1)" aria-label="Següent short">
+                <i data-lucide="chevron-down"></i>
+            </button>
+
+            <!-- Reproductor -->
+            <div class="short-player-wrap" id="shortPlayerWrap">
                 <iframe id="short-iframe"
                     src=""
                     title="Short"
@@ -237,6 +250,12 @@
                     allowfullscreen
                     referrerpolicy="strict-origin-when-cross-origin">
                 </iframe>
+            </div>
+
+            <!-- Informació del Short (opcional) -->
+            <div class="short-info">
+                <h3 id="shortTitle"></h3>
+                <p id="shortChannel"></p>
             </div>
         </div>
     </div>

@@ -30,6 +30,8 @@ let activePlaylistId = null;
 let activePlaylistName = '';
 let isPlaylistNavigation = false;
 let isPlaylistMode = false;
+let currentShortIndex = 0;
+let availableShorts = [];
 let youtubeMessageListenerInitialized = false;
 let searchDropdownItems = [];
 let searchDropdownActiveIndex = -1;
@@ -1659,15 +1661,97 @@ function createShortCard(video) {
     `;
 }
 
-function openShortModal(videoId) {
-    const modal = document.getElementById('short-modal');
-    const iframe = document.getElementById('short-iframe');
-    const src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?playsinline=1&rel=0&modestbranding=1&autoplay=1&hl=ca&cc_lang_pref=ca&gl=AD`;
+// ==================== SHORTS MANAGEMENT ====================
 
-    iframe.src = src;
+function openShortModal(videoId) {
+    availableShorts = currentFeedVideos.filter(v => v.isShort);
+
+    if (availableShorts.length === 0) {
+        console.warn('No hi ha shorts disponibles');
+        return;
+    }
+
+    currentShortIndex = availableShorts.findIndex(v => String(v.id) === String(videoId));
+    if (currentShortIndex === -1) currentShortIndex = 0;
+
+    const modal = document.getElementById('short-modal');
     modal.classList.remove('hidden');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('no-scroll');
+
+    loadShort(currentShortIndex);
+    setupShortScroll();
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+function loadShort(index) {
+    if (index < 0 || index >= availableShorts.length) return;
+
+    const short = availableShorts[index];
+    const iframe = document.getElementById('short-iframe');
+    const src = `https://www.youtube.com/embed/${encodeURIComponent(short.id)}?playsinline=1&rel=0&modestbranding=1&autoplay=1&hl=ca&cc_lang_pref=ca&gl=AD`;
+
+    iframe.src = src;
+
+    const titleEl = document.getElementById('shortTitle');
+    const channelEl = document.getElementById('shortChannel');
+    if (titleEl) titleEl.textContent = short.title || '';
+    if (channelEl) channelEl.textContent = short.channelTitle || '';
+
+    updateShortNavButtons();
+}
+
+function navigateShort(direction) {
+    const newIndex = currentShortIndex + direction;
+
+    if (newIndex >= 0 && newIndex < availableShorts.length) {
+        currentShortIndex = newIndex;
+        loadShort(currentShortIndex);
+    }
+}
+
+function updateShortNavButtons() {
+    const prevBtn = document.querySelector('.short-nav-prev');
+    const nextBtn = document.querySelector('.short-nav-next');
+
+    if (prevBtn) prevBtn.disabled = currentShortIndex === 0;
+    if (nextBtn) nextBtn.disabled = currentShortIndex === availableShorts.length - 1;
+}
+
+function setupShortScroll() {
+    const playerWrap = document.getElementById('shortPlayerWrap');
+    if (!playerWrap || playerWrap.dataset.shortScrollBound === 'true') return;
+
+    playerWrap.dataset.shortScrollBound = 'true';
+    let startY = 0;
+    let isDragging = false;
+
+    const handleStart = (e) => {
+        startY = e.touches ? e.touches[0].clientY : e.clientY;
+        isDragging = true;
+    };
+
+    const handleEnd = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const endY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+        const deltaY = startY - endY;
+
+        if (deltaY > 50) {
+            navigateShort(1);
+        } else if (deltaY < -50) {
+            navigateShort(-1);
+        }
+    };
+
+    playerWrap.addEventListener('touchstart', handleStart);
+    playerWrap.addEventListener('touchend', handleEnd);
+    playerWrap.addEventListener('mousedown', handleStart);
+    playerWrap.addEventListener('mouseup', handleEnd);
 }
 
 function closeShortModal() {
@@ -1678,6 +1762,9 @@ function closeShortModal() {
     modal.classList.add('hidden');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('no-scroll');
+
+    currentShortIndex = 0;
+    availableShorts = [];
 }
 
 function getLikedVideoIds() {
@@ -3263,7 +3350,8 @@ async function loadRelatedVideosFromAPI(videoId) {
     // Obtenir detalls dels vídeos
     const videoIds = result.items.map(v => v.id).join(',');
     const details = await fetchVideoDetails(videoIds);
-    const videos = details.length > 0 ? details : result.items;
+    let videos = details.length > 0 ? details : result.items;
+    videos = videos.filter(v => !v.isShort);
 
     const sidebarVideos = videos.slice(0, sidebarLimit);
     const extraVideos = videos.slice(sidebarLimit);
@@ -4025,7 +4113,9 @@ function mapStaticVideoToCardData(video) {
 }
 // Carregar vídeos relacionats (estàtic)
 function loadRelatedVideos(currentVideoId) {
-    const relatedVideos = VIDEOS.filter(v => v.id !== parseInt(currentVideoId)).slice(0, 20);
+    const relatedVideos = VIDEOS
+        .filter(v => v.id !== parseInt(currentVideoId) && !v.isShort)
+        .slice(0, 20);
     const relatedContainer = document.getElementById('relatedVideos');
     const extraContainer = extraVideosGrid || document.getElementById('extraVideosGrid');
     const sidebarLimit = 8;
