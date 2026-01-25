@@ -865,20 +865,15 @@ function setFeedContext(videos, feedData, renderer) {
 }
 
 /**
- * Sorts videos by Channel popularity with time constraints:
- * - Slot 1: Most viewed video from the last 3 MONTHS.
- * - Slot 2+: Remaining videos from the last 4 MONTHS, sorted by views.
- * - Merged via Round Robin.
+ * Sorts videos by Channel popularity (Views) in a Round Robin fashion.
+ * Filters out videos older than 4 months, then orders purely by views.
  */
 function sortTrendingRoundRobinByViews(videos) {
     if (!Array.isArray(videos) || videos.length === 0) return [];
 
     const now = new Date();
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(now.getMonth() - 3);
-
-    const fourMonthsAgo = new Date();
-    fourMonthsAgo.setMonth(now.getMonth() - 4);
+    const cutoffDate = new Date();
+    cutoffDate.setMonth(now.getMonth() - 4);
 
     const getDate = (v) => new Date(v.publishedAt || v.uploadDate || 0);
     const getViews = (v) => parseInt(v.viewCount || v.views || 0, 10);
@@ -889,8 +884,7 @@ function sortTrendingRoundRobinByViews(videos) {
         const channelId = video.channelId;
         if (!channelId) return;
 
-        const vDate = getDate(video);
-        if (vDate < fourMonthsAgo) return;
+        if (getDate(video) < cutoffDate) return;
 
         if (!videosByChannel[channelId]) {
             videosByChannel[channelId] = [];
@@ -898,52 +892,22 @@ function sortTrendingRoundRobinByViews(videos) {
         videosByChannel[channelId].push(video);
     });
 
-    const channelQueues = {};
-    Object.keys(videosByChannel).forEach(channelId => {
-        const channelVideos = videosByChannel[channelId];
-
-        let slot1Video = null;
-        let maxViews = -1;
-        let slot1Index = -1;
-
-        channelVideos.forEach((v, index) => {
-            const vDate = getDate(v);
-            if (vDate >= threeMonthsAgo) {
-                const views = getViews(v);
-                if (views > maxViews) {
-                    maxViews = views;
-                    slot1Video = v;
-                    slot1Index = index;
-                }
-            }
-        });
-
-        const remainder = channelVideos.filter((v, index) => {
-            if (slot1Video && index === slot1Index) return false;
-            return true;
-        });
-
-        remainder.sort((a, b) => getViews(b) - getViews(a));
-
-        const queue = [];
-        if (slot1Video) {
-            queue.push(slot1Video);
-        }
-        channelQueues[channelId] = queue.concat(remainder);
+    Object.values(videosByChannel).forEach(channelVideos => {
+        channelVideos.sort((a, b) => getViews(b) - getViews(a));
     });
 
     const sortedVideos = [];
-    const channelIds = Object.keys(channelQueues);
-    let maxQueueLen = 0;
+    const channelIds = Object.keys(videosByChannel);
+    let maxVideos = 0;
 
     channelIds.forEach(id => {
-        maxQueueLen = Math.max(maxQueueLen, channelQueues[id].length);
+        maxVideos = Math.max(maxVideos, videosByChannel[id].length);
     });
 
-    for (let i = 0; i < maxQueueLen; i++) {
+    for (let i = 0; i < maxVideos; i++) {
         channelIds.forEach(id => {
-            if (channelQueues[id][i]) {
-                sortedVideos.push(channelQueues[id][i]);
+            if (videosByChannel[id][i]) {
+                sortedVideos.push(videosByChannel[id][i]);
             }
         });
     }
