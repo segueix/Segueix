@@ -619,6 +619,14 @@ body.sidebar-collapsed .main-content {
     scroll-snap-type: x mandatory;
 }
 
+.shorts-row::-webkit-scrollbar {
+    display: none;
+}
+
+.shorts-row {
+    scrollbar-width: none;
+}
+
 .short-card {
     flex: 0 0 auto;
     width: 160px;
@@ -958,14 +966,34 @@ body.sidebar-collapsed .main-content {
     height: 48px;
     border-radius: 50%;
     border: none;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
+    background: rgba(0, 0, 0, 0.35);
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
     transition: background 0.2s;
+}
+
+.short-nav-btn svg {
+    width: 28px;
+    height: 48px;
+    stroke-width: 2.5;
+}
+
+.short-nav-btn.short-nav-hint {
+    width: 64px;
+    height: 64px;
+    background: transparent;
+    box-shadow: none;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.short-nav-btn.short-nav-hint svg {
+    width: 32px;
+    height: 56px;
+    animation: shortHintBlink 0.6s ease-in-out infinite;
 }
 
 .short-nav-btn:hover {
@@ -978,6 +1006,18 @@ body.sidebar-collapsed .main-content {
 
 .short-nav-next {
     bottom: 60px;
+}
+
+@keyframes shortHintBlink {
+    0%,
+    100% {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .short-nav-btn:disabled {
