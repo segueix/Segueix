@@ -546,6 +546,17 @@ function initEventListeners() {
         backgroundBtn.addEventListener('click', openBackgroundModal);
     }
 
+    const atButton = document.querySelector('.icon-btn-at');
+    if (atButton) {
+        atButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeof Tawk_API !== 'undefined') {
+                Tawk_API.showWidget();
+                Tawk_API.maximize();
+            }
+        });
+    }
+
     if (createPlaylistBtn) {
         createPlaylistBtn.addEventListener('click', () => {
             const name = playlistNameInput?.value?.trim();
