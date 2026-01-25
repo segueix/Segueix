@@ -331,6 +331,10 @@
 
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+
+        // 1. Force Catalan language to match dashboard settings
+        Tawk_API.language = 'ca';
+
         (function(){
         var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
         s1.async = true;
@@ -340,9 +344,13 @@
         s0.parentNode.insertBefore(s1, s0);
         })();
 
-        // Hide the widget by default on load
+        // 2. Hide widget on load and override the CSS "display: none"
         Tawk_API.onLoad = function(){
             Tawk_API.hideWidget();
+            var container = document.getElementById('tawkchat-container');
+            if (container) {
+                container.style.setProperty('display', 'block', 'important');
+            }
         };
     </script>
 </body>

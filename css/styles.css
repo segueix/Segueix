@@ -296,6 +296,10 @@ main,
     height: 20px;
 }
 
+#tawkchat-container {
+    display: none !important;
+}
+
 .icon-btn .icon-text {
     font-size: 18px;
     font-weight: 600;
