@@ -1616,9 +1616,14 @@ function renderVideos(videos) {
     const featured = getFeaturedVideoForSection(videos, getHeroSectionKey());
     updateHero(featured, 'api');
 
+    const isCategoryView = selectedCategory !== 'Tot' && selectedCategory !== 'Novetats';
+    const listVideos = isCategoryView && featured
+        ? videos.filter(video => String(video.id) !== String(featured.id))
+        : videos;
+
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const shorts = videos.filter(video => video.isShort);
-    const normal = videos.filter(video => !video.isShort);
+    const shorts = listVideos.filter(video => video.isShort);
+    const normal = listVideos.filter(video => !video.isShort);
 
     const shortsSection = isMobile && shorts.length > 0 ? `
         <div class="shorts-section">
@@ -3553,7 +3558,10 @@ function loadVideosByCategoryStatic(categoryId) {
     setPageTitle(category ? category.name : 'Categoria');
     const featured = getFeaturedVideoForSection(videos, getHeroSectionKey());
     updateHero(featured, 'static');
-    videosGrid.innerHTML = videos.map(video => createVideoCard(video)).join('');
+    const listVideos = featured
+        ? videos.filter(video => String(video.id) !== String(featured.id))
+        : videos;
+    videosGrid.innerHTML = listVideos.map(video => createVideoCard(video)).join('');
 
     const videoCards = document.querySelectorAll('.video-card');
     videoCards.forEach(card => {

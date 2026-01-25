@@ -619,6 +619,14 @@ body.sidebar-collapsed .main-content {
     scroll-snap-type: x mandatory;
 }
 
+.shorts-row::-webkit-scrollbar {
+    display: none;
+}
+
+.shorts-row {
+    scrollbar-width: none;
+}
+
 .short-card {
     flex: 0 0 auto;
     width: 160px;
