@@ -1771,7 +1771,9 @@ function updateShortNavButtons() {
 }
 
 function setupShortScroll() {
-    const playerWrap = document.getElementById('shortPlayerWrap');
+    const playerWrap = document.getElementById('shortPlayerWrap')
+        || document.querySelector('.short-player-wrap');
+
     if (!playerWrap || playerWrap.dataset.shortScrollBound === 'true') return;
 
     playerWrap.dataset.shortScrollBound = 'true';
@@ -1797,10 +1799,16 @@ function setupShortScroll() {
         }
     };
 
-    playerWrap.addEventListener('touchstart', handleStart);
+    playerWrap.addEventListener('touchstart', handleStart, { passive: true });
     playerWrap.addEventListener('touchend', handleEnd);
     playerWrap.addEventListener('mousedown', handleStart);
     playerWrap.addEventListener('mouseup', handleEnd);
+
+    playerWrap.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const direction = e.deltaY > 0 ? 1 : -1;
+        handleScrollIntent(direction);
+    }, { passive: false });
 }
 
 function closeShortModal() {
