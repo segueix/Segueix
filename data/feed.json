@@ -1,26 +1,6 @@
 {
-  "generatedAt": "2026-01-26T01:47:47.603Z",
+  "generatedAt": "2026-01-26T07:26:22.823Z",
   "channels": {
-    "UCNSmn5NLUDrV_paFZl--7qw": {
-      "name": "La Sotana",
-      "avatar": "https://yt3.ggpht.com/ytc/AIdro_mO0v5nKplUkfqSab7DdXQSvTWrnqIgF1CafWsUG4IvAec=s800-c-k-c0x00ffffff-no-rj",
-      "description": "",
-      "handle": "@lasotana",
-      "subscriberCount": 65100,
-      "categories": [
-        "humor"
-      ]
-    },
-    "UCT8sBQf4grkfLMjOXdIkV2w": {
-      "name": "Enric Bastardas",
-      "avatar": "https://yt3.ggpht.com/ytc/AIdro_kFNW13EohJbYD9EtNjWPpKGIgSmMaCGt7YfftkU5iKwA=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Monòlegs de conya, xerrades i conferències. Repeteixo...de conya!!!!! Les xerrades i les conferències no són de conya, bé, una mica sí, perquè sino fem conya què? eh?\nL'actualitat del dia a dia, cada dia per riure una mica de tot el que ens passa!\n",
-      "handle": "@enricbastardas1",
-      "subscriberCount": 303,
-      "categories": [
-        "humor"
-      ]
-    },
     "UCjPL0bozxQmzcMqPsnvLLTA": {
       "name": "Jau Fibla",
       "avatar": "https://yt3.ggpht.com/vfBCh2Wmc74q3fvgMiVyZ2ECnc8ZmGZPwDPTq0aLDl91clIBKtcXpQQ19Mu8lEo1M--nSwAsTFs=s800-c-k-c0x00ffffff-no-rj",
@@ -31,36 +11,6 @@
         "humor"
       ]
     },
-    "UCbOj46zFDV0_EquDRQzr5HQ": {
-      "name": "Mai Tant Podcast",
-      "avatar": "https://yt3.ggpht.com/HfCsmFGfsZAGizN3e3QrauAJrjwTYJrPwj8t3UOYzrmdjKMPZ2amNivGffNXPypf7YvgqM1qtzo=s800-c-k-c0x00ffffff-no-rj",
-      "description": "CADA DIMECRES A LA TARDA",
-      "handle": "@maitantpodcast",
-      "subscriberCount": 823,
-      "categories": [
-        "societat"
-      ]
-    },
-    "UC995eaX8sye3WGZB3XUl9lg": {
-      "name": "L´ESCAQUIMAT",
-      "avatar": "https://yt3.ggpht.com/3HUwOrjELA_Ef0xAacNO0df-YHiFP2o6FL41qhhv9pjL3LEDjFgxFc6iERK6-SozdJi8PnIJ7yk=s800-c-k-c0x00ffffff-no-rj",
-      "description": "",
-      "handle": "@lescaquimat4658",
-      "subscriberCount": 1920,
-      "categories": [
-        "societat"
-      ]
-    },
-    "UCptKQCkfc-LV4ybc9Th5_OA": {
-      "name": "Víctor Puig ",
-      "avatar": "https://yt3.ggpht.com/fxi_Kqr7o9raXV-TJHt9jemmkN-JNAHHKLGMqG7D_MuxhCJrxWgrY7_s8s22sC1TCpk3snh2cXs=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Entrevistes i comentari polític.\nPerspectiva catalanocèntrica.\nAjuda'ns a créixer: ES56 3025 0014 0214 0009 6845\n\n",
-      "handle": "@victor_puig_",
-      "subscriberCount": 4920,
-      "categories": [
-        "societat"
-      ]
-    },
     "UCHwg1QG8c6WrDZm_J6oAweg": {
       "name": "País Invisible Podcast",
       "avatar": "https://yt3.ggpht.com/1R4bRkAmN1kd9_OiyVePRZh0pYp7uUzJLrEoFhlAsgk7jaQtm-NQvrYspw_ziU6g9ePZvGYt5B8=s800-c-k-c0x00ffffff-no-rj",
@@ -69,46 +19,6 @@
       "subscriberCount": 2250,
       "categories": [
         "cultura"
-      ]
-    },
-    "UCgvW4vAO6jNWA4qeYk87BEA": {
-      "name": "NetInformacio",
-      "avatar": "https://yt3.ggpht.com/Ju_aoLg8v32K2oujVN8MREw4MCmBeoy6Qj1l5lvrzHAMBSbAlihAlMHGYhHDxlGCRIUqqnpIa7s=s800-c-k-c0x00ffffff-no-rj",
-      "description": "NetInformació és el canal de YouTube oficial de la web Informacio.Net.\n\nHi trobareu informació i opinió política independent i informada sobre tot tipus d'afers que afectin a Catalunya i als catalans.\n\nEl més important és que puguem mantenir conversa i debats honestos sobre els temes més variats, pu...",
-      "handle": "@netinformacio",
-      "subscriberCount": 25400,
-      "categories": [
-        "societat"
-      ]
-    },
-    "UCQvIQnJGSDFX_IAiV9JuBew": {
-      "name": "Gent De Merda",
-      "avatar": "https://yt3.ggpht.com/oFX1aYmDyuNmIqVuUPhmhRKNSOx-0R5MGHYOqRQi2D__zaS5KG4lWNIfNUBwqbVRv84sl9C8hA=s800-c-k-c0x00ffffff-no-rj",
-      "description": "La Clàudia Rius, la Paula Carreras, la Rita Roig i l'Ofèlia Carbonell som gent de merda. I tu també.",
-      "handle": "@gentdemerda",
-      "subscriberCount": 2150,
-      "categories": [
-        "humor"
-      ]
-    },
-    "UC5ytRP5VNigPHovAY7kyicQ": {
-      "name": "Esquetxes comèdia en català",
-      "avatar": "https://yt3.ggpht.com/XDDUdG7DVvwndp1iicbIbUWausu4yGgjPjXURTou76lhF5Ec3ZksBM8MQhyXonlyoaQYu7yehyE=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Nous vídeos cada setmana\n\n\"Esquetxes comèdia en català\" és una web sèrie de gags en català, sense pressupost però amb molta gràcia i rodada a Malgrat de Mar. Feta per amor a l'art i per afició, conté tots els dialectes orientals i occidentals del català. També tenim varis premis i nominacions de fes...",
-      "handle": "@esquetxes",
-      "subscriberCount": 2960,
-      "categories": [
-        "humor"
-      ]
-    },
-    "UC5Ha9G3Tp_17qcC38GPPvQg": {
-      "name": "Èric López",
-      "avatar": "https://yt3.ggpht.com/K97ftPusNCdyMm4n3U2-4KpY3kN2avIyR4VPeBJYPfcmWyah1Qhen2byHbS8XD5FXCt95nKbMg=s800-c-k-c0x00ffffff-no-rj",
-      "description": "🌎 De Catalunya al Món\n",
-      "handle": "@ericlopezr",
-      "subscriberCount": 218,
-      "categories": [
-        "vida"
       ]
     },
     "UCDawX1bxeC4-hZiGnkqevbw": {
@@ -131,14 +41,14 @@
         "humor"
       ]
     },
-    "UCaCWG8cBOwER_Vf3qAsr8Zg": {
-      "name": "Notícies Un Quart de Galves",
-      "avatar": "https://yt3.ggpht.com/Hw-5OfXTofpK0KUBT5G8txv5DVPbv16sd4sdnpOT5VILlx7Hs-wlFKvVXVJ-ZEjgtfyw44J0Yw=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Les notícies de cada dia en 15 minuts. Comentades i explicades per Jordi Galves.",
-      "handle": "@unquartdegalves",
-      "subscriberCount": 4430,
+    "UCNSmn5NLUDrV_paFZl--7qw": {
+      "name": "La Sotana",
+      "avatar": "https://yt3.ggpht.com/ytc/AIdro_mO0v5nKplUkfqSab7DdXQSvTWrnqIgF1CafWsUG4IvAec=s800-c-k-c0x00ffffff-no-rj",
+      "description": "",
+      "handle": "@lasotana",
+      "subscriberCount": 65100,
       "categories": [
-        "societat"
+        "humor"
       ]
     },
     "UCOzd_BhDxbQZ8Y2H1j9wOOg": {
@@ -151,6 +61,76 @@
         "humor"
       ]
     },
+    "UCT8sBQf4grkfLMjOXdIkV2w": {
+      "name": "Enric Bastardas",
+      "avatar": "https://yt3.ggpht.com/ytc/AIdro_kFNW13EohJbYD9EtNjWPpKGIgSmMaCGt7YfftkU5iKwA=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Monòlegs de conya, xerrades i conferències. Repeteixo...de conya!!!!! Les xerrades i les conferències no són de conya, bé, una mica sí, perquè sino fem conya què? eh?\nL'actualitat del dia a dia, cada dia per riure una mica de tot el que ens passa!\n",
+      "handle": "@enricbastardas1",
+      "subscriberCount": 303,
+      "categories": [
+        "humor"
+      ]
+    },
+    "UCQvIQnJGSDFX_IAiV9JuBew": {
+      "name": "Gent De Merda",
+      "avatar": "https://yt3.ggpht.com/oFX1aYmDyuNmIqVuUPhmhRKNSOx-0R5MGHYOqRQi2D__zaS5KG4lWNIfNUBwqbVRv84sl9C8hA=s800-c-k-c0x00ffffff-no-rj",
+      "description": "La Clàudia Rius, la Paula Carreras, la Rita Roig i l'Ofèlia Carbonell som gent de merda. I tu també.",
+      "handle": "@gentdemerda",
+      "subscriberCount": 2150,
+      "categories": [
+        "humor"
+      ]
+    },
+    "UCaCWG8cBOwER_Vf3qAsr8Zg": {
+      "name": "Notícies Un Quart de Galves",
+      "avatar": "https://yt3.ggpht.com/Hw-5OfXTofpK0KUBT5G8txv5DVPbv16sd4sdnpOT5VILlx7Hs-wlFKvVXVJ-ZEjgtfyw44J0Yw=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Les notícies de cada dia en 15 minuts. Comentades i explicades per Jordi Galves.",
+      "handle": "@unquartdegalves",
+      "subscriberCount": 4430,
+      "categories": [
+        "societat"
+      ]
+    },
+    "UCbOj46zFDV0_EquDRQzr5HQ": {
+      "name": "Mai Tant Podcast",
+      "avatar": "https://yt3.ggpht.com/HfCsmFGfsZAGizN3e3QrauAJrjwTYJrPwj8t3UOYzrmdjKMPZ2amNivGffNXPypf7YvgqM1qtzo=s800-c-k-c0x00ffffff-no-rj",
+      "description": "CADA DIMECRES A LA TARDA",
+      "handle": "@maitantpodcast",
+      "subscriberCount": 823,
+      "categories": [
+        "societat"
+      ]
+    },
+    "UCgvW4vAO6jNWA4qeYk87BEA": {
+      "name": "NetInformacio",
+      "avatar": "https://yt3.ggpht.com/Ju_aoLg8v32K2oujVN8MREw4MCmBeoy6Qj1l5lvrzHAMBSbAlihAlMHGYhHDxlGCRIUqqnpIa7s=s800-c-k-c0x00ffffff-no-rj",
+      "description": "NetInformació és el canal de YouTube oficial de la web Informacio.Net.\n\nHi trobareu informació i opinió política independent i informada sobre tot tipus d'afers que afectin a Catalunya i als catalans.\n\nEl més important és que puguem mantenir conversa i debats honestos sobre els temes més variats, pu...",
+      "handle": "@netinformacio",
+      "subscriberCount": 25400,
+      "categories": [
+        "societat"
+      ]
+    },
+    "UC995eaX8sye3WGZB3XUl9lg": {
+      "name": "L´ESCAQUIMAT",
+      "avatar": "https://yt3.ggpht.com/3HUwOrjELA_Ef0xAacNO0df-YHiFP2o6FL41qhhv9pjL3LEDjFgxFc6iERK6-SozdJi8PnIJ7yk=s800-c-k-c0x00ffffff-no-rj",
+      "description": "",
+      "handle": "@lescaquimat4658",
+      "subscriberCount": 1920,
+      "categories": [
+        "societat"
+      ]
+    },
+    "UC5ytRP5VNigPHovAY7kyicQ": {
+      "name": "Esquetxes comèdia en català",
+      "avatar": "https://yt3.ggpht.com/XDDUdG7DVvwndp1iicbIbUWausu4yGgjPjXURTou76lhF5Ec3ZksBM8MQhyXonlyoaQYu7yehyE=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Nous vídeos cada setmana\n\n\"Esquetxes comèdia en català\" és una web sèrie de gags en català, sense pressupost però amb molta gràcia i rodada a Malgrat de Mar. Feta per amor a l'art i per afició, conté tots els dialectes orientals i occidentals del català. També tenim varis premis i nominacions de fes...",
+      "handle": "@esquetxes",
+      "subscriberCount": 2960,
+      "categories": [
+        "humor"
+      ]
+    },
     "UChOzqUp9V9AQPB4WzOhu-Xw": {
       "name": "Aya_ZholvaX: Jocs de taula",
       "avatar": "https://yt3.ggpht.com/AmupdKY3JuLY0OPRRwbHPFML5nsR2_5urZmxz9A7qZpWiO0YWT3sGP8wi63Rk14TzJmtZOmOVA=s800-c-k-c0x00ffffff-no-rj",
@@ -159,6 +139,26 @@
       "subscriberCount": 601,
       "categories": [
         "gaming"
+      ]
+    },
+    "UC5Ha9G3Tp_17qcC38GPPvQg": {
+      "name": "Èric López",
+      "avatar": "https://yt3.ggpht.com/K97ftPusNCdyMm4n3U2-4KpY3kN2avIyR4VPeBJYPfcmWyah1Qhen2byHbS8XD5FXCt95nKbMg=s800-c-k-c0x00ffffff-no-rj",
+      "description": "🌎 De Catalunya al Món\n",
+      "handle": "@ericlopezr",
+      "subscriberCount": 218,
+      "categories": [
+        "vida"
+      ]
+    },
+    "UCptKQCkfc-LV4ybc9Th5_OA": {
+      "name": "Víctor Puig ",
+      "avatar": "https://yt3.ggpht.com/fxi_Kqr7o9raXV-TJHt9jemmkN-JNAHHKLGMqG7D_MuxhCJrxWgrY7_s8s22sC1TCpk3snh2cXs=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Entrevistes i comentari polític.\nPerspectiva catalanocèntrica.\nAjuda'ns a créixer: ES56 3025 0014 0214 0009 6845\n\n",
+      "handle": "@victor_puig_",
+      "subscriberCount": 4920,
+      "categories": [
+        "societat"
       ]
     }
   },
@@ -177,8 +177,8 @@
       "duration": "PT41M57S",
       "durationSeconds": 2517,
       "isShort": false,
-      "viewCount": 82,
-      "likeCount": 1,
+      "viewCount": 85,
+      "likeCount": 3,
       "commentCount": 0
     },
     {
@@ -195,8 +195,8 @@
       "duration": "PT49S",
       "durationSeconds": 49,
       "isShort": true,
-      "viewCount": 144,
-      "likeCount": 6,
+      "viewCount": 172,
+      "likeCount": 7,
       "commentCount": 0
     },
     {
@@ -213,9 +213,9 @@
       "duration": "PT22M41S",
       "durationSeconds": 1361,
       "isShort": false,
-      "viewCount": 9145,
-      "likeCount": 947,
-      "commentCount": 132
+      "viewCount": 9444,
+      "likeCount": 976,
+      "commentCount": 133
     },
     {
       "id": "a2RMQw8CjGY",
@@ -231,7 +231,7 @@
       "duration": "PT25M29S",
       "durationSeconds": 1529,
       "isShort": false,
-      "viewCount": 88,
+      "viewCount": 93,
       "likeCount": 6,
       "commentCount": 1
     },
@@ -249,7 +249,7 @@
       "duration": "PT57S",
       "durationSeconds": 57,
       "isShort": true,
-      "viewCount": 16,
+      "viewCount": 17,
       "likeCount": 1,
       "commentCount": 0
     },
@@ -267,7 +267,7 @@
       "duration": "PT19M40S",
       "durationSeconds": 1180,
       "isShort": false,
-      "viewCount": 177,
+      "viewCount": 185,
       "likeCount": 10,
       "commentCount": 2
     },
@@ -285,7 +285,7 @@
       "duration": "PT1M41S",
       "durationSeconds": 101,
       "isShort": true,
-      "viewCount": 188,
+      "viewCount": 192,
       "likeCount": 16,
       "commentCount": 1
     },
@@ -303,7 +303,7 @@
       "duration": "PT2H14M2S",
       "durationSeconds": 8042,
       "isShort": false,
-      "viewCount": 28,
+      "viewCount": 31,
       "likeCount": 5,
       "commentCount": 1
     },
@@ -321,7 +321,7 @@
       "duration": "PT12M11S",
       "durationSeconds": 731,
       "isShort": false,
-      "viewCount": 37,
+      "viewCount": 38,
       "likeCount": 5,
       "commentCount": 0
     },
@@ -339,7 +339,7 @@
       "duration": "PT41M",
       "durationSeconds": 2460,
       "isShort": false,
-      "viewCount": 1009,
+      "viewCount": 1022,
       "likeCount": 183,
       "commentCount": 36
     },
@@ -375,7 +375,7 @@
       "duration": "PT2M31S",
       "durationSeconds": 151,
       "isShort": false,
-      "viewCount": 231,
+      "viewCount": 236,
       "likeCount": 22,
       "commentCount": 1
     },
@@ -393,8 +393,8 @@
       "duration": "PT18M2S",
       "durationSeconds": 1082,
       "isShort": false,
-      "viewCount": 11714,
-      "likeCount": 1144,
+      "viewCount": 11746,
+      "likeCount": 1145,
       "commentCount": 126
     },
     {
@@ -447,7 +447,7 @@
       "duration": "PT1M6S",
       "durationSeconds": 66,
       "isShort": true,
-      "viewCount": 1728,
+      "viewCount": 1742,
       "likeCount": 29,
       "commentCount": 2
     },
@@ -465,7 +465,7 @@
       "duration": "PT31M18S",
       "durationSeconds": 1878,
       "isShort": false,
-      "viewCount": 1108,
+      "viewCount": 1115,
       "likeCount": 203,
       "commentCount": 41
     },
@@ -483,7 +483,7 @@
       "duration": "PT1M56S",
       "durationSeconds": 116,
       "isShort": true,
-      "viewCount": 218,
+      "viewCount": 219,
       "likeCount": 27,
       "commentCount": 1
     },
@@ -555,8 +555,8 @@
       "duration": "PT16M24S",
       "durationSeconds": 984,
       "isShort": false,
-      "viewCount": 12165,
-      "likeCount": 1185,
+      "viewCount": 12258,
+      "likeCount": 1186,
       "commentCount": 233
     },
     {
@@ -573,7 +573,7 @@
       "duration": "PT28S",
       "durationSeconds": 28,
       "isShort": true,
-      "viewCount": 2613,
+      "viewCount": 2647,
       "likeCount": 55,
       "commentCount": 1
     },
@@ -627,8 +627,8 @@
       "duration": "PT34M21S",
       "durationSeconds": 2061,
       "isShort": false,
-      "viewCount": 2411,
-      "likeCount": 295,
+      "viewCount": 2423,
+      "likeCount": 296,
       "commentCount": 82
     },
     {
@@ -699,7 +699,7 @@
       "duration": "PT24S",
       "durationSeconds": 24,
       "isShort": true,
-      "viewCount": 2675,
+      "viewCount": 2690,
       "likeCount": 44,
       "commentCount": 1
     },
@@ -717,7 +717,7 @@
       "duration": "PT23M59S",
       "durationSeconds": 1439,
       "isShort": false,
-      "viewCount": 13708,
+      "viewCount": 13717,
       "likeCount": 1349,
       "commentCount": 186
     },
@@ -735,9 +735,9 @@
       "duration": "PT34S",
       "durationSeconds": 34,
       "isShort": true,
-      "viewCount": 7126,
-      "likeCount": 272,
-      "commentCount": 8
+      "viewCount": 7148,
+      "likeCount": 273,
+      "commentCount": 9
     },
     {
       "id": "q8L-1xAJ8NU",
@@ -753,7 +753,7 @@
       "duration": "PT24M43S",
       "durationSeconds": 1483,
       "isShort": false,
-      "viewCount": 533,
+      "viewCount": 537,
       "likeCount": 17,
       "commentCount": 0
     },
@@ -771,7 +771,7 @@
       "duration": "PT1M21S",
       "durationSeconds": 81,
       "isShort": true,
-      "viewCount": 1870,
+      "viewCount": 1883,
       "likeCount": 30,
       "commentCount": 0
     },
@@ -807,8 +807,8 @@
       "duration": "PT1H3M21S",
       "durationSeconds": 3801,
       "isShort": false,
-      "viewCount": 71798,
-      "likeCount": 2105,
+      "viewCount": 71955,
+      "likeCount": 2107,
       "commentCount": 164
     },
     {
@@ -825,7 +825,7 @@
       "duration": "PT45M26S",
       "durationSeconds": 2726,
       "isShort": false,
-      "viewCount": 1255,
+      "viewCount": 1256,
       "likeCount": 217,
       "commentCount": 70
     },
@@ -843,7 +843,7 @@
       "duration": "PT12M32S",
       "durationSeconds": 752,
       "isShort": false,
-      "viewCount": 438,
+      "viewCount": 439,
       "likeCount": 13,
       "commentCount": 0
     },
@@ -897,7 +897,7 @@
       "duration": "PT14M20S",
       "durationSeconds": 860,
       "isShort": false,
-      "viewCount": 12000,
+      "viewCount": 12019,
       "likeCount": 1175,
       "commentCount": 124
     },
@@ -915,7 +915,7 @@
       "duration": "PT42S",
       "durationSeconds": 42,
       "isShort": true,
-      "viewCount": 4744,
+      "viewCount": 4756,
       "likeCount": 93,
       "commentCount": 0
     },
@@ -933,7 +933,7 @@
       "duration": "PT38M10S",
       "durationSeconds": 2290,
       "isShort": false,
-      "viewCount": 148,
+      "viewCount": 149,
       "likeCount": 7,
       "commentCount": 0
     },
@@ -951,8 +951,8 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 6447,
-      "likeCount": 120,
+      "viewCount": 6459,
+      "likeCount": 121,
       "commentCount": 4
     },
     {
@@ -1023,7 +1023,7 @@
       "duration": "PT1H7M3S",
       "durationSeconds": 4023,
       "isShort": false,
-      "viewCount": 5140,
+      "viewCount": 5183,
       "likeCount": 109,
       "commentCount": 15
     },
@@ -1077,7 +1077,7 @@
       "duration": "PT15M21S",
       "durationSeconds": 921,
       "isShort": false,
-      "viewCount": 12863,
+      "viewCount": 12894,
       "likeCount": 1263,
       "commentCount": 128
     },
@@ -1167,8 +1167,8 @@
       "duration": "PT18M12S",
       "durationSeconds": 1092,
       "isShort": false,
-      "viewCount": 14488,
-      "likeCount": 1309,
+      "viewCount": 14516,
+      "likeCount": 1310,
       "commentCount": 148
     },
     {
@@ -1185,7 +1185,7 @@
       "duration": "PT26M51S",
       "durationSeconds": 1611,
       "isShort": false,
-      "viewCount": 980,
+      "viewCount": 984,
       "likeCount": 64,
       "commentCount": 3
     },
@@ -1239,7 +1239,7 @@
       "duration": "PT21M22S",
       "durationSeconds": 1282,
       "isShort": false,
-      "viewCount": 171,
+      "viewCount": 172,
       "likeCount": 5,
       "commentCount": 0
     },
@@ -1293,7 +1293,7 @@
       "duration": "PT1H13M54S",
       "durationSeconds": 4434,
       "isShort": false,
-      "viewCount": 170,
+      "viewCount": 171,
       "likeCount": 21,
       "commentCount": 1
     },
@@ -1329,7 +1329,7 @@
       "duration": "PT16M29S",
       "durationSeconds": 989,
       "isShort": false,
-      "viewCount": 134,
+      "viewCount": 135,
       "likeCount": 3,
       "commentCount": 0
     },
@@ -1635,7 +1635,7 @@
       "duration": "PT29S",
       "durationSeconds": 29,
       "isShort": true,
-      "viewCount": 269,
+      "viewCount": 271,
       "likeCount": 10,
       "commentCount": 0
     },
@@ -1671,7 +1671,7 @@
       "duration": "PT1H6M17S",
       "durationSeconds": 3977,
       "isShort": false,
-      "viewCount": 71994,
+      "viewCount": 72048,
       "likeCount": 1437,
       "commentCount": 81
     },
@@ -1743,7 +1743,7 @@
       "duration": "PT1M12S",
       "durationSeconds": 72,
       "isShort": true,
-      "viewCount": 4458,
+      "viewCount": 4462,
       "likeCount": 90,
       "commentCount": 3
     },
@@ -1761,8 +1761,8 @@
       "duration": "PT17M59S",
       "durationSeconds": 1079,
       "isShort": false,
-      "viewCount": 14687,
-      "likeCount": 1165,
+      "viewCount": 14694,
+      "likeCount": 1166,
       "commentCount": 120
     },
     {
@@ -1833,7 +1833,7 @@
       "duration": "PT1M9S",
       "durationSeconds": 69,
       "isShort": true,
-      "viewCount": 5458,
+      "viewCount": 5461,
       "likeCount": 144,
       "commentCount": 4
     },
@@ -1887,7 +1887,7 @@
       "duration": "PT32M52S",
       "durationSeconds": 1972,
       "isShort": false,
-      "viewCount": 953,
+      "viewCount": 954,
       "likeCount": 202,
       "commentCount": 65
     },
@@ -1941,7 +1941,7 @@
       "duration": "PT15M40S",
       "durationSeconds": 940,
       "isShort": false,
-      "viewCount": 15009,
+      "viewCount": 15013,
       "likeCount": 1226,
       "commentCount": 157
     },
@@ -2031,7 +2031,7 @@
       "duration": "PT35M15S",
       "durationSeconds": 2115,
       "isShort": false,
-      "viewCount": 892,
+      "viewCount": 893,
       "likeCount": 25,
       "commentCount": 2
     },
@@ -2085,7 +2085,7 @@
       "duration": "PT13M51S",
       "durationSeconds": 831,
       "isShort": false,
-      "viewCount": 14838,
+      "viewCount": 14839,
       "likeCount": 1345,
       "commentCount": 185
     },
@@ -2157,7 +2157,7 @@
       "duration": "PT8M20S",
       "durationSeconds": 500,
       "isShort": false,
-      "viewCount": 6233,
+      "viewCount": 6235,
       "likeCount": 317,
       "commentCount": 91
     },
@@ -2175,7 +2175,7 @@
       "duration": "PT13M46S",
       "durationSeconds": 826,
       "isShort": false,
-      "viewCount": 14521,
+      "viewCount": 14525,
       "likeCount": 1382,
       "commentCount": 153
     },
@@ -2193,7 +2193,7 @@
       "duration": "PT29M27S",
       "durationSeconds": 1767,
       "isShort": false,
-      "viewCount": 210,
+      "viewCount": 211,
       "likeCount": 5,
       "commentCount": 0
     },
@@ -2301,7 +2301,7 @@
       "duration": "PT17M20S",
       "durationSeconds": 1040,
       "isShort": false,
-      "viewCount": 15748,
+      "viewCount": 15754,
       "likeCount": 1335,
       "commentCount": 146
     },
@@ -2337,7 +2337,7 @@
       "duration": "PT1M35S",
       "durationSeconds": 95,
       "isShort": true,
-      "viewCount": 263,
+      "viewCount": 264,
       "likeCount": 14,
       "commentCount": 0
     },
@@ -2427,7 +2427,7 @@
       "duration": "PT30M28S",
       "durationSeconds": 1828,
       "isShort": false,
-      "viewCount": 1287,
+      "viewCount": 1288,
       "likeCount": 203,
       "commentCount": 64
     },
@@ -2463,7 +2463,7 @@
       "duration": "PT19M21S",
       "durationSeconds": 1161,
       "isShort": false,
-      "viewCount": 14678,
+      "viewCount": 14682,
       "likeCount": 1268,
       "commentCount": 121
     },
@@ -2499,7 +2499,7 @@
       "duration": "PT49M41S",
       "durationSeconds": 2981,
       "isShort": false,
-      "viewCount": 1629,
+      "viewCount": 1630,
       "likeCount": 56,
       "commentCount": 3
     },
@@ -2589,7 +2589,7 @@
       "duration": "PT2H4M43S",
       "durationSeconds": 7483,
       "isShort": false,
-      "viewCount": 14876,
+      "viewCount": 14885,
       "likeCount": 979,
       "commentCount": 56
     },
@@ -2643,7 +2643,7 @@
       "duration": "PT18M58S",
       "durationSeconds": 1138,
       "isShort": false,
-      "viewCount": 15376,
+      "viewCount": 15380,
       "likeCount": 1446,
       "commentCount": 160
     },
@@ -2715,7 +2715,7 @@
       "duration": "PT16M42S",
       "durationSeconds": 1002,
       "isShort": false,
-      "viewCount": 13679,
+      "viewCount": 13684,
       "likeCount": 1312,
       "commentCount": 189
     },
@@ -2805,7 +2805,7 @@
       "duration": "PT18M13S",
       "durationSeconds": 1093,
       "isShort": false,
-      "viewCount": 16253,
+      "viewCount": 16255,
       "likeCount": 1360,
       "commentCount": 178
     },
@@ -2895,7 +2895,7 @@
       "duration": "PT10M20S",
       "durationSeconds": 620,
       "isShort": false,
-      "viewCount": 13244,
+      "viewCount": 13245,
       "likeCount": 1200,
       "commentCount": 155
     },
@@ -2985,7 +2985,7 @@
       "duration": "PT1M30S",
       "durationSeconds": 90,
       "isShort": true,
-      "viewCount": 7549,
+      "viewCount": 7551,
       "likeCount": 415,
       "commentCount": 32
     },
@@ -3057,7 +3057,7 @@
       "duration": "PT14M32S",
       "durationSeconds": 872,
       "isShort": false,
-      "viewCount": 15048,
+      "viewCount": 15050,
       "likeCount": 1264,
       "commentCount": 160
     },
@@ -3165,7 +3165,7 @@
       "duration": "PT13M58S",
       "durationSeconds": 838,
       "isShort": false,
-      "viewCount": 13482,
+      "viewCount": 13484,
       "likeCount": 1236,
       "commentCount": 134
     },
@@ -3309,7 +3309,7 @@
       "duration": "PT1H17M16S",
       "durationSeconds": 4636,
       "isShort": false,
-      "viewCount": 5133,
+      "viewCount": 5134,
       "likeCount": 117,
       "commentCount": 25
     },
@@ -3327,8 +3327,8 @@
       "duration": "PT12M18S",
       "durationSeconds": 738,
       "isShort": false,
-      "viewCount": 12280,
-      "likeCount": 1336,
+      "viewCount": 12283,
+      "likeCount": 1337,
       "commentCount": 146
     },
     {
@@ -3417,7 +3417,7 @@
       "duration": "PT19M46S",
       "durationSeconds": 1186,
       "isShort": false,
-      "viewCount": 14581,
+      "viewCount": 14584,
       "likeCount": 1267,
       "commentCount": 133
     },
@@ -3543,7 +3543,7 @@
       "duration": "PT24M12S",
       "durationSeconds": 1452,
       "isShort": false,
-      "viewCount": 15563,
+      "viewCount": 15564,
       "likeCount": 1340,
       "commentCount": 124
     },
@@ -3597,7 +3597,7 @@
       "duration": "PT1H18M28S",
       "durationSeconds": 4708,
       "isShort": false,
-      "viewCount": 4647,
+      "viewCount": 4651,
       "likeCount": 283,
       "commentCount": 89
     },
@@ -3723,7 +3723,7 @@
       "duration": "PT20M30S",
       "durationSeconds": 1230,
       "isShort": false,
-      "viewCount": 8834,
+      "viewCount": 8836,
       "likeCount": 1438,
       "commentCount": 191
     },
@@ -3759,7 +3759,7 @@
       "duration": "PT1M33S",
       "durationSeconds": 93,
       "isShort": true,
-      "viewCount": 3003,
+      "viewCount": 3004,
       "likeCount": 65,
       "commentCount": 1
     },
@@ -3795,7 +3795,7 @@
       "duration": "PT11M47S",
       "durationSeconds": 707,
       "isShort": false,
-      "viewCount": 15824,
+      "viewCount": 15827,
       "likeCount": 1327,
       "commentCount": 200
     },
@@ -3813,7 +3813,7 @@
       "duration": "PT1M15S",
       "durationSeconds": 75,
       "isShort": true,
-      "viewCount": 3025,
+      "viewCount": 3027,
       "likeCount": 51,
       "commentCount": 1
     },
@@ -3831,7 +3831,7 @@
       "duration": "PT1H11M54S",
       "durationSeconds": 4314,
       "isShort": false,
-      "viewCount": 92879,
+      "viewCount": 92886,
       "likeCount": 1942,
       "commentCount": 110
     },
@@ -3885,7 +3885,7 @@
       "duration": "PT40S",
       "durationSeconds": 40,
       "isShort": true,
-      "viewCount": 5153,
+      "viewCount": 5156,
       "likeCount": 73,
       "commentCount": 3
     },
@@ -3903,7 +3903,7 @@
       "duration": "PT1M14S",
       "durationSeconds": 74,
       "isShort": true,
-      "viewCount": 4180,
+      "viewCount": 4182,
       "likeCount": 68,
       "commentCount": 1
     },
@@ -3939,7 +3939,7 @@
       "duration": "PT12M47S",
       "durationSeconds": 767,
       "isShort": false,
-      "viewCount": 14017,
+      "viewCount": 14018,
       "likeCount": 1187,
       "commentCount": 134
     },
@@ -4047,7 +4047,7 @@
       "duration": "PT59M50S",
       "durationSeconds": 3590,
       "isShort": false,
-      "viewCount": 6173,
+      "viewCount": 6176,
       "likeCount": 110,
       "commentCount": 7
     },
@@ -4065,7 +4065,7 @@
       "duration": "PT13M33S",
       "durationSeconds": 813,
       "isShort": false,
-      "viewCount": 13627,
+      "viewCount": 13630,
       "likeCount": 1280,
       "commentCount": 130
     },
@@ -4191,7 +4191,7 @@
       "duration": "PT14M43S",
       "durationSeconds": 883,
       "isShort": false,
-      "viewCount": 14241,
+      "viewCount": 14245,
       "likeCount": 1193,
       "commentCount": 177
     },
@@ -4335,7 +4335,7 @@
       "duration": "PT4M38S",
       "durationSeconds": 278,
       "isShort": false,
-      "viewCount": 167,
+      "viewCount": 168,
       "likeCount": 4,
       "commentCount": 0
     },
@@ -4353,7 +4353,7 @@
       "duration": "PT51M18S",
       "durationSeconds": 3078,
       "isShort": false,
-      "viewCount": 1035,
+      "viewCount": 1036,
       "likeCount": 59,
       "commentCount": 15
     },
@@ -4461,7 +4461,7 @@
       "duration": "PT16M6S",
       "durationSeconds": 966,
       "isShort": false,
-      "viewCount": 15348,
+      "viewCount": 15349,
       "likeCount": 1361,
       "commentCount": 170
     },
@@ -4641,7 +4641,7 @@
       "duration": "PT16M45S",
       "durationSeconds": 1005,
       "isShort": false,
-      "viewCount": 65326,
+      "viewCount": 65328,
       "likeCount": 63,
       "commentCount": 12
     },
@@ -4677,7 +4677,7 @@
       "duration": "PT51S",
       "durationSeconds": 51,
       "isShort": true,
-      "viewCount": 4347,
+      "viewCount": 4348,
       "likeCount": 79,
       "commentCount": 0
     },
@@ -4857,7 +4857,7 @@
       "duration": "PT1H7M32S",
       "durationSeconds": 4052,
       "isShort": false,
-      "viewCount": 71122,
+      "viewCount": 71123,
       "likeCount": 255,
       "commentCount": 15
     },
@@ -4893,7 +4893,7 @@
       "duration": "PT1H4M21S",
       "durationSeconds": 3861,
       "isShort": false,
-      "viewCount": 65862,
+      "viewCount": 65873,
       "likeCount": 1351,
       "commentCount": 64
     },
@@ -4983,7 +4983,7 @@
       "duration": "PT17M1S",
       "durationSeconds": 1021,
       "isShort": false,
-      "viewCount": 15115,
+      "viewCount": 15118,
       "likeCount": 1450,
       "commentCount": 338
     },
@@ -5145,7 +5145,7 @@
       "duration": "PT14M25S",
       "durationSeconds": 865,
       "isShort": false,
-      "viewCount": 13002,
+      "viewCount": 13003,
       "likeCount": 1241,
       "commentCount": 134
     },
@@ -5163,7 +5163,7 @@
       "duration": "PT12M",
       "durationSeconds": 720,
       "isShort": false,
-      "viewCount": 302,
+      "viewCount": 301,
       "likeCount": 32,
       "commentCount": 3
     },
@@ -5235,7 +5235,7 @@
       "duration": "PT16M2S",
       "durationSeconds": 962,
       "isShort": false,
-      "viewCount": 14054,
+      "viewCount": 14055,
       "likeCount": 1389,
       "commentCount": 199
     },
@@ -5253,8 +5253,8 @@
       "duration": "PT1H10M50S",
       "durationSeconds": 4250,
       "isShort": false,
-      "viewCount": 1691,
-      "likeCount": 124,
+      "viewCount": 1692,
+      "likeCount": 125,
       "commentCount": 38
     },
     {
@@ -5325,7 +5325,7 @@
       "duration": "PT17M43S",
       "durationSeconds": 1063,
       "isShort": false,
-      "viewCount": 14826,
+      "viewCount": 14828,
       "likeCount": 1323,
       "commentCount": 166
     },
@@ -5415,7 +5415,7 @@
       "duration": "PT14M23S",
       "durationSeconds": 863,
       "isShort": false,
-      "viewCount": 14489,
+      "viewCount": 14493,
       "likeCount": 1338,
       "commentCount": 134
     },
@@ -5559,7 +5559,7 @@
       "duration": "PT15M12S",
       "durationSeconds": 912,
       "isShort": false,
-      "viewCount": 17661,
+      "viewCount": 17665,
       "likeCount": 1532,
       "commentCount": 188
     },
@@ -5613,7 +5613,7 @@
       "duration": "PT16M4S",
       "durationSeconds": 964,
       "isShort": false,
-      "viewCount": 17576,
+      "viewCount": 17580,
       "likeCount": 1490,
       "commentCount": 166
     },
@@ -5739,7 +5739,7 @@
       "duration": "PT10M16S",
       "durationSeconds": 616,
       "isShort": false,
-      "viewCount": 15290,
+      "viewCount": 15291,
       "likeCount": 1347,
       "commentCount": 115
     },
@@ -5829,7 +5829,7 @@
       "duration": "PT12M15S",
       "durationSeconds": 735,
       "isShort": false,
-      "viewCount": 15818,
+      "viewCount": 15822,
       "likeCount": 1366,
       "commentCount": 137
     },
@@ -5847,7 +5847,7 @@
       "duration": "PT14M35S",
       "durationSeconds": 875,
       "isShort": false,
-      "viewCount": 17265,
+      "viewCount": 17271,
       "likeCount": 1634,
       "commentCount": 201
     },
@@ -5937,7 +5937,7 @@
       "duration": "PT18M12S",
       "durationSeconds": 1092,
       "isShort": false,
-      "viewCount": 16861,
+      "viewCount": 16868,
       "likeCount": 1504,
       "commentCount": 154
     },
@@ -5991,7 +5991,7 @@
       "duration": "PT12M20S",
       "durationSeconds": 740,
       "isShort": false,
-      "viewCount": 17217,
+      "viewCount": 17219,
       "likeCount": 1653,
       "commentCount": 165
     },
@@ -6081,7 +6081,7 @@
       "duration": "PT15M47S",
       "durationSeconds": 947,
       "isShort": false,
-      "viewCount": 19397,
+      "viewCount": 19400,
       "likeCount": 1952,
       "commentCount": 209
     },
@@ -6171,8 +6171,8 @@
       "duration": "PT1H5M9S",
       "durationSeconds": 3909,
       "isShort": false,
-      "viewCount": 69603,
-      "likeCount": 1439,
+      "viewCount": 69607,
+      "likeCount": 1440,
       "commentCount": 81
     },
     {
@@ -6189,7 +6189,7 @@
       "duration": "PT16M42S",
       "durationSeconds": 1002,
       "isShort": false,
-      "viewCount": 18479,
+      "viewCount": 18482,
       "likeCount": 1792,
       "commentCount": 141
     },
@@ -6297,8 +6297,8 @@
       "duration": "PT13M48S",
       "durationSeconds": 828,
       "isShort": false,
-      "viewCount": 28181,
-      "likeCount": 2435,
+      "viewCount": 28185,
+      "likeCount": 2434,
       "commentCount": 202
     },
     {
@@ -6333,7 +6333,7 @@
       "duration": "PT9M3S",
       "durationSeconds": 543,
       "isShort": false,
-      "viewCount": 11138,
+      "viewCount": 11140,
       "likeCount": 1066,
       "commentCount": 156
     },
@@ -6423,7 +6423,7 @@
       "duration": "PT59S",
       "durationSeconds": 59,
       "isShort": true,
-      "viewCount": 4757,
+      "viewCount": 4759,
       "likeCount": 184,
       "commentCount": 12
     },
@@ -6675,7 +6675,7 @@
       "duration": "PT1H9M38S",
       "durationSeconds": 4178,
       "isShort": false,
-      "viewCount": 66153,
+      "viewCount": 66158,
       "likeCount": 1265,
       "commentCount": 79
     },
@@ -6909,7 +6909,7 @@
       "duration": "PT1H18M58S",
       "durationSeconds": 4738,
       "isShort": false,
-      "viewCount": 21447,
+      "viewCount": 21450,
       "likeCount": 1193,
       "commentCount": 244
     },
@@ -7107,8 +7107,8 @@
       "duration": "PT1H5M37S",
       "durationSeconds": 3937,
       "isShort": false,
-      "viewCount": 71126,
-      "likeCount": 1475,
+      "viewCount": 71132,
+      "likeCount": 1476,
       "commentCount": 89
     },
     {
@@ -7125,7 +7125,7 @@
       "duration": "PT1M48S",
       "durationSeconds": 108,
       "isShort": true,
-      "viewCount": 3596,
+      "viewCount": 3598,
       "likeCount": 77,
       "commentCount": 0
     },
@@ -7161,7 +7161,7 @@
       "duration": "PT1M38S",
       "durationSeconds": 98,
       "isShort": true,
-      "viewCount": 4423,
+      "viewCount": 4424,
       "likeCount": 82,
       "commentCount": 1
     },
@@ -7395,7 +7395,7 @@
       "duration": "PT41S",
       "durationSeconds": 41,
       "isShort": true,
-      "viewCount": 3064,
+      "viewCount": 3065,
       "likeCount": 41,
       "commentCount": 0
     },
@@ -7521,8 +7521,8 @@
       "duration": "PT1H8M28S",
       "durationSeconds": 4108,
       "isShort": false,
-      "viewCount": 70142,
-      "likeCount": 1449,
+      "viewCount": 70143,
+      "likeCount": 1450,
       "commentCount": 71
     },
     {
@@ -7863,8 +7863,8 @@
       "duration": "PT1H8M39S",
       "durationSeconds": 4119,
       "isShort": false,
-      "viewCount": 64929,
-      "likeCount": 1523,
+      "viewCount": 64931,
+      "likeCount": 1524,
       "commentCount": 85
     },
     {
@@ -8097,8 +8097,8 @@
       "duration": "PT1H10M7S",
       "durationSeconds": 4207,
       "isShort": false,
-      "viewCount": 74910,
-      "likeCount": 1538,
+      "viewCount": 74911,
+      "likeCount": 1539,
       "commentCount": 97
     },
     {
@@ -8205,7 +8205,7 @@
       "duration": "PT11M43S",
       "durationSeconds": 703,
       "isShort": false,
-      "viewCount": 12342,
+      "viewCount": 12344,
       "likeCount": 1374,
       "commentCount": 288
     },
@@ -8241,7 +8241,7 @@
       "duration": "PT24M5S",
       "durationSeconds": 1445,
       "isShort": false,
-      "viewCount": 17125,
+      "viewCount": 17126,
       "likeCount": 2007,
       "commentCount": 281
     },
@@ -8331,8 +8331,8 @@
       "duration": "PT1H10M31S",
       "durationSeconds": 4231,
       "isShort": false,
-      "viewCount": 71153,
-      "likeCount": 1562,
+      "viewCount": 71155,
+      "likeCount": 1563,
       "commentCount": 98
     },
     {
@@ -8709,7 +8709,7 @@
       "duration": "PT53M38S",
       "durationSeconds": 3218,
       "isShort": false,
-      "viewCount": 8938,
+      "viewCount": 8939,
       "likeCount": 550,
       "commentCount": 115
     },
@@ -8835,7 +8835,7 @@
       "duration": "PT1H27M59S",
       "durationSeconds": 5279,
       "isShort": false,
-      "viewCount": 5163,
+      "viewCount": 5164,
       "likeCount": 392,
       "commentCount": 43
     },
@@ -9087,7 +9087,7 @@
       "duration": "PT55M14S",
       "durationSeconds": 3314,
       "isShort": false,
-      "viewCount": 2494,
+      "viewCount": 2495,
       "likeCount": 161,
       "commentCount": 37
     },
@@ -9159,7 +9159,7 @@
       "duration": "PT18M5S",
       "durationSeconds": 1085,
       "isShort": false,
-      "viewCount": 47368,
+      "viewCount": 47365,
       "likeCount": 4116,
       "commentCount": 518
     },
@@ -9447,7 +9447,7 @@
       "duration": "PT56M27S",
       "durationSeconds": 3387,
       "isShort": false,
-      "viewCount": 6791,
+      "viewCount": 6792,
       "likeCount": 495,
       "commentCount": 98
     },
@@ -9555,7 +9555,7 @@
       "duration": "PT22M55S",
       "durationSeconds": 1375,
       "isShort": false,
-      "viewCount": 10522,
+      "viewCount": 10523,
       "likeCount": 1254,
       "commentCount": 213
     },
@@ -9699,7 +9699,7 @@
       "duration": "PT5M36S",
       "durationSeconds": 336,
       "isShort": false,
-      "viewCount": 10085,
+      "viewCount": 10084,
       "likeCount": 225,
       "commentCount": 75
     },
@@ -10599,7 +10599,7 @@
       "duration": "PT53M10S",
       "durationSeconds": 3190,
       "isShort": false,
-      "viewCount": 7039,
+      "viewCount": 7040,
       "likeCount": 406,
       "commentCount": 140
     },
@@ -10959,7 +10959,7 @@
       "duration": "PT49S",
       "durationSeconds": 49,
       "isShort": true,
-      "viewCount": 3763,
+      "viewCount": 3764,
       "likeCount": 55,
       "commentCount": 3
     },
@@ -11481,7 +11481,7 @@
       "duration": "PT1H8M53S",
       "durationSeconds": 4133,
       "isShort": false,
-      "viewCount": 12409,
+      "viewCount": 12410,
       "likeCount": 705,
       "commentCount": 110
     },
@@ -12273,7 +12273,7 @@
       "duration": "PT1H51S",
       "durationSeconds": 3651,
       "isShort": false,
-      "viewCount": 25981,
+      "viewCount": 25983,
       "likeCount": 1315,
       "commentCount": 207
     },
@@ -12345,7 +12345,7 @@
       "duration": "PT41M11S",
       "durationSeconds": 2471,
       "isShort": false,
-      "viewCount": 5589,
+      "viewCount": 5590,
       "likeCount": 330,
       "commentCount": 100
     },
@@ -12381,7 +12381,7 @@
       "duration": "PT1H7M53S",
       "durationSeconds": 4073,
       "isShort": false,
-      "viewCount": 14172,
+      "viewCount": 14175,
       "likeCount": 565,
       "commentCount": 115
     },
@@ -12993,7 +12993,7 @@
       "duration": "PT1H21M59S",
       "durationSeconds": 4919,
       "isShort": false,
-      "viewCount": 39357,
+      "viewCount": 39358,
       "likeCount": 1351,
       "commentCount": 347
     },
