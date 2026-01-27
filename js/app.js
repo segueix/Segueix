@@ -40,6 +40,7 @@ let searchDropdownItems = [];
 let searchDropdownActiveIndex = -1;
 let searchDebounceTimeout = null;
 const featuredVideoBySection = new Map();
+const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Humor', 'Actualitat', 'Vida', 'Gaming', 'Societat']);
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
 const BACKGROUND_COLORS = [
@@ -862,23 +863,154 @@ function sortVideosByRoundRobin(videos) {
         });
     });
 
-    const sortedVideos = [];
     const channelIds = Object.keys(videosByChannel);
-    let maxVideos = 0;
+    if (channelIds.length === 0) return [];
 
-    channelIds.forEach(id => {
-        maxVideos = Math.max(maxVideos, videosByChannel[id].length);
-    });
+    const sortedVideos = [];
+    let remaining = Object.values(videosByChannel).reduce((sum, list) => sum + list.length, 0);
+    let lastChannelId = null;
+    let channelIndex = 0;
 
-    for (let i = 0; i < maxVideos; i++) {
-        channelIds.forEach(id => {
-            if (videosByChannel[id][i]) {
-                sortedVideos.push(videosByChannel[id][i]);
+    while (remaining > 0) {
+        let picked = false;
+        for (let attempts = 0; attempts < channelIds.length; attempts++) {
+            const id = channelIds[channelIndex];
+            channelIndex = (channelIndex + 1) % channelIds.length;
+            if (!videosByChannel[id]?.length) {
+                continue;
             }
-        });
+            if (id === lastChannelId) {
+                if (videosByChannel[id].length === remaining) {
+                    // Only this channel has videos left, allow consecutive placement.
+                } else {
+                    continue;
+                }
+            }
+            sortedVideos.push(videosByChannel[id].shift());
+            remaining -= 1;
+            lastChannelId = id;
+            picked = true;
+            break;
+        }
+        if (!picked) {
+            const fallbackId = channelIds.find(id => videosByChannel[id]?.length);
+            if (!fallbackId) {
+                break;
+            }
+            sortedVideos.push(videosByChannel[fallbackId].shift());
+            remaining -= 1;
+            lastChannelId = fallbackId;
+            channelIndex = (channelIds.indexOf(fallbackId) + 1) % channelIds.length;
+        }
     }
 
     return sortedVideos;
+}
+
+function applyRoundRobinByPopularity(videos) {
+    if (!Array.isArray(videos) || videos.length === 0) return [];
+
+    const byChannel = {};
+    videos.forEach(video => {
+        const channelId = video.channelId;
+        if (!byChannel[channelId]) {
+            byChannel[channelId] = [];
+        }
+        byChannel[channelId].push(video);
+    });
+
+    Object.values(byChannel).forEach(channelVideos => {
+        channelVideos.sort((a, b) => {
+            const viewsA = a.viewCount || a.views || 0;
+            const viewsB = b.viewCount || b.views || 0;
+            return viewsB - viewsA;
+        });
+    });
+
+    const channelIds = Object.keys(byChannel).sort((a, b) => {
+        const topA = byChannel[a][0]?.viewCount || byChannel[a][0]?.views || 0;
+        const topB = byChannel[b][0]?.viewCount || byChannel[b][0]?.views || 0;
+        return topB - topA;
+    });
+
+    const result = [];
+    let remaining = Object.values(byChannel).reduce((sum, list) => sum + list.length, 0);
+    let lastChannelId = null;
+    let channelIndex = 0;
+
+    while (remaining > 0) {
+        let picked = false;
+        for (let attempts = 0; attempts < channelIds.length; attempts++) {
+            const id = channelIds[channelIndex];
+            channelIndex = (channelIndex + 1) % channelIds.length;
+            if (!byChannel[id]?.length) {
+                continue;
+            }
+            if (id === lastChannelId) {
+                if (byChannel[id].length === remaining) {
+                    // Only this channel has videos left, allow consecutive placement.
+                } else {
+                    continue;
+                }
+            }
+            result.push(byChannel[id].shift());
+            remaining -= 1;
+            lastChannelId = id;
+            picked = true;
+            break;
+        }
+        if (!picked) {
+            const fallbackId = channelIds.find(id => byChannel[id]?.length);
+            if (!fallbackId) {
+                break;
+            }
+            result.push(byChannel[fallbackId].shift());
+            remaining -= 1;
+            lastChannelId = fallbackId;
+            channelIndex = (channelIds.indexOf(fallbackId) + 1) % channelIds.length;
+        }
+    }
+
+    return result;
+}
+
+function hybridCategorySort(videos) {
+    const now = Date.now();
+    const oneWeek = 7 * 24 * 60 * 60 * 1000;
+
+    const hot = [];
+    const rest = [];
+
+    videos.forEach(video => {
+        const age = now - new Date(video.publishedAt || video.uploadDate || 0).getTime();
+        const views = video.viewCount || video.views || 0;
+
+        if (age < oneWeek && views > 1000) {
+            hot.push(video);
+        } else {
+            rest.push(video);
+        }
+    });
+
+    const hotRoundRobin = applyRoundRobinByPopularity(hot);
+    const restRoundRobin = sortVideosByRoundRobin(rest);
+    const maxHot = Math.min(hotRoundRobin.length, 8);
+
+    if (
+        hotRoundRobin.length > 0
+        && restRoundRobin.length > 0
+        && hotRoundRobin[maxHot - 1]?.channelId === restRoundRobin[0]?.channelId
+    ) {
+        const nextIndex = restRoundRobin.findIndex(
+            video => video.channelId !== hotRoundRobin[maxHot - 1]?.channelId
+        );
+        if (nextIndex > 0) {
+            const rotated = restRoundRobin.splice(0, nextIndex);
+            restRoundRobin.push(...rotated);
+        }
+    }
+
+    return [...hotRoundRobin.slice(0, maxHot), ...restRoundRobin];
 }
 
 function getFeedDataForFilter() {
@@ -961,8 +1093,12 @@ function renderFeed() {
         ? currentFeedVideos
         : filterVideosByCategory(currentFeedVideos, currentFeedData);
 
-    if (selectedCategory === 'Novetats' && !isTrendingPage) {
-        filtered = sortVideosByRoundRobin(filtered);
+    if (!isTrendingPage) {
+        if (selectedCategory === 'Novetats') {
+            filtered = sortVideosByRoundRobin(filtered);
+        } else if (HYBRID_CATEGORY_SORT.has(selectedCategory)) {
+            filtered = hybridCategorySort(filtered);
+        }
     }
 
     if (selectedCategory !== 'Novetats' && selectedCategory !== 'Tot' && filtered.length === 0 && !isTrendingPage) {
