@@ -1081,6 +1081,11 @@ function getTrendingVideos(videos, feedGeneratedAt) {
         const likes = parseInt(video.likeCount || video.likes || 0, 10);
         const comments = parseInt(video.commentCount || 0, 10);
         let interactionScore = views + (likes * 5) + (comments * 10);
+        const channel = cachedChannels[video.channelId];
+        const subscriberCount = channel?.subscriberCount ?? null;
+        if (subscriberCount == null || subscriberCount < 10000) {
+            interactionScore *= 3;
+        }
         // Penalty for Shorts (they get views too easily)
         if (video.isShort) {
             interactionScore = interactionScore / 2;
@@ -1621,31 +1626,35 @@ function renderVideos(videos) {
         ? videos.filter(video => String(video.id) !== String(featured.id))
         : videos;
 
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const shorts = listVideos.filter(video => video.isShort);
-    const normal = listVideos.filter(video => !video.isShort);
+    const standardVideos = listVideos.filter(video => !video.isShort);
+    const shortVideos = listVideos.filter(video => video.isShort);
+    const firstSlots = standardVideos.slice(0, 4);
+    const remainingStandard = standardVideos.slice(4);
+    const mixedAfterHeader = [];
+    const maxLength = Math.max(remainingStandard.length, shortVideos.length);
+    for (let i = 0; i < maxLength; i += 1) {
+        if (remainingStandard[i]) {
+            mixedAfterHeader.push(remainingStandard[i]);
+        }
+        if (shortVideos[i]) {
+            mixedAfterHeader.push(shortVideos[i]);
+        }
+    }
+    const finalList = [...firstSlots, ...mixedAfterHeader];
 
-    const shortsSection = isMobile && shorts.length > 0 ? `
-        <div class="shorts-section">
-            <h2 class="shorts-title">Shorts</h2>
-            <div class="shorts-row">
-                ${shorts.map(video => createShortCard(video)).join('')}
-            </div>
-        </div>
-    ` : '';
-
-    const normalVideos = isMobile ? normal : normal;
-
-    videosGrid.innerHTML = `
-        ${shortsSection}
-        ${normalVideos.map(video => createVideoCardAPI(video)).join('')}
-    `;
+    videosGrid.innerHTML = finalList.map(video => createVideoCardAPI(video)).join('');
 
     // Event listeners
+    const videoById = new Map(finalList.map(video => [String(video.id), video]));
     const videoCards = document.querySelectorAll('.video-card');
     videoCards.forEach(card => {
         card.addEventListener('click', () => {
             const videoId = card.dataset.videoId;
+            const video = videoById.get(String(videoId));
+            if (video?.isShort) {
+                openShortModal(videoId);
+                return;
+            }
             showVideoFromAPI(videoId);
         });
     });
