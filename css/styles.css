@@ -2624,33 +2624,25 @@ button:disabled,
 }
 
 @media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
+    .hero-eyebrow {
+        font-size: 10px;
     }
     
-    .sidebar.open {
-        transform: translateX(0);
+    .hero-title {
+        font-size: 22px;
     }
     
-    .main-content {
-        margin-left: 0;
-        padding: 16px;
-        padding-top: 8px;
+    .hero-description {
+        font-size: 12px;
     }
 
-    .chips-bar {
-        padding: 10px 16px;
-    }
-    
-    /* Graella principal de vídeos: 2 columnes en mòbil */
-    .videos-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+    hero-duration {
+        font-size: 10px;
     }
 
-    /* Vídeos extra dins la pàgina de reproducció: 1 columna en mòbil */
-    .extra-videos-grid {
-        grid-template-columns: 1fr;
+    .hero-channel {
+        font-size: 16px;
+        text-align: left;
     }
 }
 
