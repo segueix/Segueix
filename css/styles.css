@@ -1843,6 +1843,12 @@ button:disabled,
     margin-bottom: 16px;
 }
 
+.extra-related-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 24px 0 16px;
+}
+
 .related-video {
     display: flex;
     gap: 8px;
@@ -2013,7 +2019,7 @@ button:disabled,
 
     .watch-sidebar .related-title,
     .watch-sidebar #relatedVideos {
-        display: block;
+        display: none;
     }
 }
 
