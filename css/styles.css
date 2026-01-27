@@ -1055,6 +1055,13 @@ body.sidebar-collapsed .main-content {
     text-decoration: underline;
 }
 
+@media (min-width: 1024px) {
+    .channel-link:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
 .video-info-container {
     flex: 1;
     min-width: 0;
