@@ -56,6 +56,8 @@ const HISTORY_STORAGE_KEY = 'catube_history';
 const HISTORY_LIMIT = 50;
 const PLAYLIST_STORAGE_KEY = 'catube_playlists';
 const FOLLOW_STORAGE_KEY = 'catube_follows';
+const RELATED_VIDEOS_TOTAL_LIMIT = 50;
+const RELATED_VIDEOS_SIDEBAR_LIMIT = 8;
 
 // Cache de canals carregats de l'API
 let cachedChannels = {};
@@ -3663,17 +3665,16 @@ async function showVideoFromAPI(videoId) {
     setupVideoCardActionButtons();
 }
 
-// Carregar vídeos relacionats des de l'API
+// Load related videos from API - unified list approach
 async function loadRelatedVideosFromAPI(videoId) {
     const relatedContainer = document.getElementById('relatedVideos');
     const extraContainer = extraVideosGrid || document.getElementById('extraVideosGrid');
-    const sidebarLimit = 8;
 
-    // La API de vídeos relacionats pot no funcionar, fem fallback a vídeos populars
-    let result = await YouTubeAPI.getRelatedVideos(videoId, 20);
+    // Try to get related videos, fallback to popular
+    let result = await YouTubeAPI.getRelatedVideos(videoId, RELATED_VIDEOS_TOTAL_LIMIT);
 
     if (result.error || result.items.length === 0) {
-        result = await YouTubeAPI.getPopularVideos(20);
+        result = await YouTubeAPI.getPopularVideos(RELATED_VIDEOS_TOTAL_LIMIT);
     }
 
     if (result.items.length === 0) {
@@ -3684,15 +3685,19 @@ async function loadRelatedVideosFromAPI(videoId) {
         return;
     }
 
-    // Obtenir detalls dels vídeos
+    // Get video details
     const videoIds = result.items.map(v => v.id).join(',');
     const details = await fetchVideoDetails(videoIds);
     let videos = details.length > 0 ? details : result.items;
-    videos = videos.filter(v => !v.isShort);
 
-    const sidebarVideos = videos.slice(0, sidebarLimit);
-    const extraVideos = videos.slice(sidebarLimit);
+    // Filter out shorts and limit to 50 total
+    videos = videos.filter(v => !v.isShort).slice(0, RELATED_VIDEOS_TOTAL_LIMIT);
 
+    // Split: first 8 for sidebar, rest for extra grid
+    const sidebarVideos = videos.slice(0, RELATED_VIDEOS_SIDEBAR_LIMIT);
+    const extraVideos = videos.slice(RELATED_VIDEOS_SIDEBAR_LIMIT);
+
+    // Render sidebar (compact format)
     relatedContainer.innerHTML = sidebarVideos.map(video => `
         <div class="related-video" data-video-id="${video.id}">
             <div class="related-thumbnail">
@@ -3709,19 +3714,23 @@ async function loadRelatedVideosFromAPI(videoId) {
         </div>
     `).join('');
 
+    // Render extra grid (card format, continues the list)
     if (extraContainer) {
-        extraContainer.innerHTML = extraVideos.map(video => createVideoCardAPI(video)).join('');
+        if (extraVideos.length > 0) {
+            extraContainer.innerHTML = extraVideos.map(video => createVideoCardAPI(video)).join('');
+        } else {
+            extraContainer.innerHTML = '';
+        }
     }
 
-    // Event listeners
-    const relatedVideoElements = relatedContainer.querySelectorAll('.related-video');
-    relatedVideoElements.forEach(element => {
+    // Event listeners for sidebar
+    relatedContainer.querySelectorAll('.related-video').forEach(element => {
         element.addEventListener('click', () => {
-            const id = element.dataset.videoId;
-            showVideoFromAPI(id);
+            showVideoFromAPI(element.dataset.videoId);
         });
     });
 
+    // Event listeners for extra grid
     if (extraContainer) {
         extraContainer.querySelectorAll('.video-card').forEach(card => {
             card.addEventListener('click', () => {
@@ -4451,18 +4460,20 @@ function mapStaticVideoToCardData(video) {
         videoUrl: video.videoUrl
     };
 }
-// Carregar vídeos relacionats (estàtic)
+// Load related videos (static) - unified list approach
 function loadRelatedVideos(currentVideoId) {
     const relatedVideos = VIDEOS
         .filter(v => v.id !== parseInt(currentVideoId) && !v.isShort)
-        .slice(0, 20);
+        .slice(0, RELATED_VIDEOS_TOTAL_LIMIT);
+    
     const relatedContainer = document.getElementById('relatedVideos');
     const extraContainer = extraVideosGrid || document.getElementById('extraVideosGrid');
-    const sidebarLimit = 8;
 
-    const sidebarVideos = relatedVideos.slice(0, sidebarLimit);
-    const extraVideos = relatedVideos.slice(sidebarLimit);
+    // Split: first 8 for sidebar, rest for extra grid
+    const sidebarVideos = relatedVideos.slice(0, RELATED_VIDEOS_SIDEBAR_LIMIT);
+    const extraVideos = relatedVideos.slice(RELATED_VIDEOS_SIDEBAR_LIMIT);
 
+    // Render sidebar
     relatedContainer.innerHTML = sidebarVideos.map(video => {
         const channel = getChannelById(video.channelId);
         return `
@@ -4482,20 +4493,25 @@ function loadRelatedVideos(currentVideoId) {
         `;
     }).join('');
 
+    // Render extra grid
     if (extraContainer) {
-        extraContainer.innerHTML = extraVideos
-            .map(video => createVideoCardAPI(mapStaticVideoToCardData(video)))
-            .join('');
+        if (extraVideos.length > 0) {
+            extraContainer.innerHTML = extraVideos
+                .map(video => createVideoCardAPI(mapStaticVideoToCardData(video)))
+                .join('');
+        } else {
+            extraContainer.innerHTML = '';
+        }
     }
 
-    const relatedVideoElements = document.querySelectorAll('.related-video');
-    relatedVideoElements.forEach(element => {
+    // Event listeners for sidebar
+    relatedContainer.querySelectorAll('.related-video').forEach(element => {
         element.addEventListener('click', () => {
-            const videoId = element.dataset.videoId;
-            showVideo(videoId);
+            showVideo(element.dataset.videoId);
         });
     });
 
+    // Event listeners for extra grid
     if (extraContainer) {
         extraContainer.querySelectorAll('.video-card').forEach(card => {
             card.addEventListener('click', () => {
