@@ -56,6 +56,8 @@ const HISTORY_STORAGE_KEY = 'catube_history';
 const HISTORY_LIMIT = 50;
 const PLAYLIST_STORAGE_KEY = 'catube_playlists';
 const FOLLOW_STORAGE_KEY = 'catube_follows';
+const WATCH_CATEGORY_VIDEOS_LIMIT = 16;
+const DESKTOP_BREAKPOINT = 1024;
 
 // Cache de canals carregats de l'API
 let cachedChannels = {};
@@ -69,6 +71,10 @@ function mergeChannelCategories(channel, categories) {
         return;
     }
     channel.categories = [...new Set([...(channel.categories || []), ...categories])];
+}
+
+function isDesktopView() {
+    return window.innerWidth > DESKTOP_BREAKPOINT;
 }
 
 function getFollowedChannelIds() {
@@ -3395,6 +3401,107 @@ function createVideoCardAPI(video) {
     `;
 }
 
+function renderDesktopSidebar(channel, channelVideos, currentVideoId) {
+    const channelInfoContainer = document.getElementById('sidebarChannelInfo');
+    const channelVideosContainer = document.getElementById('sidebarChannelVideos');
+
+    if (!channelInfoContainer || !channelVideosContainer) {
+        return;
+    }
+
+    const filteredVideos = channelVideos.filter(v => String(v.id) !== String(currentVideoId));
+
+    const avatar = channel.avatar
+        || channel.thumbnail
+        || getFollowChannelAvatar(channel.id)
+        || 'img/icon-192.png';
+    const subsText = channel.subscriberCount
+        ? formatViews(channel.subscriberCount) + ' subscriptors'
+        : '';
+    const description = channel.description || 'Sense descripció disponible.';
+
+    channelInfoContainer.innerHTML = `
+        <div class="sidebar-channel-header">
+            <img class="sidebar-channel-avatar" src="${avatar}" alt="${escapeHtml(channel.title || channel.name)}">
+            <div>
+                <h3 class="sidebar-channel-name">${escapeHtml(channel.title || channel.name)}</h3>
+                ${subsText ? `<span class="sidebar-channel-subs">${subsText}</span>` : ''}
+            </div>
+        </div>
+        <div class="sidebar-channel-description">${escapeHtml(description)}</div>
+        <button class="follow-channel-btn" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+            Segueix
+        </button>
+    `;
+
+    if (filteredVideos.length > 0) {
+        channelVideosContainer.innerHTML = `
+            <h4 class="sidebar-channel-videos-title">Més vídeos d'aquest canal</h4>
+            ${filteredVideos.map(video => `
+                <div class="sidebar-video-item" data-video-id="${video.id}">
+                    <img class="sidebar-video-thumb" src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
+                    <div class="sidebar-video-info">
+                        <div class="sidebar-video-title">${escapeHtml(video.title)}</div>
+                        <div class="sidebar-video-stats">
+                            ${video.viewCount ? formatViews(video.viewCount) + ' vis.' : ''}
+                            ${video.publishedAt ? '• ' + formatDate(video.publishedAt) : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        `;
+    } else {
+        channelVideosContainer.innerHTML = '<p class="sidebar-channel-videos-title">No hi ha més vídeos d\'aquest canal.</p>';
+    }
+
+    bindFollowButtons(channelInfoContainer);
+    channelVideosContainer.querySelectorAll('.sidebar-video-item').forEach(item => {
+        item.addEventListener('click', () => {
+            showVideoFromAPI(item.dataset.videoId);
+        });
+    });
+}
+
+function renderCategoryVideosBelow(currentChannelId, currentVideoId) {
+    const extraContainer = extraVideosGrid || document.getElementById('extraVideosGrid');
+    if (!extraContainer) {
+        return;
+    }
+
+    let videos = currentFeedVideos || [];
+
+    if (selectedCategory && selectedCategory !== 'Novetats' && selectedCategory !== 'Tot') {
+        videos = filterVideosByCategory(videos, currentFeedData);
+    }
+
+    videos = videos.filter(v =>
+        String(v.channelId) !== String(currentChannelId)
+        && String(v.id) !== String(currentVideoId)
+        && !v.isShort
+    );
+
+    videos = videos.slice(0, WATCH_CATEGORY_VIDEOS_LIMIT);
+
+    if (videos.length === 0) {
+        extraContainer.innerHTML = '<div class="empty-state">No hi ha més vídeos d\'aquesta categoria.</div>';
+        return;
+    }
+
+    extraContainer.innerHTML = videos.map(video => createVideoCardAPI(video)).join('');
+
+    extraContainer.querySelectorAll('.video-card').forEach(card => {
+        card.addEventListener('click', () => {
+            showVideoFromAPI(card.dataset.videoId);
+        });
+    });
+    bindChannelLinks(extraContainer);
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    setupVideoCardActionButtons();
+}
+
 // Mostrar vídeo des de l'API
 async function showVideoFromAPI(videoId) {
     const isMini = videoPlayer?.classList.contains('mini-player-active');
@@ -3535,11 +3642,13 @@ async function showVideoFromAPI(videoId) {
     }
 
     // 2. Enriquiment progressiu via API
+    let video;
+    let channelResult;
     try {
         const videoResult = await YouTubeAPI.getVideoDetails(videoId);
 
         if (videoResult.video) {
-            const video = videoResult.video;
+            video = videoResult.video;
             addToHistory({
                 ...video,
                 historySource: 'api'
@@ -3561,7 +3670,7 @@ async function showVideoFromAPI(videoId) {
             document.getElementById('videoViews').textContent = `${formatViews(video.viewCount)} visualitzacions`;
 
             // Obtenir informació del canal
-            const channelResult = await YouTubeAPI.getChannelDetails(video.channelId);
+            channelResult = await YouTubeAPI.getChannelDetails(video.channelId);
 
             if (channelResult.channel) {
                 const channel = channelResult.channel;
@@ -3651,7 +3760,21 @@ async function showVideoFromAPI(videoId) {
     if (isPlaylistMode) {
         renderPlaylistQueue();
     } else if (CONFIG.features.recommendations) {
-        loadRelatedVideosFromAPI(videoId);
+        if (isDesktopView()) {
+            const channelId = video?.channelId || cachedVideo?.channelId;
+            const channelData = channelResult?.channel
+                || cachedChannels[channelId]
+                || { id: channelId, title: video?.channelTitle || cachedVideo?.channelTitle };
+
+            const feedVideos = Array.isArray(YouTubeAPI?.feedVideos) ? YouTubeAPI.feedVideos : [];
+            const channelVideos = [...feedVideos, ...cachedAPIVideos]
+                .filter(v => String(v.channelId) === String(channelId) && !v.isShort);
+
+            renderDesktopSidebar(channelData, channelVideos, videoId);
+            renderCategoryVideosBelow(channelId, videoId);
+        } else {
+            loadRelatedVideosFromAPI(videoId);
+        }
     }
 
     window.scrollTo(0, 0);
