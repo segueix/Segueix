@@ -304,32 +304,33 @@ main,
 }
 
 @media (max-width: 768px) {
-    :root {
-        --header-height: 112px;
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 16px;
+        padding-top: 8px;
     }
 
-    .app-header {
-        grid-template-columns: auto 1fr;
-        grid-template-areas:
-            "brand search"
-            "actions actions";
-        gap: 10px;
+    .chips-bar {
+        padding: 10px 16px;
+    }
+    
+    /* Graella principal de vídeos: 2 columnes en mòbil */
+    .videos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
-    .actions {
-        justify-self: start;
-        width: 100%;
-        justify-content: space-between;
-        gap: 10px;
-    }
-
-    .brand-name {
-        font-size: 16px;
-    }
-
-    .icon-btn {
-        width: 44px;
-        height: 44px;
+    /* Vídeos extra dins la pàgina de reproducció: 1 columna en mòbil */
+    .extra-videos-grid {
+        grid-template-columns: 1fr;
     }
 }
 
