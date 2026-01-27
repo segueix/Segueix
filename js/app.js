@@ -3550,7 +3550,7 @@ function renderDesktopSidebar(channel, channelVideos, currentVideoId) {
 
     const channelName = channel.title || channel.name || 'Canal';
     channelInfoContainer.innerHTML = `
-        <div class="sidebar-channel-header">
+        <div class="sidebar-channel-header channel-link" data-channel-id="${channel.id}">
             <img class="sidebar-channel-avatar" src="${avatar}" alt="${escapeHtml(channelName)}">
             <div>
                 <h3 class="sidebar-channel-name">${escapeHtml(channelName)}</h3>
@@ -3589,6 +3589,7 @@ function renderDesktopSidebar(channel, channelVideos, currentVideoId) {
     }
 
     bindFollowButtons(channelInfoContainer);
+    bindChannelLinks(channelInfoContainer);
     channelVideosContainer.querySelectorAll('.sidebar-video-item').forEach(item => {
         item.addEventListener('click', () => {
             showVideoFromAPI(item.dataset.videoId);
