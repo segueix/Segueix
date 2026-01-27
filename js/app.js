@@ -40,6 +40,7 @@ let searchDropdownItems = [];
 let searchDropdownActiveIndex = -1;
 let searchDebounceTimeout = null;
 const featuredVideoBySection = new Map();
+const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Humor', 'Actualitat', 'Vida', 'Gaming']);
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
 const BACKGROUND_COLORS = [
@@ -881,6 +882,32 @@ function sortVideosByRoundRobin(videos) {
     return sortedVideos;
 }
 
+function hybridCategorySort(videos) {
+    const now = Date.now();
+    const oneWeek = 7 * 24 * 60 * 60 * 1000;
+
+    const hot = [];
+    const rest = [];
+
+    videos.forEach(video => {
+        const age = now - new Date(video.publishedAt || video.uploadDate || 0).getTime();
+        const views = video.viewCount || video.views || 0;
+
+        if (age < oneWeek && views > 1000) {
+            hot.push(video);
+        } else {
+            rest.push(video);
+        }
+    });
+
+    hot.sort((a, b) => (b.viewCount || b.views || 0) - (a.viewCount || a.views || 0));
+
+    const roundRobinRest = sortVideosByRoundRobin(rest);
+    const maxHot = Math.min(hot.length, 6);
+
+    return [...hot.slice(0, maxHot), ...roundRobinRest];
+}
+
 function getFeedDataForFilter() {
     if (Array.isArray(YouTubeAPI?.feedChannels) && YouTubeAPI.feedChannels.length > 0) {
         return { channels: YouTubeAPI.feedChannels };
@@ -961,8 +988,12 @@ function renderFeed() {
         ? currentFeedVideos
         : filterVideosByCategory(currentFeedVideos, currentFeedData);
 
-    if (selectedCategory === 'Novetats' && !isTrendingPage) {
-        filtered = sortVideosByRoundRobin(filtered);
+    if (!isTrendingPage) {
+        if (selectedCategory === 'Novetats') {
+            filtered = sortVideosByRoundRobin(filtered);
+        } else if (HYBRID_CATEGORY_SORT.has(selectedCategory)) {
+            filtered = hybridCategorySort(filtered);
+        }
     }
 
     if (selectedCategory !== 'Novetats' && selectedCategory !== 'Tot' && filtered.length === 0 && !isTrendingPage) {
