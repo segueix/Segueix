@@ -12,7 +12,7 @@ let playlistModal, playlistModalBody;
 let videoPlayer, videoPlaceholder, placeholderImage;
 let channelPage, channelVideosGrid;
 let channelBackBtn, channelProfileAvatar, channelProfileName, channelProfileSubscribers;
-let channelProfileHandle, channelProfileDescription, channelProfileFollowBtn;
+let channelProfileHandle, channelProfileDescription, channelProfileFollowBtn, channelProfileShareBtn;
 let searchForm, searchInput, searchDropdown;
 let extraVideosGrid;
 let currentVideoId = null;
@@ -476,6 +476,7 @@ function initElements() {
     channelProfileSubscribers = document.getElementById('channelProfileSubscribers');
     channelProfileDescription = document.getElementById('channelProfileDescription');
     channelProfileFollowBtn = document.getElementById('channelProfileFollowBtn');
+    channelProfileShareBtn = document.getElementById('channelProfileShareBtn');
     searchForm = document.querySelector('.search');
     searchInput = searchForm?.querySelector('.search-input') || null;
 }
@@ -4660,6 +4661,11 @@ function openChannelProfile(channelId) {
     if (channelProfileFollowBtn) {
         channelProfileFollowBtn.dataset.followChannel = normalizedId;
         channelProfileFollowBtn.dataset.followBound = 'false';
+    }
+    if (channelProfileShareBtn) {
+        channelProfileShareBtn.dataset.shareChannelId = normalizedId;
+        channelProfileShareBtn.dataset.shareChannelName = encodeURIComponent(channelName);
+        channelProfileShareBtn.dataset.shareChannelDescription = encodeURIComponent(channel?.description || 'No hi ha descripció disponible.');
     }
     bindFollowButtons(channelPage);
 

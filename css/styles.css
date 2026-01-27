@@ -1667,9 +1667,24 @@ button:disabled,
 }
 
 .channel-profile-text {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 6px;
-    justify-items: center;
+    align-items: center;
+}
+
+.channel-profile-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.channel-profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .channel-profile-name {
@@ -1720,13 +1735,22 @@ button:disabled,
     }
 
     .channel-profile-text {
-        justify-items: flex-start;
+        align-items: flex-start;
+    }
+
+    .channel-profile-title-row {
+        justify-content: flex-start;
     }
 }
 
 .channel-profile-follow-btn {
     padding: 10px 22px;
     font-size: 14px;
+}
+
+.channel-profile-share-btn {
+    width: 40px;
+    height: 40px;
 }
 
 .follow-grid {
