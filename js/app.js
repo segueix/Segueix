@@ -263,9 +263,106 @@ function shareVideo(videoData) {
     }
 }
 
+function resolveShareChannelData(channelId, fallback = {}) {
+    const channels = Array.isArray(YouTubeAPI?.getAllChannels?.())
+        ? YouTubeAPI.getAllChannels()
+        : [];
+    const matchedChannel = channels.find(channelItem => String(channelItem.id) === String(channelId));
+    const channelName = fallback.name
+        || fallback.title
+        || matchedChannel?.name
+        || matchedChannel?.title
+        || 'Canal';
+    const channelDescription = fallback.description
+        || matchedChannel?.description
+        || matchedChannel?.about
+        || 'No hi ha descripció disponible.';
+
+    return {
+        id: channelId,
+        name: channelName,
+        description: channelDescription
+    };
+}
+
+function shareChannelProfile(channelId, fallback = {}) {
+    const channelData = resolveShareChannelData(channelId, fallback);
+    const shareUrl = `${window.location.origin}${window.location.pathname}?channel=${encodeURIComponent(channelData.id)}#follow`;
+    const shareText = `Descobreix el youtuber ${channelData.name}: ${channelData.description}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'CaTube - Seguint!',
+            text: shareText,
+            url: shareUrl,
+        }).catch((err) => console.log('Share dismissed', err));
+    } else {
+        const existingModal = document.querySelector('.share-modal-overlay');
+        if (existingModal) existingModal.remove();
+
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay active share-modal-overlay';
+        modal.innerHTML = `
+            <div class="modal modal-small">
+                <div class="modal-header">
+                    <h2 class="modal-title" style="display:flex; align-items:center; gap:10px;">
+                        <img src="img/icon-192.png" width="32" height="32" alt="CaTube Logo"> 
+                        Seguint!
+                    </h2>
+                    <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align:center; padding-top:0;">
+                    <p class="modal-description" style="margin-bottom:20px;">
+                        Comparteix el canal: <br><strong>${escapeHtml(channelData.name)}</strong><br>
+                        <span style="font-size:0.9rem; color: var(--text-secondary);">${escapeHtml(channelData.description)}</span>
+                    </p>
+                    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                        <button class="hero-button" onclick="window.open('https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}', '_blank')">
+                            <i data-lucide="message-circle" style="width:18px; display:inline-block; vertical-align:middle;"></i> Compartir
+                        </button>
+                        <button class="hero-button" style="background:#333; color:white;" onclick="navigator.clipboard.writeText('${shareUrl}'); alert('Enllaç copiat!'); this.closest('.modal-overlay').remove();">
+                            <i data-lucide="link" style="width:18px; display:inline-block; vertical-align:middle;"></i> Copiar Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+}
+
+function scrollToChannelFollow() {
+    if (!channelProfileFollowBtn) {
+        return;
+    }
+    channelProfileFollowBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    channelProfileFollowBtn.focus({ preventScroll: true });
+}
+
 // Setup Event Listener for the Share Button
 function setupShareButtons() {
     document.addEventListener('click', (e) => {
+        const shareChannelBtn = e.target.closest('[data-share-channel-id]');
+        if (shareChannelBtn) {
+            e.stopPropagation();
+            const channelId = shareChannelBtn.dataset.shareChannelId;
+            const channelName = shareChannelBtn.dataset.shareChannelName
+                ? decodeURIComponent(shareChannelBtn.dataset.shareChannelName)
+                : '';
+            const channelDescription = shareChannelBtn.dataset.shareChannelDescription
+                ? decodeURIComponent(shareChannelBtn.dataset.shareChannelDescription)
+                : '';
+            if (channelId) {
+                shareChannelProfile(channelId, {
+                    name: channelName,
+                    description: channelDescription
+                });
+            }
+            return;
+        }
         const btn = e.target.closest('#shareBtn');
         if (btn) {
             e.stopPropagation();
@@ -312,6 +409,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 showVideoFromAPI(videoParam);
             } else {
                 showVideo(videoParam);
+            }
+        }, 100);
+    }
+
+    const channelParam = urlParams.get('channel');
+    if (!videoParam && channelParam) {
+        setTimeout(() => {
+            openChannelProfile(channelParam);
+            if (window.location.hash === '#follow') {
+                setTimeout(scrollToChannelFollow, 150);
             }
         }, 100);
     }
@@ -3616,6 +3723,9 @@ async function showVideoFromAPI(videoId) {
                             <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
                                 Segueix
                             </button>
+                            <button class="btn-round-icon" type="button" data-share-channel-id="${channel.id}" data-share-channel-name="${encodeURIComponent(channel.title || '')}" data-share-channel-description="${encodeURIComponent(matchedChannel?.description || '')}" title="Compartir canal">
+                                <i data-lucide="share-2"></i>
+                            </button>
                             <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
                                 <i data-lucide="heart"></i>
                             </button>
@@ -3717,16 +3827,19 @@ async function showVideoFromAPI(videoId) {
                                     </div>
                                     <span class="channel-subs-modern">${subsText}</span>
                                 </div>
-                            </div>
-                            <div class="channel-actions-inline">
-                                <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
-                                    Segueix
-                                </button>
-                                <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
-                                    <i data-lucide="heart"></i>
-                                </button>
-                            </div>
                         </div>
+                        <div class="channel-actions-inline">
+                            <button class="follow-btn-pill" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                                Segueix
+                            </button>
+                            <button class="btn-round-icon" type="button" data-share-channel-id="${channel.id}" data-share-channel-name="${encodeURIComponent(channel.title || '')}" data-share-channel-description="${encodeURIComponent(channel.description || matchedChannel?.description || '')}" title="Compartir canal">
+                                <i data-lucide="share-2"></i>
+                            </button>
+                            <button class="btn-heart" id="likeToggle" type="button" aria-label="M'agrada" aria-pressed="false">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                    </div>
 
                         <div class="video-metadata-bar">
                             <a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="btn-pill-red">
@@ -4579,6 +4692,9 @@ function openChannelProfile(channelId) {
     }
     setupVideoCardActionButtons();
     window.scrollTo(0, 0);
+    if (window.location.hash === '#follow') {
+        setTimeout(scrollToChannelFollow, 150);
+    }
 }
 
 function mapStaticVideoToCardData(video) {
