@@ -4550,6 +4550,7 @@ function renderHistory() {
 function showHistory() {
     handlePlayerVisibilityOnNavigation();
     exitPlaylistMode();
+    historySelectedCategory = 'Tot';
     if (mainContent) {
         mainContent.classList.add('hidden');
     }
