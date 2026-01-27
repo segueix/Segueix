@@ -172,14 +172,21 @@
                 <div class="channel-profile-meta">
                     <img class="channel-profile-avatar" id="channelProfileAvatar" alt="">
                     <div class="channel-profile-text">
-                        <h1 class="channel-profile-name" id="channelProfileName"></h1>
+                        <div class="channel-profile-title-row">
+                            <h1 class="channel-profile-name" id="channelProfileName"></h1>
+                            <div class="channel-profile-actions">
+                                <button class="follow-channel-btn channel-profile-follow-btn" id="channelProfileFollowBtn" type="button" data-follow-channel="" aria-pressed="false">
+                                    Segueix
+                                </button>
+                                <button class="btn-round-icon channel-profile-share-btn" id="channelProfileShareBtn" type="button" data-share-channel-id="" title="Compartir canal">
+                                    <i data-lucide="share-2"></i>
+                                </button>
+                            </div>
+                        </div>
                         <p class="channel-profile-handle" id="channelProfileHandle"></p>
                         <p class="channel-profile-subscribers" id="channelProfileSubscribers"></p>
                     </div>
                 </div>
-                <button class="follow-channel-btn channel-profile-follow-btn" id="channelProfileFollowBtn" type="button" data-follow-channel="" aria-pressed="false">
-                    Segueix
-                </button>
             </div>
             <div class="channel-profile-description" id="channelProfileDescription"></div>
             <div id="channelVideosGrid" class="videos-grid"></div>
