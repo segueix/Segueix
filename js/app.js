@@ -1030,6 +1030,7 @@ function getFeaturedVideoForSection(videos, sectionKey) {
     }
 
     const normalizedSection = sectionKey || 'feed';
+    const isRecommendedSection = normalizedSection === 'Recomanat per a tu';
     const usedIds = new Set();
     featuredVideoBySection.forEach((videoId, key) => {
         if (key !== normalizedSection) {
@@ -1045,6 +1046,12 @@ function getFeaturedVideoForSection(videos, sectionKey) {
         }
         if (watchedIds.has(videoId)) {
             return false;
+        }
+        if (isRecommendedSection) {
+            const seconds = getVideoDurationSeconds(video);
+            if (seconds === null || seconds < MIN_RECOMMENDED_SECONDS) {
+                return false;
+            }
         }
         return true;
     });
@@ -1446,11 +1453,52 @@ function sortTrendingRoundRobinByViews(videos) {
     return sortedVideos;
 }
 
+const MIN_RECOMMENDED_SECONDS = 300;
+
+function getVideoDurationSeconds(video) {
+    if (!video) return null;
+
+    const directSeconds = Number(video.durationSeconds);
+    if (Number.isFinite(directSeconds)) {
+        return directSeconds;
+    }
+
+    const durationValue = video.contentDetails?.duration || video.duration;
+    if (!durationValue || typeof durationValue !== 'string') {
+        return null;
+    }
+
+    if (durationValue.startsWith('PT')) {
+        const match = durationValue.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/i);
+        if (!match) return null;
+        const hours = parseInt(match[1] || '0', 10);
+        const minutes = parseInt(match[2] || '0', 10);
+        const seconds = parseInt(match[3] || '0', 10);
+        return (hours * 3600) + (minutes * 60) + seconds;
+    }
+
+    const timeParts = durationValue.split(':').map(part => Number(part));
+    if (timeParts.some(part => Number.isNaN(part))) {
+        return null;
+    }
+    if (timeParts.length === 3) {
+        const [hours, minutes, seconds] = timeParts;
+        return (hours * 3600) + (minutes * 60) + seconds;
+    }
+    if (timeParts.length === 2) {
+        const [minutes, seconds] = timeParts;
+        return (minutes * 60) + seconds;
+    }
+
+    return null;
+}
+
 function renderFeed() {
     if (!currentFeedRenderer) return;
 
     // Don't filter by category on the Trending page
     const isTrendingPage = pageTitle?.textContent === 'Tendències';
+    const isRecommendedPage = pageTitle?.textContent === 'Recomanat per a tu';
     let filtered = isTrendingPage
         ? currentFeedVideos
         : filterVideosByCategory(currentFeedVideos, currentFeedData);
@@ -1467,6 +1515,13 @@ function renderFeed() {
         } else if (HYBRID_CATEGORY_SORT.has(selectedCategory)) {
             filtered = hybridCategorySort(filtered);
         }
+    }
+
+    if (isRecommendedPage) {
+        filtered = filtered.filter(video => {
+            const seconds = getVideoDurationSeconds(video);
+            return seconds !== null && seconds >= MIN_RECOMMENDED_SECONDS;
+        });
     }
 
     if (selectedCategory !== 'Novetats' && selectedCategory !== 'Tot' && filtered.length === 0 && !isTrendingPage) {
