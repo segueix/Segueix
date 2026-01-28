@@ -201,6 +201,7 @@ async function main() {
                             channelId: v.snippet?.channelId || '',
                             channelTitle: v.snippet?.channelTitle || '',
                             publishedAt: v.snippet?.publishedAt || '',
+                            tags: v.snippet?.tags || [],
                             duration,
                             durationSeconds,
                             isShort: durationSeconds > 0 && durationSeconds <= 120,
@@ -301,6 +302,33 @@ const videosWithViews = feedPayload.filter(video => (video.viewCount || 0) > 0);
             if (categories.length > 0) {
                 channelMetadata[channelId].categories = categories;
             }
+        });
+
+        Object.keys(channelMetadata).forEach(channelId => {
+            const tagCounts = new Map();
+            finalVideos.forEach(video => {
+                if (video.channelId !== channelId) {
+                    return;
+                }
+                const tags = Array.isArray(video.tags) ? video.tags : [];
+                tags.forEach(tag => {
+                    const normalizedTag = String(tag).trim();
+                    if (!normalizedTag) {
+                        return;
+                    }
+                    tagCounts.set(normalizedTag, (tagCounts.get(normalizedTag) || 0) + 1);
+                });
+            });
+            const topTags = Array.from(tagCounts.entries())
+                .sort((a, b) => {
+                    if (b[1] !== a[1]) {
+                        return b[1] - a[1];
+                    }
+                    return a[0].localeCompare(b[0]);
+                })
+                .slice(0, 10)
+                .map(([tag]) => tag);
+            channelMetadata[channelId].topTags = topTags;
         });
 
         const dataDir = path.join(process.cwd(), 'data');

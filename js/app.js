@@ -14,7 +14,7 @@ let playlistModal, playlistModalBody;
 let videoPlayer, videoPlaceholder, placeholderImage;
 let channelPage, channelVideosGrid;
 let channelBackBtn, channelProfileAvatar, channelProfileName, channelProfileSubscribers;
-let channelProfileHandle, channelProfileDescription, channelProfileFollowBtn, channelProfileShareBtn;
+let channelProfileHandle, channelProfileDescription, channelProfileTags, channelProfileFollowBtn, channelProfileShareBtn;
 let searchForm, searchInput, searchDropdown;
 let extraVideosGrid;
 let currentVideoId = null;
@@ -489,6 +489,7 @@ function initElements() {
     channelProfileHandle = document.getElementById('channelProfileHandle');
     channelProfileSubscribers = document.getElementById('channelProfileSubscribers');
     channelProfileDescription = document.getElementById('channelProfileDescription');
+    channelProfileTags = document.getElementById('channelProfileTags');
     channelProfileFollowBtn = document.getElementById('channelProfileFollowBtn');
     channelProfileShareBtn = document.getElementById('channelProfileShareBtn');
     searchForm = document.querySelector('.search');
@@ -5050,6 +5051,18 @@ function openChannelProfile(channelId) {
     }
     if (channelProfileDescription) {
         channelProfileDescription.textContent = channel?.description || 'No hi ha descripció disponible.';
+    }
+    if (channelProfileTags) {
+        const topTags = Array.isArray(channel?.topTags) ? channel.topTags : [];
+        channelProfileTags.innerHTML = '';
+        if (topTags.length > 0) {
+            channelProfileTags.classList.remove('hidden');
+            channelProfileTags.innerHTML = topTags
+                .map(tag => `<span class="tag-pill">${escapeHtml(tag)}</span>`)
+                .join('');
+        } else {
+            channelProfileTags.classList.add('hidden');
+        }
     }
     if (channelProfileFollowBtn) {
         channelProfileFollowBtn.dataset.followChannel = normalizedId;

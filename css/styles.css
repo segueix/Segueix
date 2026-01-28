@@ -1795,6 +1795,21 @@ button:disabled,
     margin-bottom: 24px;
 }
 
+#channelProfileTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1rem;
+}
+
+.tag-pill {
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.78);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+}
+
 @media (max-width: 768px) {
     .channel-profile-header {
         align-items: center;
