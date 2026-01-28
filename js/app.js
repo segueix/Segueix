@@ -1030,7 +1030,6 @@ function getFeaturedVideoForSection(videos, sectionKey) {
     }
 
     const normalizedSection = sectionKey || 'feed';
-    const isRecommendedSection = normalizedSection === 'Recomanat per a tu';
     const usedIds = new Set();
     featuredVideoBySection.forEach((videoId, key) => {
         if (key !== normalizedSection) {
@@ -1047,11 +1046,12 @@ function getFeaturedVideoForSection(videos, sectionKey) {
         if (watchedIds.has(videoId)) {
             return false;
         }
-        if (isRecommendedSection) {
-            const seconds = getVideoDurationSeconds(video);
-            if (seconds === null || seconds < MIN_RECOMMENDED_SECONDS) {
-                return false;
-            }
+        if (video.isShort === true) {
+            return false;
+        }
+        const seconds = getVideoDurationSeconds(video);
+        if (seconds === null || seconds < MIN_RECOMMENDED_SECONDS) {
+            return false;
         }
         return true;
     });
@@ -1453,7 +1453,7 @@ function sortTrendingRoundRobinByViews(videos) {
     return sortedVideos;
 }
 
-const MIN_RECOMMENDED_SECONDS = 300;
+const MIN_RECOMMENDED_SECONDS = 240;
 
 function getVideoDurationSeconds(video) {
     if (!video) return null;
