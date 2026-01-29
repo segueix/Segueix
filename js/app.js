@@ -329,19 +329,54 @@ function isCustomCategory(category) {
     return getCustomTags().some(tag => tag.toLowerCase() === normalized);
 }
 
+const SHARE_INTRO_TEXT = 'Descobreix els nostres Youtubers:';
+const SHARE_IMAGE_NAME = 'icon-512.png';
+
+async function getShareImageFile() {
+    try {
+        const shareImageUrl = new URL(`img/${SHARE_IMAGE_NAME}`, window.location.href);
+        const response = await fetch(shareImageUrl);
+        if (!response.ok) {
+            return null;
+        }
+        const blob = await response.blob();
+        return new File([blob], SHARE_IMAGE_NAME, { type: blob.type || 'image/png' });
+    } catch (error) {
+        console.warn('Share image unavailable', error);
+        return null;
+    }
+}
+
+function buildShareText(label, url) {
+    return `${SHARE_INTRO_TEXT} ${label} ${url}`;
+}
+
+async function buildShareData(label, url, title = 'CaTube - Seguint!') {
+    const text = buildShareText(label, url);
+    const data = {
+        title,
+        text,
+        url
+    };
+    const shareImage = await getShareImageFile();
+    if (shareImage) {
+        const files = [shareImage];
+        if (!navigator.canShare || navigator.canShare({ files })) {
+            data.files = files;
+        }
+    }
+    return { data, text };
+}
+
 // Function to handle custom sharing logic
-function shareVideo(videoData) {
+async function shareVideo(videoData) {
     // Construct the URL with the video ID parameter
     const shareUrl = `${window.location.origin}${window.location.pathname}?v=${videoData.id}`;
-    const shareText = `Descobreix tots els Youtubers en català: ${videoData.title}`;
+    const { data: shareData, text: shareText } = await buildShareData(videoData.title, shareUrl);
 
     // Use native sharing API if available (Mobile/Modern browsers)
     if (navigator.share) {
-        navigator.share({
-            title: 'CaTube - Seguint!',
-            text: shareText,
-            url: shareUrl,
-        }).catch((err) => console.log('Share dismissed', err));
+        navigator.share(shareData).catch((err) => console.log('Share dismissed', err));
     } else {
         // Fallback: Custom Modal for Desktop
         const existingModal = document.querySelector('.share-modal-overlay');
@@ -365,7 +400,7 @@ function shareVideo(videoData) {
                         Comparteix el vídeo: <br><strong>${videoData.title}</strong>
                     </p>
                     <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-                        <button class="hero-button" onclick="window.open('https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}', '_blank')">
+                        <button class="hero-button" onclick="window.open('https://wa.me/?text=${encodeURIComponent(shareText)}', '_blank')">
                             <i data-lucide="message-circle" style="width:18px; display:inline-block; vertical-align:middle;"></i> Compartir
                         </button>
                         <button class="hero-button" style="background:#333; color:white;" onclick="navigator.clipboard.writeText('${shareUrl}'); alert('Enllaç copiat!'); this.closest('.modal-overlay').remove();">
@@ -402,17 +437,13 @@ function resolveShareChannelData(channelId, fallback = {}) {
     };
 }
 
-function shareChannelProfile(channelId, fallback = {}) {
+async function shareChannelProfile(channelId, fallback = {}) {
     const channelData = resolveShareChannelData(channelId, fallback);
     const shareUrl = `${window.location.origin}${window.location.pathname}?channel=${encodeURIComponent(channelData.id)}#follow`;
-    const shareText = `Descobreix el youtuber ${channelData.name}: ${channelData.description}`;
+    const { data: shareData, text: shareText } = await buildShareData(channelData.name, shareUrl);
 
     if (navigator.share) {
-        navigator.share({
-            title: 'CaTube - Seguint!',
-            text: shareText,
-            url: shareUrl,
-        }).catch((err) => console.log('Share dismissed', err));
+        navigator.share(shareData).catch((err) => console.log('Share dismissed', err));
     } else {
         const existingModal = document.querySelector('.share-modal-overlay');
         if (existingModal) existingModal.remove();
@@ -436,7 +467,7 @@ function shareChannelProfile(channelId, fallback = {}) {
                         <span style="font-size:0.9rem; color: var(--text-secondary);">${escapeHtml(channelData.description)}</span>
                     </p>
                     <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-                        <button class="hero-button" onclick="window.open('https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}', '_blank')">
+                        <button class="hero-button" onclick="window.open('https://wa.me/?text=${encodeURIComponent(shareText)}', '_blank')">
                             <i data-lucide="message-circle" style="width:18px; display:inline-block; vertical-align:middle;"></i> Compartir
                         </button>
                         <button class="hero-button" style="background:#333; color:white;" onclick="navigator.clipboard.writeText('${shareUrl}'); alert('Enllaç copiat!'); this.closest('.modal-overlay').remove();">
@@ -1884,23 +1915,20 @@ function renderCategoryActions() {
 
     shareBtn?.addEventListener('click', async () => {
         const shareUrl = `${window.location.origin}?add_tag=${encodeURIComponent(selectedCategory)}`;
+        const { data: shareData, text: shareText } = await buildShareData(selectedCategory, shareUrl, 'CaTube - Categoria');
         if (navigator.share) {
             try {
-                await navigator.share({
-                    title: 'CaTube - Categoria',
-                    text: `Consulta la categoria ${selectedCategory}`,
-                    url: shareUrl
-                });
+                await navigator.share(shareData);
                 return;
             } catch (error) {
                 console.warn('Share dismissed', error);
             }
         }
         try {
-            await navigator.clipboard.writeText(shareUrl);
-            alert('Enllaç copiat!');
+            await navigator.clipboard.writeText(shareText);
+            alert('Text copiat!');
         } catch (error) {
-            window.prompt('Copia l’enllaç de la categoria:', shareUrl);
+            window.prompt('Copia el text per compartir la categoria:', shareText);
         }
     });
 
@@ -2413,23 +2441,20 @@ function renderSearchCategoryActions(query) {
 
     shareButton?.addEventListener('click', async () => {
         const shareUrl = `${window.location.origin}?add_tag=${encodeURIComponent(normalizedQuery)}`;
+        const { data: shareData, text: shareText } = await buildShareData(normalizedQuery, shareUrl, 'CaTube - Categoria');
         if (navigator.share) {
             try {
-                await navigator.share({
-                    title: 'CaTube - Categoria',
-                    text: `Consulta la categoria ${normalizedQuery}`,
-                    url: shareUrl
-                });
+                await navigator.share(shareData);
                 return;
             } catch (error) {
                 console.warn('Share dismissed', error);
             }
         }
         try {
-            await navigator.clipboard.writeText(shareUrl);
-            alert('Enllaç copiat!');
+            await navigator.clipboard.writeText(shareText);
+            alert('Text copiat!');
         } catch (error) {
-            window.prompt('Copia l’enllaç de la categoria:', shareUrl);
+            window.prompt('Copia el text per compartir la categoria:', shareText);
         }
     });
 
