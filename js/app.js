@@ -414,9 +414,8 @@ function renderChannelProfileCategories(channel, channelId) {
     `;
 
     const baseButtonsHtml = uniqueBaseLabels
-        .map((label, index) => `
+        .map((label) => `
             <button class="channel-category-btn" type="button">${escapeHtml(label)}</button>
-            ${index === 0 ? addButtonHtml : ''}
         `)
         .join('');
 
@@ -437,14 +436,14 @@ function renderChannelProfileCategories(channel, channelId) {
         : '<span class="channel-category-empty">No hi ha categories personalitzades.</span>';
 
     const shouldShowAdd = uniqueBaseLabels.length > 0 || availableCustomTags.length > 0;
-    const addButtonFallback = uniqueBaseLabels.length === 0 && shouldShowAdd ? addButtonHtml : '';
+    const addButtonFallback = shouldShowAdd ? addButtonHtml : '';
 
     channelProfileTags.classList.toggle('hidden', uniqueBaseLabels.length === 0 && uniqueCustomLabels.length === 0 && !shouldShowAdd);
     channelProfileTags.innerHTML = `
         <div class="channel-profile-categories">
             ${baseButtonsHtml}
-            ${addButtonFallback}
             ${customButtonsHtml}
+            ${addButtonFallback}
             <div class="channel-category-picker hidden" data-channel-category-picker>
                 ${pickerOptionsHtml}
             </div>
@@ -1587,6 +1586,12 @@ function filterVideosByCategory(videos, feed) {
             return videos;
         }
         return videos.filter(video => {
+            const channelCustomCategories = getChannelCustomCategories(video.channelId);
+            const hasChannelCategory = channelCustomCategories
+                .some(cat => cat.toLowerCase() === categoryName.toLowerCase());
+            if (hasChannelCategory) {
+                return true;
+            }
             const title = video.title || video.snippet?.title || '';
             const description = video.description || video.snippet?.description || '';
             const channelMeta = getChannelSearchMeta(video.channelId);
