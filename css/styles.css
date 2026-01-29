@@ -499,18 +499,14 @@ body.sidebar-collapsed .main-content {
     gap: 8px;
 }
 
-.search-category-btn {
-    border: none;
-    border-radius: 999px;
-    padding: 6px 14px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
+.category-toggle {
+    width: 36px;
+    height: 36px;
     background: var(--color-primary);
     color: #fff;
 }
 
-.search-category-btn.is-danger {
+.category-toggle.is-danger {
     background: rgba(255, 107, 107, 0.2);
     color: #ff6b6b;
 }
