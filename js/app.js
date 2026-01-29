@@ -18,7 +18,7 @@ let historyPage, historyGrid, historyFilters, chipsBar;
 let playlistsPage, playlistsList, playlistNameInput, createPlaylistBtn;
 let followPage, followGrid, followTabs;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow, heroChannel;
-let pageTitle, categoryActions;
+let pageTitle;
 let backgroundModal, backgroundBtn, backgroundOptions;
 let currentColorDisplay, expandedColorPicker, closeExpandedColorPicker;
 let fontDecreaseBtn, fontIncreaseBtn, fontSizeDisplay;
@@ -633,7 +633,6 @@ function initElements() {
     heroEyebrow = document.getElementById('heroEyebrow');
     heroChannel = document.getElementById('heroChannel');
     pageTitle = document.getElementById('pageTitle');
-    categoryActions = document.getElementById('categoryActions');
     playlistModal = document.getElementById('playlistModal');
     playlistModalBody = document.getElementById('playlistModalBody');
     videoPlayer = document.getElementById('videoPlayer');
@@ -939,7 +938,7 @@ function initEventListeners() {
                 stopVideoPlayback();
             }
             showHome();
-            setPageTitle(getCategoryPageTitle(selectedCategory));
+            renderCategoryActions(getCategoryPageTitle(selectedCategory));
             renderFeed();
             return;
         }
@@ -1673,9 +1672,8 @@ function getVideoDurationSeconds(video) {
 
 function renderFeed() {
     if (!currentFeedRenderer) return;
-    renderCategoryActions();
     if (isCustomCategory(selectedCategory)) {
-        setPageTitle(getCategoryPageTitle(selectedCategory));
+        renderCategoryActions(getCategoryPageTitle(selectedCategory));
     }
 
     // Don't filter by category on the Trending page
@@ -1749,7 +1747,7 @@ function loadCategories() {
             if (useYouTubeAPI) {
                 const category = CONFIG.categories.find(c => c.id === categoryId);
                 selectedCategory = category ? category.name : 'Tot';
-                setPageTitle(category ? category.name : 'Categoria');
+                renderCategoryActions(category ? category.name : 'Categoria');
                 renderFeed();
             } else {
                 loadVideosByCategoryStatic(categoryId);
@@ -1863,7 +1861,7 @@ function getChipOrderFromDom() {
 
 function activateCategory(category) {
     selectedCategory = category;
-    setPageTitle(getCategoryPageTitle(category));
+    renderCategoryActions(getCategoryPageTitle(category));
     if (!chipsBar) {
         return;
     }
@@ -1874,68 +1872,6 @@ function activateCategory(category) {
     });
 }
 
-function renderCategoryActions() {
-    if (!categoryActions) {
-        return;
-    }
-
-    if (!isCustomCategory(selectedCategory)) {
-        categoryActions.classList.add('hidden');
-        categoryActions.innerHTML = '';
-        return;
-    }
-
-    categoryActions.classList.remove('hidden');
-    categoryActions.innerHTML = `
-        <div class="category-actions__label">Category Actions</div>
-        <div class="category-actions__buttons">
-            <button class="category-action-btn category-action-btn--danger" type="button" data-action="delete-category">
-                <i data-lucide="trash-2"></i>
-                Eliminar categoria
-            </button>
-            <button class="category-action-btn category-action-btn--share" type="button" data-action="share-category">
-                <i data-lucide="share-2"></i>
-                Compartir categoria
-            </button>
-        </div>
-    `;
-
-    const deleteBtn = categoryActions.querySelector('[data-action="delete-category"]');
-    const shareBtn = categoryActions.querySelector('[data-action="share-category"]');
-
-    deleteBtn?.addEventListener('click', () => {
-        const tagToRemove = selectedCategory;
-        if (removeCustomTag(tagToRemove)) {
-            setupChipsBarOrdering();
-            activateCategory('Novetats');
-            renderFeed();
-            alert('Categoria eliminada.');
-        }
-    });
-
-    shareBtn?.addEventListener('click', async () => {
-        const shareUrl = `${window.location.origin}?add_tag=${encodeURIComponent(selectedCategory)}`;
-        const { data: shareData, text: shareText } = await buildShareData(selectedCategory, shareUrl, 'CaTube - Categoria');
-        if (navigator.share) {
-            try {
-                await navigator.share(shareData);
-                return;
-            } catch (error) {
-                console.warn('Share dismissed', error);
-            }
-        }
-        try {
-            await navigator.clipboard.writeText(shareText);
-            alert('Text copiat!');
-        } catch (error) {
-            window.prompt('Copia el text per compartir la categoria:', shareText);
-        }
-    });
-
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-}
 
 let draggedChip = null;
 
@@ -2442,6 +2378,83 @@ function renderSearchCategoryActions(query) {
     shareButton?.addEventListener('click', async () => {
         const shareUrl = `${window.location.origin}?add_tag=${encodeURIComponent(normalizedQuery)}`;
         const { data: shareData, text: shareText } = await buildShareData(normalizedQuery, shareUrl, 'CaTube - Categoria');
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+                return;
+            } catch (error) {
+                console.warn('Share dismissed', error);
+            }
+        }
+        try {
+            await navigator.clipboard.writeText(shareText);
+            alert('Text copiat!');
+        } catch (error) {
+            window.prompt('Copia el text per compartir la categoria:', shareText);
+        }
+    });
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+function renderCategoryActions(category) {
+    if (!pageTitle) {
+        return;
+    }
+    const normalizedCategory = normalizeCustomTag(category);
+    if (
+        !normalizedCategory
+        || normalizedCategory === getCategoryPageTitle('Tot')
+        || normalizedCategory === 'Categoria'
+        || isStandardCategory(normalizedCategory)
+    ) {
+        setPageTitle(getCategoryPageTitle(category));
+        return;
+    }
+    const isSaved = isCustomCategory(normalizedCategory);
+    pageTitle.classList.add('page-title--with-actions');
+    pageTitle.dataset.title = normalizedCategory;
+    pageTitle.innerHTML = `
+        <span class="page-title__query">${escapeHtml(normalizedCategory)}</span>
+        <span class="page-title__actions">
+            ${isSaved
+                ? `<button class="btn-round-icon" type="button" data-action="toggle-category">
+                        <i data-lucide="minus"></i>
+                   </button>`
+                : `<button class="search-category-btn" type="button" data-action="toggle-category">
+                        Guardar
+                   </button>`}
+            <button class="btn-round-icon search-category-share" type="button" data-action="share-category" aria-label="Compartir">
+                <i data-lucide="share-2"></i>
+            </button>
+        </span>
+    `;
+
+    const toggleButton = pageTitle.querySelector('[data-action="toggle-category"]');
+    const shareButton = pageTitle.querySelector('[data-action="share-category"]');
+
+    toggleButton?.addEventListener('click', () => {
+        if (isCustomCategory(normalizedCategory)) {
+            if (removeCustomTag(normalizedCategory)) {
+                setupChipsBarOrdering();
+                alert('Categoria eliminada.');
+            }
+        } else {
+            const savedTag = addCustomTag(normalizedCategory);
+            if (!savedTag) {
+                return;
+            }
+            setupChipsBarOrdering();
+            alert('Categoria guardada.');
+        }
+        renderCategoryActions(normalizedCategory);
+    });
+
+    shareButton?.addEventListener('click', async () => {
+        const shareUrl = `${window.location.origin}?add_tag=${encodeURIComponent(normalizedCategory)}`;
+        const { data: shareData, text: shareText } = await buildShareData(normalizedCategory, shareUrl, 'CaTube - Categoria');
         if (navigator.share) {
             try {
                 await navigator.share(shareData);
@@ -4738,7 +4751,7 @@ function renderStaticVideos(videos) {
 function loadVideosByCategoryStatic(categoryId) {
     const videos = filterOutWatchedVideos(getVideosByCategory(categoryId));
     const category = CONFIG.categories.find(c => c.id === categoryId);
-    setPageTitle(category ? category.name : 'Categoria');
+    renderCategoryActions(category ? category.name : 'Categoria');
     const featured = getFeaturedVideoForSection(videos, getHeroSectionKey());
     updateHero(featured, 'static');
     const listVideos = featured
