@@ -1907,6 +1907,7 @@ button:disabled,
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 1rem;
+    margin-bottom: 12px;
 }
 
 .tag-pill {
