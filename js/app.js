@@ -876,6 +876,33 @@ function initEventListeners() {
         });
     }
 
+    window.addEventListener('orientationchange', () => {
+        if (!isLandscapeOrientation() || !hasActiveVideo() || document.fullscreenElement) {
+            return;
+        }
+        const videoEmbedWrap = getVideoEmbedWrap();
+        if (!videoEmbedWrap?.requestFullscreen) {
+            return;
+        }
+        videoEmbedWrap.requestFullscreen()
+            .then(() => {
+                if (screen.orientation?.lock) {
+                    return screen.orientation.lock('landscape');
+                }
+                return null;
+            })
+            .catch((error) => {
+                console.warn('No es pot activar pantalla completa per orientació', error);
+            });
+    });
+
+    document.addEventListener('dblclick', (event) => {
+        if (!event.target.closest('.video-embed-wrap')) {
+            return;
+        }
+        toggleFullScreenOrientation();
+    });
+
     // Navegació
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
@@ -4152,6 +4179,58 @@ function setupYouTubeIframeMessaging(iframe) {
     iframe._ytListener = sendListenerCommand;
     iframe.addEventListener('load', sendListenerCommand);
     setTimeout(sendListenerCommand, 300);
+}
+
+function getVideoEmbedWrap() {
+    return videoPlayer?.querySelector('.video-embed-wrap') || document.querySelector('.video-embed-wrap');
+}
+
+function isLandscapeOrientation() {
+    const angle = screen.orientation?.angle ?? window.orientation;
+    return angle === 90 || angle === -90 || angle === 270;
+}
+
+function hasActiveVideo() {
+    return Boolean(currentVideoId || videoPlayer?.dataset?.playingVideoId || videoPlayer?.querySelector('iframe'));
+}
+
+async function toggleFullScreenOrientation() {
+    const videoEmbedWrap = getVideoEmbedWrap();
+    if (!videoEmbedWrap) {
+        return;
+    }
+
+    if (!document.fullscreenElement) {
+        try {
+            await videoEmbedWrap.requestFullscreen();
+        } catch (error) {
+            console.warn('No es pot activar pantalla completa', error);
+            return;
+        }
+
+        if (screen.orientation?.lock) {
+            try {
+                await screen.orientation.lock('landscape');
+            } catch (error) {
+                console.warn('No es pot bloquejar orientació', error);
+            }
+        }
+        return;
+    }
+
+    try {
+        await document.exitFullscreen();
+    } catch (error) {
+        console.warn('No es pot sortir de pantalla completa', error);
+    }
+
+    if (screen.orientation?.unlock) {
+        try {
+            screen.orientation.unlock();
+        } catch (error) {
+            console.warn('No es pot desbloquejar orientació', error);
+        }
+    }
 }
 
 function updatePlayerIframe({ source, videoId, videoUrl }) {
