@@ -1370,6 +1370,21 @@ function updateHero(video, source = 'static') {
     }
 }
 
+function getChannelSearchMeta(channelId) {
+    if (!channelId) {
+        return { name: '', description: '' };
+    }
+    const normalizedId = String(channelId);
+    const feedChannels = Array.isArray(YouTubeAPI?.feedChannels) ? YouTubeAPI.feedChannels : [];
+    const feedChannel = feedChannels.find(channel => String(channel?.id) === normalizedId);
+    const cached = cachedChannels[normalizedId] || cachedChannels[channelId] || {};
+    const staticChannel = typeof getChannelById === 'function' ? getChannelById(channelId) : null;
+    return {
+        name: feedChannel?.name || feedChannel?.title || cached.name || cached.title || staticChannel?.name || '',
+        description: feedChannel?.description || cached.description || staticChannel?.description || ''
+    };
+}
+
 function filterVideosByCategory(videos, feed) {
     if (selectedCategory === 'Tot' || selectedCategory === 'Novetats') return videos;
     if (isCustomCategory(selectedCategory)) {
@@ -1380,9 +1395,15 @@ function filterVideosByCategory(videos, feed) {
         return videos.filter(video => {
             const title = video.title || video.snippet?.title || '';
             const description = video.description || video.snippet?.description || '';
+            const channelMeta = getChannelSearchMeta(video.channelId);
+            const channelName = channelMeta.name || video.channelTitle || video.snippet?.channelTitle || '';
+            const channelDescription = channelMeta.description || '';
             const tagsValue = video.tags ?? video.snippet?.tags;
             const tags = Array.isArray(tagsValue) ? tagsValue : (tagsValue ? [String(tagsValue)] : []);
-            if (isMatch(title, categoryName) || isMatch(description, categoryName)) {
+            if (isMatch(title, categoryName)
+                || isMatch(description, categoryName)
+                || isMatch(channelName, categoryName)
+                || isMatch(channelDescription, categoryName)) {
                 return true;
             }
             return tags.some(tag => isMatch(tag, categoryName));
