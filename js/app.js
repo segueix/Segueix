@@ -330,6 +330,7 @@ function isCustomCategory(category) {
 }
 
 const SHARE_INTRO_TEXT = 'Descobreix els nostres Youtubers:';
+const SHARE_BASE_URL = 'https://segueix.github.io/CaTube/';
 const SHARE_IMAGE_NAME = 'icon-512.png';
 
 async function getShareImageFile() {
@@ -349,6 +350,19 @@ async function getShareImageFile() {
 
 function buildShareText(label, url) {
     return `${SHARE_INTRO_TEXT} ${label} ${url}`;
+}
+
+function buildShareUrl(params = {}, hash = '') {
+    const url = new URL(SHARE_BASE_URL);
+    Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+            url.searchParams.set(key, value);
+        }
+    });
+    if (hash) {
+        url.hash = hash;
+    }
+    return url.toString();
 }
 
 async function buildShareData(label, url, title = 'CaTube - Seguint!') {
@@ -371,7 +385,7 @@ async function buildShareData(label, url, title = 'CaTube - Seguint!') {
 // Function to handle custom sharing logic
 async function shareVideo(videoData) {
     // Construct the URL with the video ID parameter
-    const shareUrl = `${window.location.origin}${window.location.pathname}?v=${videoData.id}`;
+    const shareUrl = buildShareUrl({ v: videoData.id });
     const { data: shareData, text: shareText } = await buildShareData(videoData.title, shareUrl);
 
     // Use native sharing API if available (Mobile/Modern browsers)
@@ -439,7 +453,7 @@ function resolveShareChannelData(channelId, fallback = {}) {
 
 async function shareChannelProfile(channelId, fallback = {}) {
     const channelData = resolveShareChannelData(channelId, fallback);
-    const shareUrl = `${window.location.origin}${window.location.pathname}?channel=${encodeURIComponent(channelData.id)}#follow`;
+    const shareUrl = buildShareUrl({ channel: channelData.id }, 'follow');
     const { data: shareData, text: shareText } = await buildShareData(channelData.name, shareUrl);
 
     if (navigator.share) {
@@ -1914,7 +1928,7 @@ function renderCategoryActions() {
     });
 
     shareBtn?.addEventListener('click', async () => {
-        const shareUrl = `${window.location.origin}?add_tag=${encodeURIComponent(selectedCategory)}`;
+        const shareUrl = buildShareUrl({ add_tag: selectedCategory });
         const { data: shareData, text: shareText } = await buildShareData(selectedCategory, shareUrl, 'CaTube - Categoria');
         if (navigator.share) {
             try {
@@ -2440,7 +2454,7 @@ function renderSearchCategoryActions(query) {
     });
 
     shareButton?.addEventListener('click', async () => {
-        const shareUrl = `${window.location.origin}?add_tag=${encodeURIComponent(normalizedQuery)}`;
+        const shareUrl = buildShareUrl({ add_tag: normalizedQuery });
         const { data: shareData, text: shareText } = await buildShareData(normalizedQuery, shareUrl, 'CaTube - Categoria');
         if (navigator.share) {
             try {
@@ -2529,7 +2543,16 @@ function navigateToSearchResults(query) {
         </section>
     ` : '';
 
+    const saveSearchAction = `
+        <div class="search-results-actions">
+            <button class="btn-action-pill btn-save-search" type="button" data-action="save-search">
+                Guardar cerca com a pestanya
+            </button>
+        </div>
+    `;
+
     videosGrid.innerHTML = `
+        ${saveSearchAction}
         ${channelSection}
         ${videoSection}
     `;
