@@ -515,6 +515,18 @@ body.sidebar-collapsed .main-content {
     color: #ff6b6b;
 }
 
+.search-category-toggle {
+    width: 36px;
+    height: 36px;
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.search-category-toggle.is-danger {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+}
+
 .search-category-share {
     width: 36px;
     height: 36px;

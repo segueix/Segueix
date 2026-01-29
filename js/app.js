@@ -2346,8 +2346,8 @@ function renderSearchCategoryActions(query) {
         <span class="page-title__label">Resultats per:</span>
         <span class="page-title__query">"${escapeHtml(normalizedQuery)}"</span>
         <span class="page-title__actions">
-            <button class="search-category-btn ${isSaved ? 'is-danger' : ''}" type="button" data-action="toggle-search-category">
-                ${isSaved ? 'Eliminar' : 'Guardar'}
+            <button class="btn-round-icon search-category-toggle ${isSaved ? 'is-danger' : ''}" type="button" data-action="toggle-search-category" aria-label="${isSaved ? 'Eliminar' : 'Guardar'}">
+                <i data-lucide="${isSaved ? 'minus' : 'plus'}"></i>
             </button>
             <button class="btn-round-icon search-category-share" type="button" data-action="share-search" aria-label="Compartir">
                 <i data-lucide="share-2"></i>
