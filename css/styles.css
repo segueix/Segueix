@@ -9,6 +9,7 @@ html {
     --color-primary: #cc0000;
     --color-secondary: #272727;
     --color-background: #333333;
+    --color-button-custom: #1a1a1a;
     --color-text: #f1f1f1;
     --color-text-secondary: #aaaaaa;
     --color-surface: #121212;
@@ -338,6 +339,14 @@ main,
     color: inherit;
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
+}
+
+.app-header .icon-btn {
+    background-color: var(--color-button-custom) !important;
+}
+
+#backgroundBtn {
+    color: #ffffff;
 }
 
 .icon-btn:hover {
@@ -761,7 +770,7 @@ body.sidebar-collapsed .main-content {
     border: 0;
     border-radius: 999px;
     padding: 8px 12px;
-    background: #1d1d1d;
+    background-color: var(--color-button-custom) !important;
     color: #fff;
     font-size: 0.875rem;
     white-space: nowrap;
@@ -769,8 +778,9 @@ body.sidebar-collapsed .main-content {
 }
 
 .chip.is-active {
-    background: #ffffff;
-    color: #000;
+    background-color: var(--color-button-custom) !important;
+    color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 
 .chip.is-custom {
@@ -1376,7 +1386,7 @@ body.sidebar-collapsed .main-content {
     height: 30px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.08);
+    background-color: var(--color-button-custom) !important;
     color: #ffffff;
     display: grid;
     place-items: center;
@@ -1387,6 +1397,10 @@ body.sidebar-collapsed .main-content {
 .video-action-btn:hover {
     background: rgba(255, 255, 255, 0.18);
     border-color: rgba(255, 255, 255, 0.2);
+}
+
+.video-card .playlist-action {
+    background-color: var(--color-button-custom) !important;
 }
 
 .video-action-btn svg {
@@ -2671,6 +2685,18 @@ button:disabled,
     padding: 24px;
 }
 
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.settings-grid + .settings-section {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .settings-section + .settings-section {
     margin-top: 20px;
     padding-top: 16px;
@@ -3171,6 +3197,13 @@ button:disabled,
     outline-offset: 2px;
 }
 
+@media (min-width: 768px) {
+    .settings-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+}
+
 
 /* Verified badge for videos */
 .video-badge-catalan {
@@ -3512,6 +3545,10 @@ button:disabled,
     border: none;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-round-icon {
+    background-color: var(--color-button-custom) !important;
 }
 
 .btn-round-icon svg {
