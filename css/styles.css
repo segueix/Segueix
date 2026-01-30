@@ -3498,3 +3498,31 @@ html[style*="--color-background: #224262"] .btn-round-icon {
 .video-info-section {
     margin-bottom: 0;
 }
+
+/* Forçar pantalla completa real en mode horitzontal (landscape) */
+@media (orientation: landscape) and (max-width: 1024px) {
+    /* El contenidor principal ocupa tota la finestra sense marges */
+    #videoPlayer {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background-color: #000 !important;
+        z-index: 9999 !important;
+    }
+
+    /* El wrapper i l'iframe també s'han d'estirar al màxim */
+    #videoPlayer .video-embed-wrap,
+    #videoPlayer iframe {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important; /* Anul·la el límit de 960px */
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
