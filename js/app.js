@@ -1376,7 +1376,7 @@ function initFontSizeControls() {
 
 function adjustFontSize(delta) {
     const minSize = 12;
-    const maxSize = 22;
+    const maxSize = 24;
     const nextSize = Math.min(maxSize, Math.max(minSize, (currentFontSize || 16) + delta));
     if (nextSize === currentFontSize) {
         return;
