@@ -14,7 +14,7 @@ window.FEED_UPDATES = [
     "duration": "PT6M2S",
     "durationSeconds": 362,
     "isShort": false,
-    "viewCount": 4,
+    "viewCount": 5,
     "likeCount": 0,
     "commentCount": 0,
     "tags": []
@@ -33,7 +33,7 @@ window.FEED_UPDATES = [
     "duration": "PT54M34S",
     "durationSeconds": 3274,
     "isShort": false,
-    "viewCount": 45,
+    "viewCount": 46,
     "likeCount": 4,
     "commentCount": 1,
     "tags": []
@@ -52,7 +52,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M11S",
     "durationSeconds": 71,
     "isShort": true,
-    "viewCount": 26,
+    "viewCount": 39,
     "likeCount": 2,
     "commentCount": 0,
     "tags": [
@@ -83,9 +83,9 @@ window.FEED_UPDATES = [
     "duration": "PT15M2S",
     "durationSeconds": 902,
     "isShort": false,
-    "viewCount": 8084,
-    "likeCount": 920,
-    "commentCount": 97,
+    "viewCount": 8416,
+    "likeCount": 952,
+    "commentCount": 96,
     "tags": []
   },
   {
@@ -102,7 +102,7 @@ window.FEED_UPDATES = [
     "duration": "PT10M19S",
     "durationSeconds": 619,
     "isShort": false,
-    "viewCount": 9,
+    "viewCount": 11,
     "likeCount": 3,
     "commentCount": 0,
     "tags": []
@@ -147,7 +147,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M34S",
     "durationSeconds": 94,
     "isShort": true,
-    "viewCount": 33,
+    "viewCount": 35,
     "likeCount": 2,
     "commentCount": 0,
     "tags": [
@@ -178,8 +178,8 @@ window.FEED_UPDATES = [
     "duration": "PT52S",
     "durationSeconds": 52,
     "isShort": true,
-    "viewCount": 1493,
-    "likeCount": 23,
+    "viewCount": 1626,
+    "likeCount": 25,
     "commentCount": 0,
     "tags": []
   },
@@ -281,8 +281,8 @@ window.FEED_UPDATES = [
     "duration": "PT33M26S",
     "durationSeconds": 2006,
     "isShort": false,
-    "viewCount": 952,
-    "likeCount": 187,
+    "viewCount": 1002,
+    "likeCount": 189,
     "commentCount": 22,
     "tags": [
       "Notícies",
@@ -327,7 +327,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M9S",
     "durationSeconds": 69,
     "isShort": true,
-    "viewCount": 34,
+    "viewCount": 36,
     "likeCount": 0,
     "commentCount": 0,
     "tags": [
@@ -389,8 +389,8 @@ window.FEED_UPDATES = [
     "duration": "PT12M25S",
     "durationSeconds": 745,
     "isShort": false,
-    "viewCount": 10754,
-    "likeCount": 1014,
+    "viewCount": 10808,
+    "likeCount": 1016,
     "commentCount": 138,
     "tags": []
   },
@@ -430,7 +430,7 @@ window.FEED_UPDATES = [
     "duration": "PT57S",
     "durationSeconds": 57,
     "isShort": true,
-    "viewCount": 1235,
+    "viewCount": 1266,
     "likeCount": 28,
     "commentCount": 0,
     "tags": []
@@ -449,7 +449,7 @@ window.FEED_UPDATES = [
     "duration": "PT20M45S",
     "durationSeconds": 1245,
     "isShort": false,
-    "viewCount": 825,
+    "viewCount": 851,
     "likeCount": 31,
     "commentCount": 0,
     "tags": [
@@ -481,7 +481,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M14S",
     "durationSeconds": 74,
     "isShort": true,
-    "viewCount": 73,
+    "viewCount": 75,
     "likeCount": 2,
     "commentCount": 0,
     "tags": [
@@ -512,8 +512,8 @@ window.FEED_UPDATES = [
     "duration": "PT1H7M27S",
     "durationSeconds": 4047,
     "isShort": false,
-    "viewCount": 52194,
-    "likeCount": 1416,
+    "viewCount": 52912,
+    "likeCount": 1424,
     "commentCount": 66,
     "tags": []
   },
@@ -550,7 +550,7 @@ window.FEED_UPDATES = [
     "duration": "PT29M28S",
     "durationSeconds": 1768,
     "isShort": false,
-    "viewCount": 1176,
+    "viewCount": 1182,
     "likeCount": 245,
     "commentCount": 78,
     "tags": [
@@ -596,7 +596,7 @@ window.FEED_UPDATES = [
     "duration": "PT12M32S",
     "durationSeconds": 752,
     "isShort": false,
-    "viewCount": 148,
+    "viewCount": 152,
     "likeCount": 7,
     "commentCount": 0,
     "tags": [
@@ -651,8 +651,8 @@ window.FEED_UPDATES = [
     "duration": "PT45S",
     "durationSeconds": 45,
     "isShort": true,
-    "viewCount": 4410,
-    "likeCount": 74,
+    "viewCount": 4425,
+    "likeCount": 73,
     "commentCount": 0,
     "tags": []
   },
@@ -670,8 +670,8 @@ window.FEED_UPDATES = [
     "duration": "PT12M6S",
     "durationSeconds": 726,
     "isShort": false,
-    "viewCount": 11230,
-    "likeCount": 1138,
+    "viewCount": 11246,
+    "likeCount": 1139,
     "commentCount": 140,
     "tags": []
   },
@@ -689,7 +689,7 @@ window.FEED_UPDATES = [
     "duration": "PT34S",
     "durationSeconds": 34,
     "isShort": true,
-    "viewCount": 4741,
+    "viewCount": 4761,
     "likeCount": 108,
     "commentCount": 1,
     "tags": []
@@ -708,7 +708,7 @@ window.FEED_UPDATES = [
     "duration": "PT46M38S",
     "durationSeconds": 2798,
     "isShort": false,
-    "viewCount": 257,
+    "viewCount": 259,
     "likeCount": 6,
     "commentCount": 2,
     "tags": [
@@ -806,7 +806,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M41S",
     "durationSeconds": 101,
     "isShort": true,
-    "viewCount": 21,
+    "viewCount": 23,
     "likeCount": 0,
     "commentCount": 0,
     "tags": [
@@ -890,7 +890,7 @@ window.FEED_UPDATES = [
     "duration": "PT29M2S",
     "durationSeconds": 1742,
     "isShort": false,
-    "viewCount": 1142,
+    "viewCount": 1143,
     "likeCount": 215,
     "commentCount": 35,
     "tags": [
@@ -936,7 +936,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H13M49S",
     "durationSeconds": 4429,
     "isShort": false,
-    "viewCount": 5627,
+    "viewCount": 5657,
     "likeCount": 169,
     "commentCount": 82,
     "tags": [
@@ -968,8 +968,8 @@ window.FEED_UPDATES = [
     "duration": "PT12M52S",
     "durationSeconds": 772,
     "isShort": false,
-    "viewCount": 11346,
-    "likeCount": 1069,
+    "viewCount": 11401,
+    "likeCount": 1071,
     "commentCount": 124,
     "tags": []
   },
@@ -1022,7 +1022,7 @@ window.FEED_UPDATES = [
     "duration": "PT17M27S",
     "durationSeconds": 1047,
     "isShort": false,
-    "viewCount": 2033,
+    "viewCount": 2059,
     "likeCount": 53,
     "commentCount": 3,
     "tags": [
@@ -1158,8 +1158,8 @@ window.FEED_UPDATES = [
     "duration": "PT22M41S",
     "durationSeconds": 1361,
     "isShort": false,
-    "viewCount": 12968,
-    "likeCount": 1201,
+    "viewCount": 13008,
+    "likeCount": 1202,
     "commentCount": 159,
     "tags": []
   },
@@ -1263,7 +1263,7 @@ window.FEED_UPDATES = [
     "duration": "PT19M40S",
     "durationSeconds": 1180,
     "isShort": false,
-    "viewCount": 244,
+    "viewCount": 245,
     "likeCount": 10,
     "commentCount": 2,
     "tags": [
@@ -1409,7 +1409,7 @@ window.FEED_UPDATES = [
     "duration": "PT18M2S",
     "durationSeconds": 1082,
     "isShort": false,
-    "viewCount": 12835,
+    "viewCount": 12865,
     "likeCount": 1214,
     "commentCount": 129,
     "tags": []
@@ -1468,7 +1468,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M6S",
     "durationSeconds": 66,
     "isShort": true,
-    "viewCount": 2490,
+    "viewCount": 2499,
     "likeCount": 31,
     "commentCount": 2,
     "tags": []
@@ -1605,7 +1605,7 @@ window.FEED_UPDATES = [
     "duration": "PT16M24S",
     "durationSeconds": 984,
     "isShort": false,
-    "viewCount": 13064,
+    "viewCount": 13086,
     "likeCount": 1229,
     "commentCount": 235,
     "tags": []
@@ -1624,7 +1624,7 @@ window.FEED_UPDATES = [
     "duration": "PT28S",
     "durationSeconds": 28,
     "isShort": true,
-    "viewCount": 3246,
+    "viewCount": 3252,
     "likeCount": 55,
     "commentCount": 1,
     "tags": []
@@ -1774,7 +1774,7 @@ window.FEED_UPDATES = [
     "duration": "PT24S",
     "durationSeconds": 24,
     "isShort": true,
-    "viewCount": 3240,
+    "viewCount": 3246,
     "likeCount": 45,
     "commentCount": 1,
     "tags": []
@@ -1793,7 +1793,7 @@ window.FEED_UPDATES = [
     "duration": "PT23M59S",
     "durationSeconds": 1439,
     "isShort": false,
-    "viewCount": 14236,
+    "viewCount": 14260,
     "likeCount": 1376,
     "commentCount": 187,
     "tags": []
@@ -1812,7 +1812,7 @@ window.FEED_UPDATES = [
     "duration": "PT34S",
     "durationSeconds": 34,
     "isShort": true,
-    "viewCount": 7611,
+    "viewCount": 7613,
     "likeCount": 280,
     "commentCount": 10,
     "tags": []
@@ -1963,7 +1963,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H3M21S",
     "durationSeconds": 3801,
     "isShort": false,
-    "viewCount": 80205,
+    "viewCount": 80267,
     "likeCount": 2234,
     "commentCount": 169,
     "tags": []
@@ -1982,7 +1982,7 @@ window.FEED_UPDATES = [
     "duration": "PT45M26S",
     "durationSeconds": 2726,
     "isShort": false,
-    "viewCount": 1280,
+    "viewCount": 1281,
     "likeCount": 218,
     "commentCount": 70,
     "tags": [
@@ -2028,7 +2028,7 @@ window.FEED_UPDATES = [
     "duration": "PT12M32S",
     "durationSeconds": 752,
     "isShort": false,
-    "viewCount": 498,
+    "viewCount": 499,
     "likeCount": 13,
     "commentCount": 0,
     "tags": [
@@ -2081,7 +2081,7 @@ window.FEED_UPDATES = [
     "duration": "PT14M20S",
     "durationSeconds": 860,
     "isShort": false,
-    "viewCount": 12321,
+    "viewCount": 12327,
     "likeCount": 1201,
     "commentCount": 123,
     "tags": []
@@ -2100,7 +2100,7 @@ window.FEED_UPDATES = [
     "duration": "PT42S",
     "durationSeconds": 42,
     "isShort": true,
-    "viewCount": 5066,
+    "viewCount": 5068,
     "likeCount": 95,
     "commentCount": 0,
     "tags": []
@@ -2148,7 +2148,7 @@ window.FEED_UPDATES = [
     "duration": "PT39S",
     "durationSeconds": 39,
     "isShort": true,
-    "viewCount": 6753,
+    "viewCount": 6762,
     "likeCount": 123,
     "commentCount": 4,
     "tags": []
@@ -2272,7 +2272,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H7M3S",
     "durationSeconds": 4023,
     "isShort": false,
-    "viewCount": 5857,
+    "viewCount": 5863,
     "likeCount": 119,
     "commentCount": 15,
     "tags": [
@@ -2351,7 +2351,7 @@ window.FEED_UPDATES = [
     "duration": "PT15M21S",
     "durationSeconds": 921,
     "isShort": false,
-    "viewCount": 13131,
+    "viewCount": 13139,
     "likeCount": 1281,
     "commentCount": 128,
     "tags": []
@@ -2441,7 +2441,7 @@ window.FEED_UPDATES = [
     "duration": "PT18M12S",
     "durationSeconds": 1092,
     "isShort": false,
-    "viewCount": 14746,
+    "viewCount": 14757,
     "likeCount": 1320,
     "commentCount": 150,
     "tags": []
@@ -2460,7 +2460,7 @@ window.FEED_UPDATES = [
     "duration": "PT26M51S",
     "durationSeconds": 1611,
     "isShort": false,
-    "viewCount": 1037,
+    "viewCount": 1041,
     "likeCount": 64,
     "commentCount": 3,
     "tags": [
@@ -2510,7 +2510,7 @@ window.FEED_UPDATES = [
     "duration": "PT46M22S",
     "durationSeconds": 2782,
     "isShort": false,
-    "viewCount": 1307,
+    "viewCount": 1308,
     "likeCount": 236,
     "commentCount": 69,
     "tags": [
@@ -2862,7 +2862,7 @@ window.FEED_UPDATES = [
     "duration": "PT40M29S",
     "durationSeconds": 2429,
     "isShort": false,
-    "viewCount": 1622,
+    "viewCount": 1623,
     "likeCount": 81,
     "commentCount": 9,
     "tags": []
@@ -3141,7 +3141,7 @@ window.FEED_UPDATES = [
     "duration": "PT57M26S",
     "durationSeconds": 3446,
     "isShort": false,
-    "viewCount": 687,
+    "viewCount": 689,
     "likeCount": 33,
     "commentCount": 3,
     "tags": [
@@ -3169,7 +3169,7 @@ window.FEED_UPDATES = [
     "duration": "PT29S",
     "durationSeconds": 29,
     "isShort": true,
-    "viewCount": 304,
+    "viewCount": 305,
     "likeCount": 10,
     "commentCount": 0,
     "tags": [
@@ -3219,7 +3219,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H6M17S",
     "durationSeconds": 3977,
     "isShort": false,
-    "viewCount": 72941,
+    "viewCount": 72966,
     "likeCount": 1444,
     "commentCount": 81,
     "tags": []
@@ -3318,7 +3318,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M12S",
     "durationSeconds": 72,
     "isShort": true,
-    "viewCount": 4598,
+    "viewCount": 4605,
     "likeCount": 92,
     "commentCount": 3,
     "tags": []
@@ -3337,8 +3337,8 @@ window.FEED_UPDATES = [
     "duration": "PT17M59S",
     "durationSeconds": 1079,
     "isShort": false,
-    "viewCount": 14857,
-    "likeCount": 1173,
+    "viewCount": 14872,
+    "likeCount": 1174,
     "commentCount": 122,
     "tags": []
   },
@@ -3433,7 +3433,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M9S",
     "durationSeconds": 69,
     "isShort": true,
-    "viewCount": 5572,
+    "viewCount": 5577,
     "likeCount": 145,
     "commentCount": 4,
     "tags": []
@@ -3619,8 +3619,8 @@ window.FEED_UPDATES = [
     "duration": "PT15M40S",
     "durationSeconds": 940,
     "isShort": false,
-    "viewCount": 15148,
-    "likeCount": 1234,
+    "viewCount": 15153,
+    "likeCount": 1235,
     "commentCount": 157,
     "tags": []
   },
@@ -3638,7 +3638,7 @@ window.FEED_UPDATES = [
     "duration": "PT23M10S",
     "durationSeconds": 1390,
     "isShort": false,
-    "viewCount": 5911,
+    "viewCount": 5966,
     "likeCount": 10,
     "commentCount": 3,
     "tags": [
@@ -3690,7 +3690,7 @@ window.FEED_UPDATES = [
     "duration": "PT35M15S",
     "durationSeconds": 2115,
     "isShort": false,
-    "viewCount": 6426,
+    "viewCount": 6592,
     "likeCount": 30,
     "commentCount": 2,
     "tags": [
@@ -3727,7 +3727,7 @@ window.FEED_UPDATES = [
     "duration": "PT51S",
     "durationSeconds": 51,
     "isShort": true,
-    "viewCount": 128,
+    "viewCount": 129,
     "likeCount": 0,
     "commentCount": 1,
     "tags": []
@@ -3765,7 +3765,7 @@ window.FEED_UPDATES = [
     "duration": "PT13M51S",
     "durationSeconds": 831,
     "isShort": false,
-    "viewCount": 14977,
+    "viewCount": 14980,
     "likeCount": 1352,
     "commentCount": 185,
     "tags": []
@@ -3905,8 +3905,8 @@ window.FEED_UPDATES = [
     "duration": "PT13M46S",
     "durationSeconds": 826,
     "isShort": false,
-    "viewCount": 14625,
-    "likeCount": 1392,
+    "viewCount": 14636,
+    "likeCount": 1393,
     "commentCount": 153,
     "tags": []
   },
@@ -4096,8 +4096,8 @@ window.FEED_UPDATES = [
     "duration": "PT17M20S",
     "durationSeconds": 1040,
     "isShort": false,
-    "viewCount": 15857,
-    "likeCount": 1342,
+    "viewCount": 15865,
+    "likeCount": 1341,
     "commentCount": 146,
     "tags": []
   },
@@ -4382,7 +4382,7 @@ window.FEED_UPDATES = [
     "duration": "PT19M21S",
     "durationSeconds": 1161,
     "isShort": false,
-    "viewCount": 14777,
+    "viewCount": 14783,
     "likeCount": 1277,
     "commentCount": 121,
     "tags": []
@@ -4401,7 +4401,7 @@ window.FEED_UPDATES = [
     "duration": "PT49M41S",
     "durationSeconds": 2981,
     "isShort": false,
-    "viewCount": 7835,
+    "viewCount": 8065,
     "likeCount": 56,
     "commentCount": 3,
     "tags": [
@@ -4552,7 +4552,7 @@ window.FEED_UPDATES = [
     "duration": "PT2H4M43S",
     "durationSeconds": 7483,
     "isShort": false,
-    "viewCount": 14962,
+    "viewCount": 14968,
     "likeCount": 982,
     "commentCount": 56,
     "tags": [
@@ -4579,7 +4579,7 @@ window.FEED_UPDATES = [
     "duration": "PT21M",
     "durationSeconds": 1260,
     "isShort": false,
-    "viewCount": 6238,
+    "viewCount": 6415,
     "likeCount": 12,
     "commentCount": 0,
     "tags": [
@@ -4692,7 +4692,7 @@ window.FEED_UPDATES = [
     "duration": "PT18M58S",
     "durationSeconds": 1138,
     "isShort": false,
-    "viewCount": 15481,
+    "viewCount": 15487,
     "likeCount": 1452,
     "commentCount": 161,
     "tags": []
@@ -4769,7 +4769,7 @@ window.FEED_UPDATES = [
     "duration": "PT16M42S",
     "durationSeconds": 1002,
     "isShort": false,
-    "viewCount": 13791,
+    "viewCount": 13796,
     "likeCount": 1315,
     "commentCount": 190,
     "tags": []
@@ -4898,7 +4898,7 @@ window.FEED_UPDATES = [
     "duration": "PT18M13S",
     "durationSeconds": 1093,
     "isShort": false,
-    "viewCount": 16343,
+    "viewCount": 16355,
     "likeCount": 1367,
     "commentCount": 178,
     "tags": []
@@ -5020,7 +5020,7 @@ window.FEED_UPDATES = [
     "duration": "PT10M20S",
     "durationSeconds": 620,
     "isShort": false,
-    "viewCount": 13323,
+    "viewCount": 13331,
     "likeCount": 1205,
     "commentCount": 155,
     "tags": []
@@ -5157,7 +5157,7 @@ window.FEED_UPDATES = [
     "duration": "PT6M21S",
     "durationSeconds": 381,
     "isShort": false,
-    "viewCount": 832,
+    "viewCount": 833,
     "likeCount": 3,
     "commentCount": 1,
     "tags": [
@@ -5256,7 +5256,7 @@ window.FEED_UPDATES = [
     "duration": "PT14M32S",
     "durationSeconds": 872,
     "isShort": false,
-    "viewCount": 15117,
+    "viewCount": 15119,
     "likeCount": 1270,
     "commentCount": 160,
     "tags": []
@@ -5388,7 +5388,7 @@ window.FEED_UPDATES = [
     "duration": "PT13M58S",
     "durationSeconds": 838,
     "isShort": false,
-    "viewCount": 13539,
+    "viewCount": 13541,
     "likeCount": 1241,
     "commentCount": 134,
     "tags": []
@@ -5686,7 +5686,7 @@ window.FEED_UPDATES = [
     "duration": "PT12M18S",
     "durationSeconds": 738,
     "isShort": false,
-    "viewCount": 12342,
+    "viewCount": 12344,
     "likeCount": 1343,
     "commentCount": 146,
     "tags": []
@@ -5799,7 +5799,7 @@ window.FEED_UPDATES = [
     "duration": "PT19M46S",
     "durationSeconds": 1186,
     "isShort": false,
-    "viewCount": 14663,
+    "viewCount": 14665,
     "likeCount": 1274,
     "commentCount": 133,
     "tags": []
@@ -5915,7 +5915,7 @@ window.FEED_UPDATES = [
     "duration": "PT24M12S",
     "durationSeconds": 1452,
     "isShort": false,
-    "viewCount": 15635,
+    "viewCount": 15636,
     "likeCount": 1344,
     "commentCount": 124,
     "tags": []
@@ -6269,7 +6269,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M33S",
     "durationSeconds": 93,
     "isShort": true,
-    "viewCount": 3077,
+    "viewCount": 3084,
     "likeCount": 65,
     "commentCount": 1,
     "tags": []
@@ -6310,7 +6310,7 @@ window.FEED_UPDATES = [
     "duration": "PT11M47S",
     "durationSeconds": 707,
     "isShort": false,
-    "viewCount": 15896,
+    "viewCount": 15897,
     "likeCount": 1333,
     "commentCount": 200,
     "tags": []
@@ -6329,7 +6329,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M15S",
     "durationSeconds": 75,
     "isShort": true,
-    "viewCount": 3094,
+    "viewCount": 3101,
     "likeCount": 52,
     "commentCount": 1,
     "tags": []
@@ -6348,8 +6348,8 @@ window.FEED_UPDATES = [
     "duration": "PT1H11M54S",
     "durationSeconds": 4314,
     "isShort": false,
-    "viewCount": 93573,
-    "likeCount": 1951,
+    "viewCount": 93592,
+    "likeCount": 1952,
     "commentCount": 110,
     "tags": []
   },
@@ -6401,7 +6401,7 @@ window.FEED_UPDATES = [
     "duration": "PT40S",
     "durationSeconds": 40,
     "isShort": true,
-    "viewCount": 5224,
+    "viewCount": 5228,
     "likeCount": 74,
     "commentCount": 3,
     "tags": []
@@ -6420,7 +6420,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M14S",
     "durationSeconds": 74,
     "isShort": true,
-    "viewCount": 4235,
+    "viewCount": 4239,
     "likeCount": 69,
     "commentCount": 1,
     "tags": []
@@ -6700,7 +6700,7 @@ window.FEED_UPDATES = [
     "duration": "PT13M33S",
     "durationSeconds": 813,
     "isShort": false,
-    "viewCount": 13695,
+    "viewCount": 13697,
     "likeCount": 1287,
     "commentCount": 130,
     "tags": []
@@ -6893,7 +6893,7 @@ window.FEED_UPDATES = [
     "duration": "PT14M43S",
     "durationSeconds": 883,
     "isShort": false,
-    "viewCount": 14321,
+    "viewCount": 14323,
     "likeCount": 1201,
     "commentCount": 177,
     "tags": []
@@ -7020,7 +7020,7 @@ window.FEED_UPDATES = [
     "duration": "PT51M18S",
     "durationSeconds": 3078,
     "isShort": false,
-    "viewCount": 1044,
+    "viewCount": 1045,
     "likeCount": 60,
     "commentCount": 15,
     "tags": []
@@ -7111,7 +7111,7 @@ window.FEED_UPDATES = [
     "duration": "PT10M43S",
     "durationSeconds": 643,
     "isShort": false,
-    "viewCount": 12554,
+    "viewCount": 12555,
     "likeCount": 1734,
     "commentCount": 189,
     "tags": [
@@ -7171,7 +7171,7 @@ window.FEED_UPDATES = [
     "duration": "PT16M6S",
     "durationSeconds": 966,
     "isShort": false,
-    "viewCount": 15423,
+    "viewCount": 15424,
     "likeCount": 1367,
     "commentCount": 170,
     "tags": []
@@ -7434,7 +7434,7 @@ window.FEED_UPDATES = [
     "duration": "PT51S",
     "durationSeconds": 51,
     "isShort": true,
-    "viewCount": 4441,
+    "viewCount": 4443,
     "likeCount": 79,
     "commentCount": 0,
     "tags": []
@@ -7616,7 +7616,7 @@ window.FEED_UPDATES = [
     "duration": "PT12M44S",
     "durationSeconds": 764,
     "isShort": false,
-    "viewCount": 13846,
+    "viewCount": 13847,
     "likeCount": 1332,
     "commentCount": 157,
     "tags": []
@@ -7654,7 +7654,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M16S",
     "durationSeconds": 76,
     "isShort": true,
-    "viewCount": 2612,
+    "viewCount": 2614,
     "likeCount": 80,
     "commentCount": 3,
     "tags": []
@@ -7692,7 +7692,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H4M21S",
     "durationSeconds": 3861,
     "isShort": false,
-    "viewCount": 66081,
+    "viewCount": 66090,
     "likeCount": 1352,
     "commentCount": 64,
     "tags": []
@@ -7757,7 +7757,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H49M40S",
     "durationSeconds": 6580,
     "isShort": false,
-    "viewCount": 112,
+    "viewCount": 113,
     "likeCount": 8,
     "commentCount": 0,
     "tags": [
@@ -7824,7 +7824,7 @@ window.FEED_UPDATES = [
     "duration": "PT17M1S",
     "durationSeconds": 1021,
     "isShort": false,
-    "viewCount": 15188,
+    "viewCount": 15189,
     "likeCount": 1456,
     "commentCount": 338,
     "tags": []
@@ -7883,7 +7883,7 @@ window.FEED_UPDATES = [
     "duration": "PT16S",
     "durationSeconds": 16,
     "isShort": true,
-    "viewCount": 3593,
+    "viewCount": 3598,
     "likeCount": 56,
     "commentCount": 0,
     "tags": []
@@ -8030,7 +8030,7 @@ window.FEED_UPDATES = [
     "duration": "PT14M25S",
     "durationSeconds": 865,
     "isShort": false,
-    "viewCount": 13059,
+    "viewCount": 13060,
     "likeCount": 1246,
     "commentCount": 134,
     "tags": []
@@ -8281,8 +8281,8 @@ window.FEED_UPDATES = [
     "duration": "PT14M23S",
     "durationSeconds": 863,
     "isShort": false,
-    "viewCount": 14559,
-    "likeCount": 1344,
+    "viewCount": 14560,
+    "likeCount": 1345,
     "commentCount": 134,
     "tags": []
   },
@@ -8587,7 +8587,7 @@ window.FEED_UPDATES = [
     "duration": "PT16M4S",
     "durationSeconds": 964,
     "isShort": false,
-    "viewCount": 17658,
+    "viewCount": 17660,
     "likeCount": 1495,
     "commentCount": 166,
     "tags": []
@@ -8788,7 +8788,7 @@ window.FEED_UPDATES = [
     "duration": "PT10M16S",
     "durationSeconds": 616,
     "isShort": false,
-    "viewCount": 15356,
+    "viewCount": 15359,
     "likeCount": 1350,
     "commentCount": 115,
     "tags": []
@@ -8975,7 +8975,7 @@ window.FEED_UPDATES = [
     "duration": "PT12M15S",
     "durationSeconds": 735,
     "isShort": false,
-    "viewCount": 15909,
+    "viewCount": 15913,
     "likeCount": 1370,
     "commentCount": 137,
     "tags": [
@@ -8998,7 +8998,7 @@ window.FEED_UPDATES = [
     "duration": "PT14M35S",
     "durationSeconds": 875,
     "isShort": false,
-    "viewCount": 17335,
+    "viewCount": 17337,
     "likeCount": 1638,
     "commentCount": 201,
     "tags": [
@@ -9207,7 +9207,7 @@ window.FEED_UPDATES = [
     "durationSeconds": 1092,
     "isShort": false,
     "viewCount": 16946,
-    "likeCount": 1510,
+    "likeCount": 1511,
     "commentCount": 154,
     "tags": [
       "osprey",
@@ -9299,7 +9299,7 @@ window.FEED_UPDATES = [
     "duration": "PT12M20S",
     "durationSeconds": 740,
     "isShort": false,
-    "viewCount": 17299,
+    "viewCount": 17303,
     "likeCount": 1656,
     "commentCount": 165,
     "tags": []
@@ -9478,7 +9478,7 @@ window.FEED_UPDATES = [
     "duration": "PT15M47S",
     "durationSeconds": 947,
     "isShort": false,
-    "viewCount": 19486,
+    "viewCount": 19488,
     "likeCount": 1958,
     "commentCount": 209,
     "tags": []
@@ -9535,7 +9535,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M",
     "durationSeconds": 60,
     "isShort": true,
-    "viewCount": 4657,
+    "viewCount": 4663,
     "likeCount": 129,
     "commentCount": 2,
     "tags": []
@@ -9600,7 +9600,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H5M9S",
     "durationSeconds": 3909,
     "isShort": false,
-    "viewCount": 69735,
+    "viewCount": 69741,
     "likeCount": 1441,
     "commentCount": 81,
     "tags": []
@@ -9620,7 +9620,7 @@ window.FEED_UPDATES = [
     "durationSeconds": 1002,
     "isShort": false,
     "viewCount": 18590,
-    "likeCount": 1796,
+    "likeCount": 1797,
     "commentCount": 141,
     "tags": []
   },
@@ -9638,7 +9638,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M26S",
     "durationSeconds": 86,
     "isShort": true,
-    "viewCount": 3366,
+    "viewCount": 3368,
     "likeCount": 92,
     "commentCount": 0,
     "tags": []
@@ -9950,7 +9950,7 @@ window.FEED_UPDATES = [
     "duration": "PT42M28S",
     "durationSeconds": 2548,
     "isShort": false,
-    "viewCount": 1159,
+    "viewCount": 1160,
     "likeCount": 163,
     "commentCount": 43,
     "tags": [
@@ -10349,7 +10349,7 @@ window.FEED_UPDATES = [
     "duration": "PT36S",
     "durationSeconds": 36,
     "isShort": true,
-    "viewCount": 4433,
+    "viewCount": 4435,
     "likeCount": 75,
     "commentCount": 1,
     "tags": []
@@ -10368,7 +10368,7 @@ window.FEED_UPDATES = [
     "duration": "PT25S",
     "durationSeconds": 25,
     "isShort": true,
-    "viewCount": 2922,
+    "viewCount": 2923,
     "likeCount": 41,
     "commentCount": 0,
     "tags": []
@@ -10433,7 +10433,7 @@ window.FEED_UPDATES = [
     "duration": "PT20M58S",
     "durationSeconds": 1258,
     "isShort": false,
-    "viewCount": 14213,
+    "viewCount": 14215,
     "likeCount": 1942,
     "commentCount": 200,
     "tags": [
@@ -10492,7 +10492,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H9M38S",
     "durationSeconds": 4178,
     "isShort": false,
-    "viewCount": 66240,
+    "viewCount": 66243,
     "likeCount": 1265,
     "commentCount": 79,
     "tags": []
@@ -10557,7 +10557,7 @@ window.FEED_UPDATES = [
     "duration": "PT55S",
     "durationSeconds": 55,
     "isShort": true,
-    "viewCount": 3284,
+    "viewCount": 3286,
     "likeCount": 59,
     "commentCount": 1,
     "tags": []
@@ -10619,7 +10619,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M5S",
     "durationSeconds": 65,
     "isShort": true,
-    "viewCount": 3497,
+    "viewCount": 3498,
     "likeCount": 79,
     "commentCount": 1,
     "tags": []
@@ -10890,7 +10890,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H18M58S",
     "durationSeconds": 4738,
     "isShort": false,
-    "viewCount": 21517,
+    "viewCount": 21518,
     "likeCount": 1195,
     "commentCount": 244,
     "tags": []
@@ -11223,7 +11223,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H5M37S",
     "durationSeconds": 3937,
     "isShort": false,
-    "viewCount": 71318,
+    "viewCount": 71320,
     "likeCount": 1478,
     "commentCount": 89,
     "tags": []
@@ -11242,7 +11242,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M48S",
     "durationSeconds": 108,
     "isShort": true,
-    "viewCount": 3660,
+    "viewCount": 3662,
     "likeCount": 77,
     "commentCount": 0,
     "tags": []
@@ -11280,7 +11280,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M38S",
     "durationSeconds": 98,
     "isShort": true,
-    "viewCount": 4449,
+    "viewCount": 4451,
     "likeCount": 82,
     "commentCount": 1,
     "tags": []
@@ -11753,7 +11753,7 @@ window.FEED_UPDATES = [
     "duration": "PT41S",
     "durationSeconds": 41,
     "isShort": true,
-    "viewCount": 3085,
+    "viewCount": 3087,
     "likeCount": 41,
     "commentCount": 0,
     "tags": []
@@ -11895,7 +11895,7 @@ window.FEED_UPDATES = [
     "duration": "PT22S",
     "durationSeconds": 22,
     "isShort": true,
-    "viewCount": 4100,
+    "viewCount": 4103,
     "likeCount": 73,
     "commentCount": 0,
     "tags": []
@@ -11914,7 +11914,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H8M28S",
     "durationSeconds": 4108,
     "isShort": false,
-    "viewCount": 70230,
+    "viewCount": 70232,
     "likeCount": 1451,
     "commentCount": 71,
     "tags": []
@@ -11952,7 +11952,7 @@ window.FEED_UPDATES = [
     "duration": "PT40S",
     "durationSeconds": 40,
     "isShort": true,
-    "viewCount": 3557,
+    "viewCount": 3559,
     "likeCount": 74,
     "commentCount": 0,
     "tags": []
@@ -12013,7 +12013,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M22S",
     "durationSeconds": 82,
     "isShort": true,
-    "viewCount": 3716,
+    "viewCount": 3718,
     "likeCount": 117,
     "commentCount": 1,
     "tags": []
@@ -12151,7 +12151,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M14S",
     "durationSeconds": 74,
     "isShort": true,
-    "viewCount": 2763,
+    "viewCount": 2765,
     "likeCount": 54,
     "commentCount": 0,
     "tags": []
@@ -12246,7 +12246,7 @@ window.FEED_UPDATES = [
     "duration": "PT31S",
     "durationSeconds": 31,
     "isShort": true,
-    "viewCount": 4557,
+    "viewCount": 4559,
     "likeCount": 78,
     "commentCount": 0,
     "tags": []
@@ -12303,7 +12303,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H8M39S",
     "durationSeconds": 4119,
     "isShort": false,
-    "viewCount": 65004,
+    "viewCount": 65011,
     "likeCount": 1527,
     "commentCount": 85,
     "tags": []
@@ -12322,7 +12322,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M17S",
     "durationSeconds": 77,
     "isShort": true,
-    "viewCount": 3695,
+    "viewCount": 3697,
     "likeCount": 78,
     "commentCount": 1,
     "tags": []
@@ -12360,7 +12360,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M43S",
     "durationSeconds": 103,
     "isShort": true,
-    "viewCount": 3829,
+    "viewCount": 3831,
     "likeCount": 74,
     "commentCount": 0,
     "tags": []
@@ -12415,7 +12415,7 @@ window.FEED_UPDATES = [
     "duration": "PT39M58S",
     "durationSeconds": 2398,
     "isShort": false,
-    "viewCount": 358,
+    "viewCount": 359,
     "likeCount": 20,
     "commentCount": 2,
     "tags": []
@@ -12518,7 +12518,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M8S",
     "durationSeconds": 68,
     "isShort": true,
-    "viewCount": 3205,
+    "viewCount": 3207,
     "likeCount": 59,
     "commentCount": 0,
     "tags": []
@@ -12537,7 +12537,7 @@ window.FEED_UPDATES = [
     "duration": "PT1M14S",
     "durationSeconds": 74,
     "isShort": true,
-    "viewCount": 2497,
+    "viewCount": 2499,
     "likeCount": 82,
     "commentCount": 1,
     "tags": []
@@ -12556,7 +12556,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H10M7S",
     "durationSeconds": 4207,
     "isShort": false,
-    "viewCount": 74964,
+    "viewCount": 74965,
     "likeCount": 1539,
     "commentCount": 97,
     "tags": []
@@ -12575,7 +12575,7 @@ window.FEED_UPDATES = [
     "duration": "PT49S",
     "durationSeconds": 49,
     "isShort": true,
-    "viewCount": 5145,
+    "viewCount": 5147,
     "likeCount": 99,
     "commentCount": 1,
     "tags": []
@@ -13315,7 +13315,7 @@ window.FEED_UPDATES = [
     "duration": "PT39M26S",
     "durationSeconds": 2366,
     "isShort": false,
-    "viewCount": 1780,
+    "viewCount": 1781,
     "likeCount": 79,
     "commentCount": 19,
     "tags": []
@@ -13553,7 +13553,7 @@ window.FEED_UPDATES = [
     "duration": "PT8M28S",
     "durationSeconds": 508,
     "isShort": false,
-    "viewCount": 10325,
+    "viewCount": 10327,
     "likeCount": 1447,
     "commentCount": 122,
     "tags": [
@@ -14868,7 +14868,7 @@ window.FEED_UPDATES = [
     "duration": "PT18M5S",
     "durationSeconds": 1085,
     "isShort": false,
-    "viewCount": 47397,
+    "viewCount": 47398,
     "likeCount": 4117,
     "commentCount": 518,
     "tags": [
@@ -15353,7 +15353,7 @@ window.FEED_UPDATES = [
     "duration": "PT16M4S",
     "durationSeconds": 964,
     "isShort": false,
-    "viewCount": 12541,
+    "viewCount": 12542,
     "likeCount": 1678,
     "commentCount": 286,
     "tags": [
@@ -15909,7 +15909,7 @@ window.FEED_UPDATES = [
     "duration": "PT5M36S",
     "durationSeconds": 336,
     "isShort": false,
-    "viewCount": 10088,
+    "viewCount": 10090,
     "likeCount": 225,
     "commentCount": 75,
     "tags": [
@@ -17851,7 +17851,7 @@ window.FEED_UPDATES = [
     "duration": "PT44M19S",
     "durationSeconds": 2659,
     "isShort": false,
-    "viewCount": 8175,
+    "viewCount": 8181,
     "likeCount": 145,
     "commentCount": 7,
     "tags": []
@@ -18354,7 +18354,7 @@ window.FEED_UPDATES = [
     "duration": "PT10M44S",
     "durationSeconds": 644,
     "isShort": false,
-    "viewCount": 13709,
+    "viewCount": 13710,
     "likeCount": 1296,
     "commentCount": 196,
     "tags": [
@@ -19990,7 +19990,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H51S",
     "durationSeconds": 3651,
     "isShort": false,
-    "viewCount": 26001,
+    "viewCount": 26002,
     "likeCount": 1314,
     "commentCount": 207,
     "tags": [
@@ -20087,7 +20087,7 @@ window.FEED_UPDATES = [
     "duration": "PT41M11S",
     "durationSeconds": 2471,
     "isShort": false,
-    "viewCount": 5595,
+    "viewCount": 5594,
     "likeCount": 330,
     "commentCount": 100,
     "tags": [
@@ -20468,7 +20468,7 @@ window.FEED_UPDATES = [
     "duration": "PT58M38S",
     "durationSeconds": 3518,
     "isShort": false,
-    "viewCount": 17621,
+    "viewCount": 17622,
     "likeCount": 819,
     "commentCount": 109,
     "tags": [
@@ -20586,7 +20586,7 @@ window.FEED_UPDATES = [
     "duration": "PT1H11M59S",
     "durationSeconds": 4319,
     "isShort": false,
-    "viewCount": 11959,
+    "viewCount": 11960,
     "likeCount": 454,
     "commentCount": 43,
     "tags": [
@@ -20980,7 +20980,7 @@ window.FEED_UPDATES = [
     "duration": "PT29M3S",
     "durationSeconds": 1743,
     "isShort": false,
-    "viewCount": 8229,
+    "viewCount": 8231,
     "likeCount": 245,
     "commentCount": 39,
     "tags": [
@@ -21213,7 +21213,7 @@ window.FEED_UPDATES = [
     "duration": "PT26M24S",
     "durationSeconds": 1584,
     "isShort": false,
-    "viewCount": 716,
+    "viewCount": 717,
     "likeCount": 16,
     "commentCount": 2,
     "tags": [
@@ -21340,7 +21340,7 @@ window.FEED_UPDATES = [
     "duration": "PT36M31S",
     "durationSeconds": 2191,
     "isShort": false,
-    "viewCount": 3189,
+    "viewCount": 3190,
     "likeCount": 65,
     "commentCount": 22,
     "tags": [
