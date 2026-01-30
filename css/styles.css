@@ -1712,9 +1712,7 @@ button:disabled,
 }
 
 .channel-info {
-    background-color: var(--color-secondary);
-    padding: 0;
-    border-radius: 12px;
+    background-color: transparent;
     margin-bottom: 24px;
 }
 
@@ -3252,10 +3250,12 @@ button:disabled,
 }
 
 .video-info-modern {
+    background-color: var(--color-secondary);
     padding: 0.25rem 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    border-radius: 12px;
 }
 
 .channel-header-row {
@@ -3401,26 +3401,26 @@ button:disabled,
 
 /* Comment on YouTube button */
 .btn-comment-youtube {
-    display: inline-block;
-    background-color: white;
-    color: black;
-    padding: 0.4rem 1rem;
+    display: block;
+    width: fit-content;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 8px 16px;
     border-radius: 20px;
-    font-weight: 500;
-    font-size: 0.85rem;
+    font-weight: 600;
+    font-size: 0.875rem;
     text-decoration: none;
-    transition: all 0.2s ease;
-    margin-top: 0.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    margin-left: 0;
+    transition: transform 0.2s ease, opacity 0.2s;
 }
 
 .btn-comment-youtube:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-    transform: scale(1.02);
-}
-
-.btn-comment-youtube:active {
-    transform: scale(0.98);
+    opacity: 0.9;
+    transform: translateY(-1px);
+    text-decoration: none;
 }
 
 .btn-round-icon {
