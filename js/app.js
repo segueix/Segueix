@@ -1163,6 +1163,34 @@ function initEventListeners() {
         }
     });
 
+    document.addEventListener('fullscreenchange', async () => {
+        // 1. Comprovem si estem veient un Short
+        // Si el modal de shorts NO té la classe 'hidden', és que està obert
+        const shortModal = document.getElementById('short-modal');
+        const isWatchingShort = shortModal && !shortModal.classList.contains('hidden');
+
+        // Si és un Short, NO fem res (respectem l'orientació de l'usuari o la del vídeo)
+        if (isWatchingShort) {
+            return;
+        }
+
+        // 2. Si NO és un Short i entrem a pantalla completa -> Forcem Horitzontal
+        if (document.fullscreenElement) {
+            if (screen.orientation && screen.orientation.lock) {
+                try {
+                    await screen.orientation.lock('landscape');
+                } catch (err) {
+                    console.log("No s'ha pogut bloquejar l'orientació:", err);
+                }
+            }
+        } else {
+            // 3. En sortir de pantalla completa -> Alliberem l'orientació
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+        }
+    });
+
     window.addEventListener('resize', () => {
         if (isMiniPlayerActive()) {
             updateMiniPlayerSize();
