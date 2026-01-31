@@ -3926,15 +3926,21 @@ async function renderFollowPage() {
     followGrid.innerHTML = sortedChannels.map(channel => {
         const name = channel.name || 'Canal';
         const avatar = channel.avatar || channel.thumbnail || getFollowChannelAvatar(channel.id) || 'img/icon-192.png';
+        const isMitjans = isMitjansChannel(channel.id);
+        const followButtonHtml = isMitjans
+            ? ''
+            : `
+                <button class="follow-toggle-btn" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
+                    Segueix
+                </button>
+            `;
         return `
             <div class="follow-card" data-channel-id="${channel.id}">
                 <div class="follow-avatar-wrap">
                     <img class="follow-avatar" src="${avatar}" alt="${escapeHtml(name)}" loading="lazy">
                 </div>
                 <div class="follow-name">${escapeHtml(name)}</div>
-                <button class="follow-toggle-btn" type="button" data-follow-channel="${channel.id}" aria-pressed="false">
-                    Segueix
-                </button>
+                ${followButtonHtml}
             </div>
         `;
     }).join('');
