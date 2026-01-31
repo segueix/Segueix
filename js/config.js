@@ -32,7 +32,8 @@ const CONFIG = {
         { id: "cultura", name: "Cultura", icon: "book-open" },
         { id: "humor", name: "Humor", icon: "laugh" },
         { id: "gaming", name: "Gaming", icon: "gamepad-2" },
-        { id: "vida", name: "Vida", icon: "heart" }
+        { id: "vida", name: "Vida", icon: "heart" },
+        { id: "mitjans", name: "Mitjans", icon: "tv" }
     ],
     
     navigation: {
