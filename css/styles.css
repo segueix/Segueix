@@ -3255,12 +3255,6 @@ button:disabled,
     color: #ffffff;
 }
 
-.tag-tendencies,
-[data-category="Tendències"] {
-    background-color: #d63031;
-    color: #ffffff;
-}
-
 .tag-vida,
 [data-category="Vida"] {
     background-color: #00b894;

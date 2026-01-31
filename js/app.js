@@ -443,7 +443,7 @@ function getStandardChipLabels() {
     const configLabels = Array.isArray(CONFIG?.categories)
         ? CONFIG.categories.map(cat => cat.name).filter(Boolean)
         : [];
-    return ['Novetats', 'Tendències', ...configLabels, 'Seguint'];
+    return ['Novetats', ...configLabels, 'Seguint'];
 }
 
 function isStandardCategory(tag) {
@@ -1095,11 +1095,6 @@ function initEventListeners() {
                 } else {
                     loadVideos();
                 }
-            } else if (page === 'trending') {
-                showHome();
-                if (useYouTubeAPI) {
-                    loadTrendingVideos();
-                }
             } else if (page === 'history') {
                 showHistory();
             } else if (page === 'follow') {
@@ -1127,11 +1122,6 @@ function initEventListeners() {
                     loadVideosFromAPI();
                 } else {
                     loadVideos();
-                }
-            } else if (page === 'trending') {
-                showHome();
-                if (useYouTubeAPI) {
-                    loadTrendingVideos();
                 }
             } else if (page === 'playlists') {
                 showPlaylists();
@@ -2221,57 +2211,6 @@ function setFeedContext(videos, feedData, renderer) {
     renderFeed();
 }
 
-/**
- * Sorts videos by Channel popularity (Views) in a Round Robin fashion.
- * Filters out videos older than 4 months, then orders purely by views.
- */
-function sortTrendingRoundRobinByViews(videos) {
-    if (!Array.isArray(videos) || videos.length === 0) return [];
-
-    const now = new Date();
-    const cutoffDate = new Date();
-    cutoffDate.setMonth(now.getMonth() - 4);
-
-    const getDate = (v) => new Date(v.publishedAt || v.uploadDate || 0);
-    const getViews = (v) => parseInt(v.viewCount || v.views || 0, 10);
-
-    const videosByChannel = {};
-
-    videos.forEach(video => {
-        const channelId = video.channelId;
-        if (!channelId) return;
-
-        if (getDate(video) < cutoffDate) return;
-
-        if (!videosByChannel[channelId]) {
-            videosByChannel[channelId] = [];
-        }
-        videosByChannel[channelId].push(video);
-    });
-
-    Object.values(videosByChannel).forEach(channelVideos => {
-        channelVideos.sort((a, b) => getViews(b) - getViews(a));
-    });
-
-    const sortedVideos = [];
-    const channelIds = Object.keys(videosByChannel);
-    let maxVideos = 0;
-
-    channelIds.forEach(id => {
-        maxVideos = Math.max(maxVideos, videosByChannel[id].length);
-    });
-
-    for (let i = 0; i < maxVideos; i++) {
-        channelIds.forEach(id => {
-            if (videosByChannel[id][i]) {
-                sortedVideos.push(videosByChannel[id][i]);
-            }
-        });
-    }
-
-    return sortedVideos;
-}
-
 const MIN_RECOMMENDED_SECONDS = 240;
 
 function getVideoDurationSeconds(video) {
@@ -2318,8 +2257,6 @@ function renderFeed() {
         renderCategoryActions(getCategoryPageTitle(selectedCategory));
     }
 
-    // Don't filter by category on the Trending page
-    const isTrendingPage = pageTitle?.textContent === 'Tendències';
     const isRecommendedPage = pageTitle?.textContent === 'Recomanat per a tu';
     let videosToFilter = currentFeedVideos;
 
@@ -2348,11 +2285,9 @@ function renderFeed() {
         videosToFilter = Array.from(uniqueVideosMap.values());
     }
 
-    let filtered = isTrendingPage
-        ? currentFeedVideos
-        : filterVideosByCategory(videosToFilter, currentFeedData);
+    let filtered = filterVideosByCategory(videosToFilter, currentFeedData);
 
-    if (selectedCategory === 'Novetats' || selectedCategory === 'Tot' || isTrendingPage) {
+    if (selectedCategory === 'Novetats' || selectedCategory === 'Tot') {
         filtered = filtered.filter(video => {
             const channelCats = getChannelCustomCategories(video.channelId);
             let feedCats = [];
@@ -2376,12 +2311,10 @@ function renderFeed() {
         filtered = filterOutWatchedVideos(filtered);
     }
 
-    if (!isTrendingPage) {
-        if (selectedCategory === 'Novetats') {
-            filtered = sortVideosByRoundRobin(filtered);
-        } else if (HYBRID_CATEGORY_SORT.has(selectedCategory)) {
-            filtered = hybridCategorySort(filtered);
-        }
+    if (selectedCategory === 'Novetats') {
+        filtered = sortVideosByRoundRobin(filtered);
+    } else if (HYBRID_CATEGORY_SORT.has(selectedCategory)) {
+        filtered = hybridCategorySort(filtered);
     }
 
     if (isRecommendedPage) {
@@ -2391,7 +2324,7 @@ function renderFeed() {
         });
     }
 
-    if (selectedCategory !== 'Novetats' && selectedCategory !== 'Tot' && filtered.length === 0 && !isTrendingPage) {
+    if (selectedCategory !== 'Novetats' && selectedCategory !== 'Tot' && filtered.length === 0) {
         featuredVideoBySection.delete(getHeroSectionKey());
         updateHero(null);
         if (videosGrid) {
@@ -2702,73 +2635,6 @@ async function loadVideosFromAPI() {
     hideLoading();
 }
 
-/**
- * Calculates a "Gravity Score" for each video to determine trending status.
- * Algorithm: (Interactions) / (AgeInHours + 2)^1.5
- */
-function getTrendingVideos(videos, feedGeneratedAt) {
-    if (!Array.isArray(videos)) {
-        return [];
-    }
-    // Use feed generation time as 'now' to ensure consistency, or fallback to current time
-    const now = feedGeneratedAt ? new Date(feedGeneratedAt).getTime() : Date.now();
-    const scoredVideos = videos.map(video => {
-        // Calculate age in hours
-        const pubDate = video.publishedAt || video.uploadDate;
-        const publishedAt = new Date(pubDate).getTime();
-        const diffMs = Math.max(0, now - publishedAt);
-        const hoursOld = diffMs / (1000 * 60 * 60);
-        // Calculate Interaction Score
-        const views = parseInt(video.viewCount || video.views || 0, 10);
-        const likes = parseInt(video.likeCount || video.likes || 0, 10);
-        const comments = parseInt(video.commentCount || 0, 10);
-        let interactionScore = views + (likes * 5) + (comments * 10);
-        // Penalty for Shorts (they get views too easily)
-        if (video.isShort) {
-            interactionScore = interactionScore / 2;
-        }
-        // Apply Gravity Formula
-        const gravity = 1.5;
-        const trendingScore = interactionScore / Math.pow(hoursOld + 2, gravity);
-        return {
-            ...video,
-            trendingScore: trendingScore
-        };
-    });
-    // Sort by Score Descending
-    scoredVideos.sort((a, b) => b.trendingScore - a.trendingScore);
-    // Return Top 20 Trending
-    return scoredVideos.slice(0, 20);
-}
-
-// Carregar vídeos en tendència
-async function loadTrendingVideos() {
-    showLoading();
-    setPageTitle('Tendències');
-
-    // 1. Determine source of videos (Local Feed > Cache > Static)
-    let videosSource = [];
-    if (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.feedLoaded && YouTubeAPI.feedVideos.length > 0) {
-        videosSource = YouTubeAPI.feedVideos;
-    } else if (typeof cachedAPIVideos !== 'undefined' && cachedAPIVideos.length > 0) {
-        videosSource = cachedAPIVideos;
-    } else if (typeof VIDEOS !== 'undefined') {
-        videosSource = VIDEOS;
-    }
-    // If no data available, show empty state
-    if (videosSource.length === 0) {
-        if (videosGrid) {
-            videosGrid.innerHTML = '<div class="empty-state">No hi ha dades disponibles per calcular tendències.</div>';
-        }
-        hideLoading();
-        return;
-    }
-
-    const feedGeneratedAt = localStorage.getItem('iutube_feed_generatedAt');
-    const trendingVideos = getTrendingVideos(videosSource, feedGeneratedAt);
-    setFeedContext(trendingVideos, getFeedDataForFilter(), renderVideos);
-    hideLoading();
-}
 
 function ensureSearchDropdown() {
     if (!searchForm) {
@@ -5079,8 +4945,6 @@ function renderCategoryVideosBelow(currentChannelId, currentVideoId) {
         videos = filterVideosByCategory(videos, currentFeedData);
     }
 
-    const isTrendingPage = pageTitle?.textContent === 'Tendències';
-
     videos = videos.filter(v => {
         if (String(v.channelId) === String(currentChannelId)) {
             return false;
@@ -5091,7 +4955,7 @@ function renderCategoryVideosBelow(currentChannelId, currentVideoId) {
         if (v.isShort) {
             return false;
         }
-        if (selectedCategory === 'Novetats' || selectedCategory === 'Tot' || isTrendingPage) {
+        if (selectedCategory === 'Novetats' || selectedCategory === 'Tot') {
             const channelCats = getChannelCustomCategories(v.channelId);
             let feedCats = [];
             if (currentFeedData?.channels) {
