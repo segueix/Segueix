@@ -5259,8 +5259,8 @@ async function showVideoFromAPI(videoId) {
     if (isPlaylistMode) {
         renderPlaylistQueue();
     } else if (CONFIG.features.recommendations) {
+        const channelId = video?.channelId || cachedVideo?.channelId;
         if (isDesktopView()) {
-            const channelId = video?.channelId || cachedVideo?.channelId;
             const channelList = Array.isArray(YouTubeAPI?.getAllChannels?.())
                 ? YouTubeAPI.getAllChannels()
                 : [];
@@ -5278,7 +5278,7 @@ async function showVideoFromAPI(videoId) {
             renderDesktopSidebar(channelData, channelVideos, videoId);
             renderCategoryVideosBelow(channelId, videoId);
         } else {
-            loadRelatedVideosFromAPI(videoId);
+            renderCategoryVideosBelow(channelId, videoId);
         }
     }
 
