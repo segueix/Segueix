@@ -5079,11 +5079,37 @@ function renderCategoryVideosBelow(currentChannelId, currentVideoId) {
         videos = filterVideosByCategory(videos, currentFeedData);
     }
 
-    videos = videos.filter(v =>
-        String(v.channelId) !== String(currentChannelId)
-        && String(v.id) !== String(currentVideoId)
-        && !v.isShort
-    );
+    const isTrendingPage = pageTitle?.textContent === 'Tendències';
+
+    videos = videos.filter(v => {
+        if (String(v.channelId) === String(currentChannelId)) {
+            return false;
+        }
+        if (String(v.id) === String(currentVideoId)) {
+            return false;
+        }
+        if (v.isShort) {
+            return false;
+        }
+        if (selectedCategory === 'Novetats' || selectedCategory === 'Tot' || isTrendingPage) {
+            const channelCats = getChannelCustomCategories(v.channelId);
+            let feedCats = [];
+            if (currentFeedData?.channels) {
+                const channel = currentFeedData.channels.find(c => String(c.id) === String(v.channelId));
+                if (channel && Array.isArray(channel.categories)) {
+                    feedCats = channel.categories;
+                }
+            } else if (cachedChannels[v.channelId]?.categories) {
+                feedCats = cachedChannels[v.channelId].categories;
+            }
+            const isMitjans = [...channelCats, ...feedCats]
+                .some(cat => String(cat).toLowerCase() === 'mitjans');
+            if (isMitjans) {
+                return false;
+            }
+        }
+        return true;
+    });
 
     videos = videos.slice(0, WATCH_CATEGORY_VIDEOS_LIMIT);
 
