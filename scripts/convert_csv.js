@@ -7,6 +7,11 @@ const API_KEY = process.env.YOUTUBE_API_KEY; // O posa la teva clau aquí tempor
 // Format: "Nom del canal (@Handle)"
 const HANDLES_TO_CONVERT = [
     "@polcodina",
+    "@som3cat",
+    "@vilaweb",
+    "@diariara",
+    "@RTVECatalunya"
+
     // ... copia aquí tota la teva columna de handles del CSV
 ];
 
