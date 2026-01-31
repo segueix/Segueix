@@ -11,7 +11,6 @@ const HANDLES_TO_CONVERT = [
     "@vilaweb",
     "@diariara",
     "@RTVECatalunya"
-
     // ... copia aquí tota la teva columna de handles del CSV
 ];
 
