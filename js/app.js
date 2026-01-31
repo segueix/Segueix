@@ -59,7 +59,7 @@ let currentFontSize = null;
 let userGridPreference = '4';
 let userWatchGridPreference = '3';
 const featuredVideoBySection = new Map();
-const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Humor', 'Actualitat', 'Vida', 'Gaming']);
+const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Humor', 'Actualitat', 'Vida', 'Gaming', 'Mitjans']);
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
 const FONT_SIZE_STORAGE_KEY = 'catube_font_size';
@@ -2211,6 +2211,24 @@ function renderFeed() {
         ? currentFeedVideos
         : filterVideosByCategory(currentFeedVideos, currentFeedData);
 
+    if (selectedCategory === 'Novetats' || selectedCategory === 'Tot' || isTrendingPage) {
+        filtered = filtered.filter(video => {
+            const channelCats = getChannelCustomCategories(video.channelId);
+            let feedCats = [];
+            if (currentFeedData?.channels) {
+                const channel = currentFeedData.channels.find(c => String(c.id) === String(video.channelId));
+                if (channel && Array.isArray(channel.categories)) {
+                    feedCats = channel.categories;
+                }
+            } else if (cachedChannels[video.channelId]?.categories) {
+                feedCats = cachedChannels[video.channelId].categories;
+            }
+            const isMitjans = [...channelCats, ...feedCats]
+                .some(cat => String(cat).toLowerCase() === 'mitjans');
+            return !isMitjans;
+        });
+    }
+
     const shouldHideWatched = selectedCategory === 'Novetats'
         || (selectedCategory !== 'Tot' && selectedCategory !== 'Novetats');
     if (shouldHideWatched) {
@@ -2354,7 +2372,8 @@ function setupChipsBarOrdering() {
 
     const activeValue = selectedCategory;
     chipsBar.innerHTML = '';
-    orderedChips.forEach((chip) => {
+    const sortableChips = orderedChips.filter(chip => chip.value !== 'Mitjans');
+    sortableChips.forEach((chip) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = chip.isCustom ? 'chip is-custom' : 'chip';
@@ -2366,6 +2385,16 @@ function setupChipsBarOrdering() {
         button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
         chipsBar.appendChild(button);
     });
+    const mitjansChip = document.createElement('button');
+    mitjansChip.type = 'button';
+    mitjansChip.className = 'chip';
+    mitjansChip.dataset.cat = 'Mitjans';
+    mitjansChip.textContent = 'Mitjans';
+    mitjansChip.draggable = false;
+    const isMitjansActive = 'Mitjans' === activeValue;
+    mitjansChip.classList.toggle('is-active', isMitjansActive);
+    mitjansChip.setAttribute('aria-pressed', isMitjansActive ? 'true' : 'false');
+    chipsBar.appendChild(mitjansChip);
     const addButton = document.createElement('button');
     addButton.type = 'button';
     addButton.className = 'chip chip-add';
