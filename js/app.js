@@ -2321,9 +2321,36 @@ function renderFeed() {
     // Don't filter by category on the Trending page
     const isTrendingPage = pageTitle?.textContent === 'Tendències';
     const isRecommendedPage = pageTitle?.textContent === 'Recomanat per a tu';
+    let videosToFilter = currentFeedVideos;
+
+    // If Custom Category: Search across ALL local videos (Feed + Cached Search Results)
+    if (isCustomCategory(selectedCategory)) {
+        const uniqueVideosMap = new Map();
+
+        // Add current feed videos
+        if (Array.isArray(currentFeedVideos)) {
+            currentFeedVideos.forEach(video => {
+                if (video?.id) {
+                    uniqueVideosMap.set(String(video.id), video);
+                }
+            });
+        }
+
+        // Add cached API videos (from previous searches)
+        if (Array.isArray(cachedAPIVideos)) {
+            cachedAPIVideos.forEach(video => {
+                if (video?.id) {
+                    uniqueVideosMap.set(String(video.id), video);
+                }
+            });
+        }
+
+        videosToFilter = Array.from(uniqueVideosMap.values());
+    }
+
     let filtered = isTrendingPage
         ? currentFeedVideos
-        : filterVideosByCategory(currentFeedVideos, currentFeedData);
+        : filterVideosByCategory(videosToFilter, currentFeedData);
 
     if (selectedCategory === 'Novetats' || selectedCategory === 'Tot' || isTrendingPage) {
         filtered = filtered.filter(video => {
