@@ -28,7 +28,7 @@ const CONFIG = {
     
     // Categories personalitzades
     categories: [
-        { id: "societat", name: "Societat", icon: "users" },
+        { id: "el-mon", name: "El Món", icon: "users" },
         { id: "cultura", name: "Cultura", icon: "book-open" },
         { id: "diversio", name: "Diversió", icon: "laugh" },
         { id: "gaming", name: "Gaming", icon: "gamepad-2" },

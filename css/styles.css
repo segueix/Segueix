@@ -3421,8 +3421,8 @@ button:disabled,
     color: #ffffff;
 }
 
-.tag-societat,
-[data-category="Societat"] {
+.tag-el-mon,
+[data-category="El Món"] {
     background-color: #0984e3;
     color: #ffffff;
 }

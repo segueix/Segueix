@@ -18,9 +18,9 @@ const YouTubeAPI = {
     // Canals catalans - FALLBACK si no es pot carregar el feed
     catalanChannels: [
         { id: "@EnricAdventures", name: "Enric Adventures", categories: ["vida"] },
-        { id: "@unquartdegalves", name: "Un Quart de Galves", categories: ["societat"] },
-        { id: "@lescaquimat4658", name: "L'ESCACIMAT", categories: ["cultura", "societat"] },
-        { id: "@EnricBastardas1", name: "Enric Bastardas", categories: ["diversio", "societat"] },
+        { id: "@unquartdegalves", name: "Un Quart de Galves", categories: ["el-mon"] },
+        { id: "@lescaquimat4658", name: "L'ESCACIMAT", categories: ["cultura", "el-mon"] },
+        { id: "@EnricBastardas1", name: "Enric Bastardas", categories: ["diversio", "el-mon"] },
         { id: "@AyaZholvaX", name: "Aya_ZholvaX: Boardgames", categories: ["gaming", "cultura"] },
     ],
 
