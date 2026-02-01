@@ -639,7 +639,7 @@ const YouTubeAPI = {
 
         try {
             const response = await fetch(
-                `${this.BASE_URL}/search?part=snippet&type=video&q=${encodeURIComponent(query)}&maxResults=${maxResults}&relevanceLanguage=${this.language}&regionCode=${this.regionCode}&key=${apiKey}`
+                `${this.BASE_URL}/search?part=snippet&type=video&videoDuration=long&q=${encodeURIComponent(query)}&maxResults=${maxResults}&relevanceLanguage=${this.language}&regionCode=${this.regionCode}&key=${apiKey}`
             );
 
             if (!response.ok) {
@@ -917,7 +917,7 @@ const YouTubeAPI = {
             channelTitle: item.snippet.channelTitle,
             publishedAt: item.snippet.publishedAt,
             duration: this.parseDuration(item.contentDetails?.duration),
-            isShort: this.isShortVideo(item.contentDetails?.duration),
+            isShort: this.isShortContent(item),
             viewCount: parseInt(item.statistics?.viewCount || 0),
             likeCount: parseInt(item.statistics?.likeCount || 0),
             commentCount: parseInt(item.statistics?.commentCount || 0),
@@ -936,7 +936,7 @@ const YouTubeAPI = {
             channelTitle: item.snippet.channelTitle,
             publishedAt: item.snippet.publishedAt,
             duration: this.parseDuration(item.contentDetails?.duration),
-            isShort: this.isShortVideo(item.contentDetails?.duration),
+            isShort: this.isShortContent(item),
             viewCount: parseInt(item.statistics?.viewCount || 0),
             likeCount: parseInt(item.statistics?.likeCount || 0),
             commentCount: parseInt(item.statistics?.commentCount || 0),
@@ -974,11 +974,28 @@ const YouTubeAPI = {
         });
     },
 
-    // Comprovar si un vídeo és Short (<= 120 segons)
+    // Comprovar si un vídeo és Short (<= 180 segons)
     isShortVideo(isoDuration) {
         const seconds = this.parseDurationSeconds(isoDuration);
         if (seconds === null) return false;
-        return seconds <= 120;
+        return seconds <= 180;
+    },
+
+    // Determinar si un vídeo és Short combinant durada i metadades
+    isShortContent(item) {
+        const seconds = this.parseDurationSeconds(item.contentDetails?.duration);
+        if (seconds === null || seconds > 180) return false;
+
+        const title = item.snippet?.title || '';
+        const description = item.snippet?.description || '';
+        const tags = Array.isArray(item.snippet?.tags) ? item.snippet.tags : [];
+        const combinedText = `${title} ${description}`.toLowerCase();
+        const tagSet = new Set(tags.map(tag => String(tag).toLowerCase()));
+
+        const hasShortHashtag = /(^|\\s)#shorts?\\b/i.test(combinedText);
+        const hasShortTag = tagSet.has('shorts') || tagSet.has('short');
+
+        return hasShortHashtag || hasShortTag;
     },
 
     // Parsejar duració ISO 8601 a segons
