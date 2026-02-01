@@ -3850,7 +3850,7 @@ function addVideoToPlaylist(playlistId, video) {
     if (!playlist) return;
     const exists = playlist.videos.some(item => String(item.id) === String(video.id));
     if (!exists) {
-        playlist.videos.unshift(video);
+        playlist.videos.push(video);
     }
     savePlaylists(playlists);
     if (activePlaylistId === playlistId && isPlaylistMode) {
