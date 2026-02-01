@@ -3415,8 +3415,8 @@ button:disabled,
     color: #ffffff;
 }
 
-.tag-humor,
-[data-category="Humor"] {
+.tag-diversio,
+[data-category="Diversió"] {
     background-color: #e17055;
     color: #ffffff;
 }

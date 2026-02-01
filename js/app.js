@@ -89,7 +89,7 @@ let userWatchGridPreference = '3';
 const featuredVideoBySection = new Map();
 const customCategorySearchCache = new Map();
 const customCategorySearchInFlight = new Map();
-const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Humor', 'Actualitat', 'Vida', 'Gaming', 'Mitjans']);
+const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Diversió', 'Actualitat', 'Vida', 'Gaming', 'Mitjans']);
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
 const FONT_SIZE_STORAGE_KEY = 'catube_font_size';
@@ -6152,7 +6152,7 @@ function getStaticCategoryName(video) {
         2: 'Gaming',
         3: 'Cultura',
         4: 'Societat',
-        5: 'Humor'
+        5: 'Diversió'
     };
     return map[video.categoryId] || null;
 }
