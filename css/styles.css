@@ -99,9 +99,18 @@ html {
     padding: 10px;
     background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    cursor: pointer;
+    cursor: grab;
     transition: background 0.2s;
     border-radius: 8px;
+}
+
+.playlist-queue-item.is-dragging {
+    opacity: 0.5;
+}
+
+.playlist-queue-item.is-drag-over {
+    outline: 1px dashed var(--color-primary);
+    background: rgba(204, 0, 0, 0.12);
 }
 
 .playlist-queue-item:hover {
@@ -118,6 +127,46 @@ html {
     height: 56px;
     object-fit: cover;
     border-radius: 6px;
+}
+
+.playlist-queue-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.playlist-queue-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+}
+
+.playlist-queue-handle i {
+    width: 16px;
+    height: 16px;
+}
+
+.playlist-queue-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.playlist-queue-remove {
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    padding: 4px;
+    cursor: pointer;
+}
+
+.playlist-queue-remove:hover {
+    color: #ff5f57;
+}
+
+.playlist-queue-remove i {
+    width: 16px;
+    height: 16px;
 }
 
 /* Variables */
@@ -2963,12 +3012,34 @@ button:disabled,
 
 .playlist-video-row {
     display: grid;
-    grid-template-columns: 40px 1fr auto;
+    grid-template-columns: 20px 40px 1fr auto;
     align-items: center;
     gap: 10px;
     padding: 6px 8px;
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.2);
+    cursor: grab;
+}
+
+.playlist-video-row.is-dragging {
+    opacity: 0.5;
+}
+
+.playlist-video-row.is-drag-over {
+    outline: 1px dashed var(--color-primary);
+    background: rgba(204, 0, 0, 0.12);
+}
+
+.playlist-drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+}
+
+.playlist-drag-handle i {
+    width: 16px;
+    height: 16px;
 }
 
 .playlist-video-thumb {
@@ -2995,6 +3066,11 @@ button:disabled,
 
 .playlist-video-remove:hover {
     color: #ff5f57;
+}
+
+.playlist-video-remove i {
+    width: 16px;
+    height: 16px;
 }
 
 .playlist-video-empty {
