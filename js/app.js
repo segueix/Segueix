@@ -3226,11 +3226,12 @@ function navigateToSearchResults(query) {
         </section>
     ` : '';
 
-    const videoSection = results.videos.length ? `
+    const sortedSearchVideos = sortVideosByRoundRobin(results.videos);
+    const videoSection = sortedSearchVideos.length ? `
         <section class="search-results-section">
             <h2 class="search-results-title">Vídeos</h2>
             <div class="videos-grid">
-                ${results.videos.map(video => createVideoCardAPI(video)).join('')}
+                ${sortedSearchVideos.map(video => createVideoCardAPI(video)).join('')}
             </div>
         </section>
     ` : '';
@@ -3251,7 +3252,7 @@ function navigateToSearchResults(query) {
     videosGrid.querySelectorAll('.video-card').forEach(card => {
         card.addEventListener('click', () => {
             const videoId = card.dataset.videoId;
-            const video = results.videos.find(item => String(item.id) === String(videoId));
+            const video = sortedSearchVideos.find(item => String(item.id) === String(videoId));
             if (video?.source === 'static') {
                 showVideo(videoId);
             } else {
@@ -3323,7 +3324,8 @@ async function searchVideos(query) {
             return Number.isFinite(seconds) && seconds >= 180;
         });
         if (filteredResults.length > 0) {
-            renderVideos(filteredResults);
+            const sortedResults = sortVideosByRoundRobin(filteredResults);
+            renderVideos(sortedResults);
         } else {
             featuredVideoBySection.delete(getHeroSectionKey());
             updateHero(null);
