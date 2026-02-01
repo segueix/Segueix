@@ -20,7 +20,7 @@ const YouTubeAPI = {
         { id: "@EnricAdventures", name: "Enric Adventures", categories: ["vida"] },
         { id: "@unquartdegalves", name: "Un Quart de Galves", categories: ["societat"] },
         { id: "@lescaquimat4658", name: "L'ESCACIMAT", categories: ["cultura", "societat"] },
-        { id: "@EnricBastardas1", name: "Enric Bastardas", categories: ["humor", "societat"] },
+        { id: "@EnricBastardas1", name: "Enric Bastardas", categories: ["diversio", "societat"] },
         { id: "@AyaZholvaX", name: "Aya_ZholvaX: Boardgames", categories: ["gaming", "cultura"] },
     ],
 
