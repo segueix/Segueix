@@ -45,6 +45,10 @@ let activePlaylistId = null;
 let activePlaylistName = '';
 let isPlaylistNavigation = false;
 let isPlaylistMode = false;
+let isPlaylistListBound = false;
+let isPlaylistQueueBound = false;
+let playlistDragState = null;
+let playlistQueueDragState = null;
 let currentShortIndex = 0;
 let currentShortsQueue = [];
 let isNavigatingShort = false;
@@ -3855,10 +3859,18 @@ function removeVideoFromPlaylist(playlistId, videoId) {
     const playlists = getPlaylists();
     const playlist = playlists.find(item => item.id === playlistId);
     if (!playlist) return;
+    const removedIndex = playlist.videos.findIndex(video => String(video.id) === String(videoId));
     playlist.videos = playlist.videos.filter(video => String(video.id) !== String(videoId));
     savePlaylists(playlists);
     if (activePlaylistId === playlistId) {
         activePlaylistQueue = playlist.videos;
+        if (removedIndex !== -1) {
+            if (removedIndex < currentPlaylistIndex) {
+                currentPlaylistIndex = Math.max(currentPlaylistIndex - 1, 0);
+            } else if (removedIndex === currentPlaylistIndex) {
+                currentPlaylistIndex = Math.min(currentPlaylistIndex, activePlaylistQueue.length - 1);
+            }
+        }
         if (currentPlaylistIndex >= activePlaylistQueue.length) {
             currentPlaylistIndex = Math.max(activePlaylistQueue.length - 1, 0);
         }
@@ -3868,6 +3880,33 @@ function removeVideoFromPlaylist(playlistId, videoId) {
             updatePlaylistModeBadge();
             renderPlaylistQueue();
         }
+    }
+}
+
+function reorderPlaylistVideos(playlistId, fromIndex, toIndex) {
+    if (fromIndex === toIndex) return;
+    const playlists = getPlaylists();
+    const playlist = playlists.find(item => item.id === playlistId);
+    if (!playlist) return;
+    const videos = playlist.videos;
+    if (!Array.isArray(videos)) return;
+    if (fromIndex < 0 || fromIndex >= videos.length || toIndex < 0 || toIndex >= videos.length) {
+        return;
+    }
+    const [moved] = videos.splice(fromIndex, 1);
+    videos.splice(toIndex, 0, moved);
+    savePlaylists(playlists);
+    if (activePlaylistId === playlistId) {
+        if (fromIndex === currentPlaylistIndex) {
+            currentPlaylistIndex = toIndex;
+        } else if (fromIndex < currentPlaylistIndex && toIndex >= currentPlaylistIndex) {
+            currentPlaylistIndex = Math.max(currentPlaylistIndex - 1, 0);
+        } else if (fromIndex > currentPlaylistIndex && toIndex <= currentPlaylistIndex) {
+            currentPlaylistIndex = Math.min(currentPlaylistIndex + 1, videos.length - 1);
+        }
+        activePlaylistQueue = [...videos];
+        updatePlaylistModeBadge();
+        renderPlaylistQueue();
     }
 }
 
@@ -3891,6 +3930,24 @@ function renderPlaylistsPage() {
         const firstVideo = list.videos[0];
         const thumbnail = firstVideo?.thumbnail || 'img/icon-512.png';
         const videoCount = list.videos.length;
+        const videosMarkup = list.videos.length > 0
+            ? `
+                <div class="playlist-video-list" data-playlist-id="${list.id}">
+                    ${list.videos.map((video, index) => `
+                        <div class="playlist-video-row" draggable="true" data-playlist-id="${list.id}" data-video-index="${index}">
+                            <span class="playlist-drag-handle" aria-hidden="true">
+                                <i data-lucide="grip-vertical"></i>
+                            </span>
+                            <img class="playlist-video-thumb" src="${video.thumbnail || 'img/icon-192.png'}" alt="">
+                            <div class="playlist-video-title">${escapeHtml(video.title || 'Vídeo')}</div>
+                            <button class="playlist-video-remove" type="button" data-playlist-id="${list.id}" data-video-id="${video.id}" aria-label="Eliminar vídeo">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `
+            : `<div class="playlist-video-empty">No hi ha vídeos a la llista.</div>`;
         return `
             <div class="playlist-card">
                 <div class="playlist-card-thumb" onclick="startPlaylistPlayback('${list.id}')" title="Reproduir llista">
@@ -3903,11 +3960,13 @@ function renderPlaylistsPage() {
                 <div class="playlist-card-body">
                     <div class="playlist-card-title">${escapeHtml(list.name)}</div>
                     <div class="playlist-card-meta">${videoCount} vídeos</div>
+                    ${videosMarkup}
                 </div>
             </div>
         `;
     }).join('');
 
+    bindPlaylistListInteractions();
     if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
@@ -4278,17 +4337,20 @@ function renderPlaylistQueue() {
             <span>Reprodueix: ${escapeHtml(activePlaylistName)}</span>
             <span style="font-size:0.85rem; opacity:0.7;">${currentPlaylistIndex + 1} / ${activePlaylistQueue.length}</span>
         </div>
-        <div class="playlist-queue-list">
+        <div class="playlist-queue-list" data-playlist-id="${activePlaylistId}">
             ${activePlaylistQueue.map((video, index) => {
                 const isActive = index === currentPlaylistIndex;
                 return `
-                <div class="playlist-queue-item${isActive ? ' is-active' : ''}" 
-                     onclick="playVideoFromPlaylistIndex(${index})">
+                <div class="playlist-queue-item${isActive ? ' is-active' : ''}" draggable="true"
+                     data-playlist-index="${index}" onclick="playVideoFromPlaylistIndex(${index})">
+                    <div class="playlist-queue-handle" aria-hidden="true">
+                        <i data-lucide="grip-vertical"></i>
+                    </div>
                     <div style="position:relative; flex-shrink:0;">
                         <img src="${video.thumbnail || 'img/icon-192.png'}" alt="">
                         ${isActive ? '<div style="position:absolute; inset:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center;"><i data-lucide="bar-chart-2" style="color:white;"></i></div>' : ''}
                     </div>
-                    <div class="playlist-queue-meta" style="min-width:0;">
+                    <div class="playlist-queue-meta">
                         <div style="font-weight:600; font-size:0.9rem; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                             ${escapeHtml(video.title)}
                         </div>
@@ -4296,11 +4358,17 @@ function renderPlaylistQueue() {
                             ${escapeHtml(video.channelTitle || '')}
                         </div>
                     </div>
+                    <div class="playlist-queue-actions">
+                        <button class="playlist-queue-remove" type="button" data-video-id="${video.id}" aria-label="Eliminar vídeo">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </div>
                 </div>
             `}).join('')}
         </div>
     `;
 
+    bindPlaylistQueueInteractions();
     const activeItem = queueContainer.querySelector('.is-active');
     if (activeItem) {
         activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -4314,6 +4382,124 @@ function playVideoFromPlaylistIndex(index) {
         currentPlaylistIndex = index;
         loadVideoInSequence();
     }
+}
+
+function bindPlaylistListInteractions() {
+    if (!playlistsList || isPlaylistListBound) return;
+
+    playlistsList.addEventListener('click', (event) => {
+        const removeButton = event.target.closest('.playlist-video-remove');
+        if (!removeButton) return;
+        event.stopPropagation();
+        removeVideoFromPlaylist(removeButton.dataset.playlistId, removeButton.dataset.videoId);
+        renderPlaylistsPage();
+    });
+
+    playlistsList.addEventListener('dragstart', (event) => {
+        const row = event.target.closest('.playlist-video-row');
+        if (!row) return;
+        playlistDragState = {
+            playlistId: row.dataset.playlistId,
+            fromIndex: Number(row.dataset.videoIndex)
+        };
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', row.dataset.videoIndex);
+        row.classList.add('is-dragging');
+    });
+
+    playlistsList.addEventListener('dragover', (event) => {
+        const row = event.target.closest('.playlist-video-row');
+        if (!row || !playlistDragState) return;
+        if (row.dataset.playlistId !== playlistDragState.playlistId) return;
+        event.preventDefault();
+        row.classList.add('is-drag-over');
+    });
+
+    playlistsList.addEventListener('dragleave', (event) => {
+        const row = event.target.closest('.playlist-video-row');
+        if (row) row.classList.remove('is-drag-over');
+    });
+
+    playlistsList.addEventListener('drop', (event) => {
+        const row = event.target.closest('.playlist-video-row');
+        if (!row || !playlistDragState) return;
+        if (row.dataset.playlistId !== playlistDragState.playlistId) return;
+        event.preventDefault();
+        row.classList.remove('is-drag-over');
+        const toIndex = Number(row.dataset.videoIndex);
+        reorderPlaylistVideos(playlistDragState.playlistId, playlistDragState.fromIndex, toIndex);
+        playlistDragState = null;
+        renderPlaylistsPage();
+    });
+
+    playlistsList.addEventListener('dragend', (event) => {
+        const row = event.target.closest('.playlist-video-row');
+        if (row) row.classList.remove('is-dragging');
+        playlistsList.querySelectorAll('.playlist-video-row.is-drag-over')
+            .forEach(item => item.classList.remove('is-drag-over'));
+        playlistDragState = null;
+    });
+
+    isPlaylistListBound = true;
+}
+
+function bindPlaylistQueueInteractions() {
+    const queueContainer = document.getElementById('playlistQueueContainer');
+    if (!queueContainer || isPlaylistQueueBound) return;
+
+    queueContainer.addEventListener('click', (event) => {
+        const removeButton = event.target.closest('.playlist-queue-remove');
+        if (!removeButton) return;
+        event.stopPropagation();
+        if (!activePlaylistId) return;
+        removeVideoFromPlaylist(activePlaylistId, removeButton.dataset.videoId);
+    });
+
+    queueContainer.addEventListener('dragstart', (event) => {
+        const item = event.target.closest('.playlist-queue-item');
+        if (!item) return;
+        const list = queueContainer.querySelector('.playlist-queue-list');
+        if (!list) return;
+        playlistQueueDragState = {
+            playlistId: list.dataset.playlistId,
+            fromIndex: Number(item.dataset.playlistIndex)
+        };
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', item.dataset.playlistIndex);
+        item.classList.add('is-dragging');
+    });
+
+    queueContainer.addEventListener('dragover', (event) => {
+        const item = event.target.closest('.playlist-queue-item');
+        if (!item || !playlistQueueDragState) return;
+        event.preventDefault();
+        item.classList.add('is-drag-over');
+    });
+
+    queueContainer.addEventListener('dragleave', (event) => {
+        const item = event.target.closest('.playlist-queue-item');
+        if (item) item.classList.remove('is-drag-over');
+    });
+
+    queueContainer.addEventListener('drop', (event) => {
+        const item = event.target.closest('.playlist-queue-item');
+        if (!item || !playlistQueueDragState) return;
+        event.preventDefault();
+        item.classList.remove('is-drag-over');
+        const toIndex = Number(item.dataset.playlistIndex);
+        reorderPlaylistVideos(playlistQueueDragState.playlistId, playlistQueueDragState.fromIndex, toIndex);
+        playlistQueueDragState = null;
+    });
+
+    queueContainer.addEventListener('dragend', (event) => {
+        const item = event.target.closest('.playlist-queue-item');
+        if (item) item.classList.remove('is-dragging');
+        queueContainer.querySelectorAll('.playlist-queue-item.is-drag-over')
+            .forEach(row => row.classList.remove('is-drag-over'));
+        playlistQueueDragState = null;
+    });
+
+    isPlaylistQueueBound = true;
 }
 
 function updatePlayerPosition() {
