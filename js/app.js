@@ -5063,6 +5063,58 @@ function renderCategoryVideosBelow(currentChannelId, currentVideoId) {
     setupVideoCardActionButtons();
 }
 
+async function renderPlaylistRelatedVideos(playlistName) {
+    const extraContainer = extraVideosGrid || document.getElementById('extraVideosGrid');
+    if (!extraContainer) {
+        return;
+    }
+    const trimmedName = String(playlistName || '').trim();
+    if (!trimmedName || typeof YouTubeAPI?.searchVideos !== 'function') {
+        extraContainer.innerHTML = '<div class="empty-state">No hi ha vídeos relacionats.</div>';
+        return;
+    }
+
+    extraContainer.innerHTML = '<div class="empty-state">Carregant vídeos...</div>';
+
+    const result = await YouTubeAPI.searchVideos(trimmedName, CONFIG.layout.videosPerPage);
+    if (result.error || !result.items?.length) {
+        extraContainer.innerHTML = '<div class="empty-state">No hi ha vídeos relacionats.</div>';
+        return;
+    }
+
+    const videoIds = result.items.map(item => item.id).join(',');
+    const details = videoIds ? await fetchVideoDetails(videoIds) : [];
+    let videos = details.length > 0 ? details : result.items;
+    videos = videos.filter(video => !video.isShort);
+
+    if (videos.length === 0) {
+        extraContainer.innerHTML = '<div class="empty-state">No hi ha vídeos relacionats.</div>';
+        return;
+    }
+
+    extraContainer.innerHTML = videos.map(video => createVideoCardAPI(video)).join('');
+    ensureWatchGridLayoutControls();
+    applyWatchGridLayoutPreference();
+
+    extraContainer.querySelectorAll('.video-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const videoId = card.dataset.videoId;
+            const video = videos.find(item => String(item.id) === String(videoId));
+            if (video?.source === 'static') {
+                showVideo(videoId);
+            } else {
+                showVideoFromAPI(videoId);
+            }
+        });
+    });
+    bindChannelLinks(extraContainer);
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    setupVideoCardActionButtons();
+}
+
 // Mostrar vídeo des de l'API
 async function showVideoFromAPI(videoId) {
     const isMini = videoPlayer?.classList.contains('mini-player-active');
@@ -5326,6 +5378,7 @@ async function showVideoFromAPI(videoId) {
         if (channelId) {
             renderChannelSidebarFromApi(channelId, videoId, channelResult, video?.channelTitle || cachedVideo?.channelTitle || '');
         }
+        renderPlaylistRelatedVideos(activePlaylistName);
     } else if (CONFIG.features.recommendations) {
         if (channelId && isDesktopView()) {
             renderChannelSidebarFromApi(channelId, videoId, channelResult, video?.channelTitle || cachedVideo?.channelTitle || '');
@@ -5712,6 +5765,7 @@ function showVideo(videoId) {
     if (isPlaylistMode) {
         renderPlaylistQueue();
         renderChannelSidebarFromStatic(channel, videoId);
+        renderPlaylistRelatedVideos(activePlaylistName);
     } else if (CONFIG.features.recommendations) {
         loadRelatedVideos(videoId);
     }

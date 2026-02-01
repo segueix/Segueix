@@ -2835,6 +2835,13 @@ button:disabled,
     color: var(--color-text);
 }
 
+@media (min-width: 1025px) {
+    .playlist-create .playlist-input {
+        flex: 0 1 320px;
+        max-width: 320px;
+    }
+}
+
 .playlist-input::placeholder {
     color: var(--color-text-secondary);
 }
