@@ -12,6 +12,30 @@ function isMatch(text, query) {
     return pattern.test(String(text));
 }
 
+function getVideoDisplayDuration(video) {
+    const rawDuration = video?.duration || video?.contentDetails?.duration || '';
+    if (!rawDuration || typeof rawDuration !== 'string') {
+        return '';
+    }
+    if (!rawDuration.startsWith('PT')) {
+        return rawDuration;
+    }
+    if (typeof YouTubeAPI?.parseDuration === 'function') {
+        return YouTubeAPI.parseDuration(rawDuration);
+    }
+    const match = rawDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+    if (!match) {
+        return '';
+    }
+    const hours = parseInt(match[1] || 0);
+    const minutes = parseInt(match[2] || 0);
+    const seconds = parseInt(match[3] || 0);
+    if (hours > 0) {
+        return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
 // Elements del DOM
 let sidebar, menuBtn, videosGrid, homePage, watchPage, loading, mainContent;
 let historyPage, historyGrid, historyFilters, chipsBar;
@@ -1833,7 +1857,7 @@ function updateHero(video, source = 'static') {
     const title = video.title || video.snippet?.title || 'Vídeo destacat';
     const description = video.description || video.snippet?.description || '';
     const thumbnail = video.thumbnail || video.snippet?.thumbnails?.maxres?.url || video.snippet?.thumbnails?.standard?.url || video.snippet?.thumbnails?.high?.url || '';
-    const duration = video.duration || video.contentDetails?.duration || '';
+    const duration = getVideoDisplayDuration(video);
 
     heroSection.classList.remove('hidden');
     heroSection.dataset.videoId = video.id;
@@ -5124,12 +5148,13 @@ function renderSearchResults(videos) {
 // Crear targeta de vídeo (API)
 function createVideoCardAPI(video) {
     const payload = encodeURIComponent(JSON.stringify(getPlaylistVideoData(video)));
+    const duration = getVideoDisplayDuration(video);
     return `
         <div class="video-card" data-video-id="${video.id}">
             <div class="video-thumbnail${video.isShort ? ' is-short' : ''}">
                 <img src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
                 ${video.isShort ? '<span class="video-short-badge">SHORT</span>' : ''}
-                ${video.duration ? `<span class="video-duration">${video.duration}</span>` : ''}
+                ${duration ? `<span class="video-duration">${duration}</span>` : ''}
             </div>
             <div class="video-details">
                 <div class="video-info-container">
@@ -5700,11 +5725,13 @@ async function loadRelatedVideosFromAPI(videoId) {
     const sidebarVideos = videos.slice(0, sidebarLimit);
     const extraVideos = videos.slice(sidebarLimit);
 
-    relatedContainer.innerHTML = sidebarVideos.map(video => `
+    relatedContainer.innerHTML = sidebarVideos.map(video => {
+        const duration = getVideoDisplayDuration(video);
+        return `
         <div class="related-video" data-video-id="${video.id}">
             <div class="related-thumbnail">
                 <img src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
-                ${video.duration ? `<span class="video-duration">${video.duration}</span>` : ''}
+                ${duration ? `<span class="video-duration">${duration}</span>` : ''}
             </div>
             <div class="related-info">
                 <div class="related-title-text">${escapeHtml(video.title)}</div>
@@ -5714,7 +5741,8 @@ async function loadRelatedVideosFromAPI(videoId) {
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     if (extraContainer) {
         extraContainer.innerHTML = extraVideos.map(video => createVideoCardAPI(video)).join('');
@@ -6178,7 +6206,7 @@ function createHistoryCard(video) {
     const channel = isStatic ? getChannelById(video.channelId) : null;
     const title = video.title || video.snippet?.title || '';
     const thumbnail = video.thumbnail || video.snippet?.thumbnails?.maxres?.url || video.snippet?.thumbnails?.standard?.url || video.snippet?.thumbnails?.high?.url || '';
-    const duration = video.duration || video.contentDetails?.duration || '';
+    const duration = getVideoDisplayDuration(video);
     const channelTitle = video.channelTitle || channel?.name || '';
     const views = video.viewCount || video.views || 0;
     const likedIds = getLikedVideoIds();
