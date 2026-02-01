@@ -1,67 +1,78 @@
 {
-  "generatedAt": "2026-01-31T16:12:32.788Z",
+  "generatedAt": "2026-02-01T02:09:49.164Z",
   "channels": {
-    "UCOzd_BhDxbQZ8Y2H1j9wOOg": {
-      "name": "EVA",
-      "avatar": "https://yt3.ggpht.com/L55HPxeMqFzSQ8Uwf7KlqQavPxPq8iT5J1O9jTo2qASmPRfUYaHNaLTUiwY1JjSDrKoGi7-4=s800-c-k-c0x00ffffff-no-rj",
-      "description": "EVA és la teva comunitat de referència en català. \n\nSom l'espai sense filtres per a la Generació Z, amb els millors videopòdcasts, sèries i contingut sobre música, tendències, debats i actualitat social. \n\nDescobreix la nostra mirada fresca, diversa i inclusiva!\n\n🔔 Subscriu-te al canal i no oblidis...",
-      "handle": "@someva",
-      "subscriberCount": 17200,
-      "categories": [
-        "humor"
-      ],
-      "topTags": [
-        "3Cat",
-        "3Cat SomEVA",
-        "3CatEVA",
-        "EVA",
-        "SomEVA",
-        "loft",
-        "la cabra",
-        "la cabra eva",
-        "loft eva",
-        "alberto gadel"
-      ]
-    },
-    "UCW1ZdYsRaVbp4X_ppZ9_wZg": {
-      "name": "No Passa Res",
-      "avatar": "https://yt3.ggpht.com/PJUhYGx0SNrUQo_8eI5xMVisDeLqz6cYU55x69wVbf_xbYjZVcsnD9JWighTgYlVhFHvRt0NVw=s800-c-k-c0x00ffffff-no-rj",
-      "description": "NO PASSA RES és un programa online d'entrevistes a personatges rellevants de l'àmbit cultural, polític, i artístic català. Presentat per Guillem Pujol. \n\nDijous 15 de Gener 2026 a les 20:00 estrena de la T2 amb Juana Dolores.\n\n",
-      "handle": "@nopassares",
-      "subscriberCount": 922,
+    "UCHwg1QG8c6WrDZm_J6oAweg": {
+      "name": "País Invisible Podcast",
+      "avatar": "https://yt3.ggpht.com/1R4bRkAmN1kd9_OiyVePRZh0pYp7uUzJLrEoFhlAsgk7jaQtm-NQvrYspw_ziU6g9ePZvGYt5B8=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Viatge sonor des de la Vall d'Aran fins a Torí. Llengua, música i història. Un #podcast per escampar la boira. 🔆🏔📢\n\nPrograma quinzenal de dissabtes.\n",
+      "handle": "@paisinvisible",
+      "subscriberCount": 2250,
       "categories": [
         "cultura"
       ],
       "topTags": [
+        "3cat",
         "catalunya",
-        "politica",
-        "satira",
-        "#comèdia",
-        "#feminisme",
-        "#humor",
-        "#humorcatalà",
-        "#nopassares",
-        "#standup",
-        "1 de cada 5"
+        "ieo",
+        "lingüística",
+        "oc",
+        "uab",
+        "vall",
+        "català",
+        "farri",
+        "icat"
       ]
     },
-    "UCbOj46zFDV0_EquDRQzr5HQ": {
-      "name": "Mai Tant Podcast",
-      "avatar": "https://yt3.ggpht.com/HfCsmFGfsZAGizN3e3QrauAJrjwTYJrPwj8t3UOYzrmdjKMPZ2amNivGffNXPypf7YvgqM1qtzo=s800-c-k-c0x00ffffff-no-rj",
-      "description": "CADA DIMECRES A LA TARDA",
-      "handle": "@maitantpodcast",
-      "subscriberCount": 824,
+    "UChOzqUp9V9AQPB4WzOhu-Xw": {
+      "name": "Aya_ZholvaX: Jocs de taula",
+      "avatar": "https://yt3.ggpht.com/AmupdKY3JuLY0OPRRwbHPFML5nsR2_5urZmxz9A7qZpWiO0YWT3sGP8wi63Rk14TzJmtZOmOVA=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Fem videos i parlem de Jocs de taula en català  ",
+      "handle": "@ayazholvax",
+      "subscriberCount": 601,
       "categories": [
-        "societat"
+        "gaming"
       ],
-      "topTags": []
+      "topTags": [
+        "jocs de taula",
+        "juegos de mesa",
+        "boardgames",
+        "Bgg",
+        "Aya_Zholvax",
+        "Instructional",
+        "aya_zholvax",
+        "instructional",
+        "joc de taula en català",
+        "jocs"
+      ]
+    },
+    "UCSfMEzJX9i4-3Xl6KFv3DAA": {
+      "name": "3Cat",
+      "avatar": "https://yt3.ggpht.com/EQRzSLoNFI8gFQT0FkJuAQ1SA7_Rh-3lrSsTazDQ2DwadIb-ti2TxgjERc7es6gKLZufHfhkUw=s800-c-k-c0x00ffffff-no-rj",
+      "description": "#Som3Cat, passeu, passeu!\n\nEn aquest canal trobaràs contingut exclusiu dels teus programes preferits, estrenes digitals de tot l’univers de TV3 i Catalunya Ràdio, i formats d'èxit com Polònia o La Renaixença.\n\n\n",
+      "handle": "@som3cat",
+      "subscriberCount": 481000,
+      "categories": [
+        "mitjans"
+      ],
+      "topTags": [
+        "TV3",
+        "3Cat",
+        "Som3Cat",
+        "euforia",
+        "euforia tv3",
+        "euforia 3cat",
+        "euforia 4",
+        "3cat",
+        "musica en directe",
+        "ot"
+      ]
     },
     "UCPikYBuH-XamjDe1OuEiLfA": {
       "name": "Pol Codina 🌍",
       "avatar": "https://yt3.ggpht.com/YgMNk0AypTg0-7ydfinXaS8kwWTUHZK50Tu6F3pQlV33ImzIQODrpI7jItnHt7eD3bpUDWS7LaE=s800-c-k-c0x00ffffff-no-rj",
       "description": "Benvinguts! Soc en Pol, aquí trobareu vídeos sobre viatges, esports, curses, reptes, amics i tot allò que tingui a veure en sortir de casa i passar-ho bé.🌍✈️⛰✌🏼\n\nEspero que us molin! \n\nXarxes socials:\n\nInstagram: https://www.instagram.com/pol_codina?igsh=NWw0YXZwaW53M21o&utm_source=qr\n\nStrava: htt...",
       "handle": "@polcodina",
-      "subscriberCount": 2630,
+      "subscriberCount": 2640,
       "categories": [
         "vida"
       ],
@@ -78,34 +89,29 @@
         "Gravel"
       ]
     },
-    "UCe609vWJJ1yXOTiZcjuaffQ": {
-      "name": "RTVE Catalunya",
-      "avatar": "https://yt3.ggpht.com/-hqbvpd8yU_-rln6lHuBzNPvZd_q9_cBcgV8btxqkPbPalCJwrGR3kHPihGL86KakOa0g2Wisw=s800-c-k-c0x00ffffff-no-rj",
-      "description": "#La2Cat #LaQueParlaComTu\nSegueix-nos a www.rtve.cat y rtveplay.cat\nSubscriu-te a https://www.youtube.com/channel/UCe609vWJJ1yXOTiZcjuaffQ",
-      "handle": "@rtvecatalunya",
-      "subscriberCount": 7310,
+    "UCaYXWVFYirJdDmprjozHdmA": {
+      "name": "VilaWeb",
+      "avatar": "https://yt3.ggpht.com/Scu_Hgh8vX_fv9HkqfXVLxVCIRd3j23cRoa9W9q50mkGj3aAwjdPOb0VphSB3LIcnUzosXnzcQ=s800-c-k-c0x00ffffff-no-rj",
+      "description": "VilaWeb.cat és el principal diari electrònic en llengua catalana, creat el 1995.",
+      "handle": "@vilaweb",
+      "subscriberCount": 20700,
       "categories": [
         "mitjans"
       ],
       "topTags": [
-        "La2Cat",
-        "LAnyQueVasNéixer",
-        "Xavi Bundó",
-        "AltaveuRTVE",
         "Barcelona",
-        "Danae Boronat",
-        "LaReceptaPerduda",
-        "Pilar Eyre",
-        "Quique Guasch",
-        "Cerdanya"
+        "Catalunya",
+        "País Valencià",
+        "Països Catalans",
+        "VilaWeb"
       ]
     },
-    "UCT8sBQf4grkfLMjOXdIkV2w": {
-      "name": "Enric Bastardas",
-      "avatar": "https://yt3.ggpht.com/ytc/AIdro_kFNW13EohJbYD9EtNjWPpKGIgSmMaCGt7YfftkU5iKwA=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Monòlegs de conya, xerrades i conferències. Repeteixo...de conya!!!!! Les xerrades i les conferències no són de conya, bé, una mica sí, perquè sino fem conya què? eh?\nL'actualitat del dia a dia, cada dia per riure una mica de tot el que ens passa!\n",
-      "handle": "@enricbastardas1",
-      "subscriberCount": 304,
+    "UCQvIQnJGSDFX_IAiV9JuBew": {
+      "name": "Gent De Merda",
+      "avatar": "https://yt3.ggpht.com/oFX1aYmDyuNmIqVuUPhmhRKNSOx-0R5MGHYOqRQi2D__zaS5KG4lWNIfNUBwqbVRv84sl9C8hA=s800-c-k-c0x00ffffff-no-rj",
+      "description": "La Clàudia Rius, la Paula Carreras, la Rita Roig i l'Ofèlia Carbonell som gent de merda. I tu també.",
+      "handle": "@gentdemerda",
+      "subscriberCount": 2150,
       "categories": [
         "humor"
       ],
@@ -133,43 +139,92 @@
         "jaufibla"
       ]
     },
-    "UCDawX1bxeC4-hZiGnkqevbw": {
-      "name": "Enric Adventures",
-      "avatar": "https://yt3.ggpht.com/ECuCXTvGzVbIoiUIJGUS3AjNSFbkFHhR1oKwwK3g44xXvNRIIBgYbbcU-Jht8EXWOnpzknIE=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Em dic Enric Luzán i en aquest canal trobareu senderisme, travesses i bolets\n\nContacte professional: enricadventures@gmail.com\n",
-      "handle": "@enricadventures",
-      "subscriberCount": 22100,
+    "UC5Ha9G3Tp_17qcC38GPPvQg": {
+      "name": "Èric López",
+      "avatar": "https://yt3.ggpht.com/K97ftPusNCdyMm4n3U2-4KpY3kN2avIyR4VPeBJYPfcmWyah1Qhen2byHbS8XD5FXCt95nKbMg=s800-c-k-c0x00ffffff-no-rj",
+      "description": "🌎 De Catalunya al Món\n",
+      "handle": "@ericlopezr",
+      "subscriberCount": 222,
       "categories": [
         "vida"
       ],
       "topTags": [
-        "hiking",
-        "osprey",
-        "senderisme",
-        "senderismo",
-        "alt Empordà",
-        "exos 38",
-        "osprey exos",
-        "thru hiking",
-        "begur",
-        "Catalunya"
+        "catalunya",
+        "tv3",
+        "vlog",
+        "3cat",
+        "barça",
+        "islandia",
+        "jan raich",
+        "podcast en català",
+        "viatge",
+        "aprender catalan"
       ]
     },
-    "UCXajnbaMh6cxofmw5ki43DA": {
-      "name": "Diari ARA",
-      "avatar": "https://yt3.ggpht.com/wKc0-7uTnyIOxCH8-vegFsavqQBHkEGsrRmaB169nOjmHP1Yr_6kcczvKGGFzv-8RIYCK502nqk=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Canal oficial del diari ARA.\nVegeu tots els vídeos d'Ara Vídeos a: http://www.ara.cat/videos/",
-      "handle": "@diariara",
-      "subscriberCount": 57600,
+    "UCT8sBQf4grkfLMjOXdIkV2w": {
+      "name": "Enric Bastardas",
+      "avatar": "https://yt3.ggpht.com/ytc/AIdro_kFNW13EohJbYD9EtNjWPpKGIgSmMaCGt7YfftkU5iKwA=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Monòlegs de conya, xerrades i conferències. Repeteixo...de conya!!!!! Les xerrades i les conferències no són de conya, bé, una mica sí, perquè sino fem conya què? eh?\nL'actualitat del dia a dia, cada dia per riure una mica de tot el que ens passa!\n",
+      "handle": "@enricbastardas1",
+      "subscriberCount": 304,
       "categories": [
-        "mitjans"
+        "humor"
+      ],
+      "topTags": []
+    },
+    "UCgvW4vAO6jNWA4qeYk87BEA": {
+      "name": "NetInformacio",
+      "avatar": "https://yt3.ggpht.com/Ju_aoLg8v32K2oujVN8MREw4MCmBeoy6Qj1l5lvrzHAMBSbAlihAlMHGYhHDxlGCRIUqqnpIa7s=s800-c-k-c0x00ffffff-no-rj",
+      "description": "NetInformació és el canal de YouTube oficial de la web Informacio.Net.\n\nHi trobareu informació i opinió política independent i informada sobre tot tipus d'afers que afectin a Catalunya i als catalans.\n\nEl més important és que puguem mantenir conversa i debats honestos sobre els temes més variats, pu...",
+      "handle": "@netinformacio",
+      "subscriberCount": 25400,
+      "categories": [
+        "societat"
       ],
       "topTags": [
-        "ara.cat",
-        "Barcelona",
+        "Carles Valbuena",
+        "NetInformació",
         "Catalunya",
-        "Diari ARA",
-        "periodisme"
+        "independència",
+        "Puigdemont",
+        "ERC",
+        "Junts",
+        "Esquerra",
+        "Junqueras",
+        "Rússia"
+      ]
+    },
+    "UCbOj46zFDV0_EquDRQzr5HQ": {
+      "name": "Mai Tant Podcast",
+      "avatar": "https://yt3.ggpht.com/HfCsmFGfsZAGizN3e3QrauAJrjwTYJrPwj8t3UOYzrmdjKMPZ2amNivGffNXPypf7YvgqM1qtzo=s800-c-k-c0x00ffffff-no-rj",
+      "description": "CADA DIMECRES A LA TARDA",
+      "handle": "@maitantpodcast",
+      "subscriberCount": 824,
+      "categories": [
+        "societat"
+      ],
+      "topTags": []
+    },
+    "UCptKQCkfc-LV4ybc9Th5_OA": {
+      "name": "Víctor Puig ",
+      "avatar": "https://yt3.ggpht.com/fxi_Kqr7o9raXV-TJHt9jemmkN-JNAHHKLGMqG7D_MuxhCJrxWgrY7_s8s22sC1TCpk3snh2cXs=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Entrevistes i comentari polític.\nPerspectiva catalanocèntrica.\nAjuda'ns a créixer: ES56 3025 0014 0214 0009 6845\n\n",
+      "handle": "@victor_puig_",
+      "subscriberCount": 4920,
+      "categories": [
+        "societat"
+      ],
+      "topTags": [
+        "Víctor Puig",
+        "política catalana",
+        "cultura catalana",
+        "sobirania catalana",
+        "catalunya",
+        "Catalunya",
+        "Catalunya 2024",
+        "Com fer-se ric",
+        "drets humans",
+        "economia"
       ]
     },
     "UCaCWG8cBOwER_Vf3qAsr8Zg": {
@@ -194,80 +249,48 @@
         "noticias cataluña hoy"
       ]
     },
-    "UC5ytRP5VNigPHovAY7kyicQ": {
-      "name": "Esquetxes comèdia en català",
-      "avatar": "https://yt3.ggpht.com/XDDUdG7DVvwndp1iicbIbUWausu4yGgjPjXURTou76lhF5Ec3ZksBM8MQhyXonlyoaQYu7yehyE=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Nous vídeos cada setmana\n\n\"Esquetxes comèdia en català\" és una web sèrie de gags en català, sense pressupost però amb molta gràcia i rodada a Malgrat de Mar. Feta per amor a l'art i per afició, conté tots els dialectes orientals i occidentals del català. També tenim varis premis i nominacions de fes...",
-      "handle": "@esquetxes",
-      "subscriberCount": 2970,
+    "UCW1ZdYsRaVbp4X_ppZ9_wZg": {
+      "name": "No Passa Res",
+      "avatar": "https://yt3.ggpht.com/PJUhYGx0SNrUQo_8eI5xMVisDeLqz6cYU55x69wVbf_xbYjZVcsnD9JWighTgYlVhFHvRt0NVw=s800-c-k-c0x00ffffff-no-rj",
+      "description": "NO PASSA RES és un programa online d'entrevistes a personatges rellevants de l'àmbit cultural, polític, i artístic català. Presentat per Guillem Pujol. \n\nDijous 15 de Gener 2026 a les 20:00 estrena de la T2 amb Juana Dolores.\n\n",
+      "handle": "@nopassares",
+      "subscriberCount": 923,
       "categories": [
-        "humor"
+        "cultura"
       ],
       "topTags": [
-        "català",
-        "comèdia",
-        "Esquetxes",
-        "Esquetxes comèdia en català",
-        "Humor",
-        "catala",
-        "humor catala",
-        "humor català",
-        "sketch"
+        "catalunya",
+        "politica",
+        "satira",
+        "#comèdia",
+        "#feminisme",
+        "#humor",
+        "#humorcatalà",
+        "#nopassares",
+        "#standup",
+        "1 de cada 5"
       ]
     },
-    "UCNSmn5NLUDrV_paFZl--7qw": {
-      "name": "La Sotana",
-      "avatar": "https://yt3.ggpht.com/ytc/AIdro_mO0v5nKplUkfqSab7DdXQSvTWrnqIgF1CafWsUG4IvAec=s800-c-k-c0x00ffffff-no-rj",
-      "description": "",
-      "handle": "@lasotana",
-      "subscriberCount": 65200,
-      "categories": [
-        "humor"
-      ],
-      "topTags": []
-    },
-    "UCSfMEzJX9i4-3Xl6KFv3DAA": {
-      "name": "3Cat",
-      "avatar": "https://yt3.ggpht.com/EQRzSLoNFI8gFQT0FkJuAQ1SA7_Rh-3lrSsTazDQ2DwadIb-ti2TxgjERc7es6gKLZufHfhkUw=s800-c-k-c0x00ffffff-no-rj",
-      "description": "#Som3Cat, passeu, passeu!\n\nEn aquest canal trobaràs contingut exclusiu dels teus programes preferits, estrenes digitals de tot l’univers de TV3 i Catalunya Ràdio, i formats d'èxit com Polònia o La Renaixença.\n\n\n",
-      "handle": "@som3cat",
-      "subscriberCount": 481000,
+    "UCe609vWJJ1yXOTiZcjuaffQ": {
+      "name": "RTVE Catalunya",
+      "avatar": "https://yt3.ggpht.com/-hqbvpd8yU_-rln6lHuBzNPvZd_q9_cBcgV8btxqkPbPalCJwrGR3kHPihGL86KakOa0g2Wisw=s800-c-k-c0x00ffffff-no-rj",
+      "description": "#La2Cat #LaQueParlaComTu\nSegueix-nos a www.rtve.cat y rtveplay.cat\nSubscriu-te a https://www.youtube.com/channel/UCe609vWJJ1yXOTiZcjuaffQ",
+      "handle": "@rtvecatalunya",
+      "subscriberCount": 7310,
       "categories": [
         "mitjans"
       ],
       "topTags": [
-        "TV3",
-        "3Cat",
-        "Som3Cat",
-        "euforia",
-        "euforia tv3",
-        "euforia 3cat",
-        "euforia 4",
-        "3cat",
-        "musica en directe",
-        "ot"
-      ]
-    },
-    "UCgvW4vAO6jNWA4qeYk87BEA": {
-      "name": "NetInformacio",
-      "avatar": "https://yt3.ggpht.com/Ju_aoLg8v32K2oujVN8MREw4MCmBeoy6Qj1l5lvrzHAMBSbAlihAlMHGYhHDxlGCRIUqqnpIa7s=s800-c-k-c0x00ffffff-no-rj",
-      "description": "NetInformació és el canal de YouTube oficial de la web Informacio.Net.\n\nHi trobareu informació i opinió política independent i informada sobre tot tipus d'afers que afectin a Catalunya i als catalans.\n\nEl més important és que puguem mantenir conversa i debats honestos sobre els temes més variats, pu...",
-      "handle": "@netinformacio",
-      "subscriberCount": 25400,
-      "categories": [
-        "societat"
-      ],
-      "topTags": [
-        "Carles Valbuena",
-        "NetInformació",
-        "Catalunya",
-        "independència",
-        "Puigdemont",
-        "ERC",
-        "Junts",
-        "Esquerra",
-        "Junqueras",
-        "Rússia"
+        "La2Cat",
+        "LAnyQueVasNéixer",
+        "Xavi Bundó",
+        "AltaveuRTVE",
+        "Barcelona",
+        "Danae Boronat",
+        "Pilar Eyre",
+        "Quique Guasch",
+        "Cerdanya",
+        "Concert Manifest"
       ]
     },
     "UC995eaX8sye3WGZB3XUl9lg": {
@@ -284,124 +307,217 @@
         "llengua catalana"
       ]
     },
-    "UCQvIQnJGSDFX_IAiV9JuBew": {
-      "name": "Gent De Merda",
-      "avatar": "https://yt3.ggpht.com/oFX1aYmDyuNmIqVuUPhmhRKNSOx-0R5MGHYOqRQi2D__zaS5KG4lWNIfNUBwqbVRv84sl9C8hA=s800-c-k-c0x00ffffff-no-rj",
-      "description": "La Clàudia Rius, la Paula Carreras, la Rita Roig i l'Ofèlia Carbonell som gent de merda. I tu també.",
-      "handle": "@gentdemerda",
-      "subscriberCount": 2150,
+    "UC5ytRP5VNigPHovAY7kyicQ": {
+      "name": "Esquetxes comèdia en català",
+      "avatar": "https://yt3.ggpht.com/XDDUdG7DVvwndp1iicbIbUWausu4yGgjPjXURTou76lhF5Ec3ZksBM8MQhyXonlyoaQYu7yehyE=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Nous vídeos cada setmana\n\n\"Esquetxes comèdia en català\" és una web sèrie de gags en català, sense pressupost però amb molta gràcia i rodada a Malgrat de Mar. Feta per amor a l'art i per afició, conté tots els dialectes orientals i occidentals del català. També tenim varis premis i nominacions de fes...",
+      "handle": "@esquetxes",
+      "subscriberCount": 2960,
       "categories": [
         "humor"
       ],
-      "topTags": []
-    },
-    "UChOzqUp9V9AQPB4WzOhu-Xw": {
-      "name": "Aya_ZholvaX: Jocs de taula",
-      "avatar": "https://yt3.ggpht.com/AmupdKY3JuLY0OPRRwbHPFML5nsR2_5urZmxz9A7qZpWiO0YWT3sGP8wi63Rk14TzJmtZOmOVA=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Fem videos i parlem de Jocs de taula en català  ",
-      "handle": "@ayazholvax",
-      "subscriberCount": 601,
-      "categories": [
-        "gaming"
-      ],
       "topTags": [
-        "jocs de taula",
-        "juegos de mesa",
-        "boardgames",
-        "Bgg",
-        "Aya_Zholvax",
-        "Instructional",
-        "aya_zholvax",
-        "instructional",
-        "joc de taula en català",
-        "jocs"
-      ]
-    },
-    "UCHwg1QG8c6WrDZm_J6oAweg": {
-      "name": "País Invisible Podcast",
-      "avatar": "https://yt3.ggpht.com/1R4bRkAmN1kd9_OiyVePRZh0pYp7uUzJLrEoFhlAsgk7jaQtm-NQvrYspw_ziU6g9ePZvGYt5B8=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Viatge sonor des de la Vall d'Aran fins a Torí. Llengua, música i història. Un #podcast per escampar la boira. 🔆🏔📢\n\nPrograma quinzenal de dissabtes.\n",
-      "handle": "@paisinvisible",
-      "subscriberCount": 2250,
-      "categories": [
-        "cultura"
-      ],
-      "topTags": [
-        "3cat",
-        "catalunya",
-        "ieo",
-        "lingüística",
-        "oc",
-        "uab",
-        "vall",
         "català",
-        "farri",
-        "icat"
+        "comèdia",
+        "Esquetxes",
+        "Esquetxes comèdia en català",
+        "Humor",
+        "catala",
+        "humor catala",
+        "humor català",
+        "sketch"
       ]
     },
-    "UCptKQCkfc-LV4ybc9Th5_OA": {
-      "name": "Víctor Puig ",
-      "avatar": "https://yt3.ggpht.com/fxi_Kqr7o9raXV-TJHt9jemmkN-JNAHHKLGMqG7D_MuxhCJrxWgrY7_s8s22sC1TCpk3snh2cXs=s800-c-k-c0x00ffffff-no-rj",
-      "description": "Entrevistes i comentari polític.\nPerspectiva catalanocèntrica.\nAjuda'ns a créixer: ES56 3025 0014 0214 0009 6845\n\n",
-      "handle": "@victor_puig_",
-      "subscriberCount": 4920,
-      "categories": [
-        "societat"
-      ],
-      "topTags": [
-        "Víctor Puig",
-        "política catalana",
-        "cultura catalana",
-        "sobirania catalana",
-        "catalunya",
-        "Catalunya",
-        "Catalunya 2024",
-        "Com fer-se ric",
-        "drets humans",
-        "economia"
-      ]
-    },
-    "UC5Ha9G3Tp_17qcC38GPPvQg": {
-      "name": "Èric López",
-      "avatar": "https://yt3.ggpht.com/K97ftPusNCdyMm4n3U2-4KpY3kN2avIyR4VPeBJYPfcmWyah1Qhen2byHbS8XD5FXCt95nKbMg=s800-c-k-c0x00ffffff-no-rj",
-      "description": "🌎 De Catalunya al Món\n",
-      "handle": "@ericlopezr",
-      "subscriberCount": 223,
-      "categories": [
-        "vida"
-      ],
-      "topTags": [
-        "catalunya",
-        "tv3",
-        "vlog",
-        "3cat",
-        "barça",
-        "islandia",
-        "jan raich",
-        "podcast en català",
-        "viatge",
-        "aprender catalan"
-      ]
-    },
-    "UCaYXWVFYirJdDmprjozHdmA": {
-      "name": "VilaWeb",
-      "avatar": "https://yt3.ggpht.com/Scu_Hgh8vX_fv9HkqfXVLxVCIRd3j23cRoa9W9q50mkGj3aAwjdPOb0VphSB3LIcnUzosXnzcQ=s800-c-k-c0x00ffffff-no-rj",
-      "description": "VilaWeb.cat és el principal diari electrònic en llengua catalana, creat el 1995.",
-      "handle": "@vilaweb",
-      "subscriberCount": 20700,
+    "UCXajnbaMh6cxofmw5ki43DA": {
+      "name": "Diari ARA",
+      "avatar": "https://yt3.ggpht.com/wKc0-7uTnyIOxCH8-vegFsavqQBHkEGsrRmaB169nOjmHP1Yr_6kcczvKGGFzv-8RIYCK502nqk=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Canal oficial del diari ARA.\nVegeu tots els vídeos d'Ara Vídeos a: http://www.ara.cat/videos/",
+      "handle": "@diariara",
+      "subscriberCount": 57600,
       "categories": [
         "mitjans"
       ],
       "topTags": [
+        "ara.cat",
         "Barcelona",
         "Catalunya",
-        "País Valencià",
-        "Països Catalans",
-        "VilaWeb"
+        "Diari ARA",
+        "periodisme"
       ]
+    },
+    "UCDawX1bxeC4-hZiGnkqevbw": {
+      "name": "Enric Adventures",
+      "avatar": "https://yt3.ggpht.com/ECuCXTvGzVbIoiUIJGUS3AjNSFbkFHhR1oKwwK3g44xXvNRIIBgYbbcU-Jht8EXWOnpzknIE=s800-c-k-c0x00ffffff-no-rj",
+      "description": "Em dic Enric Luzán i en aquest canal trobareu senderisme, travesses i bolets\n\nContacte professional: enricadventures@gmail.com\n",
+      "handle": "@enricadventures",
+      "subscriberCount": 22100,
+      "categories": [
+        "vida"
+      ],
+      "topTags": [
+        "hiking",
+        "osprey",
+        "senderisme",
+        "senderismo",
+        "alt Empordà",
+        "exos 38",
+        "osprey exos",
+        "thru hiking",
+        "begur",
+        "Catalunya"
+      ]
+    },
+    "UCOzd_BhDxbQZ8Y2H1j9wOOg": {
+      "name": "EVA",
+      "avatar": "https://yt3.ggpht.com/L55HPxeMqFzSQ8Uwf7KlqQavPxPq8iT5J1O9jTo2qASmPRfUYaHNaLTUiwY1JjSDrKoGi7-4=s800-c-k-c0x00ffffff-no-rj",
+      "description": "EVA és la teva comunitat de referència en català. \n\nSom l'espai sense filtres per a la Generació Z, amb els millors videopòdcasts, sèries i contingut sobre música, tendències, debats i actualitat social. \n\nDescobreix la nostra mirada fresca, diversa i inclusiva!\n\n🔔 Subscriu-te al canal i no oblidis...",
+      "handle": "@someva",
+      "subscriberCount": 17200,
+      "categories": [
+        "humor"
+      ],
+      "topTags": [
+        "3Cat",
+        "3Cat SomEVA",
+        "3CatEVA",
+        "EVA",
+        "SomEVA",
+        "loft",
+        "loft eva",
+        "alberto gadel",
+        "gala castelltort",
+        "la cabra"
+      ]
+    },
+    "UCNSmn5NLUDrV_paFZl--7qw": {
+      "name": "La Sotana",
+      "avatar": "https://yt3.ggpht.com/ytc/AIdro_mO0v5nKplUkfqSab7DdXQSvTWrnqIgF1CafWsUG4IvAec=s800-c-k-c0x00ffffff-no-rj",
+      "description": "",
+      "handle": "@lasotana",
+      "subscriberCount": 65200,
+      "categories": [
+        "humor"
+      ],
+      "topTags": []
     }
   },
   "videos": [
+    {
+      "id": "T9MnK7oAq8I",
+      "title": "Guillo Rist: “No descarto presentar-me a Eurovisió” | Loft",
+      "thumbnail": "https://i.ytimg.com/vi/T9MnK7oAq8I/maxresdefault.jpg",
+      "channelId": "UCOzd_BhDxbQZ8Y2H1j9wOOg",
+      "channelTitle": "EVA",
+      "publishedAt": "2026-01-31T19:00:23Z",
+      "categories": [
+        "humor"
+      ],
+      "sourceChannelId": "UCOzd_BhDxbQZ8Y2H1j9wOOg",
+      "duration": "PT16M59S",
+      "durationSeconds": 1019,
+      "isShort": false,
+      "viewCount": 128,
+      "likeCount": 3,
+      "commentCount": 0,
+      "tags": [
+        "3CatEVA",
+        "EVA",
+        "SomEVA",
+        "3Cat",
+        "3Cat SomEVA",
+        "loft",
+        "loft eva",
+        "alberto gadel",
+        "gala castelltort",
+        "eurovisio",
+        "ot",
+        "operacion triunfo",
+        "guillo rist",
+        "entrevista guillo rist"
+      ]
+    },
+    {
+      "id": "CoeW36r3LVc",
+      "title": "La doctora Montse Folch, a 'Noms propis'",
+      "thumbnail": "https://i.ytimg.com/vi/CoeW36r3LVc/maxresdefault.jpg",
+      "channelId": "UCe609vWJJ1yXOTiZcjuaffQ",
+      "channelTitle": "RTVE Catalunya",
+      "publishedAt": "2026-01-31T17:25:32Z",
+      "categories": [
+        "mitjans"
+      ],
+      "sourceChannelId": "UCe609vWJJ1yXOTiZcjuaffQ",
+      "duration": "PT1M30S",
+      "durationSeconds": 90,
+      "isShort": true,
+      "viewCount": 1,
+      "likeCount": 0,
+      "commentCount": 0,
+      "tags": []
+    },
+    {
+      "id": "co5IA2g473A",
+      "title": "La guerra d’Israel i els paràmetres de tiktok",
+      "thumbnail": "https://i.ytimg.com/vi/co5IA2g473A/maxresdefault.jpg",
+      "channelId": "UCaYXWVFYirJdDmprjozHdmA",
+      "channelTitle": "VilaWeb",
+      "publishedAt": "2026-01-31T17:01:03Z",
+      "categories": [
+        "mitjans"
+      ],
+      "sourceChannelId": "UCaYXWVFYirJdDmprjozHdmA",
+      "duration": "PT1M18S",
+      "durationSeconds": 78,
+      "isShort": true,
+      "viewCount": 191,
+      "likeCount": 0,
+      "commentCount": 1,
+      "tags": [
+        "VilaWeb",
+        "Barcelona",
+        "Catalunya",
+        "País Valencià",
+        "Països Catalans"
+      ]
+    },
+    {
+      "id": "K1gnYbYMPB0",
+      "title": "unknown",
+      "thumbnail": "https://i.ytimg.com/vi/K1gnYbYMPB0/maxresdefault.jpg",
+      "channelId": "UCe609vWJJ1yXOTiZcjuaffQ",
+      "channelTitle": "RTVE Catalunya",
+      "publishedAt": "2026-01-31T17:00:36Z",
+      "categories": [
+        "mitjans"
+      ],
+      "sourceChannelId": "UCe609vWJJ1yXOTiZcjuaffQ",
+      "duration": "PT45S",
+      "durationSeconds": 45,
+      "isShort": true,
+      "viewCount": 6,
+      "likeCount": 1,
+      "commentCount": 0,
+      "tags": []
+    },
+    {
+      "id": "8xSDcMP5tkg",
+      "title": "Carreteres sense voral. Dia 62 de La Volta al Món a Peu",
+      "thumbnail": "https://i.ytimg.com/vi/8xSDcMP5tkg/sddefault.jpg",
+      "channelId": "UCDawX1bxeC4-hZiGnkqevbw",
+      "channelTitle": "Enric Adventures",
+      "publishedAt": "2026-01-31T17:00:00Z",
+      "categories": [
+        "vida"
+      ],
+      "sourceChannelId": "UCDawX1bxeC4-hZiGnkqevbw",
+      "duration": "PT10M28S",
+      "durationSeconds": 628,
+      "isShort": false,
+      "viewCount": 6406,
+      "likeCount": 782,
+      "commentCount": 50,
+      "tags": []
+    },
     {
       "id": "n4DO0Sn3DCs",
       "title": "Va de Verd - Carabasses gegants: com es fan?",
@@ -416,7 +532,7 @@
       "duration": "PT1M1S",
       "durationSeconds": 61,
       "isShort": true,
-      "viewCount": 0,
+      "viewCount": 5,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -435,8 +551,8 @@
       "duration": "PT2M3S",
       "durationSeconds": 123,
       "isShort": false,
-      "viewCount": 82,
-      "likeCount": 9,
+      "viewCount": 384,
+      "likeCount": 19,
       "commentCount": 0,
       "tags": [
         "Humor",
@@ -464,7 +580,7 @@
       "duration": "PT1M19S",
       "durationSeconds": 79,
       "isShort": true,
-      "viewCount": 3,
+      "viewCount": 9,
       "likeCount": 1,
       "commentCount": 0,
       "tags": []
@@ -483,8 +599,8 @@
       "duration": "PT29S",
       "durationSeconds": 29,
       "isShort": true,
-      "viewCount": 236,
-      "likeCount": 14,
+      "viewCount": 771,
+      "likeCount": 21,
       "commentCount": 1,
       "tags": []
     },
@@ -502,7 +618,7 @@
       "duration": "PT1M47S",
       "durationSeconds": 107,
       "isShort": true,
-      "viewCount": 8,
+      "viewCount": 10,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -521,7 +637,7 @@
       "duration": "PT1M1S",
       "durationSeconds": 61,
       "isShort": true,
-      "viewCount": 12,
+      "viewCount": 18,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -540,7 +656,7 @@
       "duration": "PT40S",
       "durationSeconds": 40,
       "isShort": true,
-      "viewCount": 7,
+      "viewCount": 15,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -564,8 +680,8 @@
       "duration": "PT1M53S",
       "durationSeconds": 113,
       "isShort": true,
-      "viewCount": 404,
-      "likeCount": 10,
+      "viewCount": 943,
+      "likeCount": 18,
       "commentCount": 1,
       "tags": [
         "TV3"
@@ -585,9 +701,9 @@
       "duration": "PT1M44S",
       "durationSeconds": 104,
       "isShort": true,
-      "viewCount": 380,
-      "likeCount": 19,
-      "commentCount": 5,
+      "viewCount": 914,
+      "likeCount": 32,
+      "commentCount": 6,
       "tags": [
         "TV3"
       ]
@@ -606,8 +722,8 @@
       "duration": "PT2M47S",
       "durationSeconds": 167,
       "isShort": false,
-      "viewCount": 210,
-      "likeCount": 8,
+      "viewCount": 513,
+      "likeCount": 12,
       "commentCount": 1,
       "tags": [
         "TV3"
@@ -627,9 +743,9 @@
       "duration": "PT1M41S",
       "durationSeconds": 101,
       "isShort": true,
-      "viewCount": 775,
-      "likeCount": 22,
-      "commentCount": 3,
+      "viewCount": 1864,
+      "likeCount": 38,
+      "commentCount": 5,
       "tags": [
         "TV3"
       ]
@@ -648,8 +764,8 @@
       "duration": "PT1M52S",
       "durationSeconds": 112,
       "isShort": true,
-      "viewCount": 430,
-      "likeCount": 25,
+      "viewCount": 1075,
+      "likeCount": 39,
       "commentCount": 3,
       "tags": [
         "TV3"
@@ -669,9 +785,9 @@
       "duration": "PT1M47S",
       "durationSeconds": 107,
       "isShort": true,
-      "viewCount": 261,
-      "likeCount": 12,
-      "commentCount": 2,
+      "viewCount": 600,
+      "likeCount": 18,
+      "commentCount": 3,
       "tags": [
         "TV3"
       ]
@@ -690,9 +806,9 @@
       "duration": "PT2M6S",
       "durationSeconds": 126,
       "isShort": false,
-      "viewCount": 297,
-      "likeCount": 17,
-      "commentCount": 0,
+      "viewCount": 824,
+      "likeCount": 25,
+      "commentCount": 2,
       "tags": [
         "TV3"
       ]
@@ -711,9 +827,9 @@
       "duration": "PT2M1S",
       "durationSeconds": 121,
       "isShort": false,
-      "viewCount": 510,
-      "likeCount": 29,
-      "commentCount": 2,
+      "viewCount": 1153,
+      "likeCount": 38,
+      "commentCount": 4,
       "tags": [
         "TV3"
       ]
@@ -732,8 +848,8 @@
       "duration": "PT1M47S",
       "durationSeconds": 107,
       "isShort": true,
-      "viewCount": 261,
-      "likeCount": 15,
+      "viewCount": 664,
+      "likeCount": 26,
       "commentCount": 1,
       "tags": [
         "TV3"
@@ -753,9 +869,9 @@
       "duration": "PT2M6S",
       "durationSeconds": 126,
       "isShort": false,
-      "viewCount": 325,
-      "likeCount": 10,
-      "commentCount": 0,
+      "viewCount": 746,
+      "likeCount": 18,
+      "commentCount": 1,
       "tags": [
         "TV3"
       ]
@@ -774,8 +890,8 @@
       "duration": "PT1M58S",
       "durationSeconds": 118,
       "isShort": true,
-      "viewCount": 440,
-      "likeCount": 13,
+      "viewCount": 983,
+      "likeCount": 19,
       "commentCount": 0,
       "tags": [
         "TV3"
@@ -795,8 +911,8 @@
       "duration": "PT1M46S",
       "durationSeconds": 106,
       "isShort": true,
-      "viewCount": 298,
-      "likeCount": 11,
+      "viewCount": 673,
+      "likeCount": 18,
       "commentCount": 0,
       "tags": [
         "TV3"
@@ -816,8 +932,8 @@
       "duration": "PT1M53S",
       "durationSeconds": 113,
       "isShort": true,
-      "viewCount": 367,
-      "likeCount": 11,
+      "viewCount": 854,
+      "likeCount": 15,
       "commentCount": 0,
       "tags": [
         "TV3"
@@ -837,8 +953,8 @@
       "duration": "PT2M9S",
       "durationSeconds": 129,
       "isShort": false,
-      "viewCount": 266,
-      "likeCount": 16,
+      "viewCount": 584,
+      "likeCount": 20,
       "commentCount": 0,
       "tags": [
         "TV3"
@@ -858,9 +974,9 @@
       "duration": "PT1H13M39S",
       "durationSeconds": 4419,
       "isShort": false,
-      "viewCount": 36,
-      "likeCount": 8,
-      "commentCount": 0,
+      "viewCount": 68,
+      "likeCount": 9,
+      "commentCount": 2,
       "tags": [
         "ieo",
         "iei",
@@ -933,9 +1049,9 @@
       "duration": "PT1M46S",
       "durationSeconds": 106,
       "isShort": true,
-      "viewCount": 598,
-      "likeCount": 28,
-      "commentCount": 4,
+      "viewCount": 1425,
+      "likeCount": 41,
+      "commentCount": 5,
       "tags": [
         "TV3"
       ]
@@ -954,9 +1070,9 @@
       "duration": "PT55S",
       "durationSeconds": 55,
       "isShort": true,
-      "viewCount": 591,
+      "viewCount": 734,
       "likeCount": 0,
-      "commentCount": 1,
+      "commentCount": 2,
       "tags": [
         "VilaWeb",
         "Barcelona",
@@ -979,8 +1095,8 @@
       "duration": "PT21M27S",
       "durationSeconds": 1287,
       "isShort": false,
-      "viewCount": 68,
-      "likeCount": 2,
+      "viewCount": 81,
+      "likeCount": 3,
       "commentCount": 0,
       "tags": [
         "3CatEVA",
@@ -1009,7 +1125,7 @@
       "duration": "PT54M13S",
       "durationSeconds": 3253,
       "isShort": false,
-      "viewCount": 112,
+      "viewCount": 141,
       "likeCount": 0,
       "commentCount": 1,
       "tags": [
@@ -1034,8 +1150,8 @@
       "duration": "PT43S",
       "durationSeconds": 43,
       "isShort": true,
-      "viewCount": 568,
-      "likeCount": 29,
+      "viewCount": 845,
+      "likeCount": 35,
       "commentCount": 0,
       "tags": [
         "3Cat",
@@ -1057,7 +1173,7 @@
       "duration": "PT32S",
       "durationSeconds": 32,
       "isShort": true,
-      "viewCount": 26,
+      "viewCount": 27,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1076,7 +1192,7 @@
       "duration": "PT5M59S",
       "durationSeconds": 359,
       "isShort": false,
-      "viewCount": 466,
+      "viewCount": 510,
       "likeCount": 24,
       "commentCount": 1,
       "tags": [
@@ -1101,8 +1217,8 @@
       "duration": "PT59S",
       "durationSeconds": 59,
       "isShort": true,
-      "viewCount": 1230,
-      "likeCount": 15,
+      "viewCount": 1468,
+      "likeCount": 17,
       "commentCount": 0,
       "tags": [
         "Barcelona",
@@ -1125,9 +1241,9 @@
       "duration": "PT1M31S",
       "durationSeconds": 91,
       "isShort": true,
-      "viewCount": 567,
+      "viewCount": 724,
       "likeCount": 0,
-      "commentCount": 1,
+      "commentCount": 2,
       "tags": [
         "VilaWeb",
         "Barcelona",
@@ -1150,7 +1266,7 @@
       "duration": "PT26M37S",
       "durationSeconds": 1597,
       "isShort": false,
-      "viewCount": 74,
+      "viewCount": 78,
       "likeCount": 3,
       "commentCount": 0,
       "tags": [
@@ -1175,7 +1291,7 @@
       "duration": "PT58M11S",
       "durationSeconds": 3491,
       "isShort": false,
-      "viewCount": 1603,
+      "viewCount": 2109,
       "likeCount": 0,
       "commentCount": 5,
       "tags": [
@@ -1200,7 +1316,7 @@
       "duration": "PT24S",
       "durationSeconds": 24,
       "isShort": true,
-      "viewCount": 16,
+      "viewCount": 22,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1219,9 +1335,9 @@
       "duration": "PT11M6S",
       "durationSeconds": 666,
       "isShort": false,
-      "viewCount": 1164,
-      "likeCount": 105,
-      "commentCount": 13,
+      "viewCount": 1690,
+      "likeCount": 120,
+      "commentCount": 14,
       "tags": [
         "Montserrat",
         "Català",
@@ -1249,8 +1365,8 @@
       "duration": "PT2M26S",
       "durationSeconds": 146,
       "isShort": false,
-      "viewCount": 1339,
-      "likeCount": 37,
+      "viewCount": 1988,
+      "likeCount": 44,
       "commentCount": 0,
       "tags": [
         "Humor",
@@ -1278,9 +1394,9 @@
       "duration": "PT17M21S",
       "durationSeconds": 1041,
       "isShort": false,
-      "viewCount": 9350,
-      "likeCount": 1119,
-      "commentCount": 102,
+      "viewCount": 10629,
+      "likeCount": 1195,
+      "commentCount": 112,
       "tags": []
     },
     {
@@ -1297,7 +1413,7 @@
       "duration": "PT1M2S",
       "durationSeconds": 62,
       "isShort": true,
-      "viewCount": 32,
+      "viewCount": 36,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1316,7 +1432,7 @@
       "duration": "PT41S",
       "durationSeconds": 41,
       "isShort": true,
-      "viewCount": 12,
+      "viewCount": 27,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1335,7 +1451,7 @@
       "duration": "PT57S",
       "durationSeconds": 57,
       "isShort": true,
-      "viewCount": 10,
+      "viewCount": 13,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1392,7 +1508,7 @@
       "duration": "PT1M47S",
       "durationSeconds": 107,
       "isShort": true,
-      "viewCount": 14,
+      "viewCount": 17,
       "likeCount": 2,
       "commentCount": 0,
       "tags": []
@@ -1411,7 +1527,7 @@
       "duration": "PT1M",
       "durationSeconds": 60,
       "isShort": true,
-      "viewCount": 2741,
+      "viewCount": 3059,
       "likeCount": 0,
       "commentCount": 1,
       "tags": [
@@ -1436,7 +1552,7 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 12,
+      "viewCount": 20,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1455,9 +1571,9 @@
       "duration": "PT2M35S",
       "durationSeconds": 155,
       "isShort": false,
-      "viewCount": 942,
+      "viewCount": 1111,
       "likeCount": 0,
-      "commentCount": 0,
+      "commentCount": 1,
       "tags": [
         "VilaWeb",
         "Barcelona",
@@ -1480,7 +1596,7 @@
       "duration": "PT31S",
       "durationSeconds": 31,
       "isShort": true,
-      "viewCount": 104,
+      "viewCount": 121,
       "likeCount": 4,
       "commentCount": 0,
       "tags": [
@@ -1508,7 +1624,7 @@
       "duration": "PT45S",
       "durationSeconds": 45,
       "isShort": true,
-      "viewCount": 9,
+      "viewCount": 14,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1527,7 +1643,7 @@
       "duration": "PT34S",
       "durationSeconds": 34,
       "isShort": true,
-      "viewCount": 30,
+      "viewCount": 40,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -1551,7 +1667,7 @@
       "duration": "PT11M54S",
       "durationSeconds": 714,
       "isShort": false,
-      "viewCount": 13,
+      "viewCount": 14,
       "likeCount": 1,
       "commentCount": 0,
       "tags": []
@@ -1570,8 +1686,8 @@
       "duration": "PT1M",
       "durationSeconds": 60,
       "isShort": true,
-      "viewCount": 1040,
-      "likeCount": 32,
+      "viewCount": 1221,
+      "likeCount": 34,
       "commentCount": 0,
       "tags": []
     },
@@ -1589,7 +1705,7 @@
       "duration": "PT1M22S",
       "durationSeconds": 82,
       "isShort": true,
-      "viewCount": 321,
+      "viewCount": 393,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -1698,7 +1814,7 @@
       "duration": "PT6M2S",
       "durationSeconds": 362,
       "isShort": false,
-      "viewCount": 11,
+      "viewCount": 12,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1717,8 +1833,8 @@
       "duration": "PT52S",
       "durationSeconds": 52,
       "isShort": true,
-      "viewCount": 1080,
-      "likeCount": 48,
+      "viewCount": 1198,
+      "likeCount": 49,
       "commentCount": 3,
       "tags": [
         "3Cat",
@@ -1752,8 +1868,8 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 520,
-      "likeCount": 13,
+      "viewCount": 565,
+      "likeCount": 14,
       "commentCount": 0,
       "tags": []
     },
@@ -1771,8 +1887,8 @@
       "duration": "PT31M53S",
       "durationSeconds": 1913,
       "isShort": false,
-      "viewCount": 11555,
-      "likeCount": 411,
+      "viewCount": 13413,
+      "likeCount": 448,
       "commentCount": 30,
       "tags": [
         "TV3",
@@ -1820,7 +1936,7 @@
       "duration": "PT1M26S",
       "durationSeconds": 86,
       "isShort": true,
-      "viewCount": 3345,
+      "viewCount": 3531,
       "likeCount": 0,
       "commentCount": 2,
       "tags": [
@@ -1845,8 +1961,8 @@
       "duration": "PT1M31S",
       "durationSeconds": 91,
       "isShort": true,
-      "viewCount": 847,
-      "likeCount": 31,
+      "viewCount": 974,
+      "likeCount": 32,
       "commentCount": 2,
       "tags": []
     },
@@ -1864,8 +1980,8 @@
       "duration": "PT1M38S",
       "durationSeconds": 98,
       "isShort": true,
-      "viewCount": 894,
-      "likeCount": 29,
+      "viewCount": 1078,
+      "likeCount": 32,
       "commentCount": 0,
       "tags": []
     },
@@ -1883,8 +1999,8 @@
       "duration": "PT54M34S",
       "durationSeconds": 3274,
       "isShort": false,
-      "viewCount": 86,
-      "likeCount": 8,
+      "viewCount": 113,
+      "likeCount": 9,
       "commentCount": 1,
       "tags": []
     },
@@ -1902,8 +2018,8 @@
       "duration": "PT15M17S",
       "durationSeconds": 917,
       "isShort": false,
-      "viewCount": 2886,
-      "likeCount": 84,
+      "viewCount": 3061,
+      "likeCount": 87,
       "commentCount": 3,
       "tags": [
         "3Cat",
@@ -1933,7 +2049,7 @@
       "duration": "PT4M57S",
       "durationSeconds": 297,
       "isShort": false,
-      "viewCount": 813,
+      "viewCount": 821,
       "likeCount": 33,
       "commentCount": 2,
       "tags": [
@@ -1958,7 +2074,7 @@
       "duration": "PT1M1S",
       "durationSeconds": 61,
       "isShort": true,
-      "viewCount": 18,
+      "viewCount": 21,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -1977,7 +2093,7 @@
       "duration": "PT1M59S",
       "durationSeconds": 119,
       "isShort": true,
-      "viewCount": 16,
+      "viewCount": 20,
       "likeCount": 1,
       "commentCount": 1,
       "tags": []
@@ -1996,7 +2112,7 @@
       "duration": "PT1M11S",
       "durationSeconds": 71,
       "isShort": true,
-      "viewCount": 69,
+      "viewCount": 77,
       "likeCount": 2,
       "commentCount": 0,
       "tags": [
@@ -2027,8 +2143,8 @@
       "duration": "PT15M2S",
       "durationSeconds": 902,
       "isShort": false,
-      "viewCount": 10823,
-      "likeCount": 1097,
+      "viewCount": 11123,
+      "likeCount": 1114,
       "commentCount": 117,
       "tags": []
     },
@@ -2046,7 +2162,7 @@
       "duration": "PT1M2S",
       "durationSeconds": 62,
       "isShort": true,
-      "viewCount": 26,
+      "viewCount": 28,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -2084,7 +2200,7 @@
       "duration": "PT50S",
       "durationSeconds": 50,
       "isShort": true,
-      "viewCount": 10,
+      "viewCount": 12,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -2103,7 +2219,7 @@
       "duration": "PT43S",
       "durationSeconds": 43,
       "isShort": true,
-      "viewCount": 546,
+      "viewCount": 580,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -2128,7 +2244,7 @@
       "duration": "PT46S",
       "durationSeconds": 46,
       "isShort": true,
-      "viewCount": 4,
+      "viewCount": 6,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -2147,7 +2263,7 @@
       "duration": "PT38S",
       "durationSeconds": 38,
       "isShort": true,
-      "viewCount": 15,
+      "viewCount": 20,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -2216,7 +2332,7 @@
       "duration": "PT43S",
       "durationSeconds": 43,
       "isShort": true,
-      "viewCount": 11,
+      "viewCount": 12,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -2235,7 +2351,7 @@
       "duration": "PT1M17S",
       "durationSeconds": 77,
       "isShort": true,
-      "viewCount": 319,
+      "viewCount": 331,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -2260,8 +2376,8 @@
       "duration": "PT46M53S",
       "durationSeconds": 2813,
       "isShort": false,
-      "viewCount": 2279,
-      "likeCount": 72,
+      "viewCount": 2393,
+      "likeCount": 74,
       "commentCount": 1,
       "tags": [
         "3Cat",
@@ -2292,7 +2408,7 @@
       "duration": "PT59S",
       "durationSeconds": 59,
       "isShort": true,
-      "viewCount": 6,
+      "viewCount": 8,
       "likeCount": 1,
       "commentCount": 0,
       "tags": []
@@ -2311,8 +2427,8 @@
       "duration": "PT1M34S",
       "durationSeconds": 94,
       "isShort": true,
-      "viewCount": 65,
-      "likeCount": 4,
+      "viewCount": 73,
+      "likeCount": 5,
       "commentCount": 0,
       "tags": [
         "3CatEVA",
@@ -2366,8 +2482,8 @@
       "duration": "PT52S",
       "durationSeconds": 52,
       "isShort": true,
-      "viewCount": 2281,
-      "likeCount": 46,
+      "viewCount": 2429,
+      "likeCount": 47,
       "commentCount": 0,
       "tags": []
     },
@@ -2385,8 +2501,8 @@
       "duration": "PT34M10S",
       "durationSeconds": 2050,
       "isShort": false,
-      "viewCount": 1410,
-      "likeCount": 42,
+      "viewCount": 1518,
+      "likeCount": 43,
       "commentCount": 5,
       "tags": [
         "3Cat",
@@ -2416,7 +2532,7 @@
       "duration": "PT1M5S",
       "durationSeconds": 65,
       "isShort": true,
-      "viewCount": 25,
+      "viewCount": 28,
       "likeCount": 2,
       "commentCount": 0,
       "tags": [
@@ -2500,7 +2616,7 @@
       "duration": "PT1M56S",
       "durationSeconds": 116,
       "isShort": true,
-      "viewCount": 11,
+      "viewCount": 12,
       "likeCount": 1,
       "commentCount": 0,
       "tags": []
@@ -2519,7 +2635,7 @@
       "duration": "PT33M26S",
       "durationSeconds": 2006,
       "isShort": false,
-      "viewCount": 1191,
+      "viewCount": 1213,
       "likeCount": 199,
       "commentCount": 25,
       "tags": [
@@ -2584,7 +2700,7 @@
       "duration": "PT1M9S",
       "durationSeconds": 69,
       "isShort": true,
-      "viewCount": 51,
+      "viewCount": 54,
       "likeCount": 2,
       "commentCount": 0,
       "tags": [
@@ -2615,7 +2731,7 @@
       "duration": "PT44M40S",
       "durationSeconds": 2680,
       "isShort": false,
-      "viewCount": 2279,
+      "viewCount": 2373,
       "likeCount": 0,
       "commentCount": 2,
       "tags": [
@@ -2640,7 +2756,7 @@
       "duration": "PT30M38S",
       "durationSeconds": 1838,
       "isShort": false,
-      "viewCount": 565,
+      "viewCount": 572,
       "likeCount": 10,
       "commentCount": 0,
       "tags": [
@@ -2709,7 +2825,7 @@
       "duration": "PT1M16S",
       "durationSeconds": 76,
       "isShort": true,
-      "viewCount": 833,
+      "viewCount": 846,
       "likeCount": 0,
       "commentCount": 5,
       "tags": [
@@ -2734,7 +2850,7 @@
       "duration": "PT10M3S",
       "durationSeconds": 603,
       "isShort": false,
-      "viewCount": 2094,
+      "viewCount": 2183,
       "likeCount": 77,
       "commentCount": 2,
       "tags": [
@@ -2799,7 +2915,7 @@
       "duration": "PT1M13S",
       "durationSeconds": 73,
       "isShort": true,
-      "viewCount": 41,
+      "viewCount": 44,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -2856,8 +2972,8 @@
       "duration": "PT12M25S",
       "durationSeconds": 745,
       "isShort": false,
-      "viewCount": 11538,
-      "likeCount": 1111,
+      "viewCount": 11697,
+      "likeCount": 1121,
       "commentCount": 148,
       "tags": []
     },
@@ -2875,8 +2991,8 @@
       "duration": "PT2M37S",
       "durationSeconds": 157,
       "isShort": false,
-      "viewCount": 1120,
-      "likeCount": 37,
+      "viewCount": 1162,
+      "likeCount": 38,
       "commentCount": 3,
       "tags": [
         "Humor",
@@ -2899,7 +3015,7 @@
       "duration": "PT59S",
       "durationSeconds": 59,
       "isShort": true,
-      "viewCount": 6,
+      "viewCount": 7,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -2918,8 +3034,8 @@
       "duration": "PT46S",
       "durationSeconds": 46,
       "isShort": true,
-      "viewCount": 1475,
-      "likeCount": 36,
+      "viewCount": 1526,
+      "likeCount": 37,
       "commentCount": 1,
       "tags": [
         "3Cat",
@@ -2969,7 +3085,7 @@
       "duration": "PT1M11S",
       "durationSeconds": 71,
       "isShort": true,
-      "viewCount": 1142,
+      "viewCount": 1172,
       "likeCount": 0,
       "commentCount": 2,
       "tags": [
@@ -3013,8 +3129,8 @@
       "duration": "PT57S",
       "durationSeconds": 57,
       "isShort": true,
-      "viewCount": 1448,
-      "likeCount": 36,
+      "viewCount": 1515,
+      "likeCount": 38,
       "commentCount": 0,
       "tags": []
     },
@@ -3032,8 +3148,8 @@
       "duration": "PT47M26S",
       "durationSeconds": 2846,
       "isShort": false,
-      "viewCount": 2580,
-      "likeCount": 74,
+      "viewCount": 2661,
+      "likeCount": 76,
       "commentCount": 9,
       "tags": [
         "3Cat",
@@ -3063,8 +3179,8 @@
       "duration": "PT20M45S",
       "durationSeconds": 1245,
       "isShort": false,
-      "viewCount": 1018,
-      "likeCount": 32,
+      "viewCount": 1072,
+      "likeCount": 33,
       "commentCount": 1,
       "tags": [
         "3CatEVA",
@@ -3114,7 +3230,7 @@
       "duration": "PT41S",
       "durationSeconds": 41,
       "isShort": true,
-      "viewCount": 35,
+      "viewCount": 37,
       "likeCount": 1,
       "commentCount": 0,
       "tags": []
@@ -3133,7 +3249,7 @@
       "duration": "PT1M14S",
       "durationSeconds": 74,
       "isShort": true,
-      "viewCount": 91,
+      "viewCount": 92,
       "likeCount": 2,
       "commentCount": 0,
       "tags": [
@@ -3188,8 +3304,8 @@
       "duration": "PT1H7M27S",
       "durationSeconds": 4047,
       "isShort": false,
-      "viewCount": 63595,
-      "likeCount": 1607,
+      "viewCount": 65416,
+      "likeCount": 1627,
       "commentCount": 88,
       "tags": []
     },
@@ -3226,7 +3342,7 @@
       "duration": "PT1M32S",
       "durationSeconds": 92,
       "isShort": true,
-      "viewCount": 58,
+      "viewCount": 61,
       "likeCount": 2,
       "commentCount": 0,
       "tags": []
@@ -3245,8 +3361,8 @@
       "duration": "PT29M28S",
       "durationSeconds": 1768,
       "isShort": false,
-      "viewCount": 1230,
-      "likeCount": 252,
+      "viewCount": 1236,
+      "likeCount": 253,
       "commentCount": 78,
       "tags": [
         "Notícies",
@@ -3291,7 +3407,7 @@
       "duration": "PT57S",
       "durationSeconds": 57,
       "isShort": true,
-      "viewCount": 470,
+      "viewCount": 496,
       "likeCount": 0,
       "commentCount": 6,
       "tags": [
@@ -3316,7 +3432,7 @@
       "duration": "PT12M32S",
       "durationSeconds": 752,
       "isShort": false,
-      "viewCount": 167,
+      "viewCount": 170,
       "likeCount": 7,
       "commentCount": 0,
       "tags": [
@@ -3349,7 +3465,7 @@
       "duration": "PT41M4S",
       "durationSeconds": 2464,
       "isShort": false,
-      "viewCount": 983,
+      "viewCount": 1017,
       "likeCount": 0,
       "commentCount": 2,
       "tags": [
@@ -3440,7 +3556,7 @@
       "duration": "PT1M39S",
       "durationSeconds": 99,
       "isShort": true,
-      "viewCount": 586,
+      "viewCount": 591,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -3465,7 +3581,7 @@
       "duration": "PT4M26S",
       "durationSeconds": 266,
       "isShort": false,
-      "viewCount": 732,
+      "viewCount": 734,
       "likeCount": 29,
       "commentCount": 1,
       "tags": [
@@ -3509,8 +3625,8 @@
       "duration": "PT1M36S",
       "durationSeconds": 96,
       "isShort": true,
-      "viewCount": 6926,
-      "likeCount": 141,
+      "viewCount": 7415,
+      "likeCount": 146,
       "commentCount": 2,
       "tags": [
         "3Cat",
@@ -3532,7 +3648,7 @@
       "duration": "PT41S",
       "durationSeconds": 41,
       "isShort": true,
-      "viewCount": 1919,
+      "viewCount": 1931,
       "likeCount": 0,
       "commentCount": 2,
       "tags": [
@@ -3576,8 +3692,8 @@
       "duration": "PT45S",
       "durationSeconds": 45,
       "isShort": true,
-      "viewCount": 4559,
-      "likeCount": 76,
+      "viewCount": 4599,
+      "likeCount": 77,
       "commentCount": 0,
       "tags": []
     },
@@ -3595,7 +3711,7 @@
       "duration": "PT3M47S",
       "durationSeconds": 227,
       "isShort": false,
-      "viewCount": 439,
+      "viewCount": 448,
       "likeCount": 23,
       "commentCount": 0,
       "tags": [
@@ -3646,8 +3762,8 @@
       "duration": "PT12M6S",
       "durationSeconds": 726,
       "isShort": false,
-      "viewCount": 11552,
-      "likeCount": 1164,
+      "viewCount": 11696,
+      "likeCount": 1170,
       "commentCount": 143,
       "tags": []
     },
@@ -3728,7 +3844,7 @@
       "duration": "PT1M9S",
       "durationSeconds": 69,
       "isShort": true,
-      "viewCount": 1809,
+      "viewCount": 1868,
       "likeCount": 39,
       "commentCount": 3,
       "tags": [
@@ -3758,7 +3874,7 @@
       "duration": "PT1M3S",
       "durationSeconds": 63,
       "isShort": true,
-      "viewCount": 31,
+      "viewCount": 34,
       "likeCount": 1,
       "commentCount": 0,
       "tags": []
@@ -3777,7 +3893,7 @@
       "duration": "PT37M29S",
       "durationSeconds": 2249,
       "isShort": false,
-      "viewCount": 430,
+      "viewCount": 433,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -3802,8 +3918,8 @@
       "duration": "PT42M33S",
       "durationSeconds": 2553,
       "isShort": false,
-      "viewCount": 2579,
-      "likeCount": 28,
+      "viewCount": 2776,
+      "likeCount": 32,
       "commentCount": 15,
       "tags": [
         "Diari ARA",
@@ -3827,7 +3943,7 @@
       "duration": "PT38M49S",
       "durationSeconds": 2329,
       "isShort": false,
-      "viewCount": 806,
+      "viewCount": 827,
       "likeCount": 13,
       "commentCount": 1,
       "tags": [
@@ -3836,30 +3952,6 @@
         "ara.cat",
         "Barcelona",
         "Catalunya"
-      ]
-    },
-    {
-      "id": "GadnpVVnaes",
-      "title": "La garlanda: un dolç en perill d'extinció",
-      "thumbnail": "https://i.ytimg.com/vi/GadnpVVnaes/maxresdefault.jpg",
-      "channelId": "UCe609vWJJ1yXOTiZcjuaffQ",
-      "channelTitle": "RTVE Catalunya",
-      "publishedAt": "2026-01-27T12:30:32Z",
-      "categories": [
-        "mitjans"
-      ],
-      "sourceChannelId": "UCe609vWJJ1yXOTiZcjuaffQ",
-      "duration": "PT41S",
-      "durationSeconds": 41,
-      "isShort": true,
-      "viewCount": 18,
-      "likeCount": 0,
-      "commentCount": 0,
-      "tags": [
-        "Garlanda",
-        "La2Cat",
-        "LaReceptaPerduda",
-        "Silvia Abril"
       ]
     },
     {
@@ -3876,7 +3968,7 @@
       "duration": "PT8M14S",
       "durationSeconds": 494,
       "isShort": false,
-      "viewCount": 1654,
+      "viewCount": 1663,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -3901,7 +3993,7 @@
       "duration": "PT3M29S",
       "durationSeconds": 209,
       "isShort": false,
-      "viewCount": 2782,
+      "viewCount": 2790,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -3926,7 +4018,7 @@
       "duration": "PT34S",
       "durationSeconds": 34,
       "isShort": true,
-      "viewCount": 5023,
+      "viewCount": 5089,
       "likeCount": 112,
       "commentCount": 1,
       "tags": []
@@ -3945,8 +4037,8 @@
       "duration": "PT46M56S",
       "durationSeconds": 2816,
       "isShort": false,
-      "viewCount": 2683,
-      "likeCount": 83,
+      "viewCount": 2781,
+      "likeCount": 86,
       "commentCount": 3,
       "tags": [
         "3Cat",
@@ -3976,7 +4068,7 @@
       "duration": "PT46M38S",
       "durationSeconds": 2798,
       "isShort": false,
-      "viewCount": 285,
+      "viewCount": 295,
       "likeCount": 6,
       "commentCount": 2,
       "tags": [
@@ -3993,25 +4085,6 @@
         "mort",
         "entrevista marc sarrats"
       ]
-    },
-    {
-      "id": "G1cOghNYKts",
-      "title": "Cuina Brutal - Falsa maionesa amb un secret perquè no es talli mai",
-      "thumbnail": "https://i.ytimg.com/vi/G1cOghNYKts/maxresdefault.jpg",
-      "channelId": "UCe609vWJJ1yXOTiZcjuaffQ",
-      "channelTitle": "RTVE Catalunya",
-      "publishedAt": "2026-01-27T11:00:55Z",
-      "categories": [
-        "mitjans"
-      ],
-      "sourceChannelId": "UCe609vWJJ1yXOTiZcjuaffQ",
-      "duration": "PT35S",
-      "durationSeconds": 35,
-      "isShort": true,
-      "viewCount": 23,
-      "likeCount": 1,
-      "commentCount": 0,
-      "tags": []
     },
     {
       "id": "JWKZzfaEByU",
@@ -4074,7 +4147,7 @@
       "duration": "PT1M7S",
       "durationSeconds": 67,
       "isShort": true,
-      "viewCount": 1586,
+      "viewCount": 1591,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -4099,7 +4172,7 @@
       "duration": "PT41M16S",
       "durationSeconds": 2476,
       "isShort": false,
-      "viewCount": 378,
+      "viewCount": 384,
       "likeCount": 2,
       "commentCount": 3,
       "tags": [
@@ -4227,8 +4300,8 @@
       "duration": "PT32S",
       "durationSeconds": 32,
       "isShort": true,
-      "viewCount": 1029,
-      "likeCount": 37,
+      "viewCount": 1082,
+      "likeCount": 38,
       "commentCount": 2,
       "tags": [
         "3Cat",
@@ -4250,8 +4323,8 @@
       "duration": "PT2M6S",
       "durationSeconds": 126,
       "isShort": false,
-      "viewCount": 1757,
-      "likeCount": 17,
+      "viewCount": 1852,
+      "likeCount": 18,
       "commentCount": 0,
       "tags": [
         "3Cat",
@@ -4281,8 +4354,8 @@
       "duration": "PT29M2S",
       "durationSeconds": 1742,
       "isShort": false,
-      "viewCount": 1168,
-      "likeCount": 219,
+      "viewCount": 1173,
+      "likeCount": 220,
       "commentCount": 35,
       "tags": [
         "Notícies",
@@ -4327,7 +4400,7 @@
       "duration": "PT1H40S",
       "durationSeconds": 3640,
       "isShort": false,
-      "viewCount": 9692,
+      "viewCount": 9870,
       "likeCount": 169,
       "commentCount": 9,
       "tags": [
@@ -4350,8 +4423,8 @@
       "duration": "PT1H13M49S",
       "durationSeconds": 4429,
       "isShort": false,
-      "viewCount": 6381,
-      "likeCount": 184,
+      "viewCount": 6608,
+      "likeCount": 187,
       "commentCount": 88,
       "tags": [
         "3CatEVA",
@@ -4382,7 +4455,7 @@
       "duration": "PT5M9S",
       "durationSeconds": 309,
       "isShort": false,
-      "viewCount": 739,
+      "viewCount": 741,
       "likeCount": 30,
       "commentCount": 2,
       "tags": [
@@ -4407,7 +4480,7 @@
       "duration": "PT27M51S",
       "durationSeconds": 1671,
       "isShort": false,
-      "viewCount": 6873,
+      "viewCount": 7037,
       "likeCount": 0,
       "commentCount": 11,
       "tags": [
@@ -4432,7 +4505,7 @@
       "duration": "PT1M2S",
       "durationSeconds": 62,
       "isShort": true,
-      "viewCount": 1483,
+      "viewCount": 1494,
       "likeCount": 0,
       "commentCount": 5,
       "tags": [
@@ -4457,7 +4530,7 @@
       "duration": "PT28S",
       "durationSeconds": 28,
       "isShort": true,
-      "viewCount": 1561,
+      "viewCount": 1572,
       "likeCount": 0,
       "commentCount": 5,
       "tags": [
@@ -4482,8 +4555,8 @@
       "duration": "PT1M34S",
       "durationSeconds": 94,
       "isShort": true,
-      "viewCount": 299,
-      "likeCount": 14,
+      "viewCount": 311,
+      "likeCount": 15,
       "commentCount": 0,
       "tags": [
         "Humor",
@@ -4522,8 +4595,8 @@
       "duration": "PT12M52S",
       "durationSeconds": 772,
       "isShort": false,
-      "viewCount": 11627,
-      "likeCount": 1085,
+      "viewCount": 11728,
+      "likeCount": 1090,
       "commentCount": 124,
       "tags": []
     },
@@ -4541,8 +4614,8 @@
       "duration": "PT1M5S",
       "durationSeconds": 65,
       "isShort": true,
-      "viewCount": 3692,
-      "likeCount": 170,
+      "viewCount": 3761,
+      "likeCount": 172,
       "commentCount": 2,
       "tags": [
         "3Cat",
@@ -4607,7 +4680,7 @@
       "duration": "PT1M15S",
       "durationSeconds": 75,
       "isShort": true,
-      "viewCount": 1589,
+      "viewCount": 1601,
       "likeCount": 0,
       "commentCount": 6,
       "tags": [
@@ -4632,7 +4705,7 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 1029,
+      "viewCount": 1045,
       "likeCount": 0,
       "commentCount": 2,
       "tags": [
@@ -4657,8 +4730,8 @@
       "duration": "PT46M18S",
       "durationSeconds": 2778,
       "isShort": false,
-      "viewCount": 2893,
-      "likeCount": 80,
+      "viewCount": 2965,
+      "likeCount": 81,
       "commentCount": 3,
       "tags": [
         "3Cat",
@@ -4690,8 +4763,8 @@
       "duration": "PT53S",
       "durationSeconds": 53,
       "isShort": true,
-      "viewCount": 3173,
-      "likeCount": 120,
+      "viewCount": 3211,
+      "likeCount": 121,
       "commentCount": 2,
       "tags": [
         "3Cat",
@@ -4713,7 +4786,7 @@
       "duration": "PT17M27S",
       "durationSeconds": 1047,
       "isShort": false,
-      "viewCount": 2134,
+      "viewCount": 2173,
       "likeCount": 56,
       "commentCount": 3,
       "tags": [
@@ -4776,7 +4849,7 @@
       "duration": "PT1M2S",
       "durationSeconds": 62,
       "isShort": true,
-      "viewCount": 716,
+      "viewCount": 719,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -4801,7 +4874,7 @@
       "duration": "PT8M12S",
       "durationSeconds": 492,
       "isShort": false,
-      "viewCount": 2444,
+      "viewCount": 2456,
       "likeCount": 31,
       "commentCount": 3,
       "tags": [
@@ -4887,7 +4960,7 @@
       "duration": "PT1M7S",
       "durationSeconds": 67,
       "isShort": true,
-      "viewCount": 1709,
+      "viewCount": 1715,
       "likeCount": 0,
       "commentCount": 6,
       "tags": [
@@ -4949,7 +5022,7 @@
       "duration": "PT1M22S",
       "durationSeconds": 82,
       "isShort": true,
-      "viewCount": 570,
+      "viewCount": 571,
       "likeCount": 0,
       "commentCount": 2,
       "tags": [
@@ -4974,8 +5047,8 @@
       "duration": "PT4M45S",
       "durationSeconds": 285,
       "isShort": false,
-      "viewCount": 2135,
-      "likeCount": 54,
+      "viewCount": 2186,
+      "likeCount": 55,
       "commentCount": 5,
       "tags": [
         "Humor",
@@ -5012,8 +5085,8 @@
       "duration": "PT22M41S",
       "durationSeconds": 1361,
       "isShort": false,
-      "viewCount": 13189,
-      "likeCount": 1214,
+      "viewCount": 13275,
+      "likeCount": 1217,
       "commentCount": 159,
       "tags": []
     },
@@ -5031,7 +5104,7 @@
       "duration": "PT25M29S",
       "durationSeconds": 1529,
       "isShort": false,
-      "viewCount": 216,
+      "viewCount": 218,
       "likeCount": 11,
       "commentCount": 1,
       "tags": [
@@ -5081,7 +5154,7 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 356,
+      "viewCount": 358,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -5142,8 +5215,8 @@
       "duration": "PT1H51M21S",
       "durationSeconds": 6681,
       "isShort": false,
-      "viewCount": 1875,
-      "likeCount": 29,
+      "viewCount": 1881,
+      "likeCount": 30,
       "commentCount": 2,
       "tags": [
         "Diari ARA",
@@ -5167,7 +5240,7 @@
       "duration": "PT3H30M21S",
       "durationSeconds": 12621,
       "isShort": false,
-      "viewCount": 1881,
+      "viewCount": 1886,
       "likeCount": 17,
       "commentCount": 5,
       "tags": [
@@ -5192,7 +5265,7 @@
       "duration": "PT16M7S",
       "durationSeconds": 967,
       "isShort": false,
-      "viewCount": 1167,
+      "viewCount": 1168,
       "likeCount": 9,
       "commentCount": 0,
       "tags": [
@@ -5217,7 +5290,7 @@
       "duration": "PT19M40S",
       "durationSeconds": 1180,
       "isShort": false,
-      "viewCount": 247,
+      "viewCount": 250,
       "likeCount": 10,
       "commentCount": 2,
       "tags": [
@@ -5299,8 +5372,8 @@
       "duration": "PT3M4S",
       "durationSeconds": 184,
       "isShort": false,
-      "viewCount": 1354,
-      "likeCount": 33,
+      "viewCount": 1371,
+      "likeCount": 35,
       "commentCount": 1,
       "tags": [
         "Humor",
@@ -5337,8 +5410,8 @@
       "duration": "PT1M39S",
       "durationSeconds": 99,
       "isShort": true,
-      "viewCount": 6227,
-      "likeCount": 94,
+      "viewCount": 6525,
+      "likeCount": 96,
       "commentCount": 5,
       "tags": [
         "TV3",
@@ -5374,8 +5447,8 @@
       "duration": "PT1M43S",
       "durationSeconds": 103,
       "isShort": true,
-      "viewCount": 1945,
-      "likeCount": 22,
+      "viewCount": 2022,
+      "likeCount": 24,
       "commentCount": 2,
       "tags": [
         "TV3",
@@ -5411,8 +5484,8 @@
       "duration": "PT2M5S",
       "durationSeconds": 125,
       "isShort": false,
-      "viewCount": 3231,
-      "likeCount": 72,
+      "viewCount": 3412,
+      "likeCount": 74,
       "commentCount": 5,
       "tags": [
         "TV3",
@@ -5448,8 +5521,8 @@
       "duration": "PT1M28S",
       "durationSeconds": 88,
       "isShort": true,
-      "viewCount": 3034,
-      "likeCount": 40,
+      "viewCount": 3181,
+      "likeCount": 41,
       "commentCount": 0,
       "tags": [
         "TV3",
@@ -5485,8 +5558,8 @@
       "duration": "PT1M56S",
       "durationSeconds": 116,
       "isShort": true,
-      "viewCount": 3051,
-      "likeCount": 53,
+      "viewCount": 3231,
+      "likeCount": 55,
       "commentCount": 5,
       "tags": [
         "TV3",
@@ -5522,8 +5595,8 @@
       "duration": "PT1M37S",
       "durationSeconds": 97,
       "isShort": true,
-      "viewCount": 1461,
-      "likeCount": 26,
+      "viewCount": 1542,
+      "likeCount": 27,
       "commentCount": 1,
       "tags": [
         "TV3",
@@ -5559,8 +5632,8 @@
       "duration": "PT1M50S",
       "durationSeconds": 110,
       "isShort": true,
-      "viewCount": 2534,
-      "likeCount": 59,
+      "viewCount": 2685,
+      "likeCount": 60,
       "commentCount": 1,
       "tags": [
         "TV3",
@@ -5596,7 +5669,7 @@
       "duration": "PT1M46S",
       "durationSeconds": 106,
       "isShort": true,
-      "viewCount": 2469,
+      "viewCount": 2604,
       "likeCount": 29,
       "commentCount": 1,
       "tags": [
@@ -5633,7 +5706,7 @@
       "duration": "PT1M34S",
       "durationSeconds": 94,
       "isShort": true,
-      "viewCount": 1892,
+      "viewCount": 1950,
       "likeCount": 30,
       "commentCount": 0,
       "tags": [
@@ -5670,7 +5743,7 @@
       "duration": "PT1M42S",
       "durationSeconds": 102,
       "isShort": true,
-      "viewCount": 1824,
+      "viewCount": 1895,
       "likeCount": 28,
       "commentCount": 0,
       "tags": [
@@ -5743,7 +5816,7 @@
       "duration": "PT2H43M31S",
       "durationSeconds": 9811,
       "isShort": false,
-      "viewCount": 1099,
+      "viewCount": 1104,
       "likeCount": 14,
       "commentCount": 0,
       "tags": [
@@ -5768,7 +5841,7 @@
       "duration": "PT41M",
       "durationSeconds": 2460,
       "isShort": false,
-      "viewCount": 1161,
+      "viewCount": 1164,
       "likeCount": 192,
       "commentCount": 58,
       "tags": [
@@ -5814,7 +5887,7 @@
       "duration": "PT50S",
       "durationSeconds": 50,
       "isShort": true,
-      "viewCount": 553,
+      "viewCount": 554,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -5839,7 +5912,7 @@
       "duration": "PT17M1S",
       "durationSeconds": 1021,
       "isShort": false,
-      "viewCount": 102,
+      "viewCount": 103,
       "likeCount": 4,
       "commentCount": 0,
       "tags": [
@@ -5871,7 +5944,7 @@
       "duration": "PT1M27S",
       "durationSeconds": 87,
       "isShort": true,
-      "viewCount": 1699,
+      "viewCount": 1702,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -5921,7 +5994,7 @@
       "duration": "PT11M7S",
       "durationSeconds": 667,
       "isShort": false,
-      "viewCount": 2803,
+      "viewCount": 2820,
       "likeCount": 141,
       "commentCount": 24,
       "tags": [
@@ -5952,8 +6025,8 @@
       "duration": "PT18M2S",
       "durationSeconds": 1082,
       "isShort": false,
-      "viewCount": 12992,
-      "likeCount": 1219,
+      "viewCount": 13036,
+      "likeCount": 1223,
       "commentCount": 129,
       "tags": []
     },
@@ -6017,7 +6090,7 @@
       "duration": "PT1M8S",
       "durationSeconds": 68,
       "isShort": true,
-      "viewCount": 1185,
+      "viewCount": 1187,
       "likeCount": 0,
       "commentCount": 1,
       "tags": [
@@ -6061,8 +6134,8 @@
       "duration": "PT1M6S",
       "durationSeconds": 66,
       "isShort": true,
-      "viewCount": 2537,
-      "likeCount": 31,
+      "viewCount": 2576,
+      "likeCount": 32,
       "commentCount": 2,
       "tags": []
     },
@@ -6080,7 +6153,7 @@
       "duration": "PT6M42S",
       "durationSeconds": 402,
       "isShort": false,
-      "viewCount": 1025,
+      "viewCount": 1027,
       "likeCount": 14,
       "commentCount": 0,
       "tags": [
@@ -6105,7 +6178,7 @@
       "duration": "PT31M18S",
       "durationSeconds": 1878,
       "isShort": false,
-      "viewCount": 1174,
+      "viewCount": 1175,
       "likeCount": 220,
       "commentCount": 41,
       "tags": [
@@ -6183,7 +6256,7 @@
       "duration": "PT1H51S",
       "durationSeconds": 3651,
       "isShort": false,
-      "viewCount": 8836,
+      "viewCount": 8852,
       "likeCount": 0,
       "commentCount": 32,
       "tags": [
@@ -6273,7 +6346,7 @@
       "duration": "PT16M24S",
       "durationSeconds": 984,
       "isShort": false,
-      "viewCount": 13166,
+      "viewCount": 13211,
       "likeCount": 1233,
       "commentCount": 236,
       "tags": []
@@ -6317,7 +6390,7 @@
       "duration": "PT1H19S",
       "durationSeconds": 3619,
       "isShort": false,
-      "viewCount": 437,
+      "viewCount": 443,
       "likeCount": 9,
       "commentCount": 1,
       "tags": [
@@ -6342,7 +6415,7 @@
       "duration": "PT1M7S",
       "durationSeconds": 67,
       "isShort": true,
-      "viewCount": 772,
+      "viewCount": 774,
       "likeCount": 0,
       "commentCount": 3,
       "tags": [
@@ -6367,8 +6440,8 @@
       "duration": "PT28S",
       "durationSeconds": 28,
       "isShort": true,
-      "viewCount": 3314,
-      "likeCount": 57,
+      "viewCount": 3342,
+      "likeCount": 58,
       "commentCount": 1,
       "tags": []
     },
@@ -6424,8 +6497,8 @@
       "duration": "PT51M3S",
       "durationSeconds": 3063,
       "isShort": false,
-      "viewCount": 24327,
-      "likeCount": 511,
+      "viewCount": 24538,
+      "likeCount": 513,
       "commentCount": 97,
       "tags": [
         "Diari ARA",
@@ -6449,7 +6522,7 @@
       "duration": "PT34M21S",
       "durationSeconds": 2061,
       "isShort": false,
-      "viewCount": 2510,
+      "viewCount": 2511,
       "likeCount": 300,
       "commentCount": 85,
       "tags": [
@@ -6495,7 +6568,7 @@
       "duration": "PT47M19S",
       "durationSeconds": 2839,
       "isShort": false,
-      "viewCount": 6573,
+      "viewCount": 6593,
       "likeCount": 0,
       "commentCount": 20,
       "tags": [
@@ -6548,7 +6621,7 @@
       "duration": "PT4M35S",
       "durationSeconds": 275,
       "isShort": false,
-      "viewCount": 673,
+      "viewCount": 674,
       "likeCount": 29,
       "commentCount": 0,
       "tags": [
@@ -6592,7 +6665,7 @@
       "duration": "PT24S",
       "durationSeconds": 24,
       "isShort": true,
-      "viewCount": 3303,
+      "viewCount": 3328,
       "likeCount": 45,
       "commentCount": 1,
       "tags": []
@@ -6611,8 +6684,8 @@
       "duration": "PT23M59S",
       "durationSeconds": 1439,
       "isShort": false,
-      "viewCount": 14350,
-      "likeCount": 1382,
+      "viewCount": 14397,
+      "likeCount": 1383,
       "commentCount": 188,
       "tags": []
     },
@@ -6655,7 +6728,7 @@
       "duration": "PT34S",
       "durationSeconds": 34,
       "isShort": true,
-      "viewCount": 7642,
+      "viewCount": 7659,
       "likeCount": 281,
       "commentCount": 10,
       "tags": []
@@ -6699,7 +6772,7 @@
       "duration": "PT24M43S",
       "durationSeconds": 1483,
       "isShort": false,
-      "viewCount": 692,
+      "viewCount": 705,
       "likeCount": 19,
       "commentCount": 0,
       "tags": [
@@ -6732,7 +6805,7 @@
       "duration": "PT1M21S",
       "durationSeconds": 81,
       "isShort": true,
-      "viewCount": 2238,
+      "viewCount": 2254,
       "likeCount": 35,
       "commentCount": 0,
       "tags": []
@@ -6831,9 +6904,9 @@
       "duration": "PT1H3M21S",
       "durationSeconds": 3801,
       "isShort": false,
-      "viewCount": 81317,
+      "viewCount": 81635,
       "likeCount": 2245,
-      "commentCount": 169,
+      "commentCount": 170,
       "tags": []
     },
     {
@@ -6850,7 +6923,7 @@
       "duration": "PT45M26S",
       "durationSeconds": 2726,
       "isShort": false,
-      "viewCount": 1289,
+      "viewCount": 1290,
       "likeCount": 221,
       "commentCount": 70,
       "tags": [
@@ -6896,7 +6969,7 @@
       "duration": "PT1M14S",
       "durationSeconds": 74,
       "isShort": true,
-      "viewCount": 473,
+      "viewCount": 497,
       "likeCount": 0,
       "commentCount": 1,
       "tags": [
@@ -6921,7 +6994,7 @@
       "duration": "PT12M32S",
       "durationSeconds": 752,
       "isShort": false,
-      "viewCount": 507,
+      "viewCount": 508,
       "likeCount": 13,
       "commentCount": 0,
       "tags": [
@@ -6953,7 +7026,7 @@
       "duration": "PT45M7S",
       "durationSeconds": 2707,
       "isShort": false,
-      "viewCount": 2038,
+      "viewCount": 2043,
       "likeCount": 0,
       "commentCount": 8,
       "tags": [
@@ -6978,7 +7051,7 @@
       "duration": "PT1M4S",
       "durationSeconds": 64,
       "isShort": true,
-      "viewCount": 553,
+      "viewCount": 554,
       "likeCount": 0,
       "commentCount": 0,
       "tags": [
@@ -7049,8 +7122,8 @@
       "duration": "PT14M20S",
       "durationSeconds": 860,
       "isShort": false,
-      "viewCount": 12378,
-      "likeCount": 1204,
+      "viewCount": 12401,
+      "likeCount": 1205,
       "commentCount": 123,
       "tags": []
     },
@@ -7068,7 +7141,7 @@
       "duration": "PT42S",
       "durationSeconds": 42,
       "isShort": true,
-      "viewCount": 5115,
+      "viewCount": 5128,
       "likeCount": 96,
       "commentCount": 0,
       "tags": []
@@ -7116,7 +7189,7 @@
       "duration": "PT10M54S",
       "durationSeconds": 654,
       "isShort": false,
-      "viewCount": 4655,
+      "viewCount": 4674,
       "likeCount": 111,
       "commentCount": 3,
       "tags": [
@@ -7141,8 +7214,8 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 6816,
-      "likeCount": 124,
+      "viewCount": 6832,
+      "likeCount": 125,
       "commentCount": 4,
       "tags": []
     },
@@ -7265,7 +7338,7 @@
       "duration": "PT1H7M3S",
       "durationSeconds": 4023,
       "isShort": false,
-      "viewCount": 5950,
+      "viewCount": 5990,
       "likeCount": 120,
       "commentCount": 16,
       "tags": [
@@ -7302,7 +7375,7 @@
       "duration": "PT26M15S",
       "durationSeconds": 1575,
       "isShort": false,
-      "viewCount": 10792,
+      "viewCount": 10830,
       "likeCount": 0,
       "commentCount": 23,
       "tags": [
@@ -7419,8 +7492,8 @@
       "duration": "PT15M21S",
       "durationSeconds": 921,
       "isShort": false,
-      "viewCount": 13188,
-      "likeCount": 1284,
+      "viewCount": 13215,
+      "likeCount": 1287,
       "commentCount": 128,
       "tags": []
     },
@@ -7507,34 +7580,9 @@
       "duration": "PT40S",
       "durationSeconds": 40,
       "isShort": true,
-      "viewCount": 1024,
+      "viewCount": 1025,
       "likeCount": 0,
       "commentCount": 1,
-      "tags": [
-        "VilaWeb",
-        "Barcelona",
-        "Catalunya",
-        "País Valencià",
-        "Països Catalans"
-      ]
-    },
-    {
-      "id": "TU-MxxcjN1Y",
-      "title": "“No podem deixar que muira el valencià a Alacant”",
-      "thumbnail": "https://i.ytimg.com/vi/TU-MxxcjN1Y/maxresdefault.jpg",
-      "channelId": "UCaYXWVFYirJdDmprjozHdmA",
-      "channelTitle": "VilaWeb",
-      "publishedAt": "2026-01-19T08:50:55Z",
-      "categories": [
-        "mitjans"
-      ],
-      "sourceChannelId": "UCaYXWVFYirJdDmprjozHdmA",
-      "duration": "PT52S",
-      "durationSeconds": 52,
-      "isShort": true,
-      "viewCount": 567,
-      "likeCount": 0,
-      "commentCount": 4,
       "tags": [
         "VilaWeb",
         "Barcelona",
@@ -7557,7 +7605,7 @@
       "duration": "PT5M8S",
       "durationSeconds": 308,
       "isShort": false,
-      "viewCount": 778,
+      "viewCount": 779,
       "likeCount": 18,
       "commentCount": 0,
       "tags": [
@@ -7582,7 +7630,7 @@
       "duration": "PT39M55S",
       "durationSeconds": 2395,
       "isShort": false,
-      "viewCount": 791,
+      "viewCount": 794,
       "likeCount": 19,
       "commentCount": 0,
       "tags": [
@@ -7615,7 +7663,7 @@
       "duration": "PT1H11M52S",
       "durationSeconds": 4312,
       "isShort": false,
-      "viewCount": 566,
+      "viewCount": 570,
       "likeCount": 51,
       "commentCount": 3,
       "tags": []
@@ -7634,8 +7682,8 @@
       "duration": "PT18M12S",
       "durationSeconds": 1092,
       "isShort": false,
-      "viewCount": 14817,
-      "likeCount": 1323,
+      "viewCount": 14845,
+      "likeCount": 1324,
       "commentCount": 150,
       "tags": []
     },
@@ -7749,7 +7797,7 @@
       "duration": "PT21M22S",
       "durationSeconds": 1282,
       "isShort": false,
-      "viewCount": 192,
+      "viewCount": 193,
       "likeCount": 5,
       "commentCount": 0,
       "tags": [
@@ -7780,8 +7828,8 @@
       "duration": "PT13M10S",
       "durationSeconds": 790,
       "isShort": false,
-      "viewCount": 1434,
-      "likeCount": 146,
+      "viewCount": 1436,
+      "likeCount": 147,
       "commentCount": 32,
       "tags": [
         "Montseny",
@@ -8062,8 +8110,8 @@
       "duration": "PT32M11S",
       "durationSeconds": 1931,
       "isShort": false,
-      "viewCount": 1102,
-      "likeCount": 222,
+      "viewCount": 1104,
+      "likeCount": 223,
       "commentCount": 52,
       "tags": [
         "Notícies",
@@ -8108,8 +8156,8 @@
       "duration": "PT40M29S",
       "durationSeconds": 2429,
       "isShort": false,
-      "viewCount": 1645,
-      "likeCount": 81,
+      "viewCount": 1658,
+      "likeCount": 82,
       "commentCount": 9,
       "tags": []
     },
@@ -8285,7 +8333,7 @@
       "duration": "PT6M1S",
       "durationSeconds": 361,
       "isShort": false,
-      "viewCount": 523,
+      "viewCount": 524,
       "likeCount": 8,
       "commentCount": 0,
       "tags": [
@@ -8512,7 +8560,7 @@
       "duration": "PT57M26S",
       "durationSeconds": 3446,
       "isShort": false,
-      "viewCount": 696,
+      "viewCount": 700,
       "likeCount": 33,
       "commentCount": 3,
       "tags": [
@@ -8540,7 +8588,7 @@
       "duration": "PT29S",
       "durationSeconds": 29,
       "isShort": true,
-      "viewCount": 316,
+      "viewCount": 318,
       "likeCount": 10,
       "commentCount": 0,
       "tags": [
@@ -8571,7 +8619,7 @@
       "duration": "PT12M15S",
       "durationSeconds": 735,
       "isShort": false,
-      "viewCount": 16,
+      "viewCount": 17,
       "likeCount": 0,
       "commentCount": 0,
       "tags": []
@@ -8590,7 +8638,7 @@
       "duration": "PT1H6M17S",
       "durationSeconds": 3977,
       "isShort": false,
-      "viewCount": 73122,
+      "viewCount": 73174,
       "likeCount": 1445,
       "commentCount": 81,
       "tags": []
@@ -8609,7 +8657,7 @@
       "duration": "PT45M22S",
       "durationSeconds": 2722,
       "isShort": false,
-      "viewCount": 1113,
+      "viewCount": 1114,
       "likeCount": 202,
       "commentCount": 41,
       "tags": [
@@ -8655,7 +8703,7 @@
       "duration": "PT12M2S",
       "durationSeconds": 722,
       "isShort": false,
-      "viewCount": 296,
+      "viewCount": 297,
       "likeCount": 8,
       "commentCount": 0,
       "tags": [
@@ -8689,7 +8737,7 @@
       "duration": "PT1M12S",
       "durationSeconds": 72,
       "isShort": true,
-      "viewCount": 4638,
+      "viewCount": 4644,
       "likeCount": 92,
       "commentCount": 3,
       "tags": []
@@ -8733,8 +8781,8 @@
       "duration": "PT17M59S",
       "durationSeconds": 1079,
       "isShort": false,
-      "viewCount": 14916,
-      "likeCount": 1177,
+      "viewCount": 14935,
+      "likeCount": 1178,
       "commentCount": 122,
       "tags": []
     },
@@ -8752,7 +8800,7 @@
       "duration": "PT36M20S",
       "durationSeconds": 2180,
       "isShort": false,
-      "viewCount": 556,
+      "viewCount": 557,
       "likeCount": 11,
       "commentCount": 0,
       "tags": [
@@ -8854,7 +8902,7 @@
       "duration": "PT1M9S",
       "durationSeconds": 69,
       "isShort": true,
-      "viewCount": 5605,
+      "viewCount": 5609,
       "likeCount": 145,
       "commentCount": 4,
       "tags": []
@@ -9065,7 +9113,7 @@
       "duration": "PT15M40S",
       "durationSeconds": 940,
       "isShort": false,
-      "viewCount": 15183,
+      "viewCount": 15197,
       "likeCount": 1238,
       "commentCount": 157,
       "tags": []
@@ -9084,7 +9132,7 @@
       "duration": "PT5M53S",
       "durationSeconds": 353,
       "isShort": false,
-      "viewCount": 1027,
+      "viewCount": 1030,
       "likeCount": 13,
       "commentCount": 0,
       "tags": [
@@ -9109,7 +9157,7 @@
       "duration": "PT23M10S",
       "durationSeconds": 1390,
       "isShort": false,
-      "viewCount": 8570,
+      "viewCount": 9859,
       "likeCount": 11,
       "commentCount": 3,
       "tags": [
@@ -9161,7 +9209,7 @@
       "duration": "PT32M19S",
       "durationSeconds": 1939,
       "isShort": false,
-      "viewCount": 534,
+      "viewCount": 536,
       "likeCount": 1,
       "commentCount": 4,
       "tags": [
@@ -9186,7 +9234,7 @@
       "duration": "PT35M15S",
       "durationSeconds": 2115,
       "isShort": false,
-      "viewCount": 8949,
+      "viewCount": 10169,
       "likeCount": 33,
       "commentCount": 2,
       "tags": [
@@ -9223,7 +9271,7 @@
       "duration": "PT51S",
       "durationSeconds": 51,
       "isShort": true,
-      "viewCount": 133,
+      "viewCount": 134,
       "likeCount": 0,
       "commentCount": 1,
       "tags": []
@@ -9261,8 +9309,8 @@
       "duration": "PT13M51S",
       "durationSeconds": 831,
       "isShort": false,
-      "viewCount": 15017,
-      "likeCount": 1354,
+      "viewCount": 15027,
+      "likeCount": 1355,
       "commentCount": 185,
       "tags": []
     },
@@ -9333,7 +9381,7 @@
       "duration": "PT8M20S",
       "durationSeconds": 500,
       "isShort": false,
-      "viewCount": 6571,
+      "viewCount": 6577,
       "likeCount": 321,
       "commentCount": 92,
       "tags": [
@@ -9401,8 +9449,8 @@
       "duration": "PT13M46S",
       "durationSeconds": 826,
       "isShort": false,
-      "viewCount": 14667,
-      "likeCount": 1393,
+      "viewCount": 14681,
+      "likeCount": 1394,
       "commentCount": 153,
       "tags": []
     },
@@ -9557,7 +9605,7 @@
       "duration": "PT36M52S",
       "durationSeconds": 2212,
       "isShort": false,
-      "viewCount": 1302,
+      "viewCount": 1303,
       "likeCount": 217,
       "commentCount": 80,
       "tags": [
@@ -9646,8 +9694,8 @@
       "duration": "PT17M20S",
       "durationSeconds": 1040,
       "isShort": false,
-      "viewCount": 15890,
-      "likeCount": 1341,
+      "viewCount": 15906,
+      "likeCount": 1343,
       "commentCount": 146,
       "tags": []
     },
@@ -9811,8 +9859,8 @@
       "duration": "PT20M29S",
       "durationSeconds": 1229,
       "isShort": false,
-      "viewCount": 1224,
-      "likeCount": 41,
+      "viewCount": 1227,
+      "likeCount": 42,
       "commentCount": 4,
       "tags": [
         "Diari ARA",
@@ -9836,7 +9884,7 @@
       "duration": "PT10M31S",
       "durationSeconds": 631,
       "isShort": false,
-      "viewCount": 714,
+      "viewCount": 716,
       "likeCount": 14,
       "commentCount": 3,
       "tags": [
@@ -9892,8 +9940,8 @@
       "duration": "PT28M40S",
       "durationSeconds": 1720,
       "isShort": false,
-      "viewCount": 10819,
-      "likeCount": 130,
+      "viewCount": 10827,
+      "likeCount": 131,
       "commentCount": 3,
       "tags": [
         "Diari ARA",
@@ -10013,7 +10061,7 @@
       "duration": "PT1H45M39S",
       "durationSeconds": 6339,
       "isShort": false,
-      "viewCount": 2812,
+      "viewCount": 2820,
       "likeCount": 174,
       "commentCount": 37,
       "tags": []
@@ -10032,8 +10080,8 @@
       "duration": "PT19M21S",
       "durationSeconds": 1161,
       "isShort": false,
-      "viewCount": 14812,
-      "likeCount": 1277,
+      "viewCount": 14823,
+      "likeCount": 1278,
       "commentCount": 121,
       "tags": []
     },
@@ -10151,8 +10199,8 @@
       "duration": "PT49M41S",
       "durationSeconds": 2981,
       "isShort": false,
-      "viewCount": 10685,
-      "likeCount": 57,
+      "viewCount": 11941,
+      "likeCount": 58,
       "commentCount": 3,
       "tags": [
         "TV3",
@@ -10327,8 +10375,8 @@
       "duration": "PT2H4M43S",
       "durationSeconds": 7483,
       "isShort": false,
-      "viewCount": 14990,
-      "likeCount": 983,
+      "viewCount": 15004,
+      "likeCount": 984,
       "commentCount": 56,
       "tags": [
         "senderisme",
@@ -10354,7 +10402,7 @@
       "duration": "PT21M",
       "durationSeconds": 1260,
       "isShort": false,
-      "viewCount": 8355,
+      "viewCount": 9726,
       "likeCount": 12,
       "commentCount": 0,
       "tags": [
@@ -10492,7 +10540,7 @@
       "duration": "PT18M58S",
       "durationSeconds": 1138,
       "isShort": false,
-      "viewCount": 15516,
+      "viewCount": 15528,
       "likeCount": 1454,
       "commentCount": 161,
       "tags": []
@@ -10569,7 +10617,7 @@
       "duration": "PT17M38S",
       "durationSeconds": 1058,
       "isShort": false,
-      "viewCount": 5162,
+      "viewCount": 5166,
       "likeCount": 120,
       "commentCount": 1,
       "tags": [
@@ -10594,7 +10642,7 @@
       "duration": "PT16M42S",
       "durationSeconds": 1002,
       "isShort": false,
-      "viewCount": 13819,
+      "viewCount": 13835,
       "likeCount": 1315,
       "commentCount": 190,
       "tags": []
@@ -10613,7 +10661,7 @@
       "duration": "PT24M20S",
       "durationSeconds": 1460,
       "isShort": false,
-      "viewCount": 275,
+      "viewCount": 279,
       "likeCount": 22,
       "commentCount": 0,
       "tags": [
@@ -10698,7 +10746,7 @@
       "duration": "PT8M54S",
       "durationSeconds": 534,
       "isShort": false,
-      "viewCount": 452,
+      "viewCount": 453,
       "likeCount": 4,
       "commentCount": 0,
       "tags": [
@@ -10751,7 +10799,7 @@
       "duration": "PT18M13S",
       "durationSeconds": 1093,
       "isShort": false,
-      "viewCount": 16375,
+      "viewCount": 16383,
       "likeCount": 1368,
       "commentCount": 178,
       "tags": []
@@ -10873,7 +10921,7 @@
       "duration": "PT10M20S",
       "durationSeconds": 620,
       "isShort": false,
-      "viewCount": 13346,
+      "viewCount": 13355,
       "likeCount": 1206,
       "commentCount": 155,
       "tags": []
@@ -11035,7 +11083,7 @@
       "duration": "PT1M30S",
       "durationSeconds": 90,
       "isShort": true,
-      "viewCount": 7603,
+      "viewCount": 7612,
       "likeCount": 416,
       "commentCount": 32,
       "tags": []
@@ -11073,7 +11121,7 @@
       "duration": "PT2M46S",
       "durationSeconds": 166,
       "isShort": false,
-      "viewCount": 108,
+      "viewCount": 109,
       "likeCount": 7,
       "commentCount": 0,
       "tags": [
@@ -11109,7 +11157,7 @@
       "duration": "PT14M32S",
       "durationSeconds": 872,
       "isShort": false,
-      "viewCount": 15134,
+      "viewCount": 15142,
       "likeCount": 1270,
       "commentCount": 160,
       "tags": []
@@ -11241,7 +11289,7 @@
       "duration": "PT13M58S",
       "durationSeconds": 838,
       "isShort": false,
-      "viewCount": 13561,
+      "viewCount": 13573,
       "likeCount": 1242,
       "commentCount": 134,
       "tags": []
@@ -11319,7 +11367,7 @@
       "duration": "PT29M53S",
       "durationSeconds": 1793,
       "isShort": false,
-      "viewCount": 779,
+      "viewCount": 781,
       "likeCount": 28,
       "commentCount": 1,
       "tags": [
@@ -11503,7 +11551,7 @@
       "duration": "PT1H17M16S",
       "durationSeconds": 4636,
       "isShort": false,
-      "viewCount": 5253,
+      "viewCount": 5264,
       "likeCount": 118,
       "commentCount": 26,
       "tags": [
@@ -11539,7 +11587,7 @@
       "duration": "PT12M18S",
       "durationSeconds": 738,
       "isShort": false,
-      "viewCount": 12363,
+      "viewCount": 12376,
       "likeCount": 1345,
       "commentCount": 146,
       "tags": []
@@ -11652,7 +11700,7 @@
       "duration": "PT19M46S",
       "durationSeconds": 1186,
       "isShort": false,
-      "viewCount": 14703,
+      "viewCount": 14713,
       "likeCount": 1275,
       "commentCount": 133,
       "tags": []
@@ -11695,7 +11743,7 @@
       "duration": "PT37M38S",
       "durationSeconds": 2258,
       "isShort": false,
-      "viewCount": 619,
+      "viewCount": 621,
       "likeCount": 45,
       "commentCount": 10,
       "tags": []
@@ -11768,8 +11816,8 @@
       "duration": "PT24M12S",
       "durationSeconds": 1452,
       "isShort": false,
-      "viewCount": 15673,
-      "likeCount": 1347,
+      "viewCount": 15681,
+      "likeCount": 1349,
       "commentCount": 124,
       "tags": []
     },
@@ -11819,7 +11867,7 @@
       "duration": "PT13M15S",
       "durationSeconds": 795,
       "isShort": false,
-      "viewCount": 1535,
+      "viewCount": 1537,
       "likeCount": 88,
       "commentCount": 11,
       "tags": [
@@ -11885,7 +11933,7 @@
       "duration": "PT1H18M28S",
       "durationSeconds": 4708,
       "isShort": false,
-      "viewCount": 4741,
+      "viewCount": 4746,
       "likeCount": 288,
       "commentCount": 89,
       "tags": []
@@ -11904,7 +11952,7 @@
       "duration": "PT17M34S",
       "durationSeconds": 1054,
       "isShort": false,
-      "viewCount": 144,
+      "viewCount": 145,
       "likeCount": 8,
       "commentCount": 0,
       "tags": [
@@ -12082,7 +12130,7 @@
       "duration": "PT20M30S",
       "durationSeconds": 1230,
       "isShort": false,
-      "viewCount": 8908,
+      "viewCount": 8916,
       "likeCount": 1442,
       "commentCount": 192,
       "tags": [
@@ -12104,38 +12152,6 @@
       ]
     },
     {
-      "id": "aOSqVpsJSr4",
-      "title": "Com es guanyen la vida els tiktokers? En parlem amb Sergio Bueno | La cabra",
-      "thumbnail": "https://i.ytimg.com/vi/aOSqVpsJSr4/maxresdefault.jpg",
-      "channelId": "UCOzd_BhDxbQZ8Y2H1j9wOOg",
-      "channelTitle": "EVA",
-      "publishedAt": "2025-12-24T19:00:00Z",
-      "categories": [
-        "humor"
-      ],
-      "sourceChannelId": "UCOzd_BhDxbQZ8Y2H1j9wOOg",
-      "duration": "PT2M20S",
-      "durationSeconds": 140,
-      "isShort": false,
-      "viewCount": 156,
-      "likeCount": 8,
-      "commentCount": 0,
-      "tags": [
-        "3CatEVA",
-        "EVA",
-        "SomEVA",
-        "3Cat",
-        "3Cat SomEVA",
-        "la cabra",
-        "la cabra eva",
-        "tiktok",
-        "tiktoker",
-        "sergio bueno",
-        "entrevista sergio bueno",
-        "creadors de contingut"
-      ]
-    },
-    {
       "id": "t1wCHYdz3rU",
       "title": "El Celta de Vigo del 99 sempre apuja l'ànims. #català #podcast",
       "thumbnail": "https://i.ytimg.com/vi/t1wCHYdz3rU/maxresdefault.jpg",
@@ -12149,7 +12165,7 @@
       "duration": "PT1M33S",
       "durationSeconds": 93,
       "isShort": true,
-      "viewCount": 3108,
+      "viewCount": 3110,
       "likeCount": 65,
       "commentCount": 1,
       "tags": []
@@ -12190,7 +12206,7 @@
       "duration": "PT11M47S",
       "durationSeconds": 707,
       "isShort": false,
-      "viewCount": 15918,
+      "viewCount": 15921,
       "likeCount": 1334,
       "commentCount": 200,
       "tags": []
@@ -12209,7 +12225,7 @@
       "duration": "PT1M15S",
       "durationSeconds": 75,
       "isShort": true,
-      "viewCount": 3117,
+      "viewCount": 3121,
       "likeCount": 52,
       "commentCount": 1,
       "tags": []
@@ -12228,7 +12244,7 @@
       "duration": "PT1H11M54S",
       "durationSeconds": 4314,
       "isShort": false,
-      "viewCount": 93782,
+      "viewCount": 93869,
       "likeCount": 1958,
       "commentCount": 110,
       "tags": []
@@ -12247,7 +12263,7 @@
       "duration": "PT40S",
       "durationSeconds": 40,
       "isShort": true,
-      "viewCount": 5258,
+      "viewCount": 5263,
       "likeCount": 74,
       "commentCount": 3,
       "tags": []
@@ -12266,7 +12282,7 @@
       "duration": "PT1M14S",
       "durationSeconds": 74,
       "isShort": true,
-      "viewCount": 4258,
+      "viewCount": 4260,
       "likeCount": 69,
       "commentCount": 1,
       "tags": []
@@ -12285,7 +12301,7 @@
       "duration": "PT1M30S",
       "durationSeconds": 90,
       "isShort": true,
-      "viewCount": 62,
+      "viewCount": 63,
       "likeCount": 2,
       "commentCount": 0,
       "tags": [
@@ -12362,7 +12378,7 @@
       "duration": "PT12M47S",
       "durationSeconds": 767,
       "isShort": false,
-      "viewCount": 14092,
+      "viewCount": 14096,
       "likeCount": 1195,
       "commentCount": 134,
       "tags": []
@@ -12444,8 +12460,8 @@
       "duration": "PT31M39S",
       "durationSeconds": 1899,
       "isShort": false,
-      "viewCount": 1504,
-      "likeCount": 247,
+      "viewCount": 1507,
+      "likeCount": 248,
       "commentCount": 96,
       "tags": [
         "Notícies",
@@ -12511,7 +12527,7 @@
       "duration": "PT13M33S",
       "durationSeconds": 813,
       "isShort": false,
-      "viewCount": 13713,
+      "viewCount": 13718,
       "likeCount": 1288,
       "commentCount": 130,
       "tags": []
@@ -12704,7 +12720,7 @@
       "duration": "PT14M43S",
       "durationSeconds": 883,
       "isShort": false,
-      "viewCount": 14346,
+      "viewCount": 14356,
       "likeCount": 1201,
       "commentCount": 177,
       "tags": []
@@ -12782,7 +12798,7 @@
       "duration": "PT1H32M36S",
       "durationSeconds": 5556,
       "isShort": false,
-      "viewCount": 12959,
+      "viewCount": 12961,
       "likeCount": 1037,
       "commentCount": 58,
       "tags": [
@@ -12831,7 +12847,7 @@
       "duration": "PT12M57S",
       "durationSeconds": 777,
       "isShort": false,
-      "viewCount": 1516,
+      "viewCount": 1518,
       "likeCount": 122,
       "commentCount": 11,
       "tags": [
@@ -12858,7 +12874,7 @@
       "duration": "PT51M18S",
       "durationSeconds": 3078,
       "isShort": false,
-      "viewCount": 1048,
+      "viewCount": 1049,
       "likeCount": 60,
       "commentCount": 15,
       "tags": []
@@ -12949,7 +12965,7 @@
       "duration": "PT10M43S",
       "durationSeconds": 643,
       "isShort": false,
-      "viewCount": 12559,
+      "viewCount": 12562,
       "likeCount": 1734,
       "commentCount": 189,
       "tags": [
@@ -13009,8 +13025,8 @@
       "duration": "PT16M6S",
       "durationSeconds": 966,
       "isShort": false,
-      "viewCount": 15445,
-      "likeCount": 1367,
+      "viewCount": 15453,
+      "likeCount": 1369,
       "commentCount": 170,
       "tags": []
     },
@@ -13076,7 +13092,7 @@
       "duration": "PT27M19S",
       "durationSeconds": 1639,
       "isShort": false,
-      "viewCount": 1034,
+      "viewCount": 1035,
       "likeCount": 214,
       "commentCount": 26,
       "tags": [
@@ -13170,8 +13186,8 @@
       "duration": "PT13M42S",
       "durationSeconds": 822,
       "isShort": false,
-      "viewCount": 14631,
-      "likeCount": 1322,
+      "viewCount": 14652,
+      "likeCount": 1324,
       "commentCount": 162,
       "tags": []
     },
@@ -13272,9 +13288,9 @@
       "duration": "PT51S",
       "durationSeconds": 51,
       "isShort": true,
-      "viewCount": 4486,
-      "likeCount": 79,
-      "commentCount": 0,
+      "viewCount": 4577,
+      "likeCount": 81,
+      "commentCount": 1,
       "tags": []
     },
     {
@@ -13454,8 +13470,8 @@
       "duration": "PT12M44S",
       "durationSeconds": 764,
       "isShort": false,
-      "viewCount": 13859,
-      "likeCount": 1333,
+      "viewCount": 13868,
+      "likeCount": 1334,
       "commentCount": 157,
       "tags": []
     },
@@ -13473,7 +13489,7 @@
       "duration": "PT59M6S",
       "durationSeconds": 3546,
       "isShort": false,
-      "viewCount": 438,
+      "viewCount": 440,
       "likeCount": 23,
       "commentCount": 2,
       "tags": []
@@ -13492,7 +13508,7 @@
       "duration": "PT1M16S",
       "durationSeconds": 76,
       "isShort": true,
-      "viewCount": 2622,
+      "viewCount": 2624,
       "likeCount": 80,
       "commentCount": 3,
       "tags": []
@@ -13511,7 +13527,7 @@
       "duration": "PT1H4M21S",
       "durationSeconds": 3861,
       "isShort": false,
-      "viewCount": 66131,
+      "viewCount": 66146,
       "likeCount": 1353,
       "commentCount": 64,
       "tags": []
@@ -13605,7 +13621,7 @@
       "duration": "PT23M27S",
       "durationSeconds": 1407,
       "isShort": false,
-      "viewCount": 50613,
+      "viewCount": 50622,
       "likeCount": 3880,
       "commentCount": 414,
       "tags": [
@@ -13643,8 +13659,8 @@
       "duration": "PT17M1S",
       "durationSeconds": 1021,
       "isShort": false,
-      "viewCount": 15204,
-      "likeCount": 1458,
+      "viewCount": 15217,
+      "likeCount": 1459,
       "commentCount": 338,
       "tags": []
     },
@@ -13681,7 +13697,7 @@
       "duration": "PT16S",
       "durationSeconds": 16,
       "isShort": true,
-      "viewCount": 3610,
+      "viewCount": 3614,
       "likeCount": 56,
       "commentCount": 0,
       "tags": []
@@ -13828,8 +13844,8 @@
       "duration": "PT14M25S",
       "durationSeconds": 865,
       "isShort": false,
-      "viewCount": 13075,
-      "likeCount": 1246,
+      "viewCount": 13084,
+      "likeCount": 1248,
       "commentCount": 134,
       "tags": []
     },
@@ -13941,7 +13957,7 @@
       "duration": "PT16M2S",
       "durationSeconds": 962,
       "isShort": false,
-      "viewCount": 14157,
+      "viewCount": 14165,
       "likeCount": 1396,
       "commentCount": 199,
       "tags": []
@@ -13960,7 +13976,7 @@
       "duration": "PT1H10M50S",
       "durationSeconds": 4250,
       "isShort": false,
-      "viewCount": 1712,
+      "viewCount": 1717,
       "likeCount": 125,
       "commentCount": 39,
       "tags": []
@@ -13979,9 +13995,9 @@
       "duration": "PT20M2S",
       "durationSeconds": 1202,
       "isShort": false,
-      "viewCount": 2640,
-      "likeCount": 292,
-      "commentCount": 37,
+      "viewCount": 2644,
+      "likeCount": 293,
+      "commentCount": 38,
       "tags": []
     },
     {
@@ -14041,7 +14057,7 @@
       "duration": "PT17M43S",
       "durationSeconds": 1063,
       "isShort": false,
-      "viewCount": 14919,
+      "viewCount": 14929,
       "likeCount": 1333,
       "commentCount": 166,
       "tags": []
@@ -14098,7 +14114,7 @@
       "duration": "PT14M23S",
       "durationSeconds": 863,
       "isShort": false,
-      "viewCount": 14576,
+      "viewCount": 14587,
       "likeCount": 1347,
       "commentCount": 134,
       "tags": []
@@ -14366,7 +14382,7 @@
       "duration": "PT15M12S",
       "durationSeconds": 912,
       "isShort": false,
-      "viewCount": 17750,
+      "viewCount": 17763,
       "likeCount": 1537,
       "commentCount": 188,
       "tags": []
@@ -14404,8 +14420,8 @@
       "duration": "PT16M4S",
       "durationSeconds": 964,
       "isShort": false,
-      "viewCount": 17685,
-      "likeCount": 1497,
+      "viewCount": 17698,
+      "likeCount": 1498,
       "commentCount": 166,
       "tags": []
     },
@@ -14605,7 +14621,7 @@
       "duration": "PT10M16S",
       "durationSeconds": 616,
       "isShort": false,
-      "viewCount": 15386,
+      "viewCount": 15395,
       "likeCount": 1352,
       "commentCount": 115,
       "tags": []
@@ -14792,8 +14808,8 @@
       "duration": "PT12M15S",
       "durationSeconds": 735,
       "isShort": false,
-      "viewCount": 15937,
-      "likeCount": 1372,
+      "viewCount": 15947,
+      "likeCount": 1374,
       "commentCount": 137,
       "tags": [
         "l'escala",
@@ -14815,8 +14831,8 @@
       "duration": "PT14M35S",
       "durationSeconds": 875,
       "isShort": false,
-      "viewCount": 17360,
-      "likeCount": 1640,
+      "viewCount": 17372,
+      "likeCount": 1643,
       "commentCount": 201,
       "tags": [
         "pals",
@@ -14948,7 +14964,7 @@
       "duration": "PT15M23S",
       "durationSeconds": 923,
       "isShort": false,
-      "viewCount": 5422,
+      "viewCount": 5424,
       "likeCount": 819,
       "commentCount": 66,
       "tags": [
@@ -15048,8 +15064,8 @@
       "duration": "PT18M12S",
       "durationSeconds": 1092,
       "isShort": false,
-      "viewCount": 16978,
-      "likeCount": 1513,
+      "viewCount": 16999,
+      "likeCount": 1517,
       "commentCount": 154,
       "tags": [
         "osprey",
@@ -15095,7 +15111,7 @@
       "duration": "PT28M4S",
       "durationSeconds": 1684,
       "isShort": false,
-      "viewCount": 1272,
+      "viewCount": 1275,
       "likeCount": 231,
       "commentCount": 50,
       "tags": [
@@ -15141,8 +15157,8 @@
       "duration": "PT12M20S",
       "durationSeconds": 740,
       "isShort": false,
-      "viewCount": 17331,
-      "likeCount": 1657,
+      "viewCount": 17353,
+      "likeCount": 1659,
       "commentCount": 165,
       "tags": []
     },
@@ -15307,25 +15323,6 @@
       ]
     },
     {
-      "id": "lcgo6RQjJcQ",
-      "title": "Selva Marítima. Dia 3 de La Volta al Món a Peu",
-      "thumbnail": "https://i.ytimg.com/vi/lcgo6RQjJcQ/sddefault.jpg",
-      "channelId": "UCDawX1bxeC4-hZiGnkqevbw",
-      "channelTitle": "Enric Adventures",
-      "publishedAt": "2025-12-03T15:01:35Z",
-      "categories": [
-        "vida"
-      ],
-      "sourceChannelId": "UCDawX1bxeC4-hZiGnkqevbw",
-      "duration": "PT15M47S",
-      "durationSeconds": 947,
-      "isShort": false,
-      "viewCount": 19527,
-      "likeCount": 1962,
-      "commentCount": 209,
-      "tags": []
-    },
-    {
       "id": "amFuqakxENE",
       "title": "GENT DE MERDA #249 - ELS CABELLS HO SON TOT | #RPS",
       "thumbnail": "https://i.ytimg.com/vi/amFuqakxENE/maxresdefault.jpg",
@@ -15339,7 +15336,7 @@
       "duration": "PT1H4M30S",
       "durationSeconds": 3870,
       "isShort": false,
-      "viewCount": 294,
+      "viewCount": 296,
       "likeCount": 9,
       "commentCount": 3,
       "tags": []
@@ -15377,7 +15374,7 @@
       "duration": "PT1M",
       "durationSeconds": 60,
       "isShort": true,
-      "viewCount": 4676,
+      "viewCount": 4680,
       "likeCount": 130,
       "commentCount": 2,
       "tags": []
@@ -15442,7 +15439,7 @@
       "duration": "PT1H5M9S",
       "durationSeconds": 3909,
       "isShort": false,
-      "viewCount": 69759,
+      "viewCount": 69775,
       "likeCount": 1441,
       "commentCount": 81,
       "tags": []
@@ -15461,7 +15458,7 @@
       "duration": "PT1M26S",
       "durationSeconds": 86,
       "isShort": true,
-      "viewCount": 3379,
+      "viewCount": 3382,
       "likeCount": 92,
       "commentCount": 0,
       "tags": []
@@ -15583,7 +15580,7 @@
       "duration": "PT28M11S",
       "durationSeconds": 1691,
       "isShort": false,
-      "viewCount": 33,
+      "viewCount": 34,
       "likeCount": 6,
       "commentCount": 0,
       "tags": [
@@ -16199,7 +16196,7 @@
       "duration": "PT36S",
       "durationSeconds": 36,
       "isShort": true,
-      "viewCount": 4449,
+      "viewCount": 4452,
       "likeCount": 75,
       "commentCount": 1,
       "tags": []
@@ -16218,7 +16215,7 @@
       "duration": "PT25S",
       "durationSeconds": 25,
       "isShort": true,
-      "viewCount": 2940,
+      "viewCount": 2942,
       "likeCount": 41,
       "commentCount": 0,
       "tags": []
@@ -16283,7 +16280,7 @@
       "duration": "PT20M58S",
       "durationSeconds": 1258,
       "isShort": false,
-      "viewCount": 14221,
+      "viewCount": 14222,
       "likeCount": 1942,
       "commentCount": 200,
       "tags": [
@@ -16342,7 +16339,7 @@
       "duration": "PT1H9M38S",
       "durationSeconds": 4178,
       "isShort": false,
-      "viewCount": 66286,
+      "viewCount": 66295,
       "likeCount": 1264,
       "commentCount": 79,
       "tags": []
@@ -16407,7 +16404,7 @@
       "duration": "PT55S",
       "durationSeconds": 55,
       "isShort": true,
-      "viewCount": 3304,
+      "viewCount": 3309,
       "likeCount": 59,
       "commentCount": 1,
       "tags": []
@@ -16469,7 +16466,7 @@
       "duration": "PT1M5S",
       "durationSeconds": 65,
       "isShort": true,
-      "viewCount": 3519,
+      "viewCount": 3520,
       "likeCount": 79,
       "commentCount": 1,
       "tags": []
@@ -16759,7 +16756,7 @@
       "duration": "PT1H18M58S",
       "durationSeconds": 4738,
       "isShort": false,
-      "viewCount": 21536,
+      "viewCount": 21539,
       "likeCount": 1195,
       "commentCount": 244,
       "tags": []
@@ -16979,7 +16976,7 @@
       "duration": "PT43S",
       "durationSeconds": 43,
       "isShort": true,
-      "viewCount": 61,
+      "viewCount": 62,
       "likeCount": 2,
       "commentCount": 0,
       "tags": []
@@ -17027,7 +17024,7 @@
       "duration": "PT1H3M9S",
       "durationSeconds": 3789,
       "isShort": false,
-      "viewCount": 223,
+      "viewCount": 224,
       "likeCount": 9,
       "commentCount": 0,
       "tags": []
@@ -17092,7 +17089,7 @@
       "duration": "PT1H5M37S",
       "durationSeconds": 3937,
       "isShort": false,
-      "viewCount": 71380,
+      "viewCount": 71410,
       "likeCount": 1480,
       "commentCount": 89,
       "tags": []
@@ -17111,7 +17108,7 @@
       "duration": "PT1M48S",
       "durationSeconds": 108,
       "isShort": true,
-      "viewCount": 3671,
+      "viewCount": 3672,
       "likeCount": 77,
       "commentCount": 0,
       "tags": []
@@ -17149,7 +17146,7 @@
       "duration": "PT1M38S",
       "durationSeconds": 98,
       "isShort": true,
-      "viewCount": 4455,
+      "viewCount": 4456,
       "likeCount": 82,
       "commentCount": 1,
       "tags": []
@@ -17168,7 +17165,7 @@
       "duration": "PT21M9S",
       "durationSeconds": 1269,
       "isShort": false,
-      "viewCount": 1375,
+      "viewCount": 1376,
       "likeCount": 222,
       "commentCount": 34,
       "tags": [
@@ -17496,7 +17493,7 @@
       "duration": "PT33M55S",
       "durationSeconds": 2035,
       "isShort": false,
-      "viewCount": 13670,
+      "viewCount": 13672,
       "likeCount": 1460,
       "commentCount": 205,
       "tags": [
@@ -17641,7 +17638,7 @@
       "duration": "PT41S",
       "durationSeconds": 41,
       "isShort": true,
-      "viewCount": 3092,
+      "viewCount": 3093,
       "likeCount": 41,
       "commentCount": 0,
       "tags": []
@@ -17783,7 +17780,7 @@
       "duration": "PT22S",
       "durationSeconds": 22,
       "isShort": true,
-      "viewCount": 4116,
+      "viewCount": 4118,
       "likeCount": 73,
       "commentCount": 0,
       "tags": []
@@ -17802,7 +17799,7 @@
       "duration": "PT1H8M28S",
       "durationSeconds": 4108,
       "isShort": false,
-      "viewCount": 70265,
+      "viewCount": 70270,
       "likeCount": 1451,
       "commentCount": 71,
       "tags": []
@@ -17840,7 +17837,7 @@
       "duration": "PT40S",
       "durationSeconds": 40,
       "isShort": true,
-      "viewCount": 3566,
+      "viewCount": 3567,
       "likeCount": 74,
       "commentCount": 0,
       "tags": []
@@ -17901,7 +17898,7 @@
       "duration": "PT1M22S",
       "durationSeconds": 82,
       "isShort": true,
-      "viewCount": 3724,
+      "viewCount": 3727,
       "likeCount": 117,
       "commentCount": 1,
       "tags": []
@@ -18039,7 +18036,7 @@
       "duration": "PT28M25S",
       "durationSeconds": 1705,
       "isShort": false,
-      "viewCount": 434,
+      "viewCount": 435,
       "likeCount": 44,
       "commentCount": 4,
       "tags": []
@@ -18058,7 +18055,7 @@
       "duration": "PT1M14S",
       "durationSeconds": 74,
       "isShort": true,
-      "viewCount": 2771,
+      "viewCount": 2773,
       "likeCount": 54,
       "commentCount": 0,
       "tags": []
@@ -18153,7 +18150,7 @@
       "duration": "PT31S",
       "durationSeconds": 31,
       "isShort": true,
-      "viewCount": 4568,
+      "viewCount": 4572,
       "likeCount": 78,
       "commentCount": 0,
       "tags": []
@@ -18210,7 +18207,7 @@
       "duration": "PT1H8M39S",
       "durationSeconds": 4119,
       "isShort": false,
-      "viewCount": 65045,
+      "viewCount": 65054,
       "likeCount": 1527,
       "commentCount": 85,
       "tags": []
@@ -18229,7 +18226,7 @@
       "duration": "PT1M17S",
       "durationSeconds": 77,
       "isShort": true,
-      "viewCount": 3705,
+      "viewCount": 3707,
       "likeCount": 78,
       "commentCount": 1,
       "tags": []
@@ -18248,7 +18245,7 @@
       "duration": "PT1M43S",
       "durationSeconds": 103,
       "isShort": true,
-      "viewCount": 3839,
+      "viewCount": 3842,
       "likeCount": 74,
       "commentCount": 0,
       "tags": []
@@ -18434,7 +18431,7 @@
       "duration": "PT1M8S",
       "durationSeconds": 68,
       "isShort": true,
-      "viewCount": 3217,
+      "viewCount": 3219,
       "likeCount": 59,
       "commentCount": 0,
       "tags": []
@@ -18453,7 +18450,7 @@
       "duration": "PT1M14S",
       "durationSeconds": 74,
       "isShort": true,
-      "viewCount": 2506,
+      "viewCount": 2510,
       "likeCount": 82,
       "commentCount": 1,
       "tags": []
@@ -18691,7 +18688,7 @@
       "duration": "PT1H23S",
       "durationSeconds": 3623,
       "isShort": false,
-      "viewCount": 192,
+      "viewCount": 196,
       "likeCount": 18,
       "commentCount": 4,
       "tags": [
@@ -18770,7 +18767,7 @@
       "duration": "PT24M5S",
       "durationSeconds": 1445,
       "isShort": false,
-      "viewCount": 17204,
+      "viewCount": 17208,
       "likeCount": 2006,
       "commentCount": 281,
       "tags": [
@@ -19357,7 +19354,7 @@
       "duration": "PT6M47S",
       "durationSeconds": 407,
       "isShort": false,
-      "viewCount": 246,
+      "viewCount": 248,
       "likeCount": 23,
       "commentCount": 8,
       "tags": [
@@ -19566,7 +19563,7 @@
       "duration": "PT19M17S",
       "durationSeconds": 1157,
       "isShort": false,
-      "viewCount": 10915,
+      "viewCount": 10916,
       "likeCount": 1345,
       "commentCount": 155,
       "tags": [
@@ -19660,7 +19657,7 @@
       "duration": "PT9M47S",
       "durationSeconds": 587,
       "isShort": false,
-      "viewCount": 2720,
+      "viewCount": 2721,
       "likeCount": 116,
       "commentCount": 9,
       "tags": []
@@ -19801,7 +19798,7 @@
       "duration": "PT6M11S",
       "durationSeconds": 371,
       "isShort": false,
-      "viewCount": 153,
+      "viewCount": 154,
       "likeCount": 17,
       "commentCount": 0,
       "tags": [
@@ -20118,7 +20115,7 @@
       "duration": "PT1H27M59S",
       "durationSeconds": 5279,
       "isShort": false,
-      "viewCount": 5169,
+      "viewCount": 5170,
       "likeCount": 392,
       "commentCount": 43,
       "tags": [
@@ -20248,7 +20245,7 @@
       "duration": "PT16M7S",
       "durationSeconds": 967,
       "isShort": false,
-      "viewCount": 4259,
+      "viewCount": 4260,
       "likeCount": 161,
       "commentCount": 19,
       "tags": [
@@ -20348,8 +20345,8 @@
       "duration": "PT37M54S",
       "durationSeconds": 2274,
       "isShort": false,
-      "viewCount": 672,
-      "likeCount": 39,
+      "viewCount": 673,
+      "likeCount": 40,
       "commentCount": 26,
       "tags": []
     },
@@ -20438,7 +20435,7 @@
       "duration": "PT19M52S",
       "durationSeconds": 1192,
       "isShort": false,
-      "viewCount": 14878,
+      "viewCount": 14881,
       "likeCount": 1986,
       "commentCount": 109,
       "tags": [
@@ -20733,7 +20730,7 @@
       "duration": "PT55M14S",
       "durationSeconds": 3314,
       "isShort": false,
-      "viewCount": 2503,
+      "viewCount": 2506,
       "likeCount": 161,
       "commentCount": 37,
       "tags": []
@@ -20752,7 +20749,7 @@
       "duration": "PT49S",
       "durationSeconds": 49,
       "isShort": true,
-      "viewCount": 65,
+      "viewCount": 66,
       "likeCount": 6,
       "commentCount": 1,
       "tags": [
@@ -20898,8 +20895,8 @@
       "duration": "PT18M5S",
       "durationSeconds": 1085,
       "isShort": false,
-      "viewCount": 47421,
-      "likeCount": 4119,
+      "viewCount": 47439,
+      "likeCount": 4123,
       "commentCount": 518,
       "tags": [
         "Carles Valbuena",
@@ -21243,7 +21240,7 @@
       "duration": "PT13M52S",
       "durationSeconds": 832,
       "isShort": false,
-      "viewCount": 3147,
+      "viewCount": 3148,
       "likeCount": 142,
       "commentCount": 25,
       "tags": [
@@ -21516,7 +21513,7 @@
       "duration": "PT2M57S",
       "durationSeconds": 177,
       "isShort": false,
-      "viewCount": 208,
+      "viewCount": 210,
       "likeCount": 20,
       "commentCount": 6,
       "tags": [
@@ -21545,7 +21542,7 @@
       "duration": "PT20M58S",
       "durationSeconds": 1258,
       "isShort": false,
-      "viewCount": 17325,
+      "viewCount": 17326,
       "likeCount": 1875,
       "commentCount": 495,
       "tags": [
@@ -21780,7 +21777,7 @@
       "duration": "PT20M7S",
       "durationSeconds": 1207,
       "isShort": false,
-      "viewCount": 3363,
+      "viewCount": 3364,
       "likeCount": 349,
       "commentCount": 49,
       "tags": [
@@ -21963,7 +21960,7 @@
       "duration": "PT40M9S",
       "durationSeconds": 2409,
       "isShort": false,
-      "viewCount": 856,
+      "viewCount": 857,
       "likeCount": 53,
       "commentCount": 2,
       "tags": []
@@ -22040,7 +22037,7 @@
       "duration": "PT35M52S",
       "durationSeconds": 2152,
       "isShort": false,
-      "viewCount": 328,
+      "viewCount": 332,
       "likeCount": 38,
       "commentCount": 10,
       "tags": []
@@ -22257,7 +22254,7 @@
       "duration": "PT11M3S",
       "durationSeconds": 663,
       "isShort": false,
-      "viewCount": 2514,
+      "viewCount": 2515,
       "likeCount": 105,
       "commentCount": 18,
       "tags": [
@@ -22416,7 +22413,7 @@
       "duration": "PT1H7M17S",
       "durationSeconds": 4037,
       "isShort": false,
-      "viewCount": 553,
+      "viewCount": 555,
       "likeCount": 41,
       "commentCount": 14,
       "tags": []
@@ -22435,7 +22432,7 @@
       "duration": "PT52M22S",
       "durationSeconds": 3142,
       "isShort": false,
-      "viewCount": 4530,
+      "viewCount": 4531,
       "likeCount": 415,
       "commentCount": 20,
       "tags": [
@@ -22576,7 +22573,7 @@
       "duration": "PT1M30S",
       "durationSeconds": 90,
       "isShort": true,
-      "viewCount": 163,
+      "viewCount": 164,
       "likeCount": 18,
       "commentCount": 4,
       "tags": [
@@ -22634,7 +22631,7 @@
       "duration": "PT42M57S",
       "durationSeconds": 2577,
       "isShort": false,
-      "viewCount": 584,
+      "viewCount": 587,
       "likeCount": 66,
       "commentCount": 14,
       "tags": []
@@ -22653,7 +22650,7 @@
       "duration": "PT50M56S",
       "durationSeconds": 3056,
       "isShort": false,
-      "viewCount": 1213,
+      "viewCount": 1214,
       "likeCount": 26,
       "commentCount": 2,
       "tags": []
@@ -22829,7 +22826,7 @@
       "duration": "PT33M59S",
       "durationSeconds": 2039,
       "isShort": false,
-      "viewCount": 595,
+      "viewCount": 596,
       "likeCount": 58,
       "commentCount": 11,
       "tags": []
@@ -23130,7 +23127,7 @@
       "duration": "PT51M35S",
       "durationSeconds": 3095,
       "isShort": false,
-      "viewCount": 1153,
+      "viewCount": 1154,
       "likeCount": 67,
       "commentCount": 20,
       "tags": []
@@ -23381,7 +23378,7 @@
       "duration": "PT14M",
       "durationSeconds": 840,
       "isShort": false,
-      "viewCount": 7978,
+      "viewCount": 7980,
       "likeCount": 374,
       "commentCount": 58,
       "tags": []
@@ -23438,7 +23435,7 @@
       "duration": "PT1H3M43S",
       "durationSeconds": 3823,
       "isShort": false,
-      "viewCount": 427,
+      "viewCount": 428,
       "likeCount": 12,
       "commentCount": 0,
       "tags": []
@@ -23544,7 +23541,7 @@
       "duration": "PT27S",
       "durationSeconds": 27,
       "isShort": true,
-      "viewCount": 473,
+      "viewCount": 483,
       "likeCount": 17,
       "commentCount": 0,
       "tags": []
@@ -23563,7 +23560,7 @@
       "duration": "PT13M35S",
       "durationSeconds": 815,
       "isShort": false,
-      "viewCount": 2703,
+      "viewCount": 2704,
       "likeCount": 147,
       "commentCount": 22,
       "tags": [
@@ -23589,7 +23586,7 @@
       "duration": "PT20M",
       "durationSeconds": 1200,
       "isShort": false,
-      "viewCount": 8399,
+      "viewCount": 8400,
       "likeCount": 1014,
       "commentCount": 148,
       "tags": [
@@ -23663,8 +23660,8 @@
       "duration": "PT17M44S",
       "durationSeconds": 1064,
       "isShort": false,
-      "viewCount": 4065,
-      "likeCount": 221,
+      "viewCount": 4066,
+      "likeCount": 222,
       "commentCount": 44,
       "tags": [
         "Esport",
@@ -23734,7 +23731,7 @@
       "duration": "PT58M14S",
       "durationSeconds": 3494,
       "isShort": false,
-      "viewCount": 322,
+      "viewCount": 323,
       "likeCount": 18,
       "commentCount": 9,
       "tags": []
@@ -23784,7 +23781,7 @@
       "duration": "PT9M36S",
       "durationSeconds": 576,
       "isShort": false,
-      "viewCount": 23100,
+      "viewCount": 23101,
       "likeCount": 2091,
       "commentCount": 207,
       "tags": [
@@ -23858,7 +23855,7 @@
       "duration": "PT16M52S",
       "durationSeconds": 1012,
       "isShort": false,
-      "viewCount": 70,
+      "viewCount": 71,
       "likeCount": 7,
       "commentCount": 1,
       "tags": [
@@ -23924,8 +23921,8 @@
       "duration": "PT8M45S",
       "durationSeconds": 525,
       "isShort": false,
-      "viewCount": 1970,
-      "likeCount": 127,
+      "viewCount": 1972,
+      "likeCount": 128,
       "commentCount": 16,
       "tags": []
     },
@@ -23981,7 +23978,7 @@
       "duration": "PT39S",
       "durationSeconds": 39,
       "isShort": true,
-      "viewCount": 585,
+      "viewCount": 587,
       "likeCount": 6,
       "commentCount": 0,
       "tags": []
@@ -24062,7 +24059,7 @@
       "duration": "PT13M40S",
       "durationSeconds": 820,
       "isShort": false,
-      "viewCount": 1758,
+      "viewCount": 1759,
       "likeCount": 107,
       "commentCount": 19,
       "tags": []
@@ -24134,7 +24131,7 @@
       "duration": "PT1H1M6S",
       "durationSeconds": 3666,
       "isShort": false,
-      "viewCount": 963,
+      "viewCount": 967,
       "likeCount": 71,
       "commentCount": 11,
       "tags": []
@@ -24153,8 +24150,8 @@
       "duration": "PT49S",
       "durationSeconds": 49,
       "isShort": true,
-      "viewCount": 3822,
-      "likeCount": 56,
+      "viewCount": 3828,
+      "likeCount": 57,
       "commentCount": 3,
       "tags": []
     },
@@ -24172,7 +24169,7 @@
       "duration": "PT44M19S",
       "durationSeconds": 2659,
       "isShort": false,
-      "viewCount": 8184,
+      "viewCount": 8186,
       "likeCount": 145,
       "commentCount": 7,
       "tags": []
@@ -24385,7 +24382,7 @@
       "duration": "PT1H5M6S",
       "durationSeconds": 3906,
       "isShort": false,
-      "viewCount": 8165,
+      "viewCount": 8167,
       "likeCount": 488,
       "commentCount": 157,
       "tags": [
@@ -24429,7 +24426,7 @@
       "duration": "PT1H7M23S",
       "durationSeconds": 4043,
       "isShort": false,
-      "viewCount": 8656,
+      "viewCount": 8658,
       "likeCount": 600,
       "commentCount": 53,
       "tags": [
@@ -24510,7 +24507,7 @@
       "duration": "PT6M34S",
       "durationSeconds": 394,
       "isShort": false,
-      "viewCount": 316,
+      "viewCount": 319,
       "likeCount": 54,
       "commentCount": 18,
       "tags": [
@@ -24600,7 +24597,7 @@
       "duration": "PT44M1S",
       "durationSeconds": 2641,
       "isShort": false,
-      "viewCount": 406,
+      "viewCount": 407,
       "likeCount": 16,
       "commentCount": 1,
       "tags": []
@@ -24800,8 +24797,8 @@
       "duration": "PT10M44S",
       "durationSeconds": 644,
       "isShort": false,
-      "viewCount": 13717,
-      "likeCount": 1297,
+      "viewCount": 13718,
+      "likeCount": 1298,
       "commentCount": 196,
       "tags": [
         "Carles Valbuena",
@@ -24961,7 +24958,7 @@
       "duration": "PT14M13S",
       "durationSeconds": 853,
       "isShort": false,
-      "viewCount": 3501,
+      "viewCount": 3502,
       "likeCount": 181,
       "commentCount": 23,
       "tags": [
@@ -25432,7 +25429,7 @@
       "duration": "PT31M54S",
       "durationSeconds": 1914,
       "isShort": false,
-      "viewCount": 206,
+      "viewCount": 207,
       "likeCount": 21,
       "commentCount": 3,
       "tags": []
@@ -25618,7 +25615,7 @@
       "duration": "PT20M8S",
       "durationSeconds": 1208,
       "isShort": false,
-      "viewCount": 32907,
+      "viewCount": 32909,
       "likeCount": 1308,
       "commentCount": 270,
       "tags": [
@@ -25707,7 +25704,7 @@
       "duration": "PT6M4S",
       "durationSeconds": 364,
       "isShort": false,
-      "viewCount": 8889,
+      "viewCount": 8890,
       "likeCount": 1184,
       "commentCount": 103,
       "tags": [
@@ -25855,7 +25852,7 @@
       "duration": "PT42M43S",
       "durationSeconds": 2563,
       "isShort": false,
-      "viewCount": 2731,
+      "viewCount": 2732,
       "likeCount": 33,
       "commentCount": 1,
       "tags": []
@@ -25874,7 +25871,7 @@
       "duration": "PT15M9S",
       "durationSeconds": 909,
       "isShort": false,
-      "viewCount": 14328,
+      "viewCount": 14329,
       "likeCount": 1651,
       "commentCount": 142,
       "tags": [
@@ -25911,7 +25908,7 @@
       "duration": "PT23M25S",
       "durationSeconds": 1405,
       "isShort": false,
-      "viewCount": 20251,
+      "viewCount": 20253,
       "likeCount": 1982,
       "commentCount": 183,
       "tags": [
@@ -26106,7 +26103,7 @@
       "duration": "PT55M51S",
       "durationSeconds": 3351,
       "isShort": false,
-      "viewCount": 10235,
+      "viewCount": 10238,
       "likeCount": 587,
       "commentCount": 106,
       "tags": [
@@ -26193,8 +26190,8 @@
       "duration": "PT11M27S",
       "durationSeconds": 687,
       "isShort": false,
-      "viewCount": 13799,
-      "likeCount": 1639,
+      "viewCount": 13804,
+      "likeCount": 1640,
       "commentCount": 146,
       "tags": [
         "Carles Valbuena",
@@ -26537,7 +26534,7 @@
       "duration": "PT51M32S",
       "durationSeconds": 3092,
       "isShort": false,
-      "viewCount": 212,
+      "viewCount": 213,
       "likeCount": 16,
       "commentCount": 2,
       "tags": []
@@ -26556,7 +26553,7 @@
       "duration": "PT1H51S",
       "durationSeconds": 3651,
       "isShort": false,
-      "viewCount": 26011,
+      "viewCount": 26012,
       "likeCount": 1314,
       "commentCount": 207,
       "tags": [
@@ -26695,7 +26692,7 @@
       "duration": "PT1H6M18S",
       "durationSeconds": 3978,
       "isShort": false,
-      "viewCount": 3585,
+      "viewCount": 3586,
       "likeCount": 128,
       "commentCount": 13,
       "tags": []
@@ -26714,7 +26711,7 @@
       "duration": "PT1H7M53S",
       "durationSeconds": 4073,
       "isShort": false,
-      "viewCount": 14213,
+      "viewCount": 14218,
       "likeCount": 567,
       "commentCount": 115,
       "tags": [
@@ -26878,7 +26875,7 @@
       "duration": "PT54M11S",
       "durationSeconds": 3251,
       "isShort": false,
-      "viewCount": 2257,
+      "viewCount": 2258,
       "likeCount": 119,
       "commentCount": 15,
       "tags": []
@@ -26897,7 +26894,7 @@
       "duration": "PT51M31S",
       "durationSeconds": 3091,
       "isShort": false,
-      "viewCount": 7214,
+      "viewCount": 7215,
       "likeCount": 459,
       "commentCount": 69,
       "tags": [
@@ -27152,7 +27149,7 @@
       "duration": "PT1H11M59S",
       "durationSeconds": 4319,
       "isShort": false,
-      "viewCount": 11967,
+      "viewCount": 11968,
       "likeCount": 454,
       "commentCount": 43,
       "tags": [
@@ -27508,8 +27505,8 @@
       "duration": "PT1H21M59S",
       "durationSeconds": 4919,
       "isShort": false,
-      "viewCount": 39366,
-      "likeCount": 1351,
+      "viewCount": 39368,
+      "likeCount": 1352,
       "commentCount": 347,
       "tags": []
     },
@@ -27546,7 +27543,7 @@
       "duration": "PT29M3S",
       "durationSeconds": 1743,
       "isShort": false,
-      "viewCount": 8235,
+      "viewCount": 8240,
       "likeCount": 245,
       "commentCount": 39,
       "tags": [
@@ -27887,7 +27884,7 @@
       "duration": "PT35M1S",
       "durationSeconds": 2101,
       "isShort": false,
-      "viewCount": 896,
+      "viewCount": 897,
       "likeCount": 11,
       "commentCount": 0,
       "tags": []
@@ -27906,7 +27903,7 @@
       "duration": "PT36M31S",
       "durationSeconds": 2191,
       "isShort": false,
-      "viewCount": 3190,
+      "viewCount": 3192,
       "likeCount": 65,
       "commentCount": 22,
       "tags": [
