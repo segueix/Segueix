@@ -3166,6 +3166,9 @@ function navigateToSearchResults(query) {
         return;
     }
     hideSearchDropdown();
+    if (searchInput) {
+        searchInput.value = '';
+    }
 
     if (useYouTubeAPI && !YouTubeAPI?.feedLoaded) {
         searchVideos(trimmedQuery);
