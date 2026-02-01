@@ -4450,10 +4450,11 @@ function bindPlaylistQueueInteractions() {
     queueContainer.addEventListener('click', (event) => {
         const removeButton = event.target.closest('.playlist-queue-remove');
         if (!removeButton) return;
+        event.preventDefault();
         event.stopPropagation();
         if (!activePlaylistId) return;
         removeVideoFromPlaylist(activePlaylistId, removeButton.dataset.videoId);
-    });
+    }, true);
 
     queueContainer.addEventListener('dragstart', (event) => {
         const item = event.target.closest('.playlist-queue-item');
