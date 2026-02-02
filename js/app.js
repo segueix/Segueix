@@ -6773,7 +6773,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </h2>
                 </div>
                 <div class="modal-body" style="text-align:center; padding: 40px 20px;">
-                    <p class="modal-description">Descarregant informació de la llista...</p>
+                    <p class="modal-description">Connectant amb el servidor...</p>
                 </div>
             </div>
         `;
@@ -6784,19 +6784,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         (async () => {
             try {
-                // 2. Fetch Playlist IDs from Server
+                // 2. Fetch Playlist Data
                 const res = await fetch(`${SEGUEIX_API_URL}?id=${listId}`);
                 const data = await res.json();
 
                 if (data.status === 'success') {
-                    const idsRaw = Array.isArray(data.ids)
-                        ? data.ids
-                        : (typeof data.ids === 'string' ? data.ids.split(',') : []);
-                    const ids = idsRaw.map(id => String(id).trim()).filter(id => id.length > 0);
-                    if (ids.length === 0) {
-                        throw new Error('La llista no té vídeos per importar.');
+                    // FIX: Handle both 'urls' (new format) and 'ids' (old format)
+                    let ids = [];
+                    
+                    if (data.urls) {
+                        // Extract ID from full URL (e.g., https://www.youtube.com/watch?v=VIDEOID)
+                        ids = data.urls.split(',').map(url => {
+                            const match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+                            return match ? match[1] : url.trim(); // Return ID or the raw string if no match
+                        }).filter(id => id && id.length > 0);
+                    } else if (data.ids) {
+                        ids = data.ids.split(',').map(id => id.trim());
                     }
-                    const playlistName = data.nom || 'Llista compartida';
+
+                    const playlistName = data.nom;
 
                     modal.querySelector('.modal-description').textContent = `Processant ${ids.length} vídeos...`;
 
@@ -6804,7 +6810,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const resolvedVideos = [];
                     const missingIds = [];
                     
-                    // Helper to check API Key
                     const getApiKey = () => {
                         return (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.getApiKey) 
                             ? YouTubeAPI.getApiKey() 
@@ -6814,7 +6819,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     const allKnownVideos = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
 
-                    // Check local cache first
+                    // Check local cache
                     ids.forEach(id => {
                         const found = allKnownVideos.find(v => String(v.id) === String(id));
                         if (found) {
@@ -6824,10 +6829,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                     });
 
-                    // Fetch missing from API if Key exists
+                    // Fetch missing from API
                     if (missingIds.length > 0 && apiKey) {
                         try {
-                            // Fetch in chunks
                             for (let i = 0; i < missingIds.length; i += 50) {
                                 const chunk = missingIds.slice(i, i + 50).join(',');
                                 const ytRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${chunk}&key=${apiKey}`);
@@ -6835,12 +6839,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 if (ytRes.ok) {
                                     const ytData = await ytRes.json();
                                     if (ytData.items) {
-                                        // Use YouTubeAPI helper if available, otherwise manual map
                                         let newItems = [];
                                         if (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.transformVideoResults) {
                                             newItems = YouTubeAPI.transformVideoResults(ytData.items);
                                         } else {
-                                            // Manual fallback mapping
                                             newItems = ytData.items.map(item => ({
                                                 id: item.id,
                                                 title: item.snippet.title,
@@ -6864,22 +6866,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                     }
 
-                    // 4. CONSTRUCT FINAL LIST (Robust Fallback)
+                    // 4. CONSTRUCT FINAL LIST (With Source Fix)
                     const orderedVideos = [];
                     ids.forEach(id => {
                         let v = resolvedVideos.find(rv => String(rv.id) === String(id));
                         
-                        // CRITICAL FIX: Even if fallback, ensure source is 'api' so it's playable
                         if (!v) {
                             v = {
                                 id: id,
                                 title: `Vídeo ${id}`,
                                 thumbnail: 'img/icon-192.png', 
                                 channelTitle: 'Informació no disponible',
-                                source: 'api'
+                                source: 'api' // Required for playback
                             };
                         } else {
-                            // Ensure source is set on found videos too
                             if (!v.source) v.source = 'api';
                         }
                         orderedVideos.push(v);
@@ -6918,7 +6918,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </button>
                     `;
 
-                    // Generate HTML (Clickable items)
                     const listHtml = orderedVideos.map(video => `
                         <div class="playlist-import-item" onclick="if(typeof showVideoFromAPI === 'function') { showVideoFromAPI('${video.id}'); }" style="display:flex; gap:10px; align-items:center; padding:10px 15px; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer;">
                             <img src="${video.thumbnail}" style="width:60px; height:34px; object-fit:cover; border-radius:4px; flex-shrink:0; background:#333;">
