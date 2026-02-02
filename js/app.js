@@ -3505,6 +3505,43 @@ function openShortModal(videoId) {
     }
 }
 
+function getLikedShorts() {
+    const stored = localStorage.getItem('catube_shorts_likes');
+    if (!stored) {
+        return [];
+    }
+    try {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.warn('Invalid shorts likes stored value', error);
+        return [];
+    }
+}
+
+function isShortLiked(videoId) {
+    const likes = getLikedShorts();
+    return likes.includes(String(videoId));
+}
+
+function toggleShortLike(video) {
+    const videoId = typeof video === 'object' ? video.id : video;
+    const likes = getLikedShorts();
+    const id = String(videoId);
+    const index = likes.indexOf(id);
+    let isLiked = false;
+
+    if (index === -1) {
+        likes.push(id);
+        isLiked = true;
+    } else {
+        likes.splice(index, 1);
+    }
+
+    localStorage.setItem('catube_shorts_likes', JSON.stringify(likes));
+    return isLiked;
+}
+
 function loadShort(index) {
     if (index < 0 || index >= currentShortsQueue.length) return;
 
@@ -3520,6 +3557,42 @@ function loadShort(index) {
     const channelEl = document.getElementById('shortChannel');
     if (titleEl) titleEl.textContent = short.title || '';
     if (channelEl) channelEl.textContent = short.channelTitle || '';
+
+    const likeBtn = document.getElementById('shortLikeBtn');
+    if (likeBtn) {
+        if (isShortLiked(short.id)) {
+            likeBtn.classList.add('liked');
+        } else {
+            likeBtn.classList.remove('liked');
+        }
+
+        likeBtn.onclick = (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            const nowLiked = toggleShortLike(short.id);
+            if (nowLiked) {
+                likeBtn.classList.add('liked');
+            } else {
+                likeBtn.classList.remove('liked');
+            }
+        };
+    }
+
+    const shareBtn = document.getElementById('shortShareBtn');
+    if (shareBtn) {
+        shareBtn.onclick = (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            shareVideo({
+                id: short.id,
+                title: short.title || 'Short'
+            });
+        };
+    }
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 
     updateShortNavButtons();
 
