@@ -3992,6 +3992,7 @@ function renderPlaylistsPage() {
     }
 
     playlistsList.innerHTML = playlists.map(list => {
+        const playlistName = list.name;
         const firstVideo = list.videos[0];
         const thumbnail = firstVideo?.thumbnail || 'img/icon-512.png';
         const videoCount = list.videos.length;
@@ -4023,7 +4024,15 @@ function renderPlaylistsPage() {
                     <button class="playlist-delete" type="button" data-playlist-id="${list.id}" aria-label="Esborrar llista" onclick="event.stopPropagation(); removePlaylist('${list.id}'); renderPlaylistsPage();">×</button>
                 </div>
                 <div class="playlist-card-body">
-                    <div class="playlist-card-title">${escapeHtml(list.name)}</div>
+                    <div class="playlist-card-title">
+                        ${escapeHtml(list.name)}
+                        <button class="btn-round-icon" 
+                                onclick="event.stopPropagation(); shareSegueixPlaylist('${escapeHtml(list.name)}')" 
+                                title="Compartir llista" 
+                                style="width:32px; height:32px; min-width:32px; min-height:32px; background:rgba(255,255,255,0.1);">
+                            <i data-lucide="share-2" style="width:16px; height:16px;"></i>
+                        </button>
+                    </div>
                     <div class="playlist-card-meta">${videoCount} vídeos</div>
                     ${videosMarkup}
                 </div>
@@ -6639,3 +6648,387 @@ window.addEventListener('popstate', (e) => {
         }
     }
 });
+
+// --- FUNCIONS PER COMPARTIR LLISTES (SEGUEIX) - VERSIÓ CORREGIDA ---
+
+// 1. Funció per ENVIAR (Adaptada a la teva estructura de playlists)
+async function shareSegueixPlaylist(playlistName) {
+    const stored = localStorage.getItem('catube_playlists');
+    const allPlaylists = stored ? JSON.parse(stored) : [];
+    const targetPlaylist = allPlaylists.find(p => p.name === playlistName);
+
+    if (!targetPlaylist || !targetPlaylist.videos || targetPlaylist.videos.length === 0) {
+        return alert('Aquesta llista és buida o no existeix.');
+    }
+
+    // 1. Show "Loading" Modal
+    const loadingModal = document.createElement('div');
+    loadingModal.className = 'modal-overlay active share-modal-overlay';
+    loadingModal.innerHTML = `
+        <div class="modal modal-small">
+            <div class="modal-body" style="text-align:center; padding: 30px;">
+                <div class="spinner" style="width:20px;height:20px;border-width:2px;margin:0 auto 15px auto;"></div>
+                <p>Generant enllaç...</p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(loadingModal);
+
+    try {
+        const ids = targetPlaylist.videos.map(v => v.id).join(',');
+        const urls = targetPlaylist.videos.map(v => `https://www.youtube.com/watch?v=${v.id}`);
+
+        // Call API
+        const res = await fetch(SEGUEIX_API_URL, {
+            method: 'POST',
+            body: JSON.stringify({ nom: playlistName, urls: urls })
+        });
+        const data = await res.json();
+
+        // Remove loading modal
+        loadingModal.remove();
+
+        if (data.status === 'success') {
+            const shareUrl = `${window.location.origin}${window.location.pathname}?list=${data.id}`;
+            const shareTitle = `Llista: ${playlistName}`;
+            const shareText = `Mira aquesta llista de reproducció "${playlistName}" a CaTube!`;
+
+            // A) NATIVE SHARING (Mobile: opens WhatsApp, Telegram, Mail, etc.)
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: shareTitle,
+                        text: shareText,
+                        url: shareUrl
+                    });
+                    console.log('Compartit amb èxit');
+                    return;
+                } catch (err) {
+                    console.log('User cancelled or native share failed', err);
+                }
+            }
+
+            // B) MANUAL FALLBACK (Desktop)
+            showManualShareModal(playlistName, shareUrl);
+
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (err) {
+        loadingModal.remove();
+        alert('Error: ' + (err.message || 'No s\'ha pogut generar l\'enllaç'));
+    }
+}
+
+function showManualShareModal(name, url) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay active';
+    modal.innerHTML = `
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h2 class="modal-title">Comparteix la llista</h2>
+                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align:center; padding: 20px;">
+                <p style="margin-bottom:15px;">Copia l'enllaç per enviar-lo per on vulguis:</p>
+                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 0.85rem; margin-bottom: 20px; user-select: all;">
+                    ${url}
+                </div>
+                <button class="hero-button" id="copyBtn">
+                    <i data-lucide="copy"></i> Copiar Enllaç
+                </button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    modal.querySelector('#copyBtn').onclick = function() {
+        navigator.clipboard.writeText(url);
+        this.innerHTML = '<i data-lucide="check"></i> Copiat!';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    };
+}
+
+// 2. Listener per DETECTAR llistes compartides
+document.addEventListener('DOMContentLoaded', async () => {
+    // DETECT SHARED PLAYLIST
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('list')) {
+        const listId = params.get('list');
+        
+        // 1. Initial Loading Modal
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay active';
+        modal.id = 'importPlaylistModal';
+        modal.style.zIndex = '10000';
+        modal.innerHTML = `
+            <div class="modal modal-small">
+                <div class="modal-header">
+                    <h2 class="modal-title">
+                        <div class="spinner" style="width:20px;height:20px;border-width:2px;margin-right:10px;"></div>
+                        Carregant...
+                    </h2>
+                </div>
+                <div class="modal-body" style="text-align:center; padding: 40px 20px;">
+                    <p class="modal-description">Descarregant informació de la llista...</p>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+        (async () => {
+            try {
+                // 2. Fetch Playlist IDs from Server
+                const res = await fetch(`${SEGUEIX_API_URL}?id=${listId}`);
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    const idsRaw = data.ids.split(',');
+                    const ids = idsRaw.map(id => id.trim()).filter(id => id.length > 0);
+                    const playlistName = data.nom;
+
+                    modal.querySelector('.modal-description').textContent = `Processant ${ids.length} vídeos...`;
+
+                    // 3. RESOLVE VIDEOS
+                    const resolvedVideos = [];
+                    const missingIds = [];
+                    
+                    // Helper to check API Key
+                    const getApiKey = () => {
+                        return (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.getApiKey) 
+                            ? YouTubeAPI.getApiKey() 
+                            : localStorage.getItem('youtube_api_key');
+                    };
+                    const apiKey = getApiKey();
+
+                    const allKnownVideos = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
+
+                    // Check local cache first
+                    ids.forEach(id => {
+                        const found = allKnownVideos.find(v => String(v.id) === String(id));
+                        if (found) {
+                            resolvedVideos.push(getPlaylistVideoData(found));
+                        } else {
+                            missingIds.push(id);
+                        }
+                    });
+
+                    // Fetch missing from API if Key exists
+                    if (missingIds.length > 0 && apiKey) {
+                        try {
+                            // Fetch in chunks
+                            for (let i = 0; i < missingIds.length; i += 50) {
+                                const chunk = missingIds.slice(i, i + 50).join(',');
+                                const ytRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${chunk}&key=${apiKey}`);
+                                
+                                if (ytRes.ok) {
+                                    const ytData = await ytRes.json();
+                                    if (ytData.items) {
+                                        // Use YouTubeAPI helper if available, otherwise manual map
+                                        let newItems = [];
+                                        if (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.transformVideoResults) {
+                                            newItems = YouTubeAPI.transformVideoResults(ytData.items);
+                                        } else {
+                                            // Manual fallback mapping
+                                            newItems = ytData.items.map(item => ({
+                                                id: item.id,
+                                                title: item.snippet.title,
+                                                thumbnail: item.snippet.thumbnails?.medium?.url || '',
+                                                channelTitle: item.snippet.channelTitle,
+                                                source: 'api'
+                                            }));
+                                        }
+
+                                        if (!window.cachedAPIVideos) window.cachedAPIVideos = [];
+                                        window.cachedAPIVideos.push(...newItems);
+                                        
+                                        newItems.forEach(item => {
+                                            resolvedVideos.push(getPlaylistVideoData(item));
+                                        });
+                                    }
+                                }
+                            }
+                        } catch (e) {
+                            console.error("Error fetching YouTube details:", e);
+                        }
+                    }
+
+                    // 4. CONSTRUCT FINAL LIST (Robust Fallback)
+                    const orderedVideos = [];
+                    ids.forEach(id => {
+                        let v = resolvedVideos.find(rv => String(rv.id) === String(id));
+                        
+                        // CRITICAL FIX: Even if fallback, ensure source is 'api' so it's playable
+                        if (!v) {
+                            v = {
+                                id: id,
+                                title: `Vídeo ${id}`,
+                                thumbnail: 'img/icon-192.png', 
+                                channelTitle: 'Informació no disponible',
+                                source: 'api'
+                            };
+                        } else {
+                            // Ensure source is set on found videos too
+                            if (!v.source) v.source = 'api';
+                        }
+                        orderedVideos.push(v);
+                    });
+
+                    // 5. AUTO-SAVE
+                    const playlists = getPlaylists();
+                    const newId = `shared_${listId}`;
+                    const existingIndex = playlists.findIndex(p => p.id === newId);
+                    
+                    const newPlaylistObj = {
+                        id: newId,
+                        name: playlistName,
+                        videos: orderedVideos
+                    };
+
+                    if (existingIndex >= 0) {
+                        playlists[existingIndex] = newPlaylistObj;
+                    } else {
+                        playlists.push(newPlaylistObj);
+                    }
+                    savePlaylists(playlists);
+
+                    if (typeof renderPlaylistsPage === 'function' && !playlistsPage.classList.contains('hidden')) {
+                        renderPlaylistsPage();
+                    }
+
+                    // 6. SHOW RESULT
+                    const modalHeader = modal.querySelector('.modal-header');
+                    modalHeader.innerHTML = `
+                        <h2 class="modal-title" style="display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:85%;">
+                            📂 ${escapeHtml(playlistName)}
+                        </h2>
+                        <button class="modal-close" onclick="document.getElementById('importPlaylistModal').remove()">
+                            <i data-lucide="x"></i>
+                        </button>
+                    `;
+
+                    // Generate HTML (Clickable items)
+                    const listHtml = orderedVideos.map(video => `
+                        <div class="playlist-import-item" onclick="if(typeof showVideoFromAPI === 'function') { showVideoFromAPI('${video.id}'); }" style="display:flex; gap:10px; align-items:center; padding:10px 15px; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer;">
+                            <img src="${video.thumbnail}" style="width:60px; height:34px; object-fit:cover; border-radius:4px; flex-shrink:0; background:#333;">
+                            <div style="min-width:0; flex-grow:1;">
+                                <div style="font-size:0.85rem; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: var(--text-primary);">${escapeHtml(video.title)}</div>
+                                <div style="font-size:0.75rem; color:var(--color-text-secondary);">${escapeHtml(video.channelTitle || '')}</div>
+                            </div>
+                            <i data-lucide="play-circle" style="width:16px; height:16px; opacity:0.5;"></i>
+                        </div>
+                    `).join('');
+
+                    modal.querySelector('.modal-body').innerHTML = `
+                        <div style="padding: 15px; background: rgba(46, 204, 113, 0.1); border-bottom:1px solid rgba(255,255,255,0.05); color: #2ecc71; font-size:0.9rem;">
+                            <i data-lucide="check-circle" style="width:16px; vertical-align:text-bottom;"></i>
+                            Llista guardada correctament!
+                        </div>
+                        <div style="max-height: 50vh; overflow-y: auto; text-align:left;">
+                            ${listHtml}
+                        </div>
+                    `;
+                    modal.querySelector('.modal-body').style.padding = '0';
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+                } else {
+                    throw new Error('La llista no existeix al servidor.');
+                }
+            } catch (err) {
+                console.error(err);
+                modal.querySelector('.modal-header').innerHTML = `
+                    <h2 class="modal-title">Error</h2>
+                    <button class="modal-close" onclick="this.closest('.modal-overlay').remove()"><i data-lucide="x"></i></button>
+                `;
+                modal.querySelector('.modal-body').innerHTML = `
+                    <p style="color:#ff6b6b;">${err.message || "Error desconegut."}</p>
+                `;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+        })();
+    }
+});
+
+// 3. Renderitzar la vista compartida
+function renderSharedPlaylist(name, stringIds) {
+    const ids = stringIds.split(',');
+
+    // CORRECCIÓ: Busquem els vídeos a les teves caches existents (API + Estàtics)
+    // Combinem totes les fonts possibles per trobar la info del vídeo
+    const allKnownVideos = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
+
+    const videos = ids.map(id => {
+        // Intentem trobar el vídeo complet
+        return allKnownVideos.find(v => String(v.id) === String(id))
+            || { id: id, title: 'Vídeo Carregant...', thumbnail: 'img/icon-192.png', channelTitle: '...' }; // Fallback
+    });
+
+    // Netegem la vista principal
+    if (pageTitle) pageTitle.textContent = `Llista compartida: ${name}`;
+    if (chipsBar) chipsBar.classList.add('hidden'); // Amaguem filtres
+
+    const container = document.getElementById('videosGrid');
+    if (!container) return;
+
+    // Header amb botó de guardar
+    const headerHTML = `
+        <div style="grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; background:#222; padding:15px; border-radius:10px;">
+            <div>
+                <h2 style="margin:0; font-size:1.2rem;">📂 ${escapeHtml(name)}</h2>
+                <p style="margin:0; opacity:0.7;">${videos.length} vídeos compartits</p>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button onclick="saveImportedPlaylist('${escapeHtml(name)}', '${stringIds}')" class="hero-button" style="padding:8px 16px; font-size:0.9rem;">
+                    💾 Guardar a la meva Biblioteca
+                </button>
+                <a href="${window.location.pathname}" class="hero-button" style="background:#444; text-decoration:none; padding:8px 16px; font-size:0.9rem;">
+                    Sortir
+                </a>
+            </div>
+        </div>
+    `;
+
+    // Reutilitzem la teva funció createVideoCardAPI per mantenir el disseny
+    const videosHTML = videos.map(v => typeof createVideoCardAPI === 'function' ? createVideoCardAPI(v) : '').join('');
+
+    container.innerHTML = headerHTML + videosHTML;
+
+    // Reactivem els clicks a les targetes
+    container.querySelectorAll('.video-card').forEach(card => {
+        card.addEventListener('click', () => {
+            if (typeof showVideoFromAPI === 'function') showVideoFromAPI(card.dataset.videoId);
+        });
+    });
+}
+
+// 4. Funció per GUARDAR (Correctament integrada a la teva App)
+function saveImportedPlaylist(name, stringIds) {
+    const ids = stringIds.split(',');
+    const allKnownVideos = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
+
+    // Reconstruïm els objectes de vídeo
+    const resolvedVideos = ids.map(id => {
+        const found = allKnownVideos.find(v => String(v.id) === String(id));
+        if (found) return getPlaylistVideoData(found); // Utilitzem la teva funció helper
+        return { id: id, title: 'Vídeo desconegut', source: 'api' };
+    });
+
+    // CORRECCIÓ: Utilitzem la teva estructura 'catube_playlists'
+    const playlists = getPlaylists(); // La teva funció existent
+    const newPlaylist = {
+        id: `pl_${Date.now()}`,
+        name: `${name} (Importada)`,
+        videos: resolvedVideos
+    };
+
+    playlists.push(newPlaylist);
+    savePlaylists(playlists); // La teva funció existent
+
+    alert(`Llista "${newPlaylist.name}" guardada correctament a la Biblioteca!`);
+}
