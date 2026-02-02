@@ -6917,7 +6917,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const modalHeader = modal.querySelector('.modal-header');
                     modalHeader.innerHTML = `
                         <h2 class="modal-title" style="display:flex; align-items:center; gap:10px; overflow:hidden; white-space:nowrap; max-width:85%;">
-                            <i data-lucide="library" style="flex-shrink:0;"></i> 
+                            <i data-lucide="library" style="flex-shrink:0; color:#fff;"></i> 
                             <span style="overflow:hidden; text-overflow:ellipsis;">${escapeHtml(playlistName)}</span>
                         </h2>
                         <button class="modal-close" onclick="document.getElementById('importPlaylistModal').remove()">
