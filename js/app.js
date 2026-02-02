@@ -6795,12 +6795,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // 3. Update Status
                     modal.querySelector('.modal-description').textContent = `Cercant dades de ${ids.length} vídeos...`;
 
-                    // 4. RESOLVE VIDEOS (Fetch from YouTube API if missing)
-                    const allKnownVideos = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
+                    // 4. RESOLVE VIDEOS
                     const resolvedVideos = [];
                     const missingIds = [];
 
-                    // Check local cache
+                    // Access API helper safely
+                    const ytApi = (typeof YouTubeAPI !== 'undefined') ? YouTubeAPI : (window.YouTubeAPI || null);
+                    const allKnownVideos = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
+
+                    // Check local cache first
                     ids.forEach(id => {
                         const found = allKnownVideos.find(v => String(v.id) === String(id));
                         if (found) {
@@ -6811,15 +6814,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
 
                     // Fetch missing from API
-                    if (missingIds.length > 0 && typeof YouTubeAPI !== 'undefined' && YouTubeAPI.getApiKey()) {
+                    if (missingIds.length > 0 && ytApi && ytApi.getApiKey()) {
                         try {
                             for (let i = 0; i < missingIds.length; i += 50) {
                                 const chunk = missingIds.slice(i, i + 50).join(',');
-                                const ytRes = await fetch(`${YouTubeAPI.BASE_URL}/videos?part=snippet,contentDetails,statistics&id=${chunk}&key=${YouTubeAPI.getApiKey()}`);
+                                const ytRes = await fetch(`${ytApi.BASE_URL}/videos?part=snippet,contentDetails,statistics&id=${chunk}&key=${ytApi.getApiKey()}`);
                                 const ytData = await ytRes.json();
 
                                 if (ytData.items) {
-                                    const newItems = YouTubeAPI.transformVideoResults(ytData.items);
+                                    const newItems = ytApi.transformVideoResults(ytData.items);
                                     if (!window.cachedAPIVideos) window.cachedAPIVideos = [];
                                     window.cachedAPIVideos.push(...newItems);
 
@@ -6833,14 +6836,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                     }
 
-                    // Reorder
+                    // 5. CONSTRUCT FINAL LIST (With Fallback)
                     const orderedVideos = [];
                     ids.forEach(id => {
-                        const v = resolvedVideos.find(rv => String(rv.id) === String(id));
-                        if (v) orderedVideos.push(v);
+                        let v = resolvedVideos.find(rv => String(rv.id) === String(id));
+
+                        // FALLBACK: If API failed or video deleted, use ID as title so link still works
+                        if (!v) {
+                            v = {
+                                id: id,
+                                title: `Vídeo ${id}`,
+                                thumbnail: 'img/icon-192.png',
+                                channelTitle: 'Informació no disponible'
+                            };
+                        }
+                        orderedVideos.push(v);
                     });
 
-                    // 5. AUTO-SAVE
+                    // 6. AUTO-SAVE
                     const playlists = getPlaylists();
                     const newId = `shared_${listId}`;
                     const existingIndex = playlists.findIndex(p => p.id === newId);
@@ -6862,7 +6875,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         renderPlaylistsPage();
                     }
 
-                    // 6. SHOW RESULT (View Only)
+                    // 7. SHOW RESULT
                     const modalHeader = modal.querySelector('.modal-header');
                     modalHeader.innerHTML = `
                         <h2 class="modal-title" style="display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:85%;">
@@ -6873,25 +6886,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </button>
                     `;
 
-                    let listHtml = '';
-                    if (orderedVideos.length === 0) {
-                        listHtml = '<div style="padding:20px; color:#aaa;">No s\'han pogut recuperar els vídeos.</div>';
-                    } else {
-                        listHtml = orderedVideos.map(video => `
-                            <div style="display:flex; gap:10px; align-items:center; padding:10px 15px; border-bottom:1px solid rgba(255,255,255,0.05);">
-                                <img src="${video.thumbnail}" style="width:60px; height:34px; object-fit:cover; border-radius:4px; flex-shrink:0; background:#333;">
-                                <div style="min-width:0; flex-grow:1;">
-                                    <div style="font-size:0.85rem; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(video.title)}</div>
-                                    <div style="font-size:0.75rem; color:var(--color-text-secondary);">${escapeHtml(video.channelTitle || '')}</div>
-                                </div>
+                    const listHtml = orderedVideos.map(video => `
+                        <div style="display:flex; gap:10px; align-items:center; padding:10px 15px; border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <img src="${video.thumbnail}" style="width:60px; height:34px; object-fit:cover; border-radius:4px; flex-shrink:0; background:#333;">
+                            <div style="min-width:0; flex-grow:1;">
+                                <div style="font-size:0.85rem; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(video.title)}</div>
+                                <div style="font-size:0.75rem; color:var(--color-text-secondary);">${escapeHtml(video.channelTitle || '')}</div>
                             </div>
-                        `).join('');
-                    }
+                        </div>
+                    `).join('');
 
                     modal.querySelector('.modal-body').innerHTML = `
                         <div style="padding: 15px; background: rgba(46, 204, 113, 0.1); border-bottom:1px solid rgba(255,255,255,0.05); color: #2ecc71; font-size:0.9rem;">
                             <i data-lucide="check-circle" style="width:16px; vertical-align:text-bottom;"></i>
-                            Llista importada i guardada correctament.
+                            Llista importada correctament (${orderedVideos.length} vídeos).
                         </div>
                         <div style="max-height: 50vh; overflow-y: auto; text-align:left;">
                             ${listHtml}
