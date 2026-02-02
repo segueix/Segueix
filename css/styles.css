@@ -1197,7 +1197,8 @@ body.sidebar-collapsed .main-content {
     background: rgba(0, 0, 0, 0.6);
 }
 
-.short-action-btn i {
+.short-action-btn i,
+.short-action-btn svg {
     width: 24px;
     height: 24px;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), fill 0.2s ease, stroke 0.2s ease;
@@ -1209,7 +1210,8 @@ body.sidebar-collapsed .main-content {
     font-weight: 500;
 }
 
-.short-action-btn.liked i {
+.short-action-btn.liked i,
+.short-action-btn.liked svg {
     fill: #ef4444;
     stroke: #ef4444;
     transform: scale(1.1);
