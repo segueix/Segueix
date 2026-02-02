@@ -6668,7 +6668,13 @@ async function shareSegueixPlaylist(playlistName) {
         <div class="modal modal-small">
             <div class="modal-body" style="text-align:center; padding: 30px;">
                 <div class="spinner" style="width:20px;height:20px;border-width:2px;margin:0 auto 15px auto;"></div>
-                <p>Verificant seguretat i generant enllaç...</p>
+                <p style="margin-bottom: 10px;">Verificant seguretat i generant enllaç...</p>
+                
+                <p style="font-size: 10px; color: #888; margin-top: 15px; line-height: 1.3;">
+                    Protegit per reCAPTCHA. S'apliquen la 
+                    <a href="https://policies.google.com/privacy" target="_blank" style="color:#888;text-decoration:underline;">Política de Privacitat</a> i els 
+                    <a href="https://policies.google.com/terms" target="_blank" style="color:#888;text-decoration:underline;">Termes del Servei</a> de Google.
+                </p>
             </div>
         </div>
     `;

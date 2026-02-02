@@ -3765,3 +3765,8 @@ html[style*="--color-background: #224262"] .btn-round-icon {
         border: none !important;
     }
 }
+
+/* Hide floating reCAPTCHA badge */
+.grecaptcha-badge { 
+    visibility: hidden; 
+}
