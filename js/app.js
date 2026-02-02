@@ -6661,62 +6661,83 @@ async function shareSegueixPlaylist(playlistName) {
         return alert('Aquesta llista és buida o no existeix.');
     }
 
-    // 1. Show "Loading" Modal
+    // 1. Show Loading Modal
     const loadingModal = document.createElement('div');
     loadingModal.className = 'modal-overlay active share-modal-overlay';
     loadingModal.innerHTML = `
         <div class="modal modal-small">
             <div class="modal-body" style="text-align:center; padding: 30px;">
                 <div class="spinner" style="width:20px;height:20px;border-width:2px;margin:0 auto 15px auto;"></div>
-                <p>Generant enllaç...</p>
+                <p style="margin-bottom: 10px;">Verificant seguretat i generant enllaç...</p>
+                
+                <p style="font-size: 10px; color: #888; margin-top: 15px; line-height: 1.3;">
+                    Protegit per reCAPTCHA. S'apliquen la 
+                    <a href="https://policies.google.com/privacy" target="_blank" style="color:#888;text-decoration:underline;">Política de Privacitat</a> i els 
+                    <a href="https://policies.google.com/terms" target="_blank" style="color:#888;text-decoration:underline;">Termes del Servei</a> de Google.
+                </p>
             </div>
         </div>
     `;
     document.body.appendChild(loadingModal);
 
     try {
-        const ids = targetPlaylist.videos.map(v => v.id).join(',');
         const urls = targetPlaylist.videos.map(v => `https://www.youtube.com/watch?v=${v.id}`);
+        const siteKey = '6LfJHl4sAAAAAHIgz-uIlDp1AQvQknLIVz-YTJnh';
 
-        // Call API
-        const res = await fetch(SEGUEIX_API_URL, {
-            method: 'POST',
-            body: JSON.stringify({ nom: playlistName, urls: urls })
-        });
-        const data = await res.json();
-
-        // Remove loading modal
-        loadingModal.remove();
-
-        if (data.status === 'success') {
-            const shareUrl = `${window.location.origin}${window.location.pathname}?list=${data.id}`;
-            const shareTitle = `Llista: ${playlistName}`;
-            const shareText = `Mira aquesta llista de reproducció "${playlistName}" a CaTube!`;
-
-            // A) NATIVE SHARING (Mobile: opens WhatsApp, Telegram, Mail, etc.)
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: shareTitle,
-                        text: shareText,
-                        url: shareUrl
-                    });
-                    console.log('Compartit amb èxit');
-                    return;
-                } catch (err) {
-                    console.log('User cancelled or native share failed', err);
-                }
-            }
-
-            // B) MANUAL FALLBACK (Desktop)
-            showManualShareModal(playlistName, shareUrl);
-
-        } else {
-            throw new Error(data.message);
+        // Check if library loaded
+        if (typeof grecaptcha === 'undefined') {
+            throw new Error("No s'ha pogut carregar el sistema de seguretat de Google. Revisa la teva connexió o bloquejadors d'anuncis.");
         }
+
+        // 2. Execute reCAPTCHA
+        grecaptcha.ready(async function() {
+            try {
+                // Get the token
+                const token = await grecaptcha.execute(siteKey, {action: 'share_playlist'});
+                
+                // 3. Send Data + Token to Backend
+                const res = await fetch(SEGUEIX_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        nom: playlistName, 
+                        urls: urls,
+                        recaptchaToken: token 
+                    })
+                });
+                
+                const data = await res.json();
+                loadingModal.remove();
+
+                if (data.status === 'success') {
+                    const shareUrl = `${window.location.origin}${window.location.pathname}?list=${data.id}`;
+                    
+                    // Native Share or Fallback
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: `Llista: ${playlistName}`,
+                                text: `Mira aquesta llista de reproducció "${playlistName}" a CaTube!`,
+                                url: shareUrl
+                            });
+                        } catch (err) {
+                            console.log('User cancelled share');
+                        }
+                    } else {
+                        showManualShareModal(playlistName, shareUrl);
+                    }
+                } else {
+                    throw new Error(data.message || 'Error desconegut al servidor');
+                }
+            } catch (err) {
+                loadingModal.remove();
+                console.error(err);
+                alert('Error de seguretat o connexió: ' + err.message);
+            }
+        });
+
     } catch (err) {
         loadingModal.remove();
-        alert('Error: ' + (err.message || 'No s\'ha pogut generar l\'enllaç'));
+        alert('Error: ' + err.message);
     }
 }
 

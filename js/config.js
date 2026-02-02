@@ -68,4 +68,4 @@ if (document.readyState === 'loading') {
     applyTheme();
 }
 
-const SEGUEIX_API_URL = 'https://script.google.com/macros/s/AKfycbzmFjGGKt5ghwVUoWIsQ90smLbznrgUQtuc70ZVlVYphN5B7wFpNk1BZPcsdewogd4S/exec';
+const SEGUEIX_API_URL = 'https://script.google.com/macros/s/AKfycbxheg82HKVeBl4rw6RNze_HBTKD-GwM49iBYKsBMWWdBqea6_DMG9rYWwa5VLJy6sS4/exec';
