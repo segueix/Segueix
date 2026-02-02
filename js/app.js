@@ -6769,7 +6769,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="modal-header">
                     <h2 class="modal-title">
                         <div class="spinner" style="width:20px;height:20px;border-width:2px;margin-right:10px;"></div>
-                        Carregant...
+                        Carregant Llista...
                     </h2>
                 </div>
                 <div class="modal-body" style="text-align:center; padding: 40px 20px;">
@@ -6779,48 +6779,48 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
         document.body.appendChild(modal);
 
-        // Clean URL
+        // Clean URL immediately
         window.history.replaceState({}, document.title, window.location.pathname);
 
         (async () => {
             try {
-                // 2. Fetch Playlist Data
+                // 2. Fetch Playlist Data from Sheet
                 const res = await fetch(`${SEGUEIX_API_URL}?id=${listId}`);
                 const data = await res.json();
 
                 if (data.status === 'success') {
-                    // FIX: Handle both 'urls' (new format) and 'ids' (old format)
                     let ids = [];
                     
-                    if (data.urls) {
-                        // Extract ID from full URL (e.g., https://www.youtube.com/watch?v=VIDEOID)
+                    // ROBUST ID EXTRACTION
+                    if (data.urls && typeof data.urls === 'string') {
                         ids = data.urls.split(',').map(url => {
                             const match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
-                            return match ? match[1] : url.trim(); // Return ID or the raw string if no match
+                            return match ? match[1] : url.trim(); 
                         }).filter(id => id && id.length > 0);
-                    } else if (data.ids) {
-                        ids = data.ids.split(',').map(id => id.trim());
+                    } else if (data.ids && typeof data.ids === 'string') {
+                        ids = data.ids.split(',').map(id => id.trim()).filter(id => id.length > 0);
                     }
 
-                    const playlistName = data.nom;
+                    if (ids.length === 0) throw new Error("La llista està buida.");
 
-                    modal.querySelector('.modal-description').textContent = `Processant ${ids.length} vídeos...`;
+                    const playlistName = data.nom || 'Llista Compartida';
+                    modal.querySelector('.modal-description').textContent = `Obtenint dades de ${ids.length} vídeos...`;
 
-                    // 3. RESOLVE VIDEOS
+                    // 3. PREPARE LOCAL DATA SOURCES (Prioritize Feed & Cache)
+                    const feedVideos = (typeof YouTubeAPI !== 'undefined' && Array.isArray(YouTubeAPI.feedVideos)) ? YouTubeAPI.feedVideos : [];
+                    const allKnownVideos = [
+                        ...feedVideos, 
+                        ...(window.cachedAPIVideos || []), 
+                        ...(window.VIDEOS || [])
+                    ];
+
+                    // 4. RESOLVE VIDEOS
                     const resolvedVideos = [];
                     const missingIds = [];
                     
-                    const getApiKey = () => {
-                        return (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.getApiKey) 
-                            ? YouTubeAPI.getApiKey() 
-                            : localStorage.getItem('youtube_api_key');
-                    };
-                    const apiKey = getApiKey();
-
-                    const allKnownVideos = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
-
-                    // Check local cache
+                    // Check local cache first
                     ids.forEach(id => {
+                        // Find video in ANY local source
                         const found = allKnownVideos.find(v => String(v.id) === String(id));
                         if (found) {
                             resolvedVideos.push(getPlaylistVideoData(found));
@@ -6829,63 +6829,70 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                     });
 
-                    // Fetch missing from API
-                    if (missingIds.length > 0 && apiKey) {
-                        try {
-                            for (let i = 0; i < missingIds.length; i += 50) {
-                                const chunk = missingIds.slice(i, i + 50).join(',');
-                                const ytRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${chunk}&key=${apiKey}`);
-                                
-                                if (ytRes.ok) {
-                                    const ytData = await ytRes.json();
-                                    if (ytData.items) {
-                                        let newItems = [];
-                                        if (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.transformVideoResults) {
-                                            newItems = YouTubeAPI.transformVideoResults(ytData.items);
-                                        } else {
-                                            newItems = ytData.items.map(item => ({
+                    // 5. FETCH MISSING FROM API
+                    if (missingIds.length > 0) {
+                        // Check API Key
+                        let apiKey = null;
+                        if (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.getApiKey) apiKey = YouTubeAPI.getApiKey();
+                        if (!apiKey) apiKey = localStorage.getItem('catube_api_key') || localStorage.getItem('youtube_api_key');
+
+                        if (apiKey) {
+                            try {
+                                // Chunk requests (Max 50 per call)
+                                for (let i = 0; i < missingIds.length; i += 50) {
+                                    const chunk = missingIds.slice(i, i + 50).join(',');
+                                    const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${chunk}&key=${apiKey}`;
+                                    
+                                    const ytRes = await fetch(apiUrl);
+                                    if (ytRes.ok) {
+                                        const ytData = await ytRes.json();
+                                        if (ytData.items) {
+                                            const newItems = ytData.items.map(item => ({
                                                 id: item.id,
                                                 title: item.snippet.title,
-                                                thumbnail: item.snippet.thumbnails?.medium?.url || '',
+                                                thumbnail: item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url || 'img/icon-192.png',
                                                 channelTitle: item.snippet.channelTitle,
                                                 source: 'api'
                                             }));
-                                        }
 
-                                        if (!window.cachedAPIVideos) window.cachedAPIVideos = [];
-                                        window.cachedAPIVideos.push(...newItems);
-                                        
-                                        newItems.forEach(item => {
-                                            resolvedVideos.push(getPlaylistVideoData(item));
-                                        });
+                                            // Add to global cache for future use
+                                            if (!window.cachedAPIVideos) window.cachedAPIVideos = [];
+                                            window.cachedAPIVideos.push(...newItems);
+                                            
+                                            newItems.forEach(item => resolvedVideos.push(getPlaylistVideoData(item)));
+                                        }
                                     }
                                 }
+                            } catch (e) {
+                                console.error("Error fetching YouTube details:", e);
                             }
-                        } catch (e) {
-                            console.error("Error fetching YouTube details:", e);
+                        } else {
+                            console.warn("No API Key available to fetch missing videos.");
                         }
                     }
 
-                    // 4. CONSTRUCT FINAL LIST (With Source Fix)
+                    // 6. CONSTRUCT FINAL LIST (With Fallback)
                     const orderedVideos = [];
                     ids.forEach(id => {
                         let v = resolvedVideos.find(rv => String(rv.id) === String(id));
                         
+                        // FALLBACK: If not found anywhere, use ID but make it CLICKABLE
                         if (!v) {
                             v = {
                                 id: id,
-                                title: `Vídeo ${id}`,
+                                title: `Video ${id}`, 
                                 thumbnail: 'img/icon-192.png', 
                                 channelTitle: 'Informació no disponible',
                                 source: 'api' // Required for playback
                             };
                         } else {
+                            // Ensure source is set
                             if (!v.source) v.source = 'api';
                         }
                         orderedVideos.push(v);
                     });
 
-                    // 5. AUTO-SAVE
+                    // 7. SAVE TO PLAYLISTS
                     const playlists = getPlaylists();
                     const newId = `shared_${listId}`;
                     const existingIndex = playlists.findIndex(p => p.id === newId);
@@ -6896,18 +6903,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                         videos: orderedVideos
                     };
 
-                    if (existingIndex >= 0) {
-                        playlists[existingIndex] = newPlaylistObj;
-                    } else {
-                        playlists.push(newPlaylistObj);
-                    }
+                    if (existingIndex >= 0) playlists[existingIndex] = newPlaylistObj;
+                    else playlists.push(newPlaylistObj);
+                    
                     savePlaylists(playlists);
 
                     if (typeof renderPlaylistsPage === 'function' && !playlistsPage.classList.contains('hidden')) {
                         renderPlaylistsPage();
                     }
 
-                    // 6. SHOW RESULT
+                    // 8. SHOW RESULT
                     const modalHeader = modal.querySelector('.modal-header');
                     modalHeader.innerHTML = `
                         <h2 class="modal-title" style="display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:85%;">
@@ -6919,7 +6924,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     `;
 
                     const listHtml = orderedVideos.map(video => `
-                        <div class="playlist-import-item" onclick="if(typeof showVideoFromAPI === 'function') { showVideoFromAPI('${video.id}'); }" style="display:flex; gap:10px; align-items:center; padding:10px 15px; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer;">
+                        <div class="playlist-import-item" onclick="if(typeof showVideoFromAPI === 'function') { document.getElementById('importPlaylistModal').remove(); showVideoFromAPI('${video.id}'); }" style="display:flex; gap:10px; align-items:center; padding:10px 15px; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer;">
                             <img src="${video.thumbnail}" style="width:60px; height:34px; object-fit:cover; border-radius:4px; flex-shrink:0; background:#333;">
                             <div style="min-width:0; flex-grow:1;">
                                 <div style="font-size:0.85rem; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: var(--text-primary);">${escapeHtml(video.title)}</div>
@@ -6932,7 +6937,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     modal.querySelector('.modal-body').innerHTML = `
                         <div style="padding: 15px; background: rgba(46, 204, 113, 0.1); border-bottom:1px solid rgba(255,255,255,0.05); color: #2ecc71; font-size:0.9rem;">
                             <i data-lucide="check-circle" style="width:16px; vertical-align:text-bottom;"></i>
-                            Llista guardada correctament!
+                            Llista guardada! (${orderedVideos.length} vídeos)
                         </div>
                         <div style="max-height: 50vh; overflow-y: auto; text-align:left;">
                             ${listHtml}
@@ -6942,7 +6947,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (typeof lucide !== 'undefined') lucide.createIcons();
 
                 } else {
-                    throw new Error('La llista no existeix al servidor.');
+                    throw new Error('Llista no trobada');
                 }
             } catch (err) {
                 console.error(err);
