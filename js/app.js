@@ -3521,6 +3521,22 @@ function loadShort(index) {
     if (titleEl) titleEl.textContent = short.title || '';
     if (channelEl) channelEl.textContent = short.channelTitle || '';
 
+    const shareBtn = document.getElementById('shortShareBtn');
+    if (shareBtn) {
+        shareBtn.onclick = (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            shareVideo({
+                id: short.id,
+                title: short.title || 'Short'
+            });
+        };
+    }
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
     updateShortNavButtons();
 
     if (index === 0 && !shortNavHintShown) {
