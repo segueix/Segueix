@@ -4026,8 +4026,11 @@ function renderPlaylistsPage() {
                 <div class="playlist-card-body">
                     <div class="playlist-card-title">
                         ${escapeHtml(list.name)}
-                        <button onclick="event.stopPropagation(); shareSegueixPlaylist('${playlistName}')" title="Share this playlist" style="background:none; border:none; cursor:pointer; font-size:1.2em;">
-                           🔗
+                        <button class="btn-round-icon" 
+                                onclick="event.stopPropagation(); shareSegueixPlaylist('${escapeHtml(list.name)}')" 
+                                title="Compartir llista" 
+                                style="width:32px; height:32px; min-width:32px; min-height:32px; background:rgba(255,255,255,0.1);">
+                            <i data-lucide="share-2" style="width:16px; height:16px;"></i>
                         </button>
                     </div>
                     <div class="playlist-card-meta">${videoCount} vídeos</div>
@@ -6649,77 +6652,257 @@ window.addEventListener('popstate', (e) => {
 // --- FUNCIONS PER COMPARTIR LLISTES (SEGUEIX) - VERSIÓ CORREGIDA ---
 
 // 1. Funció per ENVIAR (Adaptada a la teva estructura de playlists)
-function shareSegueixPlaylist(playlistName) {
-    // CORRECCIÓ: Llegim totes les llistes del paquet 'catube_playlists'
+async function shareSegueixPlaylist(playlistName) {
     const stored = localStorage.getItem('catube_playlists');
     const allPlaylists = stored ? JSON.parse(stored) : [];
-
-    // Busquem la llista pel nom
     const targetPlaylist = allPlaylists.find(p => p.name === playlistName);
 
     if (!targetPlaylist || !targetPlaylist.videos || targetPlaylist.videos.length === 0) {
         return alert('Aquesta llista és buida o no existeix.');
     }
 
-    const btn = document.activeElement;
-    const originalText = btn ? btn.innerText : '';
-    if (btn) btn.innerText = '⏳...';
+    // 1. Open "Loading" Modal
+    const existingModal = document.querySelector('.share-modal-overlay');
+    if (existingModal) existingModal.remove();
 
-    // Extraiem IDs
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay active share-modal-overlay';
+    modal.innerHTML = `
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <div class="spinner" style="width:20px;height:20px;border-width:2px;margin-right:10px;"></div>
+                    Carregant...
+                </h2>
+                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align:center; padding: 40px 20px;">
+                <p class="modal-description">Generant l'enllaç per compartir...</p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    // 2. Send to API
     const ids = targetPlaylist.videos.map(v => v.id).join(',');
 
-    fetch(SEGUEIX_API_URL, {
-        method: 'POST',
-        body: JSON.stringify({ nom: playlistName, ids: ids })
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 'success') {
-                const shareUrl = `${window.location.origin}${window.location.pathname}?list=${data.id}`;
-                navigator.clipboard.writeText(shareUrl).then(() =>
-                    alert(`Enllaç copiat!\nComparteix-lo amb qui vulguis:\n${shareUrl}`)
+    try {
+        const res = await fetch(SEGUEIX_API_URL, {
+            method: 'POST',
+            body: JSON.stringify({ nom: playlistName, ids: ids })
+        });
+        const data = await res.json();
+
+        if (data.status === 'success') {
+            const shareUrl = `${window.location.origin}${window.location.pathname}?list=${data.id}`;
+            const { text: shareText } = await buildShareData(playlistName, shareUrl);
+
+            // 3. Update Modal with "Share" state
+            const modalTitle = modal.querySelector('.modal-title');
+            const modalBody = modal.querySelector('.modal-body');
+
+            modalTitle.innerHTML = `
+                <i data-lucide="share-2" style="margin-right:10px;"></i>
+                Comparteix
+            `;
+
+            modalBody.innerHTML = `
+                <p class="modal-description" style="margin-bottom:20px;">
+                    Comparteix la llista: <br><strong>${escapeHtml(playlistName)}</strong>
+                </p>
+
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 20px; word-break: break-all; font-family: monospace; font-size: 0.8rem; color: var(--color-text-secondary);">
+                    ${shareUrl}
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                    <button class="hero-button" onclick="window.open('https://wa.me/?text=${encodeURIComponent(shareText)}', '_blank')">
+                        <i data-lucide="message-circle" style="width:18px; display:inline-block; vertical-align:middle;"></i> Whatsapp
+                    </button>
+                    <button class="hero-button" style="background:#333; color:white;" id="copyLinkBtn">
+                        <i data-lucide="link" style="width:18px; display:inline-block; vertical-align:middle;"></i> Copiar Link
+                    </button>
+                </div>
+            `;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            // Handle Copy Button
+            const copyBtn = modal.querySelector('#copyLinkBtn');
+            copyBtn.onclick = () => {
+                navigator.clipboard.writeText(shareUrl);
+                copyBtn.innerHTML = '<i data-lucide="check"></i> Copiat!';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i data-lucide="link"></i> Copiar Link';
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                }, 2000);
+            };
+
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (err) {
+        modal.querySelector('.modal-body').innerHTML = `
+            <p style="color:#ff6b6b;">Error: ${err.message || 'Error de connexió'}</p>
+        `;
+    }
+}
+
+async function fetchMissingVideoDetails(videoIdsArray) {
+    // Filter which videos are NOT in local cache
+    const allKnown = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
+    const missingIds = videoIdsArray.filter(id => !allKnown.find(v => String(v.id) === String(id)));
+
+    if (missingIds.length === 0) return;
+
+    // Fetch missing details from YouTube API
+    if (typeof YouTubeAPI !== 'undefined' && YouTubeAPI.getApiKey()) {
+        try {
+            const chunkSize = 50;
+            for (let i = 0; i < missingIds.length; i += chunkSize) {
+                const chunk = missingIds.slice(i, i + chunkSize);
+                const idsString = chunk.join(',');
+
+                const response = await fetch(
+                    `${YouTubeAPI.BASE_URL}/videos?part=snippet,contentDetails,statistics&id=${idsString}&key=${YouTubeAPI.getApiKey()}`
                 );
-            } else {
-                alert('Error del servidor: ' + data.message);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const items = YouTubeAPI.transformVideoResults(data.items);
+                    window.cachedAPIVideos.push(...items);
+                }
             }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Error de connexió. Torna-ho a provar.');
-        })
-        .finally(() => { if (btn) btn.innerText = originalText; });
+        } catch (e) {
+            console.warn('Error fetching details for shared videos:', e);
+        }
+    }
 }
 
 // 2. Listener per DETECTAR llistes compartides
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // DETECT SHARED PLAYLIST
     const params = new URLSearchParams(window.location.search);
     if (params.has('list')) {
         const listId = params.get('list');
 
-        // CORRECCIÓ: Utilitzem 'videosGrid' o 'mainContent' segons el teu HTML
-        const container = document.getElementById('videosGrid') || document.getElementById('mainContent');
-        if (container) {
-            // Amaguem altres vistes per si de cas
-            if (homePage) homePage.classList.remove('hidden');
-            if (watchPage) watchPage.classList.add('hidden');
+        // 1. Show Floating "Loading" Modal
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay active';
+        modal.id = 'importPlaylistModal';
+        modal.style.zIndex = '10000';
+        modal.innerHTML = `
+            <div class="modal modal-small">
+                <div class="modal-header">
+                    <h2 class="modal-title">
+                        <div class="spinner" style="width:20px;height:20px;border-width:2px;margin-right:10px;"></div>
+                        Carregant...
+                    </h2>
+                </div>
+                <div class="modal-body" style="text-align:center; padding: 40px 20px;">
+                    <p class="modal-description">Obtenint la llista compartida...</p>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
 
-            container.innerHTML = '<div style="text-align:center;padding:50px;color:white;">🔄 Carregant llista compartida de Segueix...</div>';
-        }
+        // Clean URL
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
 
-        fetch(`${SEGUEIX_API_URL}?id=${listId}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    renderSharedPlaylist(data.nom, data.ids);
-                } else {
-                    alert('Llista no trobada o esborrada.');
-                    window.location.href = window.location.pathname;
+        try {
+            // 2. Fetch IDs
+            const res = await fetch(`${SEGUEIX_API_URL}?id=${listId}`);
+            const data = await res.json();
+
+            if (data.status === 'success') {
+                const ids = data.ids.split(',');
+                const playlistName = data.nom;
+
+                // 3. ENRICH DATA: Load real titles and thumbnails
+                modal.querySelector('.modal-description').textContent = "Carregant informació dels vídeos...";
+                await fetchMissingVideoDetails(ids);
+
+                // 4. Construct Playlist Object
+                const allKnownVideos = [...(window.cachedAPIVideos || []), ...(window.VIDEOS || [])];
+                const resolvedVideos = ids.map(id => {
+                    const found = allKnownVideos.find(v => String(v.id) === String(id));
+                    if (found) return getPlaylistVideoData(found);
+                    return { id: id, title: 'Vídeo no disponible', thumbnail: 'img/icon-192.png', channelTitle: '' };
+                });
+
+                // 5. AUTO-SAVE
+                const playlists = getPlaylists();
+                const alreadyExists = playlists.some(p => p.id === `shared_${listId}`);
+
+                if (!alreadyExists) {
+                    const newPlaylist = {
+                        id: `shared_${listId}`,
+                        name: playlistName,
+                        videos: resolvedVideos
+                    };
+                    playlists.push(newPlaylist);
+                    savePlaylists(playlists);
+
+                    if (playlistsList && !playlistsPage.classList.contains('hidden')) {
+                        renderPlaylistsPage();
+                    }
                 }
-            })
-            .catch(() => {
-                alert('Error carregant la llista.');
-                window.location.href = window.location.pathname;
-            });
+
+                // 6. Show Content in Modal (View Only with X to close)
+                const modalHeader = modal.querySelector('.modal-header');
+                modalHeader.innerHTML = `
+                    <h2 class="modal-title" style="display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                        📂 ${escapeHtml(playlistName)}
+                    </h2>
+                    <button class="modal-close" onclick="document.getElementById('importPlaylistModal').remove()">
+                        <i data-lucide="x"></i>
+                    </button>
+                `;
+
+                const modalBody = modal.querySelector('.modal-body');
+                modalBody.style.textAlign = 'left';
+                modalBody.style.padding = '0';
+
+                const videosListHTML = resolvedVideos.map(video => `
+                    <div style="display:flex; gap:10px; align-items:center; padding:10px 20px; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <img src="${video.thumbnail}" style="width:60px; height:34px; object-fit:cover; border-radius:4px; flex-shrink:0;">
+                        <div style="min-width:0;">
+                            <div style="font-size:0.85rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(video.title)}</div>
+                            <div style="font-size:0.75rem; color:var(--color-text-secondary);">${escapeHtml(video.channelTitle)}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                modalBody.innerHTML = `
+                    <div style="padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <p style="font-size:0.9rem; color: #aaa; margin:0;">
+                            Llista importada correctament. La trobaràs a la teva biblioteca.
+                        </p>
+                    </div>
+                    <div style="max-height: 50vh; overflow-y: auto;">
+                        ${videosListHTML}
+                    </div>
+                `;
+
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            } else {
+                throw new Error('Llista no trobada');
+            }
+        } catch (err) {
+            modal.querySelector('.modal-header').innerHTML = `
+                <h2 class="modal-title">Error</h2>
+                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()"><i data-lucide="x"></i></button>
+            `;
+            modal.querySelector('.modal-body').innerHTML = `
+                <p style="color:#ff6b6b;">No s'ha pogut carregar la llista.</p>
+            `;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
     }
 });
 
