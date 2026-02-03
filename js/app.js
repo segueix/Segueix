@@ -4882,79 +4882,152 @@ function updatePlayerIframe({ source, videoId, videoUrl }) {
     setupVideoCardActionButtons();
 }
 
+/**
+ * High-performance draggable implementation using GPU acceleration
+ */
 function makeDraggable(element, handle) {
-    if (!element || !handle) {
-        return;
-    }
+    if (!element || !handle) return;
 
-    const startDrag = (clientX, clientY) => {
+    let isDragging = false;
+    let startX, startY;
+    let initialLeft, initialTop;
+    let animationFrameId = null;
+    let currentTranslateX = 0;
+    let currentTranslateY = 0;
+
+    // Cache window dimensions to avoid read trashing
+    let winWidth = 0;
+    let winHeight = 0;
+    let elWidth = 0;
+    let elHeight = 0;
+
+    const onStart = (clientX, clientY) => {
+        isDragging = true;
+        startX = clientX;
+        startY = clientY;
+
+        // 1. Lock current position to pixels to prepare for transform
         const rect = element.getBoundingClientRect();
-        const offsetX = clientX - rect.left;
-        const offsetY = clientY - rect.top;
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        elWidth = rect.width;
+        elHeight = rect.height;
+        winWidth = window.innerWidth;
+        winHeight = window.innerHeight;
 
-        element.style.setProperty('top', `${rect.top}px`, 'important');
-        element.style.setProperty('left', `${rect.left}px`, 'important');
-        element.style.setProperty('bottom', 'auto', 'important');
-        element.style.setProperty('right', 'auto', 'important');
+        // Reset positioning to absolute left/top
+        element.style.left = `${initialLeft}px`;
+        element.style.top = `${initialTop}px`;
+        element.style.bottom = 'auto';
+        element.style.right = 'auto';
+        element.style.margin = '0';
+        
+        // 2. Enable GPU acceleration
+        element.style.willChange = 'transform';
+        element.style.cursor = 'grabbing';
+        handle.style.cursor = 'grabbing';
 
-        const handleMove = (moveX, moveY) => {
-            const width = rect.width;
-            const height = rect.height;
-            const maxLeft = Math.max(0, window.innerWidth - width);
-            const maxTop = Math.max(0, window.innerHeight - height);
-            const nextLeft = Math.min(Math.max(0, moveX - offsetX), maxLeft);
-            const nextTop = Math.min(Math.max(0, moveY - offsetY), maxTop);
-            element.style.setProperty('left', `${nextLeft}px`, 'important');
-            element.style.setProperty('top', `${nextTop}px`, 'important');
-        };
-
-        const onMouseMove = (event) => {
-            handleMove(event.clientX, event.clientY);
-        };
-
-        const onTouchMove = (event) => {
-            if (!event.touches || event.touches.length === 0) {
-                return;
-            }
-            handleMove(event.touches[0].clientX, event.touches[0].clientY);
-        };
-
-        const stopDrag = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', stopDrag);
-            document.removeEventListener('touchmove', onTouchMove);
-            document.removeEventListener('touchend', stopDrag);
-            document.removeEventListener('touchcancel', stopDrag);
-        };
-
+        // Add listeners
         document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mouseup', onEnd);
         document.addEventListener('touchmove', onTouchMove, { passive: false });
-        document.addEventListener('touchend', stopDrag);
-        document.addEventListener('touchcancel', stopDrag);
+        document.addEventListener('touchend', onEnd);
     };
 
-    const onMouseDown = (event) => {
-        event.preventDefault();
-        startDrag(event.clientX, event.clientY);
+    const updatePosition = () => {
+        if (!isDragging) return;
+        // Apply transform (GPU efficient) instead of top/left (CPU heavy)
+        element.style.transform = `translate3d(${currentTranslateX}px, ${currentTranslateY}px, 0)`;
+        animationFrameId = null;
     };
 
-    const onTouchStart = (event) => {
-        if (!event.touches || event.touches.length === 0) {
-            return;
+    const handleMove = (clientX, clientY) => {
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        // Calculate potential new position
+        let newLeft = initialLeft + dx;
+        let newTop = initialTop + dy;
+
+        // Boundary checks (Clamp)
+        const maxLeft = winWidth - elWidth;
+        const maxTop = winHeight - elHeight;
+
+        newLeft = Math.min(Math.max(0, newLeft), maxLeft);
+        newTop = Math.min(Math.max(0, newTop), maxTop);
+
+        // Calculate the translate delta needed to reach that clamped position
+        currentTranslateX = newLeft - initialLeft;
+        currentTranslateY = newTop - initialTop;
+
+        // Request visual update
+        if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(updatePosition);
         }
-        event.preventDefault();
-        startDrag(event.touches[0].clientX, event.touches[0].clientY);
     };
 
-    if (handle._dragHandlers) {
-        handle.removeEventListener('mousedown', handle._dragHandlers.onMouseDown);
-        handle.removeEventListener('touchstart', handle._dragHandlers.onTouchStart);
-    }
+    const onMouseMove = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        handleMove(e.clientX, e.clientY);
+    };
 
-    handle._dragHandlers = { onMouseDown, onTouchStart };
-    handle.addEventListener('mousedown', onMouseDown);
-    handle.addEventListener('touchstart', onTouchStart, { passive: false });
+    const onTouchMove = (e) => {
+        if (!isDragging) return;
+        e.preventDefault(); // Prevent scrolling while dragging
+        const touch = e.touches[0];
+        handleMove(touch.clientX, touch.clientY);
+    };
+
+    const onEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        // Cleanup events
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onEnd);
+        document.removeEventListener('touchmove', onTouchMove);
+        document.removeEventListener('touchend', onEnd);
+
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+
+        // 3. Commit the final position
+        // Remove transform and apply the actual top/left values
+        const finalLeft = initialLeft + currentTranslateX;
+        const finalTop = initialTop + currentTranslateY;
+
+        element.style.transform = 'none';
+        element.style.left = `${finalLeft}px`;
+        element.style.top = `${finalTop}px`;
+
+        // Cleanup styles
+        element.style.willChange = 'auto';
+        element.style.cursor = '';
+        handle.style.cursor = 'grab';
+        
+        // Reset deltas
+        currentTranslateX = 0;
+        currentTranslateY = 0;
+    };
+
+    // Initialize Handlers
+    handle.addEventListener('mousedown', (e) => {
+        if (e.target.closest('button')) return;
+        e.preventDefault();
+        onStart(e.clientX, e.clientY);
+    });
+
+    handle.addEventListener('touchstart', (e) => {
+        if (e.target.closest('button')) return;
+        const touch = e.touches[0];
+        onStart(touch.clientX, touch.clientY);
+    }, { passive: false });
+
+    // Initial cursor
+    handle.style.cursor = 'grab';
 }
 
 function setupDragHandle() {
