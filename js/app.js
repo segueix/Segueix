@@ -1022,17 +1022,14 @@ function initIntroSplash() {
     if (!splash) {
         return;
     }
-    if (sessionStorage.getItem('catube_intro_splash_shown')) {
-        splash.remove();
-        return;
-    }
+    const splashDisplayDurationMs = 2000;
+    const splashFadeDurationMs = 500;
     setTimeout(() => {
         splash.classList.add('splash-hidden');
         setTimeout(() => {
             splash.remove();
-            sessionStorage.setItem('catube_intro_splash_shown', 'true');
-        }, 500);
-    }, 2000);
+        }, splashFadeDurationMs);
+    }, splashDisplayDurationMs);
 }
 
 // Inicialitzar l'aplicació
