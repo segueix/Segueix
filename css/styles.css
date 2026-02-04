@@ -1932,6 +1932,119 @@ button:disabled,
     display: none;
 }
 
+/* --- ESTILS DEL MINI REPRODUCTOR RECONFIGURAT --- */
+#videoPlayer.mini-player-active {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+}
+
+.mini-player-gesture-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    cursor: grab;
+    background: transparent;
+    touch-action: none;
+}
+
+.mini-player-gesture-layer:active {
+    cursor: grabbing;
+}
+
+.mini-player-controls {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+}
+
+.mini-player-controls.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mini-controls-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.mini-controls-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.mini-controls-bottom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+}
+
+.mini-btn {
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.mini-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.mini-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.5;
+}
+
+.mini-play-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0.8;
+}
+
+#videoPlayer.mini-player-active .drag-handle,
+#videoPlayer.mini-player-active .close-mini-player-btn,
+#videoPlayer.mini-player-active .expand-mini-player-btn {
+    display: none !important;
+}
+
+#videoPlayer.mini-player-active iframe {
+    pointer-events: none;
+}
+
+#videoPlayer:not(.mini-player-active) .mini-player-gesture-layer,
+#videoPlayer:not(.mini-player-active) .mini-player-controls {
+    display: none;
+}
+
 
 @media (max-width: 768px) {
     .mini-player-active {

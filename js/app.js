@@ -4852,8 +4852,6 @@ function updatePlayerIframe({ source, videoId, videoUrl }) {
     if (!videoPlayer) {
         return;
     }
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-        || window.matchMedia('(max-width: 768px)').matches;
     if (videoId) {
         videoPlayer.dataset.playingVideoId = videoId;
     }
@@ -4861,220 +4859,265 @@ function updatePlayerIframe({ source, videoId, videoUrl }) {
     const iframeSrc = source === 'api'
         ? `https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1&autoplay=1&enablejsapi=1&origin=${origin}&hl=ca&cc_lang_pref=ca&gl=AD`
         : addAutoplayParam(videoUrl);
-    const existingIframe = videoPlayer.querySelector('iframe');
-    if (!isMobile && existingIframe) {
-        existingIframe.src = iframeSrc;
-        existingIframe.id = 'catube-player';
-        setupYouTubeIframeMessaging(existingIframe);
-        return;
+
+    const allVideos = [
+        ...(window.cachedAPIVideos || []),
+        ...(window.VIDEOS || []),
+        ...(window.currentFeedVideos || [])
+    ];
+    let videoData = null;
+    if (videoId) {
+        videoData = allVideos.find(video => String(video.id) === String(videoId));
     }
+    if (!videoData) {
+        videoData = { id: videoId, title: 'Vídeo' };
+    }
+
+    const liked = isLiked(videoId);
+    const likePayload = encodeURIComponent(JSON.stringify(videoData));
+
     videoPlayer.innerHTML = `
-        <div class="drag-handle" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" aria-hidden="true" focusable="false">
-                <polygon points="50,5 65,30 55,30 55,40 45,40 45,30 35,30" fill="white"/>
-                <polygon points="50,95 35,70 45,70 45,60 55,60 55,70 65,70" fill="white"/>
-                <polygon points="5,50 30,35 30,45 40,45 40,55 30,55 30,65" fill="white"/>
-                <polygon points="95,50 70,65 70,55 60,55 60,45 70,45 70,35" fill="white"/>
-                <circle cx="50" cy="50" r="8" fill="white"/>
-            </svg>
-        </div>
-        <button class="expand-mini-player-btn" type="button" aria-label="Restaurar reproductor">
-            <i data-lucide="maximize"></i>
-        </button>
-        <button class="close-mini-player-btn" type="button" aria-label="Tancar mini reproductor">
-            <i data-lucide="x"></i>
-        </button>
-        <div class="video-embed-wrap">
+        <div class="video-embed-wrap" style="width: 100%; height: 100%;">
             <iframe
                 id="catube-player"
                 src="${iframeSrc}"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
-                referrerpolicy="strict-origin-when-cross-origin">
+                referrerpolicy="strict-origin-when-cross-origin"
+                style="width: 100%; height: 100%; border: none;">
             </iframe>
+        </div>
+        <div class="mini-player-gesture-layer" id="miniGestureLayer"></div>
+        <div class="mini-player-controls" id="miniControls" aria-hidden="true">
+            <div class="mini-controls-top">
+                <button class="mini-btn" id="miniExpandBtn" type="button" aria-label="Expandir">
+                    <i data-lucide="maximize-2"></i>
+                </button>
+                <button class="mini-btn" id="miniCloseBtn" type="button" aria-label="Tancar">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="mini-controls-center">
+                <div class="mini-play-icon">
+                    <i data-lucide="play" class="play-icon-visual"></i>
+                </div>
+            </div>
+            <div class="mini-controls-bottom">
+                <button class="mini-btn like-action${liked ? ' is-liked' : ''}" type="button" data-video-id="${videoId}" data-like-video="${likePayload}" aria-label="M'agrada" aria-pressed="${liked ? 'true' : 'false'}">
+                    <i data-lucide="heart" class="${liked ? 'fill-current' : ''}"></i>
+                </button>
+                <button class="mini-btn" id="miniShareBtn" type="button" aria-label="Compartir">
+                    <i data-lucide="share-2"></i>
+                </button>
+            </div>
         </div>
     `;
     const newIframe = videoPlayer.querySelector('iframe');
     if (newIframe) {
         setupYouTubeIframeMessaging(newIframe);
     }
-    setupDragHandle();
+    setupMiniPlayerGestures();
+    setupMiniPlayerButtons(videoData);
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
     setupVideoCardActionButtons();
 }
 
-function makeDraggable(element, handle) {
-    if (!element || !handle) {
-        return;
+let miniControlsTimeout;
+
+function setupMiniPlayerGestures() {
+    const gestureLayer = document.getElementById('miniGestureLayer');
+    const player = document.getElementById('videoPlayer');
+    const controls = document.getElementById('miniControls');
+
+    if (!gestureLayer || !player || !controls) return;
+
+    if (gestureLayer._miniGestureHandlers) {
+        const { onPointerDown } = gestureLayer._miniGestureHandlers;
+        gestureLayer.removeEventListener('mousedown', onPointerDown);
+        gestureLayer.removeEventListener('touchstart', onPointerDown);
     }
 
-    const startDrag = (clientX, clientY) => {
-        const rect = element.getBoundingClientRect();
-        const offsetX = clientX - rect.left;
-        const offsetY = clientY - rect.top;
+    let startX;
+    let startY;
+    let initialLeft;
+    let initialTop;
+    let startTime;
+    let isDragging = false;
+    let longPressTimer;
+    const LONG_PRESS_DURATION = 200;
+    const TAP_THRESHOLD = 8;
 
-        element.style.setProperty('top', `${rect.top}px`, 'important');
-        element.style.setProperty('left', `${rect.left}px`, 'important');
-        element.style.setProperty('bottom', 'auto', 'important');
-        element.style.setProperty('right', 'auto', 'important');
-
-        const handleMove = (moveX, moveY) => {
-            const width = rect.width;
-            const height = rect.height;
-            const maxLeft = Math.max(0, window.innerWidth - width);
-            const maxTop = Math.max(0, window.innerHeight - height);
-            const nextLeft = Math.min(Math.max(0, moveX - offsetX), maxLeft);
-            const nextTop = Math.min(Math.max(0, moveY - offsetY), maxTop);
-            element.style.setProperty('left', `${nextLeft}px`, 'important');
-            element.style.setProperty('top', `${nextTop}px`, 'important');
-        };
-
-        const onMouseMove = (event) => {
-            handleMove(event.clientX, event.clientY);
-        };
-
-        const onTouchMove = (event) => {
-            if (!event.touches || event.touches.length === 0) {
-                return;
-            }
-            handleMove(event.touches[0].clientX, event.touches[0].clientY);
-        };
-
-        const stopDrag = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', stopDrag);
-            document.removeEventListener('touchmove', onTouchMove);
-            document.removeEventListener('touchend', stopDrag);
-            document.removeEventListener('touchcancel', stopDrag);
-        };
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', stopDrag);
-        document.addEventListener('touchmove', onTouchMove, { passive: false });
-        document.addEventListener('touchend', stopDrag);
-        document.addEventListener('touchcancel', stopDrag);
+    const showControls = () => {
+        controls.classList.add('is-visible');
+        controls.setAttribute('aria-hidden', 'false');
+        clearTimeout(miniControlsTimeout);
+        miniControlsTimeout = setTimeout(() => {
+            controls.classList.remove('is-visible');
+            controls.setAttribute('aria-hidden', 'true');
+        }, 2000);
     };
 
-    const onMouseDown = (event) => {
+    const onPointerDown = (event) => {
         event.preventDefault();
-        startDrag(event.clientX, event.clientY);
+
+        const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+        const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+        startX = clientX;
+        startY = clientY;
+        startTime = Date.now();
+
+        const rect = player.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        player.style.bottom = 'auto';
+        player.style.right = 'auto';
+        player.style.left = `${initialLeft}px`;
+        player.style.top = `${initialTop}px`;
+
+        isDragging = false;
+        longPressTimer = setTimeout(() => {
+            isDragging = true;
+            player.style.transition = 'transform 0.1s';
+            player.style.transform = 'scale(1.02)';
+        }, LONG_PRESS_DURATION);
+
+        document.addEventListener('mousemove', onPointerMove);
+        document.addEventListener('touchmove', onPointerMove, { passive: false });
+        document.addEventListener('mouseup', onPointerUp);
+        document.addEventListener('touchend', onPointerUp);
+        document.addEventListener('touchcancel', onPointerUp);
     };
 
-    const onTouchStart = (event) => {
-        if (!event.touches || event.touches.length === 0) {
+    const onPointerMove = (event) => {
+        const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+        const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+        if (!isDragging) {
+            const deltaX = Math.abs(clientX - startX);
+            const deltaY = Math.abs(clientY - startY);
+            if (deltaX > TAP_THRESHOLD || deltaY > TAP_THRESHOLD) {
+                clearTimeout(longPressTimer);
+            }
             return;
         }
+
         event.preventDefault();
-        startDrag(event.touches[0].clientX, event.touches[0].clientY);
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        let newLeft = initialLeft + dx;
+        let newTop = initialTop + dy;
+
+        const maxLeft = window.innerWidth - player.offsetWidth;
+        const maxTop = window.innerHeight - player.offsetHeight;
+
+        newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+        newTop = Math.max(0, Math.min(newTop, maxTop));
+
+        player.style.left = `${newLeft}px`;
+        player.style.top = `${newTop}px`;
     };
 
-    if (handle._dragHandlers) {
-        handle.removeEventListener('mousedown', handle._dragHandlers.onMouseDown);
-        handle.removeEventListener('touchstart', handle._dragHandlers.onTouchStart);
-    }
+    const onPointerUp = () => {
+        clearTimeout(longPressTimer);
+        player.style.transform = 'scale(1)';
+        player.style.transition = '';
 
-    handle._dragHandlers = { onMouseDown, onTouchStart };
-    handle.addEventListener('mousedown', onMouseDown);
-    handle.addEventListener('touchstart', onTouchStart, { passive: false });
+        const duration = Date.now() - startTime;
+
+        if (!isDragging && duration < LONG_PRESS_DURATION) {
+            toggleMiniPlayerPlayback();
+            showControls();
+        }
+
+        isDragging = false;
+
+        document.removeEventListener('mousemove', onPointerMove);
+        document.removeEventListener('touchmove', onPointerMove);
+        document.removeEventListener('mouseup', onPointerUp);
+        document.removeEventListener('touchend', onPointerUp);
+        document.removeEventListener('touchcancel', onPointerUp);
+    };
+
+    gestureLayer._miniGestureHandlers = { onPointerDown };
+    gestureLayer.addEventListener('mousedown', onPointerDown);
+    gestureLayer.addEventListener('touchstart', onPointerDown, { passive: false });
 }
 
-function setupDragHandle() {
-    const handle = videoPlayer?.querySelector('.drag-handle');
-    if (!handle) {
+function toggleMiniPlayerPlayback() {
+    const iframe = document.getElementById('catube-player');
+    if (!iframe || !iframe.contentWindow) {
         return;
     }
-    makeDraggable(videoPlayer, handle);
+    const isPaused = iframe.dataset.isPaused === 'true';
+    const command = isPaused ? 'playVideo' : 'pauseVideo';
+    iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: command,
+        args: []
+    }), '*');
+    iframe.dataset.isPaused = (!isPaused).toString();
+    updatePlayIconVisual(!isPaused);
+}
 
-    const closeButton = videoPlayer.querySelector('.close-mini-player-btn');
-    const expandButton = videoPlayer.querySelector('.expand-mini-player-btn');
-    if (!closeButton) {
-        return;
+function updatePlayIconVisual(isPaused) {
+    const iconContainer = document.querySelector('.play-icon-visual');
+    if (!iconContainer) return;
+
+    const iframe = document.getElementById('catube-player');
+    const paused = isPaused !== undefined ? isPaused : (iframe?.dataset.isPaused === 'true');
+    iconContainer.setAttribute('data-lucide', paused ? 'play' : 'pause');
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
     }
+}
 
-    const miniPlayerControls = [closeButton, expandButton].filter(Boolean);
+function setupMiniPlayerButtons(videoData) {
+    const expandBtn = document.getElementById('miniExpandBtn');
+    const closeBtn = document.getElementById('miniCloseBtn');
+    const shareBtn = document.getElementById('miniShareBtn');
+    const likeBtn = document.querySelector('.mini-player-controls .like-action');
 
-    if (closeButton._closeHandlers) {
-        closeButton.removeEventListener('click', closeButton._closeHandlers.onClose);
-        closeButton.removeEventListener('mousedown', closeButton._closeHandlers.stopPropagation);
-        closeButton.removeEventListener('touchstart', closeButton._closeHandlers.stopPropagation);
-    }
-
-    if (expandButton?._expandHandlers) {
-        expandButton.removeEventListener('click', expandButton._expandHandlers.onExpand);
-        expandButton.removeEventListener('mousedown', expandButton._expandHandlers.stopPropagation);
-        expandButton.removeEventListener('touchstart', expandButton._expandHandlers.stopPropagation);
-    }
-
-    const stopPropagation = (event) => {
+    expandBtn?.addEventListener('click', (event) => {
         event.stopPropagation();
-    };
-
-    const onClose = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const isWatchPageVisible = watchPage && !watchPage.classList.contains('hidden');
-
-        if (isWatchPageVisible) {
-            if (videoPlayer) {
-                videoPlayer.innerHTML = '';
-                videoPlayer.style.display = 'none';
-                videoPlayer.classList.remove('mini-player-active');
-                videoPlayer.style.top = '';
-                videoPlayer.style.left = '';
-                videoPlayer.style.width = '';
-                videoPlayer.style.height = '';
-            }
-
-            if (videoPlaceholder) {
-                videoPlaceholder.classList.remove('hidden');
-                videoPlaceholder.classList.remove('is-placeholder-hidden');
-                ensurePlayOverlay(() => {
-                    if (currentVideoId) {
-                        if (useYouTubeAPI) {
-                            showVideoFromAPI(currentVideoId);
-                        } else {
-                            showVideo(currentVideoId);
-                        }
-                    }
-                });
-            }
-        } else {
-            stopVideoPlayback();
-        }
-    };
-
-    const onExpand = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const playingId = videoPlayer.dataset.playingVideoId;
-        const currentPageId = currentVideoId;
-        if (playingId && playingId !== currentPageId) {
-            if (useYouTubeAPI) {
-                showVideoFromAPI(playingId);
-            } else {
-                showVideo(playingId);
-            }
-        }
         setMiniPlayerState(false);
-    };
-
-    closeButton._closeHandlers = { onClose, stopPropagation };
-    closeButton.addEventListener('click', onClose);
-    closeButton.addEventListener('mousedown', stopPropagation);
-    closeButton.addEventListener('touchstart', stopPropagation);
-
-    if (expandButton) {
-        expandButton._expandHandlers = { onExpand, stopPropagation };
-        expandButton.addEventListener('click', onExpand);
-        expandButton.addEventListener('mousedown', stopPropagation);
-        expandButton.addEventListener('touchstart', stopPropagation);
-    }
-
-    miniPlayerControls.forEach(control => {
-        control.addEventListener('pointerdown', stopPropagation);
     });
+
+    closeBtn?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        stopVideoPlayback();
+        videoPlayer.classList.remove('mini-player-active');
+        videoPlayer.style.display = 'none';
+        videoPlayer.innerHTML = '';
+        if (mainContent) {
+            mainContent.classList.remove('hidden');
+        }
+    });
+
+    shareBtn?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (videoData) {
+            shareVideo({ id: videoData.id, title: videoData.title });
+        }
+    });
+
+    if (likeBtn) {
+        likeBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const nowLiked = toggleLikeVideo(videoData);
+            likeBtn.classList.toggle('is-liked', nowLiked);
+            likeBtn.setAttribute('aria-pressed', nowLiked ? 'true' : 'false');
+            const icon = likeBtn.querySelector('svg');
+            if (icon) {
+                icon.setAttribute('fill', nowLiked ? 'currentColor' : 'none');
+                icon.setAttribute('stroke', 'currentColor');
+            }
+        });
+    }
 }
 
 function preparePlayerForPlayback({ thumbnail, title }) {
@@ -5102,7 +5145,7 @@ function preparePlayerForPlayback({ thumbnail, title }) {
     }
 
     setPlaceholderImage(thumbnail, title);
-    setupDragHandle();
+    setupMiniPlayerGestures();
     if (miniActive) {
         updateMiniPlayerSize();
     } else {
