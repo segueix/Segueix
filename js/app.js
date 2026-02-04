@@ -4871,21 +4871,20 @@ function updatePlayerIframe({ source, videoId, videoUrl }) {
         return;
     }
     videoPlayer.innerHTML = `
-        <div class="drag-handle" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" aria-hidden="true" focusable="false">
-                <polygon points="50,5 65,30 55,30 55,40 45,40 45,30 35,30" fill="white"/>
-                <polygon points="50,95 35,70 45,70 45,60 55,60 55,70 65,70" fill="white"/>
-                <polygon points="5,50 30,35 30,45 40,45 40,55 30,55 30,65" fill="white"/>
-                <polygon points="95,50 70,65 70,55 60,55 60,45 70,45 70,35" fill="white"/>
-                <circle cx="50" cy="50" r="8" fill="white"/>
-            </svg>
+        <div class="drag-handle" aria-hidden="true" style="position:absolute; inset:0; z-index:2001; cursor:grab;"></div>
+        <div class="mini-player-controls-overlay" style="position:absolute; inset:0; z-index:2002; pointer-events:none; display:flex; justify-content:space-between; padding:8px; transition: opacity 0.3s ease; opacity:1;">
+            <button class="expand-mini-player-btn" type="button" aria-label="Restaurar" style="pointer-events:auto;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+            </button>
+            <button class="close-mini-player-btn" type="button" aria-label="Tancar" style="pointer-events:auto;">
+                <i data-lucide="x"></i>
+            </button>
         </div>
-        <button class="expand-mini-player-btn" type="button" aria-label="Restaurar reproductor">
-            <i data-lucide="maximize"></i>
-        </button>
-        <button class="close-mini-player-btn" type="button" aria-label="Tancar mini reproductor">
-            <i data-lucide="x"></i>
-        </button>
         <div class="video-embed-wrap">
             <iframe
                 id="catube-player"
@@ -4912,6 +4911,9 @@ function makeDraggable(element, handle) {
         return;
     }
 
+    let frameId = null;
+    let pendingPosition = null;
+
     const startDrag = (clientX, clientY) => {
         const rect = element.getBoundingClientRect();
         const offsetX = clientX - rect.left;
@@ -4929,8 +4931,21 @@ function makeDraggable(element, handle) {
             const maxTop = Math.max(0, window.innerHeight - height);
             const nextLeft = Math.min(Math.max(0, moveX - offsetX), maxLeft);
             const nextTop = Math.min(Math.max(0, moveY - offsetY), maxTop);
-            element.style.setProperty('left', `${nextLeft}px`, 'important');
-            element.style.setProperty('top', `${nextTop}px`, 'important');
+            pendingPosition = { left: nextLeft, top: nextTop };
+
+            if (frameId) {
+                return;
+            }
+
+            frameId = requestAnimationFrame(() => {
+                frameId = null;
+                if (!pendingPosition) {
+                    return;
+                }
+                element.style.setProperty('left', `${pendingPosition.left}px`, 'important');
+                element.style.setProperty('top', `${pendingPosition.top}px`, 'important');
+                pendingPosition = null;
+            });
         };
 
         const onMouseMove = (event) => {
@@ -4950,6 +4965,11 @@ function makeDraggable(element, handle) {
             document.removeEventListener('touchmove', onTouchMove);
             document.removeEventListener('touchend', stopDrag);
             document.removeEventListener('touchcancel', stopDrag);
+            if (frameId) {
+                cancelAnimationFrame(frameId);
+                frameId = null;
+                pendingPosition = null;
+            }
         };
 
         document.addEventListener('mousemove', onMouseMove);
@@ -4980,6 +5000,36 @@ function makeDraggable(element, handle) {
     handle._dragHandlers = { onMouseDown, onTouchStart };
     handle.addEventListener('mousedown', onMouseDown);
     handle.addEventListener('touchstart', onTouchStart, { passive: false });
+}
+
+function setupMiniPlayerUIControls() {
+    if (!videoPlayer) {
+        return;
+    }
+    const overlay = videoPlayer.querySelector('.mini-player-controls-overlay');
+    if (!overlay) {
+        return;
+    }
+
+    if (videoPlayer._miniPlayerUIHandlers) {
+        videoPlayer.removeEventListener('touchstart', videoPlayer._miniPlayerUIHandlers.onShowControls);
+        videoPlayer.removeEventListener('mousedown', videoPlayer._miniPlayerUIHandlers.onShowControls);
+    }
+
+    let timeout;
+
+    const showControls = () => {
+        overlay.style.opacity = '1';
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            overlay.style.opacity = '0';
+        }, 2000);
+    };
+
+    videoPlayer._miniPlayerUIHandlers = { onShowControls: showControls };
+    videoPlayer.addEventListener('touchstart', showControls, { passive: true });
+    videoPlayer.addEventListener('mousedown', showControls);
+    showControls();
 }
 
 function setupDragHandle() {
@@ -5077,6 +5127,8 @@ function setupDragHandle() {
     miniPlayerControls.forEach(control => {
         control.addEventListener('pointerdown', stopPropagation);
     });
+
+    setupMiniPlayerUIControls();
 }
 
 function preparePlayerForPlayback({ thumbnail, title }) {
