@@ -3,3 +3,4 @@ Canvis millor integració
 Millora logo
 Modificació canals
 Nous canals
+Més canals
