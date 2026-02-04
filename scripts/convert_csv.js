@@ -6,32 +6,13 @@ const API_KEY = process.env.YOUTUBE_API_KEY; // O posa la teva clau aquí tempor
 // Posa aquí la llista dels teus canals (o la URL del CSV si prefereixes descarregar-lo)
 // Format: "Nom del canal (@Handle)"
 const HANDLES_TO_CONVERT = [ 
-  "@Enrolats",
-  "@4dausde6",
-  "@SimValenciana",
-  "@RolRapid",
-  "@YukiGaming",
-  "@ElMovimentOndulatori",
-  "@DevirCat",
-  "@GolfesDeRol",
-  "@LaTaulaPlana",
-  "@TirantloDau",
-  "@XboxersCatalans",
-  "@ParlemDeJocs",
-  "@ATotDrap",
-  "@LaCova",
-  "@ArnauGames",
-  "@DevId",
-  "@Kouttocat",
-  "@Berti_iau",
-  "@GamingCat",
-  "@CATCOM",
-  "@Atunero",
-  "@FNAFenCatala",
-  "@vifeGaming",
-  "@Marxally",
-  "@PereJ",
-  "@ElViFe"
+  "@ValènciaTelevisió",
+  "@ÀPuntMèdia",
+  "@RTVA",
+  "@ib3",
+  "@OCTUVRE",
+  "@etv-terramar",
+  "@betevecat"
 ];
 
 const fetchYouTubeData = async (url) => {
