@@ -1850,6 +1850,8 @@ body.sidebar-collapsed .main-content {
     overflow: hidden;
     background: #000;
     touch-action: none;
+    top: auto;
+    left: auto;
     right: 24px;
     bottom: calc(24px + var(--safe-bottom));
     width: 320px;
