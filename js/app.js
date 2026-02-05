@@ -2565,7 +2565,7 @@ function setupChipsBarOrdering() {
 
     const activeValue = selectedCategory;
     chipsBar.innerHTML = '';
-    const fixedChips = ['Mitjans', 'Digitals'];
+    const fixedChips = ['Digitals', 'Mitjans'];
     const sortableChips = orderedChips.filter(chip => !fixedChips.includes(chip.value));
     sortableChips.forEach((chip) => {
         const button = document.createElement('button');
