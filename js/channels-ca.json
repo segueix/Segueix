@@ -1,29 +1,477 @@
 {
-  "meta": {
-    "description": "Llista de canals verificats en català",
-    "lastUpdated": "2025-01-11",
-    "howToAdd": "Pots proposar canals via GitHub Issues o PR",
-    "note": "Els canals estan embedits a youtube.js per evitar problemes CORS"
-  },
+  "updatedAt": "2026-02-05T20:51:18.824Z",
   "channels": [
-    { "id": "UC2ZoP8LjvNBiKLzERkOmupg", "name": "3Cat", "category": "tv" },
-    { "id": "UCmY2Rnn3m9VDvBMLBrLGkNg", "name": "TV3", "category": "tv" },
-    { "id": "UCyMPsUJ1ub42xz6LXfOfJXQ", "name": "Super3", "category": "infantil" },
-    { "id": "UC6HGMs1vipHedIm_bk1HPLA", "name": "Està passant TV3", "category": "tv" },
-    { "id": "UC-r6vzLqpOCcxy6s2x3CqYw", "name": "El Món a RAC1", "category": "radio" },
-    { "id": "UCQvjXrvoAK5j_r10tLGcxQg", "name": "Núvol", "category": "cultura" },
-    { "id": "UCJXsVPKjJcrPYLbC12lnz-A", "name": "betevé", "category": "tv" },
-    { "id": "UCNzl0E7rPBC6p1LCL64GMIQ", "name": "El Nacional.cat", "category": "notícies" },
-    { "id": "UCtWDPy3vXa3WdY3NYrCWvOg", "name": "Vilaweb", "category": "notícies" },
-    { "id": "UC4yoFMGJer_T_-X36J4AUdA", "name": "Adolescents.cat", "category": "educació" },
-    { "id": "UCnpAzVRKrbULHJfDPorkNuA", "name": "PoliRitmes", "category": "infantil" }
-  ],
-  "keywords": [
-    "català", "catalana", "catalans", "catalanes",
-    "catalunya", "catalonia",
-    "barcelona", "girona", "tarragona", "lleida",
-    "en català", "parlem", "benvinguts", "benvingudes",
-    "avui", "d'avui", "som-hi", "endavant",
-    "entrevista", "notícies", "informatiu"
+    {
+      "id": "UCHwg1QG8c6WrDZm_J6oAweg",
+      "name": "País Invisible Podcast",
+      "categories": [
+        "cultura"
+      ],
+      "category": "cultura"
+    },
+    {
+      "id": "UChOzqUp9V9AQPB4WzOhu-Xw",
+      "name": "Aya_ZholvaX: Jocs de taula",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCT8sBQf4grkfLMjOXdIkV2w",
+      "name": "Enric Bastardas",
+      "categories": [
+        "diversió"
+      ],
+      "category": "diversió"
+    },
+    {
+      "id": "UCNSmn5NLUDrV_paFZl--7qw",
+      "name": "La Sotana",
+      "categories": [
+        "diversió"
+      ],
+      "category": "diversió"
+    },
+    {
+      "id": "UCQvIQnJGSDFX_IAiV9JuBew",
+      "name": "Gent De Merda",
+      "categories": [
+        "diversió"
+      ],
+      "category": "diversió"
+    },
+    {
+      "id": "UCOzd_BhDxbQZ8Y2H1j9wOOg",
+      "name": "EVA",
+      "categories": [
+        "diversió"
+      ],
+      "category": "diversió"
+    },
+    {
+      "id": "UC5ytRP5VNigPHovAY7kyicQ",
+      "name": "Esquetxes comèdia en català",
+      "categories": [
+        "diversió"
+      ],
+      "category": "diversió"
+    },
+    {
+      "id": "UCaCWG8cBOwER_Vf3qAsr8Zg",
+      "name": "Notícies Un Quart de Galves",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UC995eaX8sye3WGZB3XUl9lg",
+      "name": "L´ESCAQUIMAT",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCgvW4vAO6jNWA4qeYk87BEA",
+      "name": "NetInformacio",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCptKQCkfc-LV4ybc9Th5_OA",
+      "name": "Víctor Puig",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCbOj46zFDV0_EquDRQzr5HQ",
+      "name": "Mai Tant Podcast",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCDawX1bxeC4-hZiGnkqevbw",
+      "name": "Enric Adventures",
+      "categories": [
+        "vida"
+      ],
+      "category": "vida"
+    },
+    {
+      "id": "UC5Ha9G3Tp_17qcC38GPPvQg",
+      "name": "Èric López",
+      "categories": [
+        "vida"
+      ],
+      "category": "vida"
+    },
+    {
+      "id": "UCjPL0bozxQmzcMqPsnvLLTA",
+      "name": "Jau Fibla",
+      "categories": [
+        "diversió"
+      ],
+      "category": "diversió"
+    },
+    {
+      "id": "UCW1ZdYsRaVbp4X_ppZ9_wZg",
+      "name": "No Passa Res",
+      "categories": [
+        "cultura"
+      ],
+      "category": "cultura"
+    },
+    {
+      "id": "UCPikYBuH-XamjDe1OuEiLfA",
+      "name": "Pol Codina 🌍",
+      "categories": [
+        "vida"
+      ],
+      "category": "vida"
+    },
+    {
+      "id": "UCSfMEzJX9i4-3Xl6KFv3DAA",
+      "name": "3Cat",
+      "categories": [
+        "mitjans"
+      ],
+      "category": "mitjans"
+    },
+    {
+      "id": "UCaYXWVFYirJdDmprjozHdmA",
+      "name": "VilaWeb",
+      "categories": [
+        "digitals"
+      ],
+      "category": "digitals"
+    },
+    {
+      "id": "UCXajnbaMh6cxofmw5ki43DA",
+      "name": "Diari ARA",
+      "categories": [
+        "mitjans"
+      ],
+      "category": "mitjans"
+    },
+    {
+      "id": "UCN1_BdVHGL8l0x2sWRUXJvQ",
+      "name": "» Marxally",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UC3IeTWkW-W8ax0c73dQatYQ",
+      "name": "Enrolats",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCYCRrW0XAoxaoU_FTOV-ytA",
+      "name": "SimValenciana MEDIATECA",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCLAmM4PaAUNlv7nvMF0kNdA",
+      "name": "Rol Ràpid",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UC6BDPfKO7EVktkK1EGarfjw",
+      "name": "El Moviment Ondulatori",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCI23J5R8NPmykUpzlqg9OSQ",
+      "name": "Golfes De Rol",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCaKIQ17BVFXu1-18ehhbutQ",
+      "name": "La Taula Plana",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCR02uhLihApwzJ2-dhFBQbg",
+      "name": "Tirant lo dau",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCBm6DJY3FsyD2XJ0g4pAsRw",
+      "name": "Xboxers Catalans",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCjbCdLq72no0F4_WKWffnmw",
+      "name": "Parlem de Jocs",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCJ1tSoCKvIJEJlfwupF3mOA",
+      "name": "Devid",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCBrH5lu4efHa0u6Bg1uTk7g",
+      "name": "Kouttocat",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCPn1nFLeba3BIU5Q11tEpdQ",
+      "name": "Berti_iau",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UC3adQIf_KM7UW_fdGZgvBLA",
+      "name": "GamingCat",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UChfMsbGScxL-hO09_S5xEJA",
+      "name": "catcom",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCA62uVNZYu93QLoE8QA3tBw",
+      "name": "Atunero",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCtO9hceyk2EX53H572EKfhw",
+      "name": "VIFE",
+      "categories": [
+        "gaming"
+      ],
+      "category": "gaming"
+    },
+    {
+      "id": "UCxUct190LRnBcmqEPFd4HgQ",
+      "name": "València Televisió",
+      "categories": [
+        "mitjans"
+      ],
+      "category": "mitjans"
+    },
+    {
+      "id": "UC06jp6UgU3rzTNpuBk0OebQ",
+      "name": "À Punt Mèdia",
+      "categories": [
+        "mitjans"
+      ],
+      "category": "mitjans"
+    },
+    {
+      "id": "UChdtVbbjXgQC6rlIwghtyCQ",
+      "name": "RTVA Andorra",
+      "categories": [
+        "mitjans"
+      ],
+      "category": "mitjans"
+    },
+    {
+      "id": "UCff_CBVJDTHP4wOHPjP5BMg",
+      "name": "IB3",
+      "categories": [
+        "mitjans"
+      ],
+      "category": "mitjans"
+    },
+    {
+      "id": "UCN1LrlOhrbLIlLuJAC5V71g",
+      "name": "OCTUVRE",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UC2pPaqSKSiTh7e3MXzHhbGQ",
+      "name": "Grup ETV-TERRAMAR",
+      "categories": [
+        "mitjans"
+      ],
+      "category": "mitjans"
+    },
+    {
+      "id": "UCenoiY7GMRPMCkMJmvV9hNA",
+      "name": "betevé",
+      "categories": [
+        "mitjans"
+      ],
+      "category": "mitjans"
+    },
+    {
+      "id": "UC5j3iZVh9Bzhxn-K7_yK2Tg",
+      "name": "Radio Noia",
+      "categories": [
+        "diversió"
+      ],
+      "category": "diversió"
+    },
+    {
+      "id": "UC1ugyAs6L3b4t5VcQv87dng",
+      "name": "Arnau Borràs",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCduKvutWvgrYXgtOMRS_HQA",
+      "name": "Institut Nova Història - Conferències",
+      "categories": [
+        "cultura"
+      ],
+      "category": "cultura"
+    },
+    {
+      "id": "UC4nEn22s-Dg1ZcS2xGpXyZA",
+      "name": "Resistència Independentista Catalana",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCAqn6wfzYkWxEtWh68-4_Lg",
+      "name": "Manel Capdevila",
+      "categories": [
+        "cultura"
+      ],
+      "category": "cultura"
+    },
+    {
+      "id": "UCbj8yTKaC_J0sG7LMUHLA7g",
+      "name": "LA GOTA CATALANA",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCDWTlNC6O-YrCHkrLc4T8UQ",
+      "name": "La Catalunya Woke",
+      "categories": [
+        "digitals"
+      ],
+      "category": "digitals"
+    },
+    {
+      "id": "UCuYwOL9sNlMcro0-TE388gg",
+      "name": "Alhora",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCx0GkixD9TMCwDr24RVX9mw",
+      "name": "La sobretaula de La Font",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "UCaCJRHyXV0QSthqSQ-KDtOQ",
+      "name": "HIMÀLAIA",
+      "categories": [
+        "cultura"
+      ],
+      "category": "cultura"
+    },
+    {
+      "id": "UCCMOdtHWOft9vDiIF9vvaGQ",
+      "name": "El Nacional.cat",
+      "categories": [
+        "digitals"
+      ],
+      "category": "digitals"
+    },
+    {
+      "id": "UCPo0g32vdypYi8X_oOQlPBQ",
+      "name": "NacióTV",
+      "categories": [
+        "digitals"
+      ],
+      "category": "digitals"
+    },
+    {
+      "id": "UCiyqbY6juCPvXFKv6IkDTlw",
+      "name": "Institut d’Estudis Catalans",
+      "categories": [
+        "cultura"
+      ],
+      "category": "cultura"
+    },
+    {
+      "id": "UCG8PLZDn4IJSxrk3KZYxBAA",
+      "name": "Ateneu Barcelonès",
+      "categories": [
+        "cultura"
+      ],
+      "category": "cultura"
+    },
+    {
+      "id": "UC0cBAlzUzj4fsDE0j13adlg",
+      "name": "Ateneu de Maó",
+      "categories": [
+        "cultura"
+      ],
+      "category": "cultura"
+    }
   ]
 }
