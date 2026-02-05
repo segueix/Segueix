@@ -3878,8 +3878,8 @@ html[style*="--color-background: #224262"] .btn-round-icon {
 }
 
 .chip.is-exact.is-active {
-    border-color: var(--color-primary, #ff0000) !important;
-    border-style: dashed;
+    border: 1.5px dashed rgba(255, 255, 255, 0.3) !important;
+    background-color: rgba(255, 255, 255, 0.03);
 }
 
 .chip.is-exact:hover {

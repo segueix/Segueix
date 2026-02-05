@@ -2582,7 +2582,7 @@ function setupChipsBarOrdering() {
         button.type = 'button';
 
         // Determinem si és una cerca exacta (conté espais)
-        const isExact = chip.value.includes(' ');
+        const isExact = chip.isCustom && chip.value.includes(' ');
 
         button.className = chip.isCustom ? 'chip is-custom' : 'chip';
         if (isExact) button.classList.add('is-exact');
