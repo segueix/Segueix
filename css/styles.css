@@ -1842,39 +1842,32 @@ body.sidebar-collapsed .main-content {
     stroke: white;
 }
 
-#videoPlayer.mini-player-active {
-    position: fixed;
-    bottom: calc(24px + var(--safe-bottom));
-    right: calc(24px + var(--safe-right));
+.mini-player-active {
+    position: fixed !important;
     z-index: 2000;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
-    top: auto !important;
-    left: auto !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    touch-action: none;
+    width: 320px;
+    aspect-ratio: 16 / 9;
 }
 
-.mini-player-active .video-embed-wrap {
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.drag-handle {
+.drag-handle-container {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 36px;
-    background: transparent;
-    cursor: grab;
+    inset: 0;
     z-index: 2001;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    pointer-events: none;
 }
 
-.drag-handle svg {
-    width: 28px;
-    height: 28px;
+.drag-surface {
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    cursor: grab;
+    clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%, 0% 0%,
+        30% 30%, 70% 30%, 70% 70%, 30% 70%, 30% 30%);
 }
 
 .close-mini-player-btn {
@@ -1926,19 +1919,20 @@ button:disabled,
     pointer-events: none;
 }
 
-#videoPlayer:not(.mini-player-active) .drag-handle,
+#videoPlayer:not(.mini-player-active) .drag-handle-container,
 #videoPlayer:not(.mini-player-active) .close-mini-player-btn,
 #videoPlayer:not(.mini-player-active) .expand-mini-player-btn {
     display: none;
 }
 
-
 @media (max-width: 768px) {
     .mini-player-active {
-        right: 16px;
-        bottom: calc(16px + var(--safe-bottom));
+        width: 180px;
     }
+}
 
+
+@media (max-width: 768px) {
     .video-placeholder {
         max-width: 100%;
         padding-left: 12px;
