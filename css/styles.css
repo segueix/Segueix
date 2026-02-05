@@ -3868,3 +3868,20 @@ html[style*="--color-background: #224262"] .btn-round-icon {
 .grecaptcha-badge { 
     visibility: hidden; 
 }
+
+
+/* Estil per a etiquetes de cerca exacta */
+.chip.is-exact {
+    border: 1.5px dashed rgba(255, 255, 255, 0.3) !important;
+    background-color: rgba(255, 255, 255, 0.03);
+    transition: border-color 0.3s ease;
+}
+
+.chip.is-exact.is-active {
+    border-color: var(--color-primary, #ff0000) !important;
+    border-style: dashed;
+}
+
+.chip.is-exact:hover {
+    border-color: rgba(255, 255, 255, 0.6) !important;
+}
