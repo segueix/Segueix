@@ -1866,8 +1866,6 @@ body.sidebar-collapsed .main-content {
     height: 100%;
     pointer-events: auto;
     cursor: grab;
-    clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%, 0% 0%,
-        30% 30%, 70% 30%, 70% 70%, 30% 70%, 30% 30%);
 }
 
 .close-mini-player-btn {

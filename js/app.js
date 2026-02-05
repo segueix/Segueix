@@ -4811,6 +4811,10 @@ function handleYouTubeMessage(event) {
             return;
         }
     }
+    // Guardem l'estat del reproductor (1 = Playing, 2 = Paused, etc.)
+    if (payload?.event === 'onStateChange' && videoPlayer) {
+        videoPlayer.dataset.playerState = payload.info;
+    }
     if (payload?.event === 'onStateChange' && payload?.info === 0) {
         handlePlaylistVideoEnded();
     }
@@ -4847,6 +4851,22 @@ function setupYouTubeIframeMessaging(iframe) {
     iframe._ytListener = sendListenerCommand;
     iframe.addEventListener('load', sendListenerCommand);
     setTimeout(sendListenerCommand, 300);
+}
+
+function toggleMainPlayerPlayback() {
+    if (!videoPlayer) return;
+    const iframe = videoPlayer.querySelector('iframe');
+    if (!iframe || !iframe.contentWindow) return;
+
+    // Estat 1 vol dir "Playing". Si està sonant, pausem. Si no, play.
+    const isPlaying = videoPlayer.dataset.playerState == '1';
+    const command = isPlaying ? 'pauseVideo' : 'playVideo';
+
+    iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: command,
+        args: []
+    }), '*');
 }
 
 function updatePlayerIframe({ source, videoId, videoUrl }) {
@@ -4921,6 +4941,7 @@ function makeDraggable(element, handle) {
     let initialLeft;
     let initialTop;
     let isDragging = false;
+    let startTime = 0; // Per calcular si és un click ràpid
 
     const onMove = (event) => {
         if (!isDragging) {
@@ -4944,7 +4965,7 @@ function makeDraggable(element, handle) {
         }
     };
 
-    const onEnd = () => {
+    const onEnd = (event) => {
         isDragging = false;
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('touchmove', onMove);
@@ -4952,6 +4973,17 @@ function makeDraggable(element, handle) {
         document.removeEventListener('touchend', onEnd);
         document.removeEventListener('touchcancel', onEnd);
         element.style.transition = 'all 0.2s ease-out';
+
+        // Detectar si ha sigut un click (poc moviment i poc temps)
+        const touch = event.changedTouches ? event.changedTouches[0] : event;
+        const endX = touch.clientX;
+        const endY = touch.clientY;
+        const dist = Math.hypot(endX - startX, endY - startY);
+        const elapsed = Date.now() - startTime;
+
+        if (dist < 10 && elapsed < 300) {
+            toggleMainPlayerPlayback();
+        }
     };
 
     const onStart = (event) => {
@@ -4969,6 +5001,7 @@ function makeDraggable(element, handle) {
         isDragging = true;
         startX = touch.clientX;
         startY = touch.clientY;
+        startTime = Date.now(); // Guardem l'hora d'inici
         initialLeft = rect.left;
         initialTop = rect.top;
 
