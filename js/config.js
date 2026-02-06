@@ -1,7 +1,7 @@
 // Configuració de l'aplicació
 const CONFIG = {
     branding: {
-        name: "iuTube",
+        name: "Segueix!",
         tagline: "La teva plataforma de vídeos personalitzada"
     },
     
