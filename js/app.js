@@ -2660,6 +2660,7 @@ function setupChipsBarOrdering() {
                 deleteCustomCategoryGlobal(chip.value);
                 selectedCategory = 'Novetats';
                 localStorage.setItem(LAST_CATEGORY_STORAGE_KEY, selectedCategory);
+                renderCategoryActions('Novetats');
                 renderCategories();
                 updateFeed();
             });
