@@ -755,6 +755,7 @@ function renderChannelProfileCategories(channel, channelId) {
     const picker = channelProfileTags.querySelector('[data-channel-category-picker]');
     const optionButtons = channelProfileTags.querySelectorAll('[data-channel-category-option]');
     const customButtons = channelProfileTags.querySelectorAll('.channel-category-btn--custom');
+    const customCategories = getCustomTags();
 
     if (channelCategoryPickerCleanup) {
         channelCategoryPickerCleanup();
@@ -789,7 +790,9 @@ function renderChannelProfileCategories(channel, channelId) {
 
     customButtons.forEach((button) => {
         const tagValue = button.dataset.channelCategory || button.textContent;
-        if (!isCustomCategoryTag(tagValue)) {
+        const normalizedTag = normalizeCustomTag(tagValue).toLowerCase();
+        const isCustom = customCategories.some(cat => cat.toLowerCase() === normalizedTag);
+        if (!isCustom) {
             return;
         }
         button.style.cursor = 'pointer';
@@ -797,14 +800,10 @@ function renderChannelProfileCategories(channel, channelId) {
             event.preventDefault();
             event.stopPropagation();
 
-            if (!confirm(`Vols treure l'etiqueta "${button.textContent.trim()}" d'aquest canal?`)) {
-                return;
-            }
-
             removeCategoryFromChannel(channelId, tagValue);
-            renderChannelProfileCategories(channel, channelId);
-            setupChipsBarOrdering();
-            renderFeed();
+            button.remove();
+            renderCategories();
+            updateFeed();
         });
     });
 
@@ -2581,6 +2580,14 @@ function loadCategories() {
     setupVideoCardActionButtons();
 }
 
+function renderCategories() {
+    setupChipsBarOrdering();
+}
+
+function updateFeed() {
+    renderFeed();
+}
+
 function setupChipsBarOrdering() {
     if (!chipsBar) {
         return;
@@ -2650,23 +2657,9 @@ function setupChipsBarOrdering() {
                 event.preventDefault();
                 event.stopPropagation();
 
-                if (!confirm(`Vols eliminar definitivament l'etiqueta "${chip.value}" de tots els canals?`)) {
-                    return;
-                }
-
                 deleteCustomCategoryGlobal(chip.value);
-                const normalizedSelected = typeof normalizeCustomTag === 'function'
-                    ? normalizeCustomTag(selectedCategory).toLowerCase()
-                    : String(selectedCategory || '').toLowerCase();
-                const normalizedRemoved = typeof normalizeCustomTag === 'function'
-                    ? normalizeCustomTag(chip.value).toLowerCase()
-                    : String(chip.value || '').toLowerCase();
-                if (normalizedSelected && normalizedSelected === normalizedRemoved) {
-                    selectedCategory = 'Novetats';
-                    localStorage.setItem(LAST_CATEGORY_STORAGE_KEY, selectedCategory);
-                }
-                setupChipsBarOrdering();
-                renderFeed();
+                renderCategories();
+                updateFeed();
             });
         }
         chipsBar.appendChild(button);
