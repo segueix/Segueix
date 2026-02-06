@@ -243,3 +243,111 @@ function formatDate(dateString) {
     const shortYear = videoYear.toString().slice(-2); // "2023" -> "23"
     return `${day} ${month} ${shortYear}`;
 }
+
+/* --- NOVES FUNCIONS PER GESTIONAR L'ESBORRAT D'ETIQUETES --- */
+
+// 1. Esborrar categoria personalitzada globalment (del llistat principal)
+function deleteCustomCategoryGlobal(categoryName) {
+    const rawCategory = typeof categoryName === 'string' ? categoryName : '';
+    const normalized = typeof normalizeCustomTag === 'function'
+        ? normalizeCustomTag(rawCategory)
+        : rawCategory.trim().replace(/^"|"$/g, '');
+
+    if (!normalized) {
+        return;
+    }
+
+    if (typeof removeCustomTag === 'function') {
+        removeCustomTag(normalized);
+    } else if (typeof localStorage !== 'undefined') {
+        const stored = localStorage.getItem('catube_custom_tags');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed)) {
+                    const next = parsed.filter(tag => String(tag).toLowerCase() !== normalized.toLowerCase());
+                    localStorage.setItem('catube_custom_tags', JSON.stringify(next));
+                }
+            } catch (error) {
+                console.warn('No es pot actualitzar catube_custom_tags', error);
+            }
+        }
+    }
+
+    if (typeof localStorage === 'undefined') {
+        return;
+    }
+
+    const storedChannels = localStorage.getItem('catube_channel_custom_categories');
+    if (!storedChannels) {
+        return;
+    }
+
+    try {
+        const parsed = JSON.parse(storedChannels) || {};
+        let updated = false;
+        Object.keys(parsed).forEach((channelId) => {
+            if (!Array.isArray(parsed[channelId])) {
+                return;
+            }
+            const filtered = parsed[channelId].filter(tag => String(tag).toLowerCase() !== normalized.toLowerCase());
+            if (filtered.length === 0) {
+                delete parsed[channelId];
+                updated = true;
+            } else if (filtered.length !== parsed[channelId].length) {
+                parsed[channelId] = filtered;
+                updated = true;
+            }
+        });
+        if (updated) {
+            localStorage.setItem('catube_channel_custom_categories', JSON.stringify(parsed));
+        }
+    } catch (error) {
+        console.warn('No es pot actualitzar catube_channel_custom_categories', error);
+    }
+}
+
+// 2. Treure etiqueta d'un canal específic (del perfil)
+function removeCategoryFromChannel(channelId, categoryName) {
+    if (!channelId) {
+        return;
+    }
+    const rawCategory = typeof categoryName === 'string' ? categoryName : '';
+    const normalized = typeof normalizeCustomTag === 'function'
+        ? normalizeCustomTag(rawCategory)
+        : rawCategory.trim().replace(/^"|"$/g, '');
+
+    if (!normalized) {
+        return;
+    }
+
+    if (typeof getChannelCustomCategories === 'function' && typeof saveChannelCustomCategories === 'function') {
+        const current = getChannelCustomCategories(channelId);
+        const next = current.filter(tag => String(tag).toLowerCase() !== normalized.toLowerCase());
+        saveChannelCustomCategories(channelId, next);
+        return;
+    }
+
+    if (typeof localStorage === 'undefined') {
+        return;
+    }
+    const stored = localStorage.getItem('catube_channel_custom_categories');
+    if (!stored) {
+        return;
+    }
+    try {
+        const parsed = JSON.parse(stored) || {};
+        if (!Array.isArray(parsed[String(channelId)])) {
+            return;
+        }
+        const next = parsed[String(channelId)].filter(tag => String(tag).toLowerCase() !== normalized.toLowerCase());
+        if (next.length === 0) {
+            delete parsed[String(channelId)];
+        } else {
+            parsed[String(channelId)] = next;
+        }
+        localStorage.setItem('catube_channel_custom_categories', JSON.stringify(parsed));
+    } catch (error) {
+        console.warn('No es pot actualitzar catube_channel_custom_categories', error);
+    }
+}
