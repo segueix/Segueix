@@ -1925,12 +1925,12 @@ button:disabled,
 
 @media (max-width: 768px) {
     .mini-player-active {
-        width: 180px !important;
+        width: calc(100vw - var(--safe-left) - var(--safe-right)) !important;
         aspect-ratio: 16 / 9 !important;
         position: fixed !important;
-        bottom: calc(12px + var(--safe-bottom)) !important;
-        right: calc(12px + var(--safe-right)) !important;
-        left: auto !important;
+        bottom: var(--safe-bottom) !important;
+        left: var(--safe-left) !important;
+        right: var(--safe-right) !important;
         top: auto !important;
         z-index: 2000;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
