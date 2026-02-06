@@ -3888,14 +3888,14 @@ button:disabled,
     }
 
     .btn-heart {
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
     }
 
     .btn-heart i,
     .btn-heart svg {
-        width: 18px;
-        height: 18px;
+        width: 22px;
+        height: 22px;
     }
 
     .video-info-modern .video-metadata-bar {
@@ -3910,7 +3910,7 @@ button:disabled,
     }
 
     .action-group {
-        gap: 0.4rem;
+        gap: 0.5rem;
     }
 
     .action-group-left {
@@ -3919,13 +3919,13 @@ button:disabled,
     }
 
     .btn-round-icon {
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
     }
 
     .btn-round-icon svg {
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
     }
 }
 
