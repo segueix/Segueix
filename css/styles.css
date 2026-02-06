@@ -3909,6 +3909,10 @@ button:disabled,
         height: 32px;
     }
 
+    .btn-comment-youtube {
+        display: none !important;
+    }
+
     .action-group {
         gap: 0.5rem;
     }
@@ -3936,17 +3940,20 @@ button:disabled,
 /* Extra small screens */
 @media screen and (max-width: 400px) {
     .video-info-modern .video-metadata-bar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
     }
 
     .action-group-left {
-        justify-content: center;
+        justify-content: flex-start !important;
+        flex: 0 1 auto !important;
     }
 
     .action-group:not(.action-group-left) {
-        justify-content: center;
+        justify-content: flex-end !important;
+        width: auto !important;
     }
 }
 
