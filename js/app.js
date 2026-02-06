@@ -129,7 +129,7 @@ let cachedChannels = {};
 
 // Cache de vídeos carregats de l'API
 let cachedAPIVideos = [];
-let activeFollowTab = 'following';
+let activeFollowTab = 'all';
 let channelCategoryPickerCleanup = null;
 
 function mergeChannelCategories(channel, categories) {
@@ -6802,7 +6802,7 @@ function showPlaylists() {
     window.scrollTo(0, 0);
 }
 
-function showFollow(tab = 'following') {
+function showFollow(tab = 'all') {
     handlePlayerVisibilityOnNavigation();
     exitPlaylistMode();
     if (mainContent) {
