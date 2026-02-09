@@ -3888,14 +3888,14 @@ button:disabled,
     }
 
     .btn-heart {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
     }
 
     .btn-heart i,
     .btn-heart svg {
-        width: 22px;
-        height: 22px;
+        width: 26px;
+        height: 26px;
     }
 
     .video-info-modern .video-metadata-bar {
@@ -3909,6 +3909,10 @@ button:disabled,
         height: 32px;
     }
 
+    .btn-comment-youtube {
+        display: none !important;
+    }
+
     .action-group {
         gap: 0.5rem;
     }
@@ -3918,31 +3922,38 @@ button:disabled,
         min-width: 0;
     }
 
+    .action-group:not(.action-group-left) {
+        align-self: flex-start;
+    }
+
     .btn-round-icon {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
     }
 
     .btn-round-icon svg {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
     }
 }
 
 /* Extra small screens */
 @media screen and (max-width: 400px) {
     .video-info-modern .video-metadata-bar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
     }
 
     .action-group-left {
-        justify-content: center;
+        justify-content: flex-start !important;
+        flex: 0 1 auto !important;
     }
 
     .action-group:not(.action-group-left) {
-        justify-content: center;
+        justify-content: flex-end !important;
+        width: auto !important;
     }
 }
 
