@@ -1,6 +1,6 @@
 // Service Worker per PWA
 
-const CACHE_NAME = 'mytube-v11'; // Canvia el número (v9 -> v10)
+const CACHE_NAME = 'mytube-v12'; // Canvia el número (v9 -> v10)
 const urlsToCache = [
     './',
     './index.html',
