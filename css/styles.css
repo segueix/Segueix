@@ -545,15 +545,15 @@ main,
     border-radius: 10px;
     text-decoration: none;
     border: 1px solid transparent;
-    background: var(--color-surface-button);
-    color: inherit;
+    background: var(--color-primary);
+    color: #ffffff;
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
 }
 
 .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.08);
+    filter: brightness(1.1);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .icon-btn svg {
@@ -972,7 +972,7 @@ body.sidebar-collapsed .main-content {
     border: 0;
     border-radius: 999px;
     padding: 8px 12px;
-    background: #1d1d1d;
+    background: var(--color-primary);
     color: #fff;
     font-size: 0.875rem;
     white-space: nowrap;
@@ -981,7 +981,7 @@ body.sidebar-collapsed .main-content {
 
 .chip.is-active {
     background: #ffffff;
-    color: #000;
+    color: var(--color-primary);
 }
 
 .chip.is-custom {
@@ -2322,8 +2322,8 @@ button:disabled,
 }
 
 .tag-pill {
-    background: rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.78);
+    background: var(--color-primary);
+    color: #ffffff;
     padding: 4px 12px;
     border-radius: 999px;
     font-size: 0.75rem;
@@ -2338,9 +2338,9 @@ button:disabled,
 }
 
 .channel-category-btn {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid transparent;
+    background: var(--color-primary);
+    color: #ffffff;
     padding: 6px 14px;
     border-radius: 999px;
     font-size: 0.75rem;
@@ -2349,7 +2349,7 @@ button:disabled,
 }
 
 .channel-category-btn--custom {
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--color-primary);
 }
 
 .channel-category-add {
@@ -3530,37 +3530,37 @@ button:disabled,
 /* Category tags */
 .tag-tot,
 [data-category="Tot"] {
-    background-color: #636e72;
+    background-color: var(--color-primary);
     color: #ffffff;
 }
 
 .tag-vida,
 [data-category="Vida"] {
-    background-color: #00b894;
+    background-color: var(--color-primary);
     color: #ffffff;
 }
 
 .tag-cultura,
 [data-category="Cultura"] {
-    background-color: #6c5ce7;
+    background-color: var(--color-primary);
     color: #ffffff;
 }
 
 .tag-diversio,
 [data-category="Diversió"] {
-    background-color: #e17055;
+    background-color: var(--color-primary);
     color: #ffffff;
 }
 
 .tag-el-mon,
 [data-category="El Món"] {
-    background-color: #0984e3;
+    background-color: var(--color-primary);
     color: #ffffff;
 }
 
 .tag-gaming,
 [data-category="Gaming"] {
-    background-color: #e84393;
+    background-color: var(--color-primary);
     color: #ffffff;
 }
 
