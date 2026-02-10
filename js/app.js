@@ -51,7 +51,7 @@ let playlistsPage, playlistsList, playlistNameInput, createPlaylistBtn;
 let followPage, followGrid, followTabs;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow, heroChannel;
 let pageTitle;
-let backgroundModal, backgroundBtn, backgroundOptions;
+let backgroundModal, backgroundBtn, backgroundOptions, buttonColorOptions;
 let currentColorDisplay, expandedColorPicker, closeExpandedColorPicker;
 let fontDecreaseBtn, fontIncreaseBtn, fontSizeDisplay;
 let playlistModal, playlistModalBody;
@@ -101,6 +101,7 @@ const customCategorySearchInFlight = new Map();
 const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Diversió', 'Actualitat', 'Vida', 'El Món', 'Gaming', 'Mitjans', 'Entitats', 'Digitals']);
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
+const BUTTON_COLOR_STORAGE_KEY = 'catube_button_color';
 const FONT_SIZE_STORAGE_KEY = 'catube_font_size';
 const BACKGROUND_COLORS = [
     '#333333',
@@ -109,6 +110,14 @@ const BACKGROUND_COLORS = [
     '#33533d',
     '#5a3f29',
     '#513359'
+];
+const BUTTON_COLORS = [
+    '#ef4444',
+    '#f59e0b',
+    '#10b981',
+    '#0ea5e9',
+    '#6366f1',
+    '#ec4899'
 ];
 
 const HISTORY_STORAGE_KEY = 'catube_history';
@@ -1164,6 +1173,7 @@ function initElements() {
     backgroundModal = document.getElementById('backgroundModal');
     backgroundBtn = document.getElementById('backgroundBtn');
     backgroundOptions = document.getElementById('backgroundOptions');
+    buttonColorOptions = document.getElementById('buttonColorOptions');
     customCategoryModal = document.getElementById('customCategoryModal');
     customCategoryInput = document.getElementById('customCategoryInput');
     customCategoryAddBtn = document.getElementById('customCategoryAddBtn');
@@ -1632,7 +1642,7 @@ function initInstallPrompt() {
 function initBackgroundModal() {
     const closeModal = document.getElementById('closeBackgroundModal');
 
-    if (!backgroundModal || !closeModal || !backgroundOptions) {
+    if (!backgroundModal || !closeModal || !backgroundOptions || !buttonColorOptions) {
         console.warn('⚠️  Modal de color de fons no disponible');
         return;
     }
@@ -1655,12 +1665,24 @@ function initBackgroundModal() {
         button.style.backgroundColor = color;
         button.addEventListener('click', () => applyBackgroundColor(color, true, true));
     });
+
+    const buttonColorButtons = buttonColorOptions.querySelectorAll('[data-button-color]');
+    buttonColorButtons.forEach(button => {
+        const color = button.dataset.buttonColor;
+        button.style.backgroundColor = color;
+        button.addEventListener('click', () => applyTopNavButtonColor(color, true));
+    });
 }
+
 
 function initBackgroundPicker() {
     const stored = localStorage.getItem(BACKGROUND_STORAGE_KEY);
     const initial = BACKGROUND_COLORS.includes(stored) ? stored : BACKGROUND_COLORS[0];
     applyBackgroundColor(initial, false);
+
+    const storedButtonColor = localStorage.getItem(BUTTON_COLOR_STORAGE_KEY);
+    const initialButtonColor = BUTTON_COLORS.includes(storedButtonColor) ? storedButtonColor : BUTTON_COLORS[0];
+    applyTopNavButtonColor(initialButtonColor, false);
 }
 
 function applyBackgroundColor(color, persist = true, collapsePicker = false) {
@@ -1683,6 +1705,27 @@ function applyBackgroundColor(color, persist = true, collapsePicker = false) {
     }
     if (collapsePicker) {
         hideExpandedColorPicker();
+    }
+}
+
+
+function applyTopNavButtonColor(color, persist = true) {
+    if (!BUTTON_COLORS.includes(color)) {
+        return;
+    }
+
+    document.documentElement.style.setProperty('--top-nav-button-color', color);
+
+    if (persist) {
+        localStorage.setItem(BUTTON_COLOR_STORAGE_KEY, color);
+    }
+
+    if (buttonColorOptions) {
+        buttonColorOptions.querySelectorAll('[data-button-color]').forEach(button => {
+            const isActive = button.dataset.buttonColor === color;
+            button.classList.toggle('is-active', isActive);
+            button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
     }
 }
 
