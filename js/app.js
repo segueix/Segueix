@@ -102,6 +102,7 @@ const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Diversió', 'Actualitat', 'Vid
 
 const BACKGROUND_STORAGE_KEY = 'catube_background_color';
 const FONT_SIZE_STORAGE_KEY = 'catube_font_size';
+const BUTTON_COLOR_STORAGE_KEY = 'catube_button_color';
 const BACKGROUND_COLORS = [
     '#333333',
     '#3d3d3d',
@@ -1077,6 +1078,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupShareButtons();
     initBackgroundModal();
     initBackgroundPicker();
+    initButtonColorPicker();
     initFontSizeControls();
     const urlParams = new URLSearchParams(window.location.search);
     const addTagParam = urlParams.get('add_tag');
@@ -1655,6 +1657,46 @@ function initBackgroundModal() {
         button.style.backgroundColor = color;
         button.addEventListener('click', () => applyBackgroundColor(color, true, true));
     });
+}
+
+
+function initButtonColorPicker() {
+    const buttonOptionsContainer = document.getElementById('buttonColorOptions');
+    if (!buttonOptionsContainer) return;
+
+    // Recuperar color o usar vermell fosc per defecte
+    const storedColor = localStorage.getItem(BUTTON_COLOR_STORAGE_KEY);
+    const initialColor = storedColor || '#8a0000';
+
+    applyButtonColor(initialColor, false);
+
+    const buttons = buttonOptionsContainer.querySelectorAll('[data-btn-color]');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const color = btn.dataset.btnColor;
+            applyButtonColor(color, true);
+        });
+    });
+}
+
+function applyButtonColor(color, persist = true) {
+    if (!color) return;
+
+    // Actualitza la variable CSS global per a icones i botons
+    document.documentElement.style.setProperty('--color-primary', color);
+
+    if (persist) {
+        localStorage.setItem(BUTTON_COLOR_STORAGE_KEY, color);
+    }
+
+    // UI Feedback
+    const container = document.getElementById('buttonColorOptions');
+    if (container) {
+        container.querySelectorAll('[data-btn-color]').forEach(btn => {
+            const isActive = btn.dataset.btnColor === color;
+            btn.classList.toggle('is-active', isActive);
+        });
+    }
 }
 
 function initBackgroundPicker() {

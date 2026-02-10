@@ -4078,3 +4078,58 @@ button:disabled,
         display: none !important;
     }
 }
+
+/* --- MODIFICACIONS CONFIGURACIÓ --- */
+
+/* 1. Icona del títol del modal en blanc */
+#backgroundModalTitle i,
+#backgroundModalTitle svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+/* 2. Aplicar color primari a icones generals (excloent botons amb fons propi) */
+:not(.is-active):not(.hero-button):not(.playlist-play-btn):not(.video-action-btn) > i,
+:not(.is-active):not(.hero-button):not(.playlist-play-btn):not(.video-action-btn) > svg {
+    color: var(--color-primary);
+    stroke: var(--color-primary);
+}
+
+/* 3. Estil per als chips actius (categories) */
+.chip.is-active {
+    background-color: var(--color-primary) !important;
+    color: #ffffff !important;
+    border-color: var(--color-primary) !important;
+}
+
+/* 4. Estil dels nous botons de la paleta */
+.button-option {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.button-option.is-active {
+    box-shadow: 0 0 0 2px #ffffff; /* Anell blanc per indicar selecció */
+}
+
+.button-option.is-active::after {
+    content: "✓";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.375rem;
+    font-weight: 700;
+}
