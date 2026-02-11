@@ -114,12 +114,12 @@ const BACKGROUND_COLORS = [
 
 const BUTTON_COLOR_STORAGE_KEY = 'catube_button_color';
 const BUTTON_COLORS = [
-    '#707070',
-    '#777777',
-    '#647B91',
-    '#708777',
-    '#8C7969',
-    '#85708B'
+    '#474747',
+    '#515151',
+    '#365676',
+    '#476751',
+    '#6E533D',
+    '#65476D'
 ];
 
 const HISTORY_STORAGE_KEY = 'catube_history';
