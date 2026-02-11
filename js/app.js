@@ -7151,6 +7151,24 @@ window.addEventListener('popstate', (e) => {
 
 // --- FUNCIONS PER COMPARTIR LLISTES (SEGUEIX) - VERSIÓ CORREGIDA ---
 
+function randomLetter() {
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    return letters[Math.floor(Math.random() * letters.length)];
+}
+
+function encodePlaylistId(rowNumber) {
+    const digits = String(rowNumber);
+    return randomLetter() + digits[0] + randomLetter() + randomLetter() + digits.slice(1);
+}
+
+function decodePlaylistId(code) {
+    if (!code || code.length < 2) return null;
+    const firstDigit = code[1];
+    const rest = code.slice(4);
+    const num = parseInt(firstDigit + rest, 10);
+    return isNaN(num) ? null : num;
+}
+
 // 1. Funció per ENVIAR (Adaptada a la teva estructura de playlists)
 async function shareSegueixPlaylist(playlistName) {
     const stored = localStorage.getItem('catube_playlists');
@@ -7209,7 +7227,8 @@ async function shareSegueixPlaylist(playlistName) {
                 loadingModal.remove();
 
                 if (data.status === 'success') {
-                    const shareUrl = `${window.location.origin}${window.location.pathname}?list=${data.id}`;
+                    const encodedId = encodePlaylistId(data.id);
+                    const shareUrl = `${window.location.origin}${window.location.pathname}?list=${encodedId}`;
                     
                     // Native Share or Fallback
                     if (navigator.share) {
@@ -7278,7 +7297,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // DETECT SHARED PLAYLIST
     const params = new URLSearchParams(window.location.search);
     if (params.has('list')) {
-        const listId = params.get('list');
+        const rawListParam = params.get('list');
+        const listId = decodePlaylistId(rawListParam) ?? rawListParam;
 
         // 1. IMMEDIATE NAVIGATION TO LIBRARY
         // This gives context to the user that they are adding to their library
