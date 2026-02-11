@@ -308,7 +308,7 @@
         <div class="spinner"></div>
     </div>
 
-    <!-- Modal Color de fons -->
+    <!-- Modal Configuració -->
     <div class="modal-overlay" id="backgroundModal">
         <div class="modal modal-small" role="dialog" aria-modal="true" aria-labelledby="backgroundModalTitle">
             <div class="modal-header">
@@ -335,6 +335,23 @@
                             <button class="background-option" type="button" data-color="#513359" aria-label="Pruna fosca"></button>
                         </div>
                         <button class="expanded-color-close" id="closeExpandedColorPicker" type="button" aria-label="Tancar selector de colors">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <p class="setting-label">Botons</p>
+                    <button class="background-option current-color-display" id="currentButtonColorDisplay" type="button" aria-label="Mostrar selector de botons"></button>
+                    <div class="expanded-color-picker hidden" id="expandedButtonColorPicker">
+                        <div class="background-options" id="buttonColorOptions">
+                            <button class="background-option" type="button" data-color="#474747" aria-label="Gris clar"></button>
+                            <button class="background-option" type="button" data-color="#515151" aria-label="Gris mitjà"></button>
+                            <button class="background-option" type="button" data-color="#365676" aria-label="Blau suau"></button>
+                            <button class="background-option" type="button" data-color="#476751" aria-label="Verd suau"></button>
+                            <button class="background-option" type="button" data-color="#6E533D" aria-label="Marró clar"></button>
+                            <button class="background-option" type="button" data-color="#65476D" aria-label="Pruna clara"></button>
+                        </div>
+                        <button class="expanded-color-close" id="closeExpandedButtonColorPicker" type="button" aria-label="Tancar selector de colors">
                             <i data-lucide="x"></i>
                         </button>
                     </div>
@@ -376,10 +393,6 @@
                         autocomplete="off"
                         aria-label="Nom de la categoria nova">
                     <button class="category-create-btn" id="customCategoryAddBtn" type="button" aria-label="Afegir categoria">+</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Scripts -->
     <script src="js/config.js"></script>

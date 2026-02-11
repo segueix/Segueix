@@ -179,6 +179,7 @@ html {
     --color-surface: #121212;
     --color-surface-border: #303030;
     --color-surface-button: #222222;
+    --color-button-accent: #474747;
     --header-height: 64px;
     --sidebar-width: 240px;
     --sidebar-collapsed: 72px;
@@ -545,15 +546,14 @@ main,
     border-radius: 10px;
     text-decoration: none;
     border: 1px solid transparent;
-    background: var(--color-surface-button);
-    color: inherit;
+    background: var(--color-button-accent);
+    color: #ffffff;
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+    transition: background 0.2s, border-color 0.2s, filter 0.2s;
 }
 
 .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.08);
+    filter: brightness(1.2);
 }
 
 .icon-btn svg {
@@ -596,6 +596,20 @@ main,
         width: 44px;
         height: 44px;
     }
+}
+
+/* Button accent: player actions, card playlist btn, grid columns */
+#playlistBtn,
+#shareBtn,
+#miniPlayerToggle {
+    background-color: var(--color-button-accent);
+    color: #ffffff;
+}
+
+.video-action-btn.playlist-action {
+    background: var(--color-button-accent);
+    color: #ffffff;
+    border-color: transparent;
 }
 
 /* Sidebar */
@@ -864,21 +878,23 @@ body.sidebar-collapsed .main-content {
 }
 
 .grid-layout-button {
-    border: 1px solid var(--color-surface-border);
-    background: var(--color-surface-button);
-    color: inherit;
+    border: 1px solid transparent;
+    background: var(--color-button-accent);
+    color: #ffffff;
     width: 36px;
     height: 36px;
     border-radius: 10px;
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    opacity: 0.7;
+    transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s;
 }
 
 .grid-layout-button.is-active {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--color-button-accent);
     border-color: rgba(255, 255, 255, 0.4);
+    opacity: 1;
 }
 
 .grid-layout-button svg {
@@ -972,16 +988,19 @@ body.sidebar-collapsed .main-content {
     border: 0;
     border-radius: 999px;
     padding: 8px 12px;
-    background: #1d1d1d;
-    color: #fff;
+    background: var(--color-button-accent);
+    color: #ffffff;
     font-size: 0.875rem;
     white-space: nowrap;
     cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
 }
 
 .chip.is-active {
-    background: #ffffff;
-    color: #000;
+    background: var(--color-button-accent);
+    color: #ffffff;
+    opacity: 1;
 }
 
 .chip.is-custom {
