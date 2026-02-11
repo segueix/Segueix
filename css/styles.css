@@ -179,6 +179,7 @@ html {
     --color-surface: #121212;
     --color-surface-border: #303030;
     --color-surface-button: #222222;
+    --color-button-accent: #707070;
     --header-height: 64px;
     --sidebar-width: 240px;
     --sidebar-collapsed: 72px;
@@ -545,15 +546,14 @@ main,
     border-radius: 10px;
     text-decoration: none;
     border: 1px solid transparent;
-    background: var(--color-surface-button);
-    color: inherit;
+    background: var(--color-button-accent);
+    color: #ffffff;
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+    transition: background 0.2s, border-color 0.2s, filter 0.2s;
 }
 
 .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.08);
+    filter: brightness(1.2);
 }
 
 .icon-btn svg {
@@ -596,6 +596,17 @@ main,
         width: 44px;
         height: 44px;
     }
+}
+
+/* Button accent: player & card action buttons */
+.btn-round-icon {
+    background-color: var(--color-button-accent);
+    color: #ffffff;
+}
+
+.video-action-btn {
+    background: var(--color-button-accent);
+    color: #ffffff;
 }
 
 /* Sidebar */
@@ -972,16 +983,19 @@ body.sidebar-collapsed .main-content {
     border: 0;
     border-radius: 999px;
     padding: 8px 12px;
-    background: #1d1d1d;
-    color: #fff;
+    background: var(--color-button-accent);
+    color: #ffffff;
     font-size: 0.875rem;
     white-space: nowrap;
     cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
 }
 
 .chip.is-active {
-    background: #ffffff;
-    color: #000;
+    background: var(--color-button-accent);
+    color: #ffffff;
+    opacity: 1;
 }
 
 .chip.is-custom {

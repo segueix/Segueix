@@ -51,8 +51,9 @@ let playlistsPage, playlistsList, playlistNameInput, createPlaylistBtn;
 let followPage, followGrid, followTabs;
 let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow, heroChannel;
 let pageTitle;
-let backgroundModal, backgroundBtn, backgroundOptions;
+let backgroundModal, backgroundBtn, backgroundOptions, buttonColorOptions;
 let currentColorDisplay, expandedColorPicker, closeExpandedColorPicker;
+let currentButtonColorDisplay, expandedButtonColorPicker, closeExpandedButtonColorPicker;
 let fontDecreaseBtn, fontIncreaseBtn, fontSizeDisplay;
 let playlistModal, playlistModalBody;
 let videoPlayer, videoPlaceholder, placeholderImage;
@@ -109,6 +110,16 @@ const BACKGROUND_COLORS = [
     '#33533d',
     '#5a3f29',
     '#513359'
+];
+
+const BUTTON_COLOR_STORAGE_KEY = 'catube_button_color';
+const BUTTON_COLORS = [
+    '#707070',
+    '#777777',
+    '#647B91',
+    '#708777',
+    '#8C7969',
+    '#85708B'
 ];
 
 const HISTORY_STORAGE_KEY = 'catube_history';
@@ -1097,6 +1108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const newUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ''}${window.location.hash || ''}`;
         history.replaceState({}, '', newUrl);
     }
+    initButtonColorPicker();
     loadCategories();
     renderPlaylistsPage();
     initYouTubeMessageListener();
@@ -1164,6 +1176,7 @@ function initElements() {
     backgroundModal = document.getElementById('backgroundModal');
     backgroundBtn = document.getElementById('backgroundBtn');
     backgroundOptions = document.getElementById('backgroundOptions');
+    buttonColorOptions = document.getElementById('buttonColorOptions');
     customCategoryModal = document.getElementById('customCategoryModal');
     customCategoryInput = document.getElementById('customCategoryInput');
     customCategoryAddBtn = document.getElementById('customCategoryAddBtn');
@@ -1171,6 +1184,9 @@ function initElements() {
     currentColorDisplay = document.getElementById('currentColorDisplay');
     expandedColorPicker = document.getElementById('expandedColorPicker');
     closeExpandedColorPicker = document.getElementById('closeExpandedColorPicker');
+    currentButtonColorDisplay = document.getElementById('currentButtonColorDisplay');
+    expandedButtonColorPicker = document.getElementById('expandedButtonColorPicker');
+    closeExpandedButtonColorPicker = document.getElementById('closeExpandedButtonColorPicker');
     fontDecreaseBtn = document.getElementById('fontDecreaseBtn');
     fontIncreaseBtn = document.getElementById('fontIncreaseBtn');
     fontSizeDisplay = document.getElementById('fontSizeDisplay');
@@ -1655,6 +1671,24 @@ function initBackgroundModal() {
         button.style.backgroundColor = color;
         button.addEventListener('click', () => applyBackgroundColor(color, true, true));
     });
+
+    // Button color picker (expanded/collapsed)
+    if (currentButtonColorDisplay && expandedButtonColorPicker) {
+        currentButtonColorDisplay.addEventListener('click', showExpandedButtonColorPicker);
+    }
+    if (closeExpandedButtonColorPicker && expandedButtonColorPicker) {
+        closeExpandedButtonColorPicker.addEventListener('click', hideExpandedButtonColorPicker);
+    }
+
+    // Button color options
+    if (buttonColorOptions) {
+        const buttonBtns = buttonColorOptions.querySelectorAll('[data-color]');
+        buttonBtns.forEach(button => {
+            const color = button.dataset.color;
+            button.style.backgroundColor = color;
+            button.addEventListener('click', () => applyButtonColor(color, true, true));
+        });
+    }
 }
 
 function initBackgroundPicker() {
@@ -1738,10 +1772,50 @@ function updateFontSizeDisplay() {
     fontSizeDisplay.textContent = `Font ${Math.round(size)}px`;
 }
 
+function initButtonColorPicker() {
+    const stored = localStorage.getItem(BUTTON_COLOR_STORAGE_KEY);
+    const initial = BUTTON_COLORS.includes(stored) ? stored : BUTTON_COLORS[0];
+    applyButtonColor(initial, false);
+}
+
+function applyButtonColor(color, persist = true, collapsePicker = false) {
+    if (!BUTTON_COLORS.includes(color)) return;
+    document.documentElement.style.setProperty('--color-button-accent', color);
+    if (persist) {
+        localStorage.setItem(BUTTON_COLOR_STORAGE_KEY, color);
+    }
+    if (currentButtonColorDisplay) {
+        currentButtonColorDisplay.style.backgroundColor = color;
+    }
+    if (buttonColorOptions) {
+        buttonColorOptions.querySelectorAll('[data-color]').forEach(button => {
+            const isActive = button.dataset.color === color;
+            button.classList.toggle('is-active', isActive);
+            button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+    }
+    if (collapsePicker) {
+        hideExpandedButtonColorPicker();
+    }
+}
+
+function showExpandedButtonColorPicker() {
+    if (!currentButtonColorDisplay || !expandedButtonColorPicker) return;
+    currentButtonColorDisplay.classList.add('hidden');
+    expandedButtonColorPicker.classList.remove('hidden');
+}
+
+function hideExpandedButtonColorPicker() {
+    if (!currentButtonColorDisplay || !expandedButtonColorPicker) return;
+    expandedButtonColorPicker.classList.add('hidden');
+    currentButtonColorDisplay.classList.remove('hidden');
+}
+
 function openBackgroundModal() {
     if (!backgroundModal) return;
     backgroundModal.classList.add('active');
     hideExpandedColorPicker();
+    hideExpandedButtonColorPicker();
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
