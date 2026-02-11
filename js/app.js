@@ -7610,14 +7610,27 @@ function decodeConfigId(code) {
     return isNaN(num) ? null : num;
 }
 
+function showConfigFeedback(elementId, message, type) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    el.className = 'config-sync-feedback feedback-' + type;
+    el.textContent = message;
+    el.classList.remove('hidden');
+}
+
+function hideConfigFeedback(elementId) {
+    const el = document.getElementById(elementId);
+    if (el) el.classList.add('hidden');
+}
+
 async function generateConfig() {
-    console.log('[ConfigSync] Botó Generar clicat');
     const btn = document.getElementById('generateConfigBtn');
     const resultDiv = document.getElementById('configSyncResult');
     const codeDiv = document.getElementById('configSyncCode');
 
     btn.disabled = true;
     btn.textContent = 'Generant...';
+    hideConfigFeedback('configSyncFeedback');
 
     try {
         const configData = {};
@@ -7626,20 +7639,16 @@ async function generateConfig() {
             configData[key] = localStorage.getItem(key);
         }
         const dataString = JSON.stringify(configData);
-        console.log('[ConfigSync] Dades recollides:', Object.keys(configData).length, 'claus,', dataString.length, 'caràcters');
 
         const siteKey = '6LfJHl4sAAAAAHIgz-uIlDp1AQvQknLIVz-YTJnh';
 
         if (typeof grecaptcha === 'undefined') {
-            throw new Error("No s'ha pogut carregar el sistema de seguretat de Google. Revisa la teva connexió o bloquejadors d'anuncis.");
+            throw new Error("No s'ha pogut carregar el sistema de seguretat. Revisa la connexió o bloquejadors d'anuncis.");
         }
-        console.log('[ConfigSync] reCAPTCHA disponible');
 
         grecaptcha.ready(async function() {
             try {
-                console.log('[ConfigSync] reCAPTCHA ready, obtenint token...');
                 const token = await grecaptcha.execute(siteKey, { action: 'sync_config' });
-                console.log('[ConfigSync] Token obtingut, enviant al servidor...');
 
                 const res = await fetch(SEGUEIX_API_URL, {
                     method: 'POST',
@@ -7651,19 +7660,17 @@ async function generateConfig() {
                 });
 
                 const data = await res.json();
-                console.log('[ConfigSync] Resposta del servidor:', data);
 
                 if (data.status === 'success' && data.id) {
                     const code = encodeConfigId(data.id);
                     codeDiv.textContent = code;
                     resultDiv.classList.remove('hidden');
-                    console.log('[ConfigSync] Codi generat:', code);
                 } else {
                     throw new Error(data.message || 'Error desconegut al servidor');
                 }
             } catch (err) {
-                console.error('[ConfigSync] Error intern:', err);
-                alert('Error al generar el codi: ' + err.message);
+                console.error(err);
+                showConfigFeedback('configSyncFeedback', err.message, 'error');
             } finally {
                 btn.disabled = false;
                 btn.textContent = 'Generar';
@@ -7671,8 +7678,8 @@ async function generateConfig() {
         });
 
     } catch (err) {
-        console.error('[ConfigSync] Error:', err);
-        alert('Error: ' + err.message);
+        console.error(err);
+        showConfigFeedback('configSyncFeedback', err.message, 'error');
         btn.disabled = false;
         btn.textContent = 'Generar';
     }
@@ -7683,14 +7690,16 @@ async function importConfig() {
     const btn = document.getElementById('importConfigBtn');
     const code = input.value.trim();
 
+    hideConfigFeedback('configSyncFeedback');
+
     if (!code) {
-        alert('Introdueix un codi.');
+        showConfigFeedback('configSyncFeedback', 'Introdueix un codi.', 'error');
         return;
     }
 
     const rowNumber = decodeConfigId(code);
     if (!rowNumber) {
-        alert('Codi no vàlid.');
+        showConfigFeedback('configSyncFeedback', 'Codi no vàlid.', 'error');
         return;
     }
 
@@ -7708,16 +7717,65 @@ async function importConfig() {
                 localStorage.setItem(key, configData[key]);
             }
 
-            alert('Configuració importada correctament! La pàgina es recarregarà.');
-            location.reload();
+            btn.textContent = '\u2714';
+            setTimeout(() => location.reload(), 600);
         } else {
-            throw new Error(data.message || 'No s\'han trobat dades per aquest codi.');
+            throw new Error(data.message || "No s'han trobat dades per aquest codi.");
         }
     } catch (err) {
         console.error(err);
-        alert('Error al importar la configuració: ' + err.message);
+        showConfigFeedback('configSyncFeedback', err.message, 'error');
         btn.disabled = false;
         btn.textContent = 'Enviar';
+    }
+}
+
+function exportConfigManual() {
+    const area = document.getElementById('configManualExportArea');
+    const textarea = document.getElementById('configManualExportTextarea');
+    const configData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        configData[key] = localStorage.getItem(key);
+    }
+    textarea.value = JSON.stringify(configData);
+    area.classList.remove('hidden');
+    textarea.select();
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(textarea.value);
+        showConfigFeedback('configManualFeedback', '\u2714 Copiat al porta-retalls', 'success');
+    }
+}
+
+function importConfigManualToggle() {
+    const area = document.getElementById('configManualImportArea');
+    area.classList.toggle('hidden');
+    hideConfigFeedback('configManualFeedback');
+}
+
+function applyManualConfig() {
+    const textarea = document.getElementById('configManualImportTextarea');
+    const text = textarea.value.trim();
+
+    hideConfigFeedback('configManualFeedback');
+
+    if (!text) {
+        showConfigFeedback('configManualFeedback', 'Enganxa les dades de configuració.', 'error');
+        return;
+    }
+
+    try {
+        const configData = JSON.parse(text);
+
+        for (const key in configData) {
+            localStorage.setItem(key, configData[key]);
+        }
+
+        const btn = document.getElementById('configManualApplyBtn');
+        btn.textContent = '\u2714';
+        setTimeout(() => location.reload(), 600);
+    } catch (err) {
+        showConfigFeedback('configManualFeedback', 'Format no vàlid. Assegura\'t que és un JSON correcte.', 'error');
     }
 }
 
@@ -7725,6 +7783,12 @@ async function importConfig() {
 document.addEventListener('DOMContentLoaded', () => {
     const generateBtn = document.getElementById('generateConfigBtn');
     const importBtn = document.getElementById('importConfigBtn');
+    const exportManualBtn = document.getElementById('exportConfigManualBtn');
+    const importManualBtn = document.getElementById('importConfigManualBtn');
+    const applyManualBtn = document.getElementById('configManualApplyBtn');
     if (generateBtn) generateBtn.addEventListener('click', generateConfig);
     if (importBtn) importBtn.addEventListener('click', importConfig);
+    if (exportManualBtn) exportManualBtn.addEventListener('click', exportConfigManual);
+    if (importManualBtn) importManualBtn.addEventListener('click', importConfigManualToggle);
+    if (applyManualBtn) applyManualBtn.addEventListener('click', applyManualConfig);
 });

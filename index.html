@@ -374,6 +374,7 @@
                     <div class="config-sync-row">
                         <button class="config-sync-btn" id="generateConfigBtn" type="button">Generar</button>
                     </div>
+                    <p class="config-recaptcha-notice">Protegit per reCAPTCHA. S'apliquen la <a href="https://policies.google.com/privacy" target="_blank">Política de Privacitat</a> i els <a href="https://policies.google.com/terms" target="_blank">Termes del Servei</a> de Google.</p>
                     <div class="config-sync-result hidden" id="configSyncResult">
                         <p class="config-sync-code-label">El teu codi:</p>
                         <div class="config-sync-code" id="configSyncCode"></div>
@@ -383,6 +384,27 @@
                         <input class="config-sync-input" id="configCodeInput" type="text" placeholder="Codi" autocomplete="off">
                         <button class="config-sync-btn" id="importConfigBtn" type="button">Enviar</button>
                     </div>
+                    <div class="config-sync-feedback hidden" id="configSyncFeedback"></div>
+                </div>
+                <div class="settings-section">
+                    <p class="setting-label">Versió Manual</p>
+                    <div class="config-sync-row">
+                        <button class="config-sync-btn" id="exportConfigManualBtn" type="button">Exportar</button>
+                    </div>
+                    <div class="config-manual-area hidden" id="configManualExportArea">
+                        <textarea class="config-manual-textarea" id="configManualExportTextarea" rows="4" readonly></textarea>
+                    </div>
+                    <div class="config-sync-row">
+                        <span class="config-sync-input-label">Importar</span>
+                        <button class="config-sync-btn" id="importConfigManualBtn" type="button">Importar</button>
+                    </div>
+                    <div class="config-manual-area hidden" id="configManualImportArea">
+                        <textarea class="config-manual-textarea" id="configManualImportTextarea" rows="4" placeholder="Enganxa aquí les dades exportades..."></textarea>
+                        <div class="config-sync-row" style="margin-top: 8px;">
+                            <button class="config-sync-btn" id="configManualApplyBtn" type="button">Aplicar</button>
+                        </div>
+                    </div>
+                    <div class="config-sync-feedback hidden" id="configManualFeedback"></div>
                 </div>
             </div>
         </div>

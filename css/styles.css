@@ -4165,3 +4165,52 @@ button:disabled,
     user-select: all;
     word-break: break-all;
 }
+
+.config-recaptcha-notice {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.config-recaptcha-notice a {
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: underline;
+}
+
+.config-sync-feedback {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.config-sync-feedback.feedback-success {
+    background: rgba(76, 175, 80, 0.15);
+    color: #81c784;
+}
+
+.config-sync-feedback.feedback-error {
+    background: rgba(244, 67, 54, 0.15);
+    color: #e57373;
+}
+
+.config-manual-area {
+    margin-bottom: 10px;
+}
+
+.config-manual-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.75rem;
+    resize: vertical;
+    box-sizing: border-box;
+    word-break: break-all;
+}
