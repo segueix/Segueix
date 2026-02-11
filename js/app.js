@@ -7588,3 +7588,213 @@ function saveImportedPlaylist(name, stringIds = '') {
 
     alert(`Llista "${newPlaylist.name}" guardada correctament a la Biblioteca!`);
 }
+
+// =============================================
+// CONFIG SYNC BETWEEN DEVICES
+// =============================================
+
+function randomLetter() {
+    return String.fromCharCode(97 + Math.floor(Math.random() * 26));
+}
+
+function encodeConfigId(rowNumber) {
+    const digits = String(rowNumber);
+    return randomLetter() + randomLetter() + digits[0] + randomLetter() + randomLetter() + randomLetter() + digits.slice(1);
+}
+
+function decodeConfigId(code) {
+    if (!code || code.length < 4) return null;
+    const firstDigit = code[2];
+    const rest = code.slice(6);
+    const num = parseInt(firstDigit + rest, 10);
+    return isNaN(num) ? null : num;
+}
+
+function showConfigFeedback(elementId, message, type) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    el.className = 'config-sync-feedback feedback-' + type;
+    el.textContent = message;
+    el.classList.remove('hidden');
+}
+
+function hideConfigFeedback(elementId) {
+    const el = document.getElementById(elementId);
+    if (el) el.classList.add('hidden');
+}
+
+async function generateConfig() {
+    const btn = document.getElementById('generateConfigBtn');
+    const resultDiv = document.getElementById('configSyncResult');
+    const codeDiv = document.getElementById('configSyncCode');
+
+    btn.disabled = true;
+    btn.textContent = 'Generant...';
+    hideConfigFeedback('configSyncFeedback');
+
+    try {
+        const configData = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            configData[key] = localStorage.getItem(key);
+        }
+        const dataString = JSON.stringify(configData);
+
+        if (dataString.length > 50000) {
+            showConfigFeedback('configSyncFeedback', 'Les dades superen el límit. Utilitza la Versió Manual.', 'error');
+            btn.disabled = false;
+            btn.textContent = 'Generar';
+            return;
+        }
+
+        const siteKey = '6LfJHl4sAAAAAHIgz-uIlDp1AQvQknLIVz-YTJnh';
+
+        if (typeof grecaptcha === 'undefined') {
+            throw new Error("No s'ha pogut carregar el sistema de seguretat. Revisa la connexió o bloquejadors d'anuncis.");
+        }
+
+        grecaptcha.ready(async function() {
+            try {
+                const token = await grecaptcha.execute(siteKey, { action: 'sync_config' });
+
+                const res = await fetch(SEGUEIX_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        type: 'config',
+                        data: dataString,
+                        recaptchaToken: token
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success' && data.id) {
+                    const code = encodeConfigId(data.id);
+                    codeDiv.textContent = code;
+                    resultDiv.classList.remove('hidden');
+                } else {
+                    throw new Error(data.message || 'Error desconegut al servidor');
+                }
+            } catch (err) {
+                console.error(err);
+                showConfigFeedback('configSyncFeedback', err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Generar';
+            }
+        });
+
+    } catch (err) {
+        console.error(err);
+        showConfigFeedback('configSyncFeedback', err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = 'Generar';
+    }
+}
+
+async function importConfig() {
+    const input = document.getElementById('configCodeInput');
+    const btn = document.getElementById('importConfigBtn');
+    const code = input.value.trim();
+
+    hideConfigFeedback('configSyncFeedback');
+
+    if (!code) {
+        showConfigFeedback('configSyncFeedback', 'Introdueix un codi.', 'error');
+        return;
+    }
+
+    const rowNumber = decodeConfigId(code);
+    if (!rowNumber) {
+        showConfigFeedback('configSyncFeedback', 'Codi no vàlid.', 'error');
+        return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Carregant...';
+
+    try {
+        const res = await fetch(`${SEGUEIX_API_URL}?type=config&id=${rowNumber}`);
+        const data = await res.json();
+
+        if (data.status === 'success' && data.data) {
+            const configData = typeof data.data === 'string' ? JSON.parse(data.data) : data.data;
+
+            for (const key in configData) {
+                localStorage.setItem(key, configData[key]);
+            }
+
+            btn.textContent = '\u2714';
+            setTimeout(() => location.reload(), 600);
+        } else {
+            throw new Error(data.message || "No s'han trobat dades per aquest codi.");
+        }
+    } catch (err) {
+        console.error(err);
+        showConfigFeedback('configSyncFeedback', err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = 'Enviar';
+    }
+}
+
+function exportConfigManual() {
+    const configData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        configData[key] = localStorage.getItem(key);
+    }
+    const json = JSON.stringify(configData, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'historial.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showConfigFeedback('configManualFeedback', '\u2714 Fitxer descarregat', 'success');
+}
+
+function importConfigManual() {
+    hideConfigFeedback('configManualFeedback');
+    document.getElementById('configManualFileInput').click();
+}
+
+function handleManualFileImport(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const configData = JSON.parse(e.target.result);
+
+            for (const key in configData) {
+                localStorage.setItem(key, configData[key]);
+            }
+
+            const btn = document.getElementById('importConfigManualBtn');
+            btn.textContent = '\u2714';
+            setTimeout(() => location.reload(), 600);
+        } catch (err) {
+            showConfigFeedback('configManualFeedback', 'Fitxer no vàlid. Ha de ser un JSON correcte.', 'error');
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+// Register config sync event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const generateBtn = document.getElementById('generateConfigBtn');
+    const importBtn = document.getElementById('importConfigBtn');
+    const exportManualBtn = document.getElementById('exportConfigManualBtn');
+    const importManualBtn = document.getElementById('importConfigManualBtn');
+    const fileInput = document.getElementById('configManualFileInput');
+    if (generateBtn) generateBtn.addEventListener('click', generateConfig);
+    if (importBtn) importBtn.addEventListener('click', importConfig);
+    if (exportManualBtn) exportManualBtn.addEventListener('click', exportConfigManual);
+    if (importManualBtn) importManualBtn.addEventListener('click', importConfigManual);
+    if (fileInput) fileInput.addEventListener('change', handleManualFileImport);
+});

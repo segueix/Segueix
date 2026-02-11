@@ -234,7 +234,7 @@
 
     <div id="followPage" class="main-content hidden" aria-labelledby="followPageTitle">
         <h1 class="page-title" id="followPageTitle">Segueix!</h1>
-        <p class="page-subtitle">Descobreix i segueix els canals catalans disponibles.</p>
+        <p class="page-subtitle"></p>
         <div class="follow-tabs" id="followTabs" role="tablist" aria-label="Filtres de canals">
             <button class="follow-tab" type="button" role="tab" aria-selected="false" data-follow-tab="all">
                 Tots els canals
@@ -367,6 +367,33 @@
                             <i data-lucide="plus"></i>
                         </button>
                     </div>
+                </div>
+                <div class="settings-section">
+                    <p class="setting-label">Enviar configuració entre dispositius</p>
+                    <p class="config-sync-warning">Unidireccional: s'haurà de tornar a generar si es vol compartir amb un altre dispositiu de tornada.</p>
+                    <div class="config-sync-row">
+                        <button class="config-sync-btn" id="generateConfigBtn" type="button">Generar</button>
+                    </div>
+                    <p class="config-recaptcha-notice">El codi és vàlid durant 48 hores. Protegit per reCAPTCHA. S'apliquen la <a href="https://policies.google.com/privacy" target="_blank">Política de Privacitat</a> i els <a href="https://policies.google.com/terms" target="_blank">Termes del Servei</a> de Google.</p>
+                    <div class="config-sync-result hidden" id="configSyncResult">
+                        <p class="config-sync-code-label">El teu codi:</p>
+                        <div class="config-sync-code" id="configSyncCode"></div>
+                    </div>
+                    <div class="config-sync-row">
+                        <span class="config-sync-input-label">Introduir codi</span>
+                        <input class="config-sync-input" id="configCodeInput" type="text" placeholder="Codi" autocomplete="off">
+                        <button class="config-sync-btn" id="importConfigBtn" type="button">Enviar</button>
+                    </div>
+                    <div class="config-sync-feedback hidden" id="configSyncFeedback"></div>
+                </div>
+                <div class="settings-section">
+                    <p class="setting-label">Versió Manual</p>
+                    <div class="config-sync-row">
+                        <button class="config-sync-btn" id="exportConfigManualBtn" type="button">Exportar</button>
+                        <button class="config-sync-btn" id="importConfigManualBtn" type="button">Importar</button>
+                    </div>
+                    <input type="file" id="configManualFileInput" accept=".json" class="hidden">
+                    <div class="config-sync-feedback hidden" id="configManualFeedback"></div>
                 </div>
             </div>
         </div>

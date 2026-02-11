@@ -2959,6 +2959,10 @@ button:disabled,
     color: var(--color-primary);
 }
 
+#backgroundModalTitle svg {
+    color: #fff;
+}
+
 .modal-close {
     background: none;
     border: none;
@@ -4097,3 +4101,102 @@ button:disabled,
         display: none !important;
     }
 }
+
+/* Config Sync */
+.config-sync-warning {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.config-sync-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.config-sync-input-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+}
+
+.config-sync-input {
+    flex: 1;
+    min-width: 120px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #222;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: monospace;
+}
+
+.config-sync-btn {
+    padding: 8px 16px;
+    background: var(--color-button-accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.config-sync-result {
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.config-sync-code-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 6px;
+}
+
+.config-sync-code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    user-select: all;
+    word-break: break-all;
+}
+
+.config-recaptcha-notice {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.config-recaptcha-notice a {
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: underline;
+}
+
+.config-sync-feedback {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.config-sync-feedback.feedback-success {
+    background: rgba(76, 175, 80, 0.15);
+    color: #81c784;
+}
+
+.config-sync-feedback.feedback-error {
+    background: rgba(244, 67, 54, 0.15);
+    color: #e57373;
+}
+
