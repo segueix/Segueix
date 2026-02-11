@@ -598,15 +598,18 @@ main,
     }
 }
 
-/* Button accent: player & card action buttons */
-.btn-round-icon {
+/* Button accent: player actions, card playlist btn, grid columns */
+#playlistBtn,
+#shareBtn,
+#miniPlayerToggle {
     background-color: var(--color-button-accent);
     color: #ffffff;
 }
 
-.video-action-btn {
+.video-action-btn.playlist-action {
     background: var(--color-button-accent);
     color: #ffffff;
+    border-color: transparent;
 }
 
 /* Sidebar */
@@ -875,21 +878,23 @@ body.sidebar-collapsed .main-content {
 }
 
 .grid-layout-button {
-    border: 1px solid var(--color-surface-border);
-    background: var(--color-surface-button);
-    color: inherit;
+    border: 1px solid transparent;
+    background: var(--color-button-accent);
+    color: #ffffff;
     width: 36px;
     height: 36px;
     border-radius: 10px;
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    opacity: 0.7;
+    transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s;
 }
 
 .grid-layout-button.is-active {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--color-button-accent);
     border-color: rgba(255, 255, 255, 0.4);
+    opacity: 1;
 }
 
 .grid-layout-button svg {
