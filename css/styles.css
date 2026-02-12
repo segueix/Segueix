@@ -4249,7 +4249,7 @@ button:disabled,
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.05);
     color: var(--color-text);
-    font-size: 1rem;
+    font-size: 0.95rem;
     appearance: none;
     -webkit-appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aaaaaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
@@ -4267,6 +4267,7 @@ button:disabled,
 .add-youtuber-select option {
     background: #1e1e1e;
     color: var(--color-text);
+    font-size: 0.9rem;
 }
 
 .add-youtuber-message {
@@ -4290,6 +4291,21 @@ button:disabled,
 @media (max-width: 480px) {
     .add-youtuber-fields {
         flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .add-youtuber-field {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .add-youtuber-field label {
+        text-align: left;
+    }
+
+    .add-youtuber-field .playlist-input,
+    .add-youtuber-field .add-youtuber-select {
+        width: 100%;
     }
 }
-
