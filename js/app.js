@@ -5538,7 +5538,12 @@ function setupDragHandle() {
     makeDraggable(videoPlayer, handle);
     const resizeHandle = videoPlayer?.querySelector('.mini-player-resize-handle');
     if (resizeHandle) {
-        makeResizable(videoPlayer, resizeHandle);
+        if (isMiniPlayerActive()) {
+            makeResizable(videoPlayer, resizeHandle);
+        } else if (resizeHandle._resizeHandlers) {
+            resizeHandle.removeEventListener('mousedown', resizeHandle._resizeHandlers.onMouseDown);
+            delete resizeHandle._resizeHandlers;
+        }
     }
 
     const closeButton = videoPlayer.querySelector('.close-mini-player-btn');
@@ -5768,6 +5773,7 @@ function setMiniPlayerState(isActive) {
         }
     }
 
+    setupDragHandle();
     updateMiniPlayerToggleIcon(isActive);
 }
 

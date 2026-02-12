@@ -1938,7 +1938,8 @@ button:disabled,
 
 #videoPlayer:not(.mini-player-active) .drag-handle-container,
 #videoPlayer:not(.mini-player-active) .close-mini-player-btn,
-#videoPlayer:not(.mini-player-active) .expand-mini-player-btn {
+#videoPlayer:not(.mini-player-active) .expand-mini-player-btn,
+#videoPlayer:not(.mini-player-active) .mini-player-resize-handle {
     display: none;
 }
 
