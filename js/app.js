@@ -131,7 +131,6 @@ const CHIPS_ORDER_STORAGE_KEY = 'catube_chip_order';
 const CUSTOM_TAGS_STORAGE_KEY = 'catube_custom_tags';
 const GRID_LAYOUT_STORAGE_KEY = 'catube_grid_layout';
 const WATCH_GRID_LAYOUT_STORAGE_KEY = 'catube_watch_grid_layout';
-const WATCH_CATEGORY_VIDEOS_LIMIT = 30;
 const DESKTOP_BREAKPOINT = 1024;
 const WATCH_SIDEBAR_VIDEOS_LIMIT = 55;
 const CHANNEL_CUSTOM_CATEGORIES_KEY = 'catube_channel_custom_categories';
@@ -6069,7 +6068,6 @@ function renderCategoryVideosBelow(currentChannelId, currentVideoId) {
     // Aplicar scoring personalitzat
     videos = scoreRelatedVideos(videos, { id: currentVideoId, channelId: currentChannelId });
 
-    videos = videos.slice(0, WATCH_CATEGORY_VIDEOS_LIMIT);
 
     if (videos.length === 0) {
         extraContainer.innerHTML = '<div class="empty-state">No hi ha més vídeos d\'aquesta categoria.</div>';
@@ -7303,7 +7301,7 @@ function loadRelatedVideos(currentVideoId) {
 
     const sidebarLimit = 8;
     const sidebarVideos = orderedStatic.slice(0, sidebarLimit);
-    const extraVideosData = scoredVideos.slice(sidebarLimit, 20);
+    const extraVideosData = scoredVideos.slice(sidebarLimit);
 
     const relatedContainer = document.getElementById('relatedVideos');
     const extraContainer = extraVideosGrid || document.getElementById('extraVideosGrid');
