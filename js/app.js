@@ -3466,13 +3466,19 @@ function renderSearchCategoryActions(query) {
     const isSaved = isCustomCategory(normalizedQuery);
     pageTitle.classList.add('page-title--with-actions');
     pageTitle.dataset.title = `Resultats per: "${normalizedQuery}"`;
+    const toggleButtonHtml = isSaved
+        ? ''
+        : `
+            <button class="btn-round-icon category-toggle" type="button" data-action="toggle-search-category" aria-label="Guardar">
+                <i data-lucide="plus"></i>
+            </button>
+        `;
+
     pageTitle.innerHTML = `
         <span class="page-title__label">Resultats per:</span>
         <span class="page-title__query">"${escapeHtml(normalizedQuery)}"</span>
         <span class="page-title__actions">
-            <button class="btn-round-icon category-toggle ${isSaved ? 'is-danger' : ''}" type="button" data-action="toggle-search-category" aria-label="${isSaved ? 'Eliminar' : 'Guardar'}">
-                <i data-lucide="${isSaved ? 'minus' : 'plus'}"></i>
-            </button>
+            ${toggleButtonHtml}
             <button class="btn-round-icon search-category-share" type="button" data-action="share-search" aria-label="Compartir">
                 <i data-lucide="share-2"></i>
             </button>
@@ -3483,17 +3489,11 @@ function renderSearchCategoryActions(query) {
     const shareButton = pageTitle.querySelector('[data-action="share-search"]');
 
     toggleButton?.addEventListener('click', () => {
-        if (isCustomCategory(normalizedQuery)) {
-            if (removeCustomTag(normalizedQuery)) {
-                setupChipsBarOrdering();
-            }
-        } else {
-            const savedTag = addCustomTag(normalizedQuery);
-            if (!savedTag) {
-                return;
-            }
-            setupChipsBarOrdering();
+        const savedTag = addCustomTag(normalizedQuery);
+        if (!savedTag) {
+            return;
         }
+        setupChipsBarOrdering();
         renderSearchCategoryActions(normalizedQuery);
     });
 
@@ -3521,14 +3521,19 @@ function renderCategoryActions(category) {
         return;
     }
     const isSaved = isCustomCategory(normalizedCategory);
+    const toggleButtonHtml = isSaved
+        ? ''
+        : `
+            <button class="btn-round-icon category-toggle" type="button" data-action="toggle-category" aria-label="Guardar">
+                <i data-lucide="plus"></i>
+            </button>
+        `;
     pageTitle.classList.add('page-title--with-actions');
     pageTitle.dataset.title = normalizedCategory;
     pageTitle.innerHTML = `
         <span class="page-title__query">${escapeHtml(normalizedCategory)}</span>
         <span class="page-title__actions">
-            <button class="btn-round-icon category-toggle ${isSaved ? 'is-danger' : ''}" type="button" data-action="toggle-category" aria-label="${isSaved ? 'Eliminar' : 'Guardar'}">
-                <i data-lucide="${isSaved ? 'minus' : 'plus'}"></i>
-            </button>
+            ${toggleButtonHtml}
             <button class="btn-round-icon search-category-share" type="button" data-action="share-category" aria-label="Compartir">
                 <i data-lucide="share-2"></i>
             </button>
@@ -3539,17 +3544,11 @@ function renderCategoryActions(category) {
     const shareButton = pageTitle.querySelector('[data-action="share-category"]');
 
     toggleButton?.addEventListener('click', () => {
-        if (isCustomCategory(normalizedCategory)) {
-            if (removeCustomTag(normalizedCategory)) {
-                setupChipsBarOrdering();
-            }
-        } else {
-            const savedTag = addCustomTag(normalizedCategory);
-            if (!savedTag) {
-                return;
-            }
-            setupChipsBarOrdering();
+        const savedTag = addCustomTag(normalizedCategory);
+        if (!savedTag) {
+            return;
         }
+        setupChipsBarOrdering();
         renderCategoryActions(normalizedCategory);
     });
 
