@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-09T20:39:47.635Z",
+  "updatedAt": "2026-02-12T19:29:43.636Z",
   "channels": [
     {
       "id": "UCN1_BdVHGL8l0x2sWRUXJvQ",
@@ -16,14 +16,6 @@
         "mitjans"
       ],
       "category": "mitjans"
-    },
-    {
-      "id": "UCcOh4_iym9H-q5HSHjPg4Xw",
-      "name": "3CatCultura",
-      "categories": [
-        "digitals"
-      ],
-      "category": "digitals"
     },
     {
       "id": "UC06jp6UgU3rzTNpuBk0OebQ",
@@ -45,9 +37,9 @@
       "id": "UCuYwOL9sNlMcro0-TE388gg",
       "name": "Alhora",
       "categories": [
-        "el món"
+        "entitats"
       ],
-      "category": "el món"
+      "category": "entitats"
     },
     {
       "id": "UC1ugyAs6L3b4t5VcQv87dng",
@@ -61,17 +53,17 @@
       "id": "UCG8PLZDn4IJSxrk3KZYxBAA",
       "name": "Ateneu Barcelonès",
       "categories": [
-        "cultura"
+        "entitats"
       ],
-      "category": "cultura"
+      "category": "entitats"
     },
     {
       "id": "UC0cBAlzUzj4fsDE0j13adlg",
       "name": "Ateneu de Maó",
       "categories": [
-        "cultura"
+        "entitats"
       ],
-      "category": "cultura"
+      "category": "entitats"
     },
     {
       "id": "UCA62uVNZYu93QLoE8QA3tBw",
@@ -109,9 +101,9 @@
       "id": "UCfwf5LTzLq88guMvu3VkaUQ",
       "name": "Catalunya Ràdio",
       "categories": [
-        "digitals"
+        "mitjans"
       ],
-      "category": "digitals"
+      "category": "mitjans"
     },
     {
       "id": "UChfMsbGScxL-hO09_S5xEJA",
@@ -141,9 +133,9 @@
       "id": "UCXajnbaMh6cxofmw5ki43DA",
       "name": "Diari ARA",
       "categories": [
-        "mitjans"
+        "digitals"
       ],
-      "category": "mitjans"
+      "category": "digitals"
     },
     {
       "id": "UCk-bGAxyFIgLWPmJ4GjJMXg",
@@ -301,17 +293,17 @@
       "id": "UCiyqbY6juCPvXFKv6IkDTlw",
       "name": "Institut d’Estudis Catalans",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
     },
     {
       "id": "UCduKvutWvgrYXgtOMRS_HQA",
       "name": "Institut Nova Història - Conferències",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
     },
     {
       "id": "UCjPL0bozxQmzcMqPsnvLLTA",
@@ -485,9 +477,9 @@
       "id": "UCeCOXDQjIaqGqdiL7rAsnbw",
       "name": "RAC1",
       "categories": [
-        "digitals"
+        "mitjans"
       ],
-      "category": "digitals"
+      "category": "mitjans"
     },
     {
       "id": "UC5j3iZVh9Bzhxn-K7_yK2Tg",
@@ -589,129 +581,153 @@
       "id": "UCH53ue1LvguXxuUzHs8KjKQ",
       "name": "Institut Nova Història",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
     },
     {
       "id": "UC39QbSGf29J8fWJfEQqYhyA",
       "name": "CFEM",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
     },
     {
       "id": "UC-N1tXokYk1mSVkmm6e5x_g",
       "name": "EL BUIRAC DE MEMÒRIES",
       "categories": [
-        "Cultura"
+        "cultura"
       ],
-      "category": "Cultura"
+      "category": "cultura"
     },
     {
       "id": "UCcOh4_iym9H-q5HSHjPg4Xw",
       "name": "3CatCultura",
       "categories": [
-        "Mitjans"
+        "mitjans"
       ],
-      "category": "Mitjans"
+      "category": "mitjans"
     },
     {
       "id": "UCTOJJTxi7__LJ7z36cQ3PhA",
       "name": "CUP Comarques Gironines",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
     },
     {
       "id": "UCpIWhEzmE8OJfTf54S-2knA",
       "name": "Fòrum de Debats",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
     },
     {
       "id": "UCgwuoJvIn3nrsGDelo2TRKQ",
       "name": "La CLAU de la nostra història",
       "categories": [
-        "Cultura"
+        "cultura"
       ],
-      "category": "Cultura"
+      "category": "cultura"
     },
     {
       "id": "UCeKFhW7Ni8_CJU6EVXfX46Q",
       "name": "Museu Terra",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
     },
     {
       "id": "UClwJkRkjtBnMirSma1AoNGw",
       "name": "Godai Garcia",
       "categories": [
-        "Diversió"
+        "diversió"
       ],
-      "category": "Diversió"
+      "category": "diversió"
     },
     {
       "id": "UCJacrtImXjm0NxH5UGWddYw",
       "name": "Nexe Nacional",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
     },
     {
       "id": "UCVG5bGyAHBJGkFsQHhfGIRA",
       "name": "Isabel y Pedro",
       "categories": [
-        "Vida"
+        "cultura"
       ],
-      "category": "Vida"
+      "category": "cultura"
     },
     {
       "id": "UCyVLnWkfIkgTjJWyy0UyrOA",
       "name": "Smile and Learn - Català",
       "categories": [
-        "Cultura"
+        "cultura"
       ],
-      "category": "Cultura"
+      "category": "cultura"
     },
     {
       "id": "UC3lLPAOb4cKzj6UN71cqeyQ",
       "name": "Uep! Com anam? IB3",
       "categories": [
-        "Mitjans"
+        "mitjans"
       ],
-      "category": "Mitjans"
+      "category": "mitjans"
     },
     {
       "id": "UCxWzPQqjZpHhM_BF5eCHvMQ",
       "name": "Els Ulls de Clio",
       "categories": [
-        "Cultura"
+        "cultura"
       ],
-      "category": "Cultura"
+      "category": "cultura"
     },
     {
       "id": "UCjTyN0vgWG-8I_ltE3b5BzA",
       "name": "Ulls d'Otus",
       "categories": [
-        "Cultura"
+        "vida"
       ],
-      "category": "Cultura"
+      "category": "vida"
     },
     {
       "id": "UCfJJW4YzguKAKBKPdKNXmLg",
       "name": "El Foment",
       "categories": [
-        "Entitats"
+        "entitats"
       ],
-      "category": "Entitats"
+      "category": "entitats"
+    },
+    {
+      "id": "UC-Z3S_8M0LEm3LiH7OiOjGQ",
+      "name": "Canal Malaia",
+      "categories": [
+        "el món"
+      ],
+      "category": "el món"
+    },
+    {
+      "id": "@MissTaglessSilviaPSese",
+      "name": "MissTagless",
+      "categories": [
+        "vida"
+      ],
+      "category": "vida"
+    },
+    {
+      "id": "@Kilometre0cat",
+      "name": "Kilometre0.cat",
+      "categories": [
+        "vida"
+      ],
+      "category": "vida"
     }
   ]
 }
