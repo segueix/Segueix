@@ -50,7 +50,7 @@ let customCategoryModal, customCategoryInput, customCategoryAddBtn, customCatego
 let playlistsPage, playlistsList, playlistNameInput, createPlaylistBtn;
 let followPage, followGrid, followTabs;
 let addYoutuberModal;
-let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow, heroChannel;
+let heroSection, heroTitle, heroDescription, heroImage, heroDuration, heroButton, heroEyebrow, heroEyebrowSubtitle, heroChannel;
 let pageTitle;
 let backgroundModal, backgroundBtn, backgroundOptions, buttonColorOptions;
 let currentColorDisplay, expandedColorPicker, closeExpandedColorPicker;
@@ -98,6 +98,7 @@ let userGridPreference = '4';
 let userWatchGridPreference = '3';
 let miniPlayerTimer = null;
 const featuredVideoBySection = new Map();
+const featuredMetaBySection = new Map();
 const customCategorySearchCache = new Map();
 const customCategorySearchInFlight = new Map();
 const HYBRID_CATEGORY_SORT = new Set(['Cultura', 'Diversió', 'Actualitat', 'Vida', 'El Món', 'Gaming', 'Mitjans', 'Entitats', 'Digitals']);
@@ -1298,6 +1299,7 @@ function initElements() {
     heroDuration = document.getElementById('heroDuration');
     heroButton = document.getElementById('heroButton');
     heroEyebrow = document.getElementById('heroEyebrow');
+    heroEyebrowSubtitle = document.getElementById('heroEyebrowSubtitle');
     heroChannel = document.getElementById('heroChannel');
     pageTitle = document.getElementById('pageTitle');
     playlistModal = document.getElementById('playlistModal');
@@ -2037,47 +2039,97 @@ function getHeroSectionKey() {
     return (pageTitle?.dataset?.title || pageTitle?.textContent || 'feed').trim();
 }
 
+function getUserSignalsForFeatured() {
+    const follows = new Set(getFollowedChannelIds().map(id => String(id)));
+    const likedByChannel = {};
+    getLikedVideos().forEach(video => {
+        const channelId = String(video?.channelId || video?.snippet?.channelId || '');
+        if (!channelId) return;
+        likedByChannel[channelId] = (likedByChannel[channelId] || 0) + 1;
+    });
+    return { follows, likedByChannel };
+}
+
+function getFeaturedContext(sectionKey) {
+    const normalizedSection = sectionKey || 'feed';
+    const excludeVideoIds = [];
+    featuredVideoBySection.forEach((videoId, key) => {
+        if (key !== normalizedSection) {
+            excludeVideoIds.push(String(videoId));
+        }
+    });
+
+    const channelAppearanceCount = {};
+    featuredMetaBySection.forEach((meta, key) => {
+        if (key === normalizedSection) return;
+        const channelId = String(meta?.channelId || '');
+        if (!channelId) return;
+        channelAppearanceCount[channelId] = (channelAppearanceCount[channelId] || 0) + 1;
+    });
+
+    return {
+        sectionKey: normalizedSection,
+        excludeVideoIds,
+        channelAppearanceCount,
+        maxChannelAppearancesBeforePenalty: 1,
+        diversityPenaltyPerExtraAppearance: 0.08,
+        minDurationSeconds: MIN_RECOMMENDED_SECONDS,
+        recentWindowHours: 24 * 7
+    };
+}
+
 function getFeaturedVideoForSection(videos, sectionKey) {
     if (!Array.isArray(videos) || videos.length === 0) {
         if (sectionKey) {
             featuredVideoBySection.delete(sectionKey);
+            featuredMetaBySection.delete(sectionKey);
         }
         return null;
     }
 
     const normalizedSection = sectionKey || 'feed';
-    const usedIds = new Set();
-    featuredVideoBySection.forEach((videoId, key) => {
-        if (key !== normalizedSection) {
-            usedIds.add(String(videoId));
-        }
-    });
-
     const watchedIds = getHistoryVideoIdSet();
+    const signals = getUserSignalsForFeatured();
+    const context = getFeaturedContext(normalizedSection);
+
+    const combinedExcluded = [...context.excludeVideoIds, ...Array.from(watchedIds)];
+    const picker = Recommendation?.pickFeaturedVideo;
+    const picked = typeof picker === 'function'
+        ? picker(videos, {
+            ...context,
+            userSignals: signals,
+            excludeVideoIds: combinedExcluded
+        })
+        : null;
+
+    if (picked?.video) {
+        featuredVideoBySection.set(normalizedSection, String(picked.video.id));
+        featuredMetaBySection.set(normalizedSection, {
+            reason: picked.score?.reason || 'recency',
+            channelId: String(picked.video.channelId || picked.video.snippet?.channelId || '')
+        });
+        return picked.video;
+    }
+
+    const excludedSet = new Set(combinedExcluded.map(id => String(id)));
     const available = videos.filter(video => {
-        const videoId = String(video.id);
-        if (usedIds.has(videoId)) {
-            return false;
-        }
-        if (watchedIds.has(videoId)) {
-            return false;
-        }
-        if (video.isShort === true) {
-            return false;
-        }
+        if (!video || excludedSet.has(String(video.id))) return false;
+        if (video.isShort === true) return false;
         const seconds = getVideoDurationSeconds(video);
-        if (seconds === null || seconds < MIN_RECOMMENDED_SECONDS) {
-            return false;
-        }
-        return true;
+        return seconds !== null && seconds >= MIN_RECOMMENDED_SECONDS;
     });
     const newest = getNewestVideoFromList(available);
     if (newest?.video) {
         featuredVideoBySection.set(normalizedSection, String(newest.video.id));
+        featuredMetaBySection.set(normalizedSection, {
+            reason: 'recency',
+            channelId: String(newest.video.channelId || newest.video.snippet?.channelId || '')
+        });
         return newest.video;
     }
 
     featuredVideoBySection.delete(normalizedSection);
+    featuredMetaBySection.delete(normalizedSection);
     return null;
 }
 
@@ -2111,6 +2163,12 @@ function updateHero(video, source = 'static') {
 
     if (heroEyebrow) {
         heroEyebrow.textContent = source === 'api' ? 'Destacat del moment' : 'Destacat de la setmana';
+    }
+
+    if (heroEyebrowSubtitle) {
+        const section = getHeroSectionKey();
+        const reason = featuredMetaBySection.get(section)?.reason || 'recency';
+        heroEyebrowSubtitle.textContent = reason === 'engagement' ? 'Més popular recentment' : 'Nou';
     }
 
     if (heroChannel) {

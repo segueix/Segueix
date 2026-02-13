@@ -791,6 +791,12 @@ body.sidebar-collapsed .main-content {
     font-weight: 600;
 }
 
+.hero-eyebrow-subtitle {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    opacity: 0.95;
+}
+
 .hero-title {
     font-size: 2rem;
     line-height: 1.2;
