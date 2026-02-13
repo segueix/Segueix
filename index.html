@@ -417,6 +417,25 @@
                     </div>
                 </div>
                 <div class="settings-section">
+                    <p class="setting-label">Recomanacions</p>
+                    <label class="settings-toggle-row">
+                        <input type="checkbox" id="recoFollowToggle" checked>
+                        <span>Personalitza amb canals seguits</span>
+                    </label>
+                    <label class="settings-toggle-row">
+                        <input type="checkbox" id="recoLikesToggle" checked>
+                        <span>Personalitza amb likes</span>
+                    </label>
+                    <label class="settings-toggle-row">
+                        <input type="checkbox" id="recoDiversityToggle" checked>
+                        <span>Diversifica canals</span>
+                    </label>
+                    <div class="config-sync-row" style="margin-top:10px;">
+                        <button class="config-sync-btn" id="resetRecommendationsBtn" type="button">Reinicia recomanacions</button>
+                    </div>
+                    <p class="config-recaptcha-notice">Text requerit: "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply."</p>
+                </div>
+                <div class="settings-section">
                     <p class="setting-label">Enviar configuració entre dispositius</p>
                     <p class="config-sync-warning">Unidireccional: s'haurà de tornar a generar si es vol compartir amb un altre dispositiu de tornada.</p>
                     <div class="config-sync-row">
@@ -457,7 +476,13 @@
                 <button class="modal-close" id="customCategoryModalClose" type="button" aria-label="Tancar modal">
                     <i data-lucide="x"></i>
                 </button>
-            </div>
+    </div>
+
+    <div class="reco-menu hidden" id="recoCardMenu" role="menu" aria-label="Opcions de recomanació">
+        <button type="button" class="reco-menu-item" data-reco-action="hide-video">Amaga aquest vídeo</button>
+        <button type="button" class="reco-menu-item" data-reco-action="hide-channel">Amaga aquest canal</button>
+        <button type="button" class="reco-menu-item" data-reco-action="why">Per què veig això?</button>
+    </div>
             <div class="modal-body">
                 <div class="category-create">
                     <input

@@ -223,10 +223,12 @@
         const sameCategory = getCategory(candidate) && getCategory(candidate) === getCategory(currentVideo);
 
         const channelId = getChannelId(candidate);
-        const follows = toSet(userSignals?.follows);
-        const followBonus = follows.has(channelId) ? 0.18 : 0;
+        const useFollows = options?.useFollowSignals !== false;
+        const useLikes = options?.useLikeSignals !== false;
+        const follows = useFollows ? toSet(userSignals?.follows) : new Set();
+        const followBonus = useFollows && follows.has(channelId) ? 0.18 : 0;
         const likedCount = resolveChannelLikeCount(channelId, userSignals);
-        const likedBonus = Math.min(0.16, likedCount * 0.04);
+        const likedBonus = useLikes ? Math.min(0.16, likedCount * 0.04) : 0;
 
         const penalizeSameChannel = Boolean(cfg.sidebarChannelShown);
         const sameChannelPenalty = penalizeSameChannel && getChannelId(currentVideo) === channelId
@@ -299,6 +301,19 @@
         return ranked;
     }
 
+    function filterHiddenCandidates(videos, hiddenVideoIds = [], hiddenChannelIds = []) {
+        const hiddenVideos = toSet(hiddenVideoIds);
+        const hiddenChannels = toSet(hiddenChannelIds);
+        return (Array.isArray(videos) ? videos : []).filter(video => {
+            const videoId = getVideoId(video);
+            const channelId = getChannelId(video);
+            if (!videoId) return false;
+            if (hiddenVideos.has(videoId)) return false;
+            if (channelId && hiddenChannels.has(channelId)) return false;
+            return true;
+        });
+    }
+
     function pickFeaturedVideo(videos, options) {
         if (!Array.isArray(videos) || videos.length === 0) return null;
 
@@ -334,6 +349,7 @@
         pickFeaturedVideo,
         computeRelatedScore,
         rankAndDiversifyRelated,
+        filterHiddenCandidates,
         toTokenArray
     };
 }));
